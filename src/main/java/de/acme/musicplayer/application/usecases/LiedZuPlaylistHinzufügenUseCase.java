@@ -1,5 +1,5 @@
 package de.acme.musicplayer.application.usecases;
 
-public interface AddSongToPlaylistUseCase {
+public interface LiedZuPlaylistHinzufügenUseCase {
     void addSongToPlaylist(String songId, String playlistId);
 }
