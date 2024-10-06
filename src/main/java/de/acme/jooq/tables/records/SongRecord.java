@@ -25,6 +25,13 @@ public class SongRecord extends UpdatableRecordImpl<SongRecord> {
     }
 
     /**
+     * Getter for <code>public.song.id</code>.
+     */
+    public String getId() {
+        return (String) get(0);
+    }
+
+    /**
      * Create a detached, initialised SongRecord
      */
     public SongRecord(String id, String titel) {
@@ -36,11 +43,24 @@ public class SongRecord extends UpdatableRecordImpl<SongRecord> {
     }
 
     /**
-     * Getter for <code>public.song.id</code>.
+     * Getter for <code>public.song.titel</code>.
      */
-    public String getId() {
-        return (String) get(0);
+    public String getTitel() {
+        return (String) get(1);
     }
+
+    // -------------------------------------------------------------------------
+    // Primary key information
+    // -------------------------------------------------------------------------
+
+    @Override
+    public Record1<String> key() {
+        return (Record1) super.key();
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
 
     /**
      * Setter for <code>public.song.id</code>.
@@ -49,30 +69,10 @@ public class SongRecord extends UpdatableRecordImpl<SongRecord> {
         set(0, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>public.song.titel</code>.
-     */
-    public String getTitel() {
-        return (String) get(1);
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * Setter for <code>public.song.titel</code>.
      */
     public void setTitel(String value) {
         set(1, value);
-    }
-
-    @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
     }
 }
