@@ -1,7 +1,6 @@
 package de.acme.musicplayer.application.domain.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +8,9 @@ import java.util.Objects;
 public class Playlist {
 
     private PlaylistId id;
+    private List<Lied.LiedId> lieder = new ArrayList<>();
+    private final String name;
+    private String besitzer;
 
     public Playlist(String benutzername, String playlistName) {
         this.besitzer = benutzername;
@@ -16,19 +18,13 @@ public class Playlist {
         this.id = new PlaylistId(String.format("%s-%s", benutzername, playlistName));
     }
 
-    public List<Lied.LiedId> getLieder() {
-        return lieder;
-    }
-
-    private List<Lied.LiedId> lieder = new ArrayList<>();
-
-    private String name;
-
-    private String besitzer;
-
     public Playlist(String name, List<Lied.LiedId> lieder) {
         this.name = name;
         this.lieder = lieder;
+    }
+
+    public List<Lied.LiedId> getLieder() {
+        return lieder;
     }
 
     public String getBesitzer() {
