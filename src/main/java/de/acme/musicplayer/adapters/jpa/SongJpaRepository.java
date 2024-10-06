@@ -1,7 +1,8 @@
 package de.acme.musicplayer.adapters.jpa;
 
-public class SongJpaRepository {
-    public SongJpaEntity findById(String songId) {
-        return null;
-    }
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface SongJpaRepository extends CrudRepository<SongJpaEntity, String> {
+//    SongJpaEntity findById(String songId);
 }
