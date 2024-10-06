@@ -23,8 +23,7 @@ public class SongRepository implements LiedPort {
         SongRecord songRecord = dslContext.selectFrom(SONG)
                 .where(SONG.ID.eq(songId.id()))
                 .fetchOne();
-        Lied lied = new Lied(new Lied.LiedId(songRecord.getId()), new Lied.Titel(songRecord.getTitel()));
-        return lied;
+        return new Lied(new Lied.LiedId(songRecord.getId()), new Lied.Titel(songRecord.getTitel()));
     }
 
     @Override

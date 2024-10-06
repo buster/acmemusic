@@ -82,16 +82,6 @@ public class SongSteps {
         benutzerToIdMap.put(username, id);
     }
 
-    @Gegebenseien("leere Datenbanken")
-    public void leereDatenbanken() {
-
-    }
-
-    @Und("der Benutzer {string} den Lied {string} von {string} hinzufügt")
-    public void derBenutzerAliceDenSongFirestarterVonProdigyHinzufügt(String username, String songname, String artist) {
-
-    }
-
     @Dann("kennt der Service {int} Lied(er)")
     public void enthältDieDatenbankLied(int c) {
         assertThat(liedAdministrationUsecase.zähleLieder()).isEqualTo(c);
