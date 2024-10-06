@@ -26,13 +26,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    testImplementation("org.testcontainers:postgresql:1.20.1")
-    testImplementation("org.postgresql:postgresql:42.7.3")
+//    testImplementation("org.testcontainers:postgresql:1.20.1")
+//    testImplementation("org.postgresql:postgresql:42.7.3")
     implementation("org.projectlombok:lombok")
 //    implementation("org.liquibase:liquibase-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-//    runtimeOnly("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
 //    runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
@@ -45,8 +45,8 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-suite")
 
     testImplementation("org.assertj:assertj-core:3.26.3")
-    testImplementation("org.mockito:mockito-core:5.13.0")
-    testImplementation("net.bytebuddy:byte-buddy:1.15.1")
+//    testImplementation("org.mockito:mockito-core:5.13.0")
+//    testImplementation("net.bytebuddy:byte-buddy:1.15.1")
 
 }
 
