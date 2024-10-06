@@ -5,13 +5,13 @@ import java.util.List;
 public class Playlist {
 
 
-    private List<Lied> lieder;
+    private List<String> lieder;
 
     private String name;
 
     private String besitzer;
 
-    public Playlist(String name, List<Lied> lieder) {
+    public Playlist(String name, List<String> lieder) {
         this.name = name;
         this.lieder = lieder;
     }
@@ -22,5 +22,9 @@ public class Playlist {
 
     public void setBesitzer(String besitzer) {
         this.besitzer = besitzer;
+    }
+
+    public void liedHinzufügen(String liedId) {
+        lieder.add(liedId);
     }
 }
