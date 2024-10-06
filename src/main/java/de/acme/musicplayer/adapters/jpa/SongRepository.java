@@ -1,8 +1,8 @@
 package de.acme.musicplayer.adapters.jpa;
 
 import de.acme.musicplayer.application.domain.model.Artist;
+import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedLadenPort;
-import de.acme.musicplayer.application.domain.model.Song;
 
 public class SongRepository implements LiedLadenPort {
 
@@ -10,18 +10,18 @@ public class SongRepository implements LiedLadenPort {
     private JpaEntityToSongMapper mapper;
 
     @Override
-    public Song ladeLied(String songId) {
+    public Lied ladeLied(String songId) {
         SongJpaEntity jpaEntity = jpaRepo.findById(songId);
         return mapper.toDomain(jpaEntity);
     }
 
     @Override
-    public void updateSong(Song song) {
+    public void updateSong(Lied lied) {
 
     }
 
     @Override
-    public Song findSongByArtist(Artist artist) {
+    public Lied findSongByArtist(Artist artist) {
         return null;
     }
 
