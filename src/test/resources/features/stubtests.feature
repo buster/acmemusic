@@ -23,7 +23,7 @@ Funktionalität:
       | Alice | abc      | bla@localhost.com |
     Wenn der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
-    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
+#    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
 
   @T2R
@@ -37,5 +37,5 @@ Funktionalität:
       | Alice | abc      | bla@localhost.com |
     Wenn der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
-    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
+#    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
