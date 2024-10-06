@@ -2,14 +2,21 @@
 
 Funktionalität:
 
+  Szenario: Registrierung
+    Gegeben seien folgende Benutzer:
+      | Name   | Passwort | Email              |
+      | Alice2 | abc      | bla2@localhost.com |
+    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'bla@localhost.com' registriert hat
+    Dann kennt der Service 2 Benutzer
+
   Szenario: Song hinzufügen
-      Gegeben seien folgende Songs:
-      | Titel          | Interpret | Album | Genre | Erscheinungsjahr | URI |
-      | Firestarter    | Prodigy   | Fat of the Land | Techno | 1996 | http://www.youtube.com/watch?v=wmin5WkOuPw |
-      | Breathe        | Prodigy   | Fat of the Land | Techno | 1996 | http://www.youtube.com/watch?v=6_PAHbqq-o4 |
-      Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'bla@localhost.com' registriert hat
-  #    Und der Benutzer 'Alice' den Song 'Firestarter' von 'Prodigy' hinzufügt
-      Dann enthält die Datenbank 2 Lieder
+    Gegeben seien folgende Songs:
+      | Titel       | Interpret | Album           | Genre  | Erscheinungsjahr | URI                                        |
+      | Firestarter | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=wmin5WkOuPw |
+      | Breathe     | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=6_PAHbqq-o4 |
+    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'bla@localhost.com' registriert hat
+    #    Und der Benutzer 'Alice' den Song 'Firestarter' von 'Prodigy' hinzufügt
+    Dann enthält die Datenbank 2 Lieder
 
 
 #  Szenario: Playlist hinzufügen
