@@ -1,16 +1,14 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
-import de.acme.jooq.Tables;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
+import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.Before;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Gegebenseien;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
-import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -18,10 +16,11 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//TODO: SongSteps dürfen nicht abstrakt sein. Der Glue muss aber die Steps enthalten, also sind die Steps je Glue kopiert
 public class SongSteps {
 
     private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
+    private final Map<String, Benutzer.Id> benutzerToIdMap = new HashMap<>();
+    private final Map<String, Playlist.PlaylistId> playlistToIdMap = new HashMap<>();
     @Autowired
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     @Autowired
@@ -36,12 +35,7 @@ public class SongSteps {
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
 
     @Autowired
-    private DSLContext dslContext;
-
-    @Before
-    public void before() {
-        dslContext.truncate(Tables.SONG, Tables.PLAYLIST_SONG, Tables.PLAYLIST).execute();
-    }
+    private PlaylistAnlegenUsecase playlistAnlegenUsecase;
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) {
@@ -60,7 +54,10 @@ public class SongSteps {
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps()
                 .forEach(benutzer ->
-                        benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))))
+                        {
+                            Benutzer.Id id = benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
+                            benutzerToIdMap.put(benutzer.get("Name"), id);
+                        }
                 );
     }
 
@@ -74,7 +71,8 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
+        Benutzer.Id id = benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
+        benutzerToIdMap.put(username, id);
     }
 
     @Gegebenseien("leere Datenbanken")
@@ -99,12 +97,17 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
     public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
-        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzername, titelToIdMap.get(liedname), playlistname);
-
+        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname));
     }
 
     @Dann("enthält die Playlist {string} von {string} {int} Lieder")
     public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
-        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzer, playlist)).hasSize(anzahl);
+        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist))).hasSize(anzahl);
+    }
+
+    @Wenn("der Benutzer {string} die Playlist {string} erstellt")
+    public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
+        Playlist.PlaylistId id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName));
+        playlistToIdMap.put(playlistName, id);
     }
 }

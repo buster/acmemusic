@@ -30,6 +30,7 @@ public class Song extends TableImpl<SongRecord> {
      * The reference instance of <code>public.song</code>
      */
     public static final Song SONG = new Song();
+
     private transient PlaylistSongPath _playlistSong;
 
     /**
@@ -76,34 +77,14 @@ public class Song extends TableImpl<SongRecord> {
     }
 
     /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<SongRecord> getRecordType() {
-        return SongRecord.class;
-    }
-
-    @Override
-    public Schema getSchema() {
-        return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public UniqueKey<SongRecord> getPrimaryKey() {
-        return Keys.SONG_PKEY;
-    }
-
-    /**
      * A subtype implementing {@link Path} for simplified path-based joins.
      */
     public static class SongPath extends Song implements Path<SongRecord> {
 
         private static final long serialVersionUID = 1L;
-
         public <O extends Record> SongPath(Table<O> path, ForeignKey<O, SongRecord> childPath, InverseForeignKey<O, SongRecord> parentPath) {
             super(path, childPath, parentPath);
         }
-
         private SongPath(Name alias, Table<SongRecord> aliased) {
             super(alias, aliased);
         }
@@ -122,6 +103,24 @@ public class Song extends TableImpl<SongRecord> {
         public SongPath as(Table<?> alias) {
             return new SongPath(alias.getQualifiedName(), this);
         }
+    }
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<SongRecord> getRecordType() {
+        return SongRecord.class;
+    }
+
+    @Override
+    public Schema getSchema() {
+        return aliased() ? null : Public.PUBLIC;
+    }
+
+    @Override
+    public UniqueKey<SongRecord> getPrimaryKey() {
+        return Keys.SONG_PKEY;
     }
 
     /**

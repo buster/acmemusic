@@ -1,6 +1,8 @@
 package de.acme.musicplayer.application.domain;
 
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
+import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.LiederInPlaylistAuflistenUsecase;
 
@@ -15,7 +17,7 @@ public class LiederInPlaylistAuflistenService implements LiederInPlaylistAuflist
     }
 
     @Override
-    public Collection<Lied.LiedId> liederAuflisten(String benutzerId, String playlistName) {
+    public Collection<Lied.LiedId> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName) {
         return playlistPort.lade(benutzerId, playlistName).getLieder();
     }
 }
