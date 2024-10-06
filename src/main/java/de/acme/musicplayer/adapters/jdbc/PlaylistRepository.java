@@ -55,6 +55,11 @@ public class PlaylistRepository implements PlaylistPort {
         return new Playlist.PlaylistId(record.getId());
     }
 
+    @Override
+    public void löscheDatenbank() {
+        dslContext.truncate(Tables.PLAYLIST, Tables.PLAYLIST_SONG).cascade().execute();
+    }
+
     private PlaylistRecord fetchPlaylist(Playlist.PlaylistId id) {
         return dslContext
                 .selectFrom(Tables.PLAYLIST)

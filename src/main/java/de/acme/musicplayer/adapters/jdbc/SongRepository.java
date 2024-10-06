@@ -40,4 +40,9 @@ public class SongRepository implements LiedPort {
         return new Lied.LiedId(liedId);
 
     }
+
+    @Override
+    public void löscheDatenbank() {
+        dslContext.truncate(Tables.SONG).cascade().execute();
+    }
 }

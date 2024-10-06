@@ -15,4 +15,9 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     public long zähleBenutzer() {
         return benutzerPort.zaehleBenutzer();
     }
+
+    @Override
+    public void löscheDatenbank() {
+        benutzerPort.loescheDatenbank();
+    }
 }

@@ -44,4 +44,9 @@ public class PlaylistPortStub implements PlaylistPort {
             return playlist.getId();
         }
     }
+
+    @Override
+    public void löscheDatenbank() {
+        playlists.clear();
+    }
 }
