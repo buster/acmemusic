@@ -38,8 +38,8 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public String fügeLiedHinzu(Lied lied) {
-        lied.setId(String.valueOf(lieder.size()));
+    public Lied.LiedId fügeLiedHinzu(Lied lied) {
+        lied.setId(new Lied.LiedId(String.valueOf(lieder.size())));
         lieder.add(lied);
         return lied.getId();
     }

@@ -56,4 +56,9 @@ public class StubConfiguration {
     public LiedHochladenUseCase liedHochladenUseCase(LiedPortStub liedPortStub) {
         return new LiedHochladenService(liedPortStub);
     }
+
+    @Bean
+    public LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase(PlaylistPort playlistPort) {
+        return new LiederInPlaylistAuflistenService(playlistPort);
+    }
 }
