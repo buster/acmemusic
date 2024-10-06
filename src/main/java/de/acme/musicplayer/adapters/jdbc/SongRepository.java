@@ -19,11 +19,11 @@ public class SongRepository implements LiedPort {
     }
 
     @Override
-    public Lied ladeLied(String songId) {
+    public Lied ladeLied(Lied.LiedId songId) {
         SongRecord songRecord = dslContext.selectFrom(SONG)
-                .where(SONG.ID.eq(songId))
+                .where(SONG.ID.eq(songId.id()))
                 .fetchOne();
-        Lied lied = new Lied(new Lied.LiedId(songRecord.getId()), songRecord.getTitel());
+        Lied lied = new Lied(new Lied.LiedId(songRecord.getId()), new Lied.Titel(songRecord.getTitel()));
         return lied;
     }
 

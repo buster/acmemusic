@@ -4,7 +4,7 @@ import de.acme.musicplayer.application.domain.model.Lied;
 
 public interface LiedPort {
 
-    Lied ladeLied(String songId);
+    Lied ladeLied(Lied.LiedId songId);
 
     long zähleLieder();
 
