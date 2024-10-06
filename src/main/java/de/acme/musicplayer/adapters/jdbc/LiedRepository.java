@@ -5,6 +5,8 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import org.jooq.DSLContext;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 import static de.acme.jooq.Tables.LIED;
@@ -32,10 +34,10 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied) {
+    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         String liedId = UUID.randomUUID().toString();
-        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL)
-                .values(liedId, lied.getTitel()).execute();
+        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES)
+                .values(liedId, lied.getTitel(), inputStream.readAllBytes()).execute();
         return new Lied.Id(liedId);
 
     }

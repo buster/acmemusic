@@ -65,6 +65,11 @@ public class Lied extends TableImpl<LiedRecord> {
      */
     public final TableField<LiedRecord, String> TITEL = createField(DSL.name("titel"), SQLDataType.VARCHAR, this, "");
 
+    /**
+     * The column <code>public.lied.bytes</code>.
+     */
+    public final TableField<LiedRecord, byte[]> BYTES = createField(DSL.name("bytes"), SQLDataType.BLOB.nullable(false), this, "");
+
     private Lied(Name alias, Table<LiedRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
