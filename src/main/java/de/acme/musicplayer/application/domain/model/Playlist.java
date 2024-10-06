@@ -27,18 +27,6 @@ public class Playlist {
         return lieder;
     }
 
-    public String getBesitzer() {
-        return besitzer;
-    }
-
-    public void setBesitzer(String besitzer) {
-        this.besitzer = besitzer;
-    }
-
-    public void liedHinzufügen(Lied.LiedId lied) {
-        lieder.add(lied);
-    }
-
     public PlaylistId getId() {
         return id;
     }
@@ -51,7 +39,7 @@ public class Playlist {
         return name;
     }
 
-    public void addLied(Lied.LiedId liedId) {
+    public void liedHinzufügen(Lied.LiedId liedId) {
         if (lieder.stream().anyMatch(liedId::equals)) return;
         this.lieder.add(liedId);
     }
