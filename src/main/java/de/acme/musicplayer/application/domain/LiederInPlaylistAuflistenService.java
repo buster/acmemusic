@@ -17,7 +17,7 @@ public class LiederInPlaylistAuflistenService implements LiederInPlaylistAuflist
     }
 
     @Override
-    public Collection<Lied.LiedId> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName) {
+    public Collection<Lied.Id> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName) {
         return playlistPort.lade(benutzerId, playlistName).getLieder();
     }
 }

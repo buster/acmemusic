@@ -19,7 +19,7 @@ public class PlaylistRepository implements PlaylistPort {
     }
 
     @Override
-    public void addSongToPlaylist(Lied.LiedId liedId, Playlist.PlaylistId playlistId) {
+    public void addSongToPlaylist(Lied.Id liedId, Playlist.Id playlistId) {
         dslContext.insertInto(Tables.PLAYLIST_SONG, Tables.PLAYLIST_SONG.PLAYLIST_ID, Tables.PLAYLIST_SONG.SONG_ID)
                 .values(playlistId.id(), liedId.id())
                 .execute();
@@ -27,11 +27,11 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public Playlist lade(Benutzer.Id benutzer, Playlist.Name playlistName) {
-        return lade(new Playlist.PlaylistId(benutzer.Id(), playlistName.name()));
+        return lade(new Playlist.Id(benutzer.Id(), playlistName.name()));
     }
 
     @Override
-    public Playlist lade(Playlist.PlaylistId playlistId) {
+    public Playlist lade(Playlist.Id playlistId) {
         PlaylistRecord record = fetchPlaylist(playlistId);
         Playlist playlist = new Playlist(new Benutzer.Id(record.getBesitzer()), new Playlist.Name(record.getName()));
 
@@ -40,19 +40,19 @@ public class PlaylistRepository implements PlaylistPort {
                 .fetch()
                 .forEach(playlistSongRecord -> {
                     String songId = playlistSongRecord.getSongId();
-                    playlist.liedHinzufügen(new Lied.LiedId(songId));
+                    playlist.liedHinzufügen(new Lied.Id(songId));
                 });
         return playlist;
     }
 
     @Override
-    public Playlist.PlaylistId erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name) {
-        PlaylistRecord record = fetchPlaylist(new Playlist.PlaylistId(benutzername.Id(), name.name()));
+    public Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name) {
+        PlaylistRecord record = fetchPlaylist(new Playlist.Id(benutzername.Id(), name.name()));
         if (record == null) {
             createPlaylist(benutzername, name);
-            record = fetchPlaylist(new Playlist.PlaylistId(benutzername.Id(), name.name()));
+            record = fetchPlaylist(new Playlist.Id(benutzername.Id(), name.name()));
         }
-        return new Playlist.PlaylistId(record.getId());
+        return new Playlist.Id(record.getId());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PlaylistRepository implements PlaylistPort {
         dslContext.truncate(Tables.PLAYLIST, Tables.PLAYLIST_SONG).cascade().execute();
     }
 
-    private PlaylistRecord fetchPlaylist(Playlist.PlaylistId id) {
+    private PlaylistRecord fetchPlaylist(Playlist.Id id) {
         return dslContext
                 .selectFrom(Tables.PLAYLIST)
                 .where(PLAYLIST.ID
@@ -70,7 +70,7 @@ public class PlaylistRepository implements PlaylistPort {
 
     private void createPlaylist(Benutzer.Id benutzer, Playlist.Name playlistName) {
         dslContext.insertInto(Tables.PLAYLIST, PLAYLIST.ID, PLAYLIST.BESITZER, PLAYLIST.NAME)
-                .values(new Playlist.PlaylistId(benutzer.Id(), playlistName.name()).id(), benutzer.Id(), playlistName.name())
+                .values(new Playlist.Id(benutzer.Id(), playlistName.name()).id(), benutzer.Id(), playlistName.name())
                 .execute();
     }
 }

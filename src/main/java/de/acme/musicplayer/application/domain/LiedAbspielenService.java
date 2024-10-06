@@ -13,7 +13,7 @@ public class LiedAbspielenService implements LiedAbspielenUseCase {
     }
 
     @Override
-    public void playSong(Lied.LiedId songId) {
+    public void playSong(Lied.Id songId) {
         liedPort.ladeLied(songId);
     }
 }

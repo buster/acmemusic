@@ -14,7 +14,7 @@ public class PlaylistAnlegenService implements PlaylistAnlegenUsecase {
     }
 
     @Override
-    public Playlist.PlaylistId playlistAnlegen(Benutzer.Id benutzername, Playlist.Name name) {
+    public Playlist.Id playlistAnlegen(Benutzer.Id benutzername, Playlist.Name name) {
         return playlistPort.erstellePlaylist(benutzername, name);
     }
 }

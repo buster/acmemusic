@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SongSteps {
 
-    private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
+    private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
     private final Map<String, Benutzer.Id> benutzerToIdMap = new HashMap<>();
-    private final Map<String, Playlist.PlaylistId> playlistToIdMap = new HashMap<>();
+    private final Map<String, Playlist.Id> playlistToIdMap = new HashMap<>();
     @Autowired
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     @Autowired
@@ -50,7 +50,7 @@ public class SongSteps {
                 .forEach(song ->
                         {
                             String titel = song.get("Titel");
-                            Lied.LiedId id = liedHochladenUseCase.liedHochladen(titel);
+                            Lied.Id id = liedHochladenUseCase.liedHochladen(titel);
                             titelToIdMap.put(titel, id);
                         }
                 );
@@ -104,7 +104,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
-        Playlist.PlaylistId id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName));
+        Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName));
         playlistToIdMap.put(playlistName, id);
     }
 }
