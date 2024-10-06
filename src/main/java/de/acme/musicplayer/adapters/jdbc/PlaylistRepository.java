@@ -19,8 +19,8 @@ public class PlaylistRepository implements PlaylistPort {
     }
 
     @Override
-    public void addSongToPlaylist(Lied.Id liedId, Playlist.Id playlistId) {
-        dslContext.insertInto(Tables.PLAYLIST_SONG, Tables.PLAYLIST_SONG.PLAYLIST_ID, Tables.PLAYLIST_SONG.SONG_ID)
+    public void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId) {
+        dslContext.insertInto(Tables.PLAYLIST_LIED, Tables.PLAYLIST_LIED.PLAYLIST_ID, Tables.PLAYLIST_LIED.LIED_ID)
                 .values(playlistId.id(), liedId.id())
                 .execute();
     }
@@ -35,12 +35,12 @@ public class PlaylistRepository implements PlaylistPort {
         PlaylistRecord record = fetchPlaylist(playlistId);
         Playlist playlist = new Playlist(new Benutzer.Id(record.getBesitzer()), new Playlist.Name(record.getName()));
 
-        dslContext.selectFrom(Tables.PLAYLIST_SONG)
-                .where(Tables.PLAYLIST_SONG.PLAYLIST_ID.eq(playlistId.id()))
+        dslContext.selectFrom(Tables.PLAYLIST_LIED)
+                .where(Tables.PLAYLIST_LIED.PLAYLIST_ID.eq(playlistId.id()))
                 .fetch()
                 .forEach(playlistSongRecord -> {
-                    String songId = playlistSongRecord.getSongId();
-                    playlist.liedHinzufügen(new Lied.Id(songId));
+                    String liedId = playlistSongRecord.getLiedId();
+                    playlist.liedHinzufügen(new Lied.Id(liedId));
                 });
         return playlist;
     }
@@ -57,7 +57,7 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public void löscheDatenbank() {
-        dslContext.truncate(Tables.PLAYLIST, Tables.PLAYLIST_SONG).cascade().execute();
+        dslContext.truncate(Tables.PLAYLIST, Tables.PLAYLIST_LIED).cascade().execute();
     }
 
     private PlaylistRecord fetchPlaylist(Playlist.Id id) {
