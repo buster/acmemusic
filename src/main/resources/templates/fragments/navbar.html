@@ -7,8 +7,8 @@
      th:fragment="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img alt="Logo" class="d-inline-block align-text-top" height="24" src="..." width="24">
-            Builder
+            <img alt="Logo" class="d-inline-block align-text-top" height="24" th:src="@{logo.svg}" width="24">
+            ACME
         </a>
         <button aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                 data-bs-target="#navbar-collapse-1" data-bs-toggle="collapse" type="button">
@@ -45,7 +45,8 @@
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
             <form>
-                <button class="btn btn-primary" data-bs-target="#example-modal-1" data-bs-toggle="modal" hx-get="register"
+                <button class="btn btn-primary" data-bs-target="#example-modal-1" data-bs-toggle="modal"
+                        hx-get="registration-form"
                         hx-target="#modal-content"
                         type="button">
                     Register
