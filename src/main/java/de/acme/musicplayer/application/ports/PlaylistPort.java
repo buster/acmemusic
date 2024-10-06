@@ -3,16 +3,17 @@ package de.acme.musicplayer.application.ports;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 public interface PlaylistPort {
 
-    void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId);
+    void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId);
 
-    Playlist lade(Benutzer.Id benutzername, Playlist.Name name);
+    Playlist lade(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId);
 
-    Playlist lade(Playlist.Id playlistId);
+    Playlist lade(Playlist.Id playlistId, TenantId tenantId);
 
-    Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name);
+    Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId);
 
-    void löscheDatenbank();
+    void löscheDatenbank(TenantId tenantId);
 }

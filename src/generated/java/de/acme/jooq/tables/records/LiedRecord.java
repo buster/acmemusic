@@ -6,7 +6,7 @@ package de.acme.jooq.tables.records;
 
 import de.acme.jooq.tables.Lied;
 
-import org.jooq.Record1;
+import org.jooq.Record2;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -33,31 +33,45 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     }
 
     /**
+     * Setter for <code>public.lied.tenant</code>.
+     */
+    public void setTenant(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>public.lied.tenant</code>.
+     */
+    public String getTenant() {
+        return (String) get(1);
+    }
+
+    /**
      * Setter for <code>public.lied.titel</code>.
      */
     public void setTitel(String value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>public.lied.titel</code>.
      */
     public String getTitel() {
-        return (String) get(1);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>public.lied.bytes</code>.
      */
     public void setBytes(byte[] value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>public.lied.bytes</code>.
      */
     public byte[] getBytes() {
-        return (byte[]) get(2);
+        return (byte[]) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -65,8 +79,8 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
+    public Record2<String, String> key() {
+        return (Record2) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -83,10 +97,11 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     /**
      * Create a detached, initialised LiedRecord
      */
-    public LiedRecord(String id, String titel, byte[] bytes) {
+    public LiedRecord(String id, String tenant, String titel, byte[] bytes) {
         super(Lied.LIED);
 
         setId(id);
+        setTenant(tenant);
         setTitel(titel);
         setBytes(bytes);
         resetChangedOnNotNull();

@@ -4,6 +4,8 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
+    hikari:
+      maximum-pool-size: 80
     url: jdbc:postgresql://localhost:5432/acmedb
     username: acme
     password: acme

@@ -5,6 +5,7 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.LiedZuPlaylistHinzufügenUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufügenUsecase {
 
@@ -15,9 +16,9 @@ public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufüg
     }
 
     @Override
-    public void liedHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId) {
-        Playlist playlist = playlistPort.lade(playlistId);
-        playlistPort.fügeLiedHinzu(liedId, playlist.getId());
+    public void liedHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
+        Playlist playlist = playlistPort.lade(playlistId, tenantId);
+        playlistPort.fügeLiedHinzu(liedId, playlist.getId(), tenantId);
     }
 
 }

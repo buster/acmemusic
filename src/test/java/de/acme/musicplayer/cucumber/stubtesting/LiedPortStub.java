@@ -1,45 +1,59 @@
 package de.acme.musicplayer.cucumber.stubtesting;
 
 import de.acme.musicplayer.application.domain.model.Lied;
+import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class LiedPortStub implements LiedPort {
 
-    private final List<Lied> lieder = new ArrayList<>();
-    private final List<byte[]> bytestreams = new ArrayList<>();
+    private final Map<Pair<String, TenantId>, Lied> lieder = new HashMap<>();
+    private final Map<Pair<String, TenantId>, byte[]> bytestreams = new HashMap<>();
+
+    private static ImmutablePair<String, TenantId> tableKey(Lied.Id liedId, TenantId tenantId) {
+        return new ImmutablePair<>(liedId.id(), tenantId);
+    }
 
     @Override
-    public Lied ladeLied(Lied.Id songId) {
+    public Lied ladeLied(Lied.Id songId, TenantId tenantId) {
         System.out.println("Load Lied Port Stub!");
         return lieder.get(Integer.parseInt(songId.id()));
     }
 
     @Override
-    public long zähleLieder() {
+    public long zähleLieder(TenantId tenantId) {
         return lieder.size();
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
-        lied.setId(new Lied.Id(String.valueOf(lieder.size())));
-        bytestreams.add(lieder.size(), inputStream.readAllBytes());
-        lieder.add(lied);
+    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException {
+        Lied.Id id = new Lied.Id(UUID.randomUUID().toString());
+        lied.setId(id);
+        ImmutablePair<String, TenantId> k = tableKey(lied.getId(), tenantId);
+        bytestreams.put(k, inputStream.readAllBytes());
+        lieder.put(k, lied);
         return lied.getId();
     }
 
     @Override
-    public void löscheDatenbank() {
-        lieder.clear();
+    public void löscheDatenbank(TenantId tenantId) {
+        for (Pair<String, TenantId> stringTenantIdPair : lieder.keySet()) {
+            if (stringTenantIdPair.getRight().equals(tenantId)) {
+                lieder.remove(stringTenantIdPair);
+            }
+        }
     }
 
     @Override
-    public InputStream ladeLiedStream(Lied.Id liedId) {
-        return new ByteArrayInputStream(bytestreams.get(Integer.parseInt(liedId.id())));
+    public InputStream ladeLiedStream(Lied.Id liedId, TenantId tenantId) {
+        return new ByteArrayInputStream(bytestreams.get(tableKey(liedId, tenantId)));
     }
 }

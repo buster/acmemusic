@@ -6,7 +6,7 @@ package de.acme.jooq.tables.records;
 
 import de.acme.jooq.tables.PlaylistLied;
 
-import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -46,13 +46,27 @@ public class PlaylistLiedRecord extends UpdatableRecordImpl<PlaylistLiedRecord> 
         return (String) get(1);
     }
 
+    /**
+     * Setter for <code>public.playlist_lied.tenant</code>.
+     */
+    public void setTenant(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>public.playlist_lied.tenant</code>.
+     */
+    public String getTenant() {
+        return (String) get(2);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
 
     @Override
-    public Record2<String, String> key() {
-        return (Record2) super.key();
+    public Record3<String, String, String> key() {
+        return (Record3) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -69,11 +83,12 @@ public class PlaylistLiedRecord extends UpdatableRecordImpl<PlaylistLiedRecord> 
     /**
      * Create a detached, initialised PlaylistLiedRecord
      */
-    public PlaylistLiedRecord(String liedId, String playlistId) {
+    public PlaylistLiedRecord(String liedId, String playlistId, String tenant) {
         super(PlaylistLied.PLAYLIST_LIED);
 
         setLiedId(liedId);
         setPlaylistId(playlistId);
+        setTenant(tenant);
         resetChangedOnNotNull();
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.test.annotation.DirtiesContext;
 
 @CucumberContextConfiguration
 @SpringBootTest
-@DirtiesContext
 public class CucumberT2RConfiguration {
 
     @TestConfiguration
