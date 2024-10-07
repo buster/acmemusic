@@ -13,6 +13,7 @@ import io.cucumber.java.de.Gegebenseien;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -56,13 +57,16 @@ public class SongSteps {
     @Before
     public void generateTenantId() {
         tenantId = new TenantId(UUID.randomUUID().toString());
+        MDC.put("tenantId", tenantId.value());
+        log.info("TenantId: {}", tenantId);
     }
 
     @After
-    public void gegebenSeiEineLeereDatenbank() {
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
-        liedAdministrationUsecase.löscheDatenbank(tenantId);
+    public void cleanDatabaseAfterScenario() {
         playlistAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        MDC.remove("tenantId");
     }
 
     @Gegebenseien("folgende Songs:")
@@ -125,6 +129,7 @@ public class SongSteps {
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
         Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
+        log.info("Playlist {} erstellt, ID: {}", playlistName, id);
         playlistToIdMap.put(playlistName, id);
     }
 
