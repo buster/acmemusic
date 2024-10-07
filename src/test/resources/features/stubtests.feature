@@ -11,6 +11,7 @@ Funktionalität:
       | Name | Passwort | Email          |
       | John | abc      | john@localhost |
     Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'alice@localhost' registriert hat
+    Und sich der Benutzer 'Alice' mit dem Passwort 'abc' und der Email 'alice@localhost' eingelogged hat
     Dann kennt der Service 2 Benutzer
 
   @T2T
