@@ -41,9 +41,12 @@ dependencies {
     testImplementation("io.cucumber:cucumber-junit-platform-engine:7.18.1")
 
     testImplementation("org.junit.platform:junit-platform-suite")
+
+    testImplementation("org.assertj:assertj-core:3.26.3")
 }
 
 tasks.withType<Test> {
+    jvmArgs("-noverify", "-XX:+EnableDynamicAgentLoading", "-Djdk.instrument.traceUsage")
     systemProperty("cucumber.junit-platform.naming-strategy", "long")
     useJUnitPlatform()
 }
