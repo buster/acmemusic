@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting;
+package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.TenantId;
