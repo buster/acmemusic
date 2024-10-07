@@ -36,7 +36,7 @@ public class SongRepository implements LiedPort {
     }
 
     @Override
-    public String fügeLiedHinzu(Lied lied) {
+    public Lied.LiedId fügeLiedHinzu(Lied lied) {
         return null;
     }
 }

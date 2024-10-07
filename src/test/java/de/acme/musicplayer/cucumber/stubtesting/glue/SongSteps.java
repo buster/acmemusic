@@ -1,5 +1,6 @@
 package de.acme.musicplayer.cucumber.stubtesting.glue;
 
+import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.de.Dann;
@@ -12,7 +13,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SongSteps {
 
@@ -31,7 +32,10 @@ public class SongSteps {
     @Autowired
     private LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase;
 
-    private Map<String, String> titelToIdMap = new HashMap<>();
+    @Autowired
+    private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
+
+    private Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
 
 
     @Gegebenseien("folgende Songs:")
@@ -40,7 +44,7 @@ public class SongSteps {
                 .forEach(song ->
                         {
                             String titel = song.get("Titel");
-                            String id = liedHochladenUseCase.liedHochladen(titel, song.get("Interpret"), song.get("Album"), song.get("Genre"), song.get("Erscheinungsjahr"), URI.create(song.get("URI")));
+                            Lied.LiedId id = liedHochladenUseCase.liedHochladen(titel, song.get("Interpret"), song.get("Album"), song.get("Genre"), song.get("Erscheinungsjahr"), URI.create(song.get("URI")));
                             titelToIdMap.put(titel, id);
                         }
                 );
@@ -90,7 +94,12 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
     public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
-        liedZuPlaylistHinzufügenUseCase.addSongToPlaylist(benutzername, titelToIdMap.get(liedname), playlistname);
+        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzername, titelToIdMap.get(liedname), playlistname);
 
+    }
+
+    @Dann("enthält die Playlist {string} von {string} {int} Lieder")
+    public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
+        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzer, playlist)).hasSize(anzahl);
     }
 }
