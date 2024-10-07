@@ -1,8 +1,8 @@
 package de.acme.musicplayer.adapters.jpa;
 
-import de.acme.musicplayer.application.ports.AddSongToPlaylistPort;
+import de.acme.musicplayer.application.ports.PlaylistPort;
 
-public class PlaylistRepository implements AddSongToPlaylistPort {
+public class PlaylistRepository implements PlaylistPort {
 
     private PlaylistJpaRepository playlistJpaRepository;
 

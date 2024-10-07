@@ -3,7 +3,7 @@ package de.acme.musicplayer.application.ports;
 import de.acme.musicplayer.application.domain.model.Artist;
 import de.acme.musicplayer.application.domain.model.Lied;
 
-public interface LiedLadenPort {
+public interface LiedPort {
 
     Lied ladeLied(String songId);
 
@@ -14,4 +14,6 @@ public interface LiedLadenPort {
     Long getPlayedSecondsByArtist(Artist artist);
 
     Long zähleLieder();
+    void fügeLiedHinzu(Lied lied);
+
 }

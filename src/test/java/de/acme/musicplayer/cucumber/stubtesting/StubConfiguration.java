@@ -1,13 +1,9 @@
 package de.acme.musicplayer.cucumber.stubtesting;
 
-import de.acme.musicplayer.application.domain.BenutzerRegistrierenService;
-import de.acme.musicplayer.application.domain.LiedAbspielenService;
-import de.acme.musicplayer.application.domain.LiedHochladenService;
-import de.acme.musicplayer.application.ports.BenutzerHinzufügenPort;
-import de.acme.musicplayer.application.ports.LiedLadenPort;
-import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.application.usecases.LiedAbspielenUseCase;
-import de.acme.musicplayer.application.usecases.LiedHochladenUseCase;
+import de.acme.musicplayer.application.domain.*;
+import de.acme.musicplayer.application.ports.BenutzerPort;
+import de.acme.musicplayer.application.ports.LiedPort;
+import de.acme.musicplayer.application.usecases.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -20,23 +16,28 @@ public class StubConfiguration {
     }
 
     @Bean
-    public BenutzerRegistrierenUsecase benutzerRegistrierenUsecase(BenutzerHinzufügenPort benutzerHinzufügenPort) {
-        return new BenutzerRegistrierenService(benutzerHinzufügenPort);
+    public BenutzerRegistrierenUsecase benutzerRegistrierenUsecase(BenutzerPort benutzerPort) {
+        return new BenutzerRegistrierenService(benutzerPort);
     }
 
     @Bean
-    public BenutzerHinzufügenPort benutzerHinzufügenPort() {
-        return new BenutzerHinzufügenPortStub();
+    public BenutzerAdministrationUsecase benutzerAdministrationUsecase(BenutzerPort benutzerPort) {
+        return new BenutzerAdministrationService(benutzerPort);
+    }
+
+    @Bean
+    public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort) {
+        return new LiedAdministrationService(liedPort);
+    }
+
+    @Bean
+    public BenutzerPort benutzerPort() {
+        return new BenutzerPortStub();
     }
 
     @Bean
     public LiedPortStub liedPortStub() {
         return new LiedPortStub();
-    }
-
-    @Bean
-    public LiedLadenPort liedLadenPort(LiedPortStub liedPortStub) {
-        return liedPortStub;
     }
 
     @Bean

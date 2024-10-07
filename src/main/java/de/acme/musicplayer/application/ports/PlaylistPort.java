@@ -1,6 +1,6 @@
 package de.acme.musicplayer.application.ports;
 
-public interface AddSongToPlaylistPort {
+public interface PlaylistPort {
 
     void addSongToPlaylist(String songId, String playlistId);
 }
