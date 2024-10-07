@@ -19,6 +19,9 @@ public class PlaylistPortStub implements PlaylistPort {
     @Override
     public Playlist lade(String benutzername, String playlistName) {
         Playlist playlist = playlists.get(playlistName);
+        if (playlist == null) {
+            return null;
+        }
         if (playlist.getBesitzer().equals(benutzername)) {
             return playlist;
         }
