@@ -1,15 +1,15 @@
 package de.acme.musicplayer.application.ports;
 
 import de.acme.musicplayer.application.domain.model.Artist;
-import de.acme.musicplayer.application.domain.model.Song;
+import de.acme.musicplayer.application.domain.model.Lied;
 
 public interface LiedLadenPort {
 
-    Song ladeLied(String songId);
+    Lied ladeLied(String songId);
 
-    void updateSong(Song song);
+    void updateSong(Lied lied);
 
-    Song findSongByArtist(Artist artist);
+    Lied findSongByArtist(Artist artist);
 
     Long getPlayedSecondsByArtist(Artist artist);
 
