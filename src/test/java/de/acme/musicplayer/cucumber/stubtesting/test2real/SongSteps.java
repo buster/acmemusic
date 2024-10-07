@@ -69,6 +69,10 @@ public class SongSteps {
         MDC.remove("tenantId");
     }
 
+    @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
+    public void userHatSichEingelogged(String benutzername, String passwort, String email) {
+    }
+
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
         for (Map<String, String> song : dataTable.asMaps()) {
