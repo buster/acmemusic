@@ -1,9 +1,6 @@
 package de.acme.musicplayer.cucumber.stubtesting.glue;
 
-import de.acme.musicplayer.application.usecases.BenutzerAdministrationUsecase;
-import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.application.usecases.LiedAdministrationUsecase;
-import de.acme.musicplayer.application.usecases.LiedHochladenUseCase;
+import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Gegebenseien;
@@ -12,6 +9,8 @@ import io.cucumber.java.de.Wenn;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -29,13 +28,21 @@ public class SongSteps {
     @Autowired
     private LiedHochladenUseCase liedHochladenUseCase;
 
+    @Autowired
+    private LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase;
+
+    private Map<String, String> titelToIdMap = new HashMap<>();
+
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) {
         dataTable.asMaps()
                 .forEach(song ->
-                        liedHochladenUseCase.liedHochladen(song.get("Titel"), song.get("Interpret"), song.get("Album"), song.get("Genre"), song.get("Erscheinungsjahr"), URI.create(song.get("URI"))
-                        )
+                        {
+                            String titel = song.get("Titel");
+                            String id = liedHochladenUseCase.liedHochladen(titel, song.get("Interpret"), song.get("Album"), song.get("Genre"), song.get("Erscheinungsjahr"), URI.create(song.get("URI")));
+                            titelToIdMap.put(titel, id);
+                        }
                 );
 
     }
@@ -79,5 +86,11 @@ public class SongSteps {
     @Dann("kennt der Service {int} Benutzer")
     public void kenntDerServiceBenutzer(int anzahl) {
         assertThat(benutzerAdministrationUsecase.zähleBenutzer()).isEqualTo(anzahl);
+    }
+
+    @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
+    public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
+        liedZuPlaylistHinzufügenUseCase.addSongToPlaylist(benutzername, titelToIdMap.get(liedname), playlistname);
+
     }
 }
