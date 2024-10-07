@@ -1,8 +1,10 @@
 package de.acme.musicplayer.cucumber.stubtesting;
 
 import de.acme.musicplayer.application.domain.*;
+import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
+import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,16 @@ public class StubConfiguration {
     @Bean
     public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort) {
         return new LiedAdministrationService(liedPort);
+    }
+
+    @Bean
+    public PlaylistPort playlistPort() {
+        return new PlaylistPortStub();
+    }
+
+    @Bean
+    public LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
+        return new LiedZuPlaylistHinzufügenService(playlistPort);
     }
 
     @Bean
