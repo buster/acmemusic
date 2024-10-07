@@ -11,9 +11,9 @@ public interface LiedPort {
 
     Lied findSongByArtist(Artist artist);
 
-    Long getPlayedSecondsByArtist(Artist artist);
+    long getPlayedSecondsByArtist(Artist artist);
 
-    Long zähleLieder();
-    void fügeLiedHinzu(Lied lied);
+    long zähleLieder();
+    String fügeLiedHinzu(Lied lied);
 
 }

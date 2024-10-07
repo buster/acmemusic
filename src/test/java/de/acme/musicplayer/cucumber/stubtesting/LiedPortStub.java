@@ -28,19 +28,19 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Long getPlayedSecondsByArtist(Artist artist) {
+    public long getPlayedSecondsByArtist(Artist artist) {
         return 0L;
     }
 
     @Override
-    public Long zähleLieder() {
-        return Long.valueOf(lieder.size());
+    public long zähleLieder() {
+        return lieder.size();
     }
 
     @Override
-    public void fügeLiedHinzu(Lied lied) {
+    public String fügeLiedHinzu(Lied lied) {
         lied.setId(String.valueOf(lieder.size()));
         lieder.add(lied);
-        System.out.println("Add Lied Port Stub!");
+        return lied.getId();
     }
 }

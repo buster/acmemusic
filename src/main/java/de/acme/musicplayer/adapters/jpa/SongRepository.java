@@ -26,17 +26,17 @@ public class SongRepository implements LiedPort {
     }
 
     @Override
-    public Long getPlayedSecondsByArtist(Artist artist) {
+    public long getPlayedSecondsByArtist(Artist artist) {
         return 0L;
     }
 
     @Override
-    public Long zähleLieder() {
+    public long zähleLieder() {
         return 0L;
     }
 
     @Override
-    public void fügeLiedHinzu(Lied lied) {
-
+    public String fügeLiedHinzu(Lied lied) {
+        return null;
     }
 }
