@@ -2,9 +2,9 @@ package de.acme.musicplayer.adapters.jpa;
 
 import de.acme.musicplayer.application.domain.model.Artist;
 import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.ports.LiedLadenPort;
+import de.acme.musicplayer.application.ports.LiedPort;
 
-public class SongRepository implements LiedLadenPort {
+public class SongRepository implements LiedPort {
 
     private SongJpaRepository jpaRepo;
     private JpaEntityToSongMapper mapper;
@@ -33,5 +33,10 @@ public class SongRepository implements LiedLadenPort {
     @Override
     public Long zähleLieder() {
         return 0L;
+    }
+
+    @Override
+    public void fügeLiedHinzu(Lied lied) {
+
     }
 }

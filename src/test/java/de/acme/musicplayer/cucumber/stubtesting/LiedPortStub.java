@@ -2,13 +2,12 @@ package de.acme.musicplayer.cucumber.stubtesting;
 
 import de.acme.musicplayer.application.domain.model.Artist;
 import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.ports.LiedHinzufügenPort;
-import de.acme.musicplayer.application.ports.LiedLadenPort;
+import de.acme.musicplayer.application.ports.LiedPort;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LiedPortStub implements LiedLadenPort, LiedHinzufügenPort {
+public class LiedPortStub implements LiedPort {
 
     private final List<Lied> lieder = new ArrayList<Lied>();
 

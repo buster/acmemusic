@@ -1,7 +1,8 @@
 package de.acme.musicplayer.cucumber.stubtesting.glue;
 
-import de.acme.musicplayer.application.ports.LiedLadenPort;
+import de.acme.musicplayer.application.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.application.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.application.usecases.LiedHochladenUseCase;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.de.Dann;
@@ -20,7 +21,10 @@ public class SongSteps {
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
 
     @Autowired
-    private LiedLadenPort liedLadenPort;
+    private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
+
+    @Autowired
+    private LiedAdministrationUsecase liedAdministrationUsecase;
 
     @Autowired
     private LiedHochladenUseCase liedHochladenUseCase;
@@ -37,7 +41,11 @@ public class SongSteps {
     }
 
     @Und("folgende Benutzer:")
-    public void folgendeBenutzer() {
+    public void folgendeBenutzer(DataTable dataTable) {
+        dataTable.asMaps()
+                .forEach(benutzer ->
+                        benutzerRegistrierenUsecase.benutzerAnmelden(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"))
+                );
     }
 
     @Wenn("der Benutzer {string} den Lied {string} zu einer Playlist {string} hinzufügt")
@@ -63,8 +71,13 @@ public class SongSteps {
 
     }
 
-    @Dann("enthält die Datenbank {int} Lied(er)")
+    @Dann("kennt der Service {int} Lied(er)")
     public void enthältDieDatenbankLied(int c) {
-        assertThat(liedLadenPort.zähleLieder()).isEqualTo(c);
+        assertThat(liedAdministrationUsecase.zähleLieder()).isEqualTo(c);
+    }
+
+    @Dann("kennt der Service {int} Benutzer")
+    public void kenntDerServiceBenutzer(int anzahl) {
+        assertThat(benutzerAdministrationUsecase.zähleBenutzer()).isEqualTo(anzahl);
     }
 }
