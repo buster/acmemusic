@@ -6,13 +6,13 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class PlaylistPortStub implements PlaylistPort {
 
-    private final Map<Playlist.Id, Playlist> playlists = new HashMap<>();
+    private final Map<Playlist.Id, Playlist> playlists = new ConcurrentHashMap<>();
 
     @Override
     public void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
@@ -47,7 +47,7 @@ public class PlaylistPortStub implements PlaylistPort {
     }
 
     @Override
-    synchronized public void löscheDatenbank(TenantId tenantId) {
+    public void löscheDatenbank(TenantId tenantId) {
         playlists.clear();
     }
 }
