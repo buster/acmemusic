@@ -7,12 +7,17 @@ import java.util.Objects;
 public class Lied {
 
     private final String titel;
-    private final String interpret;
-    private final String album;
-    private final String genre;
-    private final String erscheinungsjahr;
-    private final URI uri;
+    private String interpret;
+    private String album;
+    private String genre;
+    private String erscheinungsjahr;
+    private URI uri;
     private LiedId id;
+
+    public Lied(LiedId id, String titel) {
+        this.id = id;
+        this.titel = titel;
+    }
 
     public Lied(String titel, String interpret, String album, String genre, String erscheinungsjahr, URI uri) {
         this.titel = titel;
@@ -29,6 +34,10 @@ public class Lied {
 
     public void setId(LiedId id) {
         this.id = id;
+    }
+
+    public String getTitel() {
+        return titel;
     }
 
     public record LiedId(String id) {

@@ -10,6 +10,7 @@ import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.*;
 import de.acme.musicplayer.cucumber.stubtesting.BenutzerPortStub;
+import org.jooq.DSLContext;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -19,8 +20,8 @@ public class T2RConfiguration {
 
     // BEGIN: Adapter
     @Bean
-    public PlaylistPort playlistPort(PlaylistJpaRepository playlistJpaRepository) {
-        return new PlaylistRepository(playlistJpaRepository);
+    public PlaylistPort playlistPort(PlaylistJpaRepository playlistJpaRepository, DSLContext dslContext) {
+        return new PlaylistRepository(playlistJpaRepository, dslContext);
     }
 
     @Bean
@@ -29,8 +30,8 @@ public class T2RConfiguration {
     }
 
     @Bean
-    public LiedPort liedPort(SongJpaRepository songJpaRepository) {
-        return new SongRepository(songJpaRepository);
+    public LiedPort liedPort(SongJpaRepository songJpaRepository, DSLContext dslContext) {
+        return new SongRepository(songJpaRepository, dslContext);
     }
 
     // END: Adapter

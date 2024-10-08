@@ -1,3 +1,14 @@
 spring:
   application:
     name: acme
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  datasource:
+    url: jdbc:postgresql://localhost:5432/acmedb
+    username: acme
+    password: acme
+  docker:
+    compose:
+      #      file: "./compose.yml"
+      skip:
+        in-tests: false
