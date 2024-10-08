@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class Playlist {
 
+    private final String name;
     private PlaylistId id;
     private List<Lied.LiedId> lieder = new ArrayList<>();
-    private final String name;
     private String besitzer;
 
     public Playlist(String benutzername, String playlistName) {
