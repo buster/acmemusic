@@ -4,9 +4,9 @@ Funktionalität:
 
   Szenario: Registrierung
     Gegeben seien folgende Benutzer:
-      | Name   | Passwort | Email              |
-      | Alice2 | abc      | bla2@localhost.com |
-    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'bla@localhost.com' registriert hat
+      | Name | Passwort | Email          |
+      | John | abc      | john@localhost |
+    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'alice@localhost' registriert hat
     Dann kennt der Service 2 Benutzer
 
   Szenario: Song hinzufügen
