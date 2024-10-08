@@ -14,7 +14,7 @@ public class SongRepository implements LiedPort {
 
     @Override
     public Lied ladeLied(String songId) {
-        SongJpaEntity jpaEntity = jpaRepo.findById(songId);
+        SongJpaEntity jpaEntity = jpaRepo.findById(songId).orElseThrow();
         return mapper.toDomain(jpaEntity);
     }
 
