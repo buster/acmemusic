@@ -6,13 +6,13 @@ import java.util.Objects;
 
 public class Lied {
 
-    private LiedId id;
     private final String titel;
     private final String interpret;
     private final String album;
     private final String genre;
     private final String erscheinungsjahr;
     private final URI uri;
+    private LiedId id;
 
     public Lied(String titel, String interpret, String album, String genre, String erscheinungsjahr, URI uri) {
         this.titel = titel;
