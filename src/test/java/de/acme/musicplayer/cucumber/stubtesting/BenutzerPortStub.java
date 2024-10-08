@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BenutzerPortStub implements BenutzerPort {
 
-    private List<Benutzer> benutzerList = new ArrayList<>();
+    private final List<Benutzer> benutzerList = new ArrayList<>();
 
     @Override
     public void benutzerHinzufügen(Benutzer benutzer) {

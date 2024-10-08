@@ -1,7 +1,6 @@
 package de.acme.musicplayer.cucumber.stubtesting;
 
 import de.acme.musicplayer.application.domain.*;
-import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.ports.PlaylistPort;

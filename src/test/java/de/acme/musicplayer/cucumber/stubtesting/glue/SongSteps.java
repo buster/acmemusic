@@ -35,7 +35,7 @@ public class SongSteps {
     @Autowired
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
 
-    private Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
+    private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
 
 
     @Gegebenseien("folgende Songs:")
