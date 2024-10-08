@@ -1,15 +1,18 @@
-package de.acme.musicplayer.cucumber.stubtesting;
+package de.acme.musicplayer.cucumber.stubtesting.glue;
 
 import de.acme.musicplayer.application.domain.*;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.*;
+import de.acme.musicplayer.cucumber.stubtesting.BenutzerPortStub;
+import de.acme.musicplayer.cucumber.stubtesting.LiedPortStub;
+import de.acme.musicplayer.cucumber.stubtesting.PlaylistPortStub;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
-public class StubConfiguration {
+public class T2TConfiguration {
 
     @Bean
     public LiedAbspielenUseCase playSongUseCase(LiedPortStub liedPortStub) {
