@@ -1,18 +1,18 @@
 package de.acme.musicplayer.application.domain;
 
-import de.acme.musicplayer.application.ports.LiedLadenPort;
+import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUseCase;
 
 public class LiedAbspielenService implements LiedAbspielenUseCase {
 
-    private final LiedLadenPort liedLadenPort;
+    private final LiedPort liedPort;
 
-    public LiedAbspielenService(LiedLadenPort liedLadenPort) {
-        this.liedLadenPort = liedLadenPort;
+    public LiedAbspielenService(LiedPort liedPort) {
+        this.liedPort = liedPort;
     }
 
     @Override
     public void playSong(String songId) {
-        liedLadenPort.ladeLied(songId);
+        liedPort.ladeLied(songId);
     }
 }
