@@ -45,6 +45,9 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-suite")
 
     testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("org.mockito:mockito-core:5.13.0")
+    testImplementation("net.bytebuddy:byte-buddy:1.15.1")
+
 }
 
 tasks.withType<Test> {
