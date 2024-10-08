@@ -15,7 +15,7 @@ public class LiedHochladenService implements LiedHochladenUseCase {
     }
 
     @Override
-    public void liedHochladen(String title, String artist, String album, String genre, String releaseYear, URI uri) {
-        liedPort.fügeLiedHinzu(new Lied(title, artist, album, genre, releaseYear, uri));
+    public String liedHochladen(String title, String artist, String album, String genre, String releaseYear, URI uri) {
+        return liedPort.fügeLiedHinzu(new Lied(title, artist, album, genre, releaseYear, uri));
     }
 }
