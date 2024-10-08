@@ -4,14 +4,15 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 
-import java.util.*;
-
-import static java.util.Arrays.asList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class PlaylistPortStub implements PlaylistPort {
 
-    private Map<String, List<Playlist>> playlists = new HashMap<>();
+    private final Map<String, List<Playlist>> playlists = new HashMap<>();
 
 
     @Override
@@ -44,7 +45,7 @@ public class PlaylistPortStub implements PlaylistPort {
             return playlist;
         }
         Playlist playlist = new Playlist(benutzername, playlistName);
-        playlists.put(benutzername, new ArrayList<>(Arrays.asList(playlist)));
+        playlists.put(benutzername, new ArrayList<>(List.of(playlist)));
         return playlist;
     }
 }

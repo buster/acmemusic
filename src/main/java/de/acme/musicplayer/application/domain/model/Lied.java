@@ -1,20 +1,18 @@
 package de.acme.musicplayer.application.domain.model;
 
 
-import lombok.Value;
-
 import java.net.URI;
 import java.util.Objects;
 
 public class Lied {
 
     private LiedId id;
-    private String titel;
-    private String interpret;
-    private String album;
-    private String genre;
-    private String erscheinungsjahr;
-    private URI uri;
+    private final String titel;
+    private final String interpret;
+    private final String album;
+    private final String genre;
+    private final String erscheinungsjahr;
+    private final URI uri;
 
     public Lied(String titel, String interpret, String album, String genre, String erscheinungsjahr, URI uri) {
         this.titel = titel;
