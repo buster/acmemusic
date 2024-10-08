@@ -6,7 +6,11 @@ import de.acme.musicplayer.application.ports.PlaylistPort;
 
 public class PlaylistRepository implements PlaylistPort {
 
-    private PlaylistJpaRepository playlistJpaRepository;
+    private final PlaylistJpaRepository playlistJpaRepository;
+
+    public PlaylistRepository(PlaylistJpaRepository playlistJpaRepository) {
+        this.playlistJpaRepository = playlistJpaRepository;
+    }
 
     @Override
     public void addSongToPlaylist(Lied.LiedId liedId, Playlist.PlaylistId playlistId) {
@@ -14,7 +18,6 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public Playlist lade(String benutzername, String playlistName) {
-
         return null;
     }
 }
