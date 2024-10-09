@@ -15,9 +15,9 @@ Funktionalität:
   @T2R
   Szenario: Song hinzufügen
     Gegeben seien folgende Songs:
-      | Titel       | Interpret | Album           | Genre  | Erscheinungsjahr | URI                                        |
-      | Firestarter | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=wmin5WkOuPw |
-      | Breathe     | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=6_PAHbqq-o4 |
+      | Titel       |
+      | Firestarter |
+      | Breathe     |
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
@@ -29,9 +29,9 @@ Funktionalität:
   @T2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
     Gegeben seien folgende Songs:
-      | Titel       | Interpret | Album           | Genre  | Erscheinungsjahr | URI                                        |
-      | Firestarter | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=wmin5WkOuPw |
-      | Breathe     | Prodigy   | Fat of the Land | Techno | 1996             | http://www.youtube.com/watch?v=6_PAHbqq-o4 |
+      | Titel       |
+      | Firestarter |
+      | Breathe     |
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
