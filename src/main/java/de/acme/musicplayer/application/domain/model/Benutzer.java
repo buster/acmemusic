@@ -10,4 +10,5 @@ public class Benutzer {
         this.passwort = passwort;
         this.email = email;
     }
+
 }

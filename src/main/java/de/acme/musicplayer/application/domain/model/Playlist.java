@@ -1,17 +1,32 @@
 package de.acme.musicplayer.application.domain.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 
 public class Playlist {
 
+    private PlaylistId id;
 
-    private List<String> lieder;
+    public Playlist(String benutzername, String playlistName) {
+        this.besitzer = benutzername;
+        this.name = playlistName;
+        this.id = new PlaylistId(String.format("%s-%s", benutzername, playlistName));
+    }
+
+    public List<Lied.LiedId> getLieder() {
+        return lieder;
+    }
+
+    private List<Lied.LiedId> lieder = new ArrayList<>();
 
     private String name;
 
     private String besitzer;
 
-    public Playlist(String name, List<String> lieder) {
+    public Playlist(String name, List<Lied.LiedId> lieder) {
         this.name = name;
         this.lieder = lieder;
     }
@@ -24,7 +39,56 @@ public class Playlist {
         this.besitzer = besitzer;
     }
 
-    public void liedHinzufügen(String liedId) {
-        lieder.add(liedId);
+    public void liedHinzufügen(Lied.LiedId lied) {
+        lieder.add(lied);
+    }
+
+    public PlaylistId getId() {
+        return id;
+    }
+
+    public void setId(PlaylistId id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addLied(Lied.LiedId liedId) {
+        if (lieder.stream().anyMatch(liedId::equals)) return;
+        this.lieder.add(liedId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Playlist playlist = (Playlist) o;
+        return Objects.equals(id, playlist.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    public record PlaylistId(String id) {
+        public PlaylistId(String benutzername, String playlistName) {
+            this(String.format("%s-%s", benutzername, playlistName));
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PlaylistId that = (PlaylistId) o;
+            return Objects.equals(id, that.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(id);
+        }
     }
 }
