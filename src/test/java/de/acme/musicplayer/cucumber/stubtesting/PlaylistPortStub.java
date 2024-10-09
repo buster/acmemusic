@@ -14,13 +14,12 @@ public class PlaylistPortStub implements PlaylistPort {
 
     private final Map<String, List<Playlist>> playlists = new HashMap<>();
 
-
     @Override
     public void addSongToPlaylist(Lied.LiedId liedId, Playlist.PlaylistId playlistId) {
         playlists.values().stream().flatMap(List::stream)
                 .filter(p -> p.getId().equals(playlistId))
                 .findFirst()
-                .ifPresent(p -> p.addLied(liedId));
+                .ifPresent(p -> p.liedHinzufügen(liedId));
     }
 
     @Override
