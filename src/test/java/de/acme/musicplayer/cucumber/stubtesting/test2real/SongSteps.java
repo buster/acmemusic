@@ -1,12 +1,15 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
+import de.acme.jooq.Tables;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.Before;
 import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Gegebenseien;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
+import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URI;
@@ -30,6 +33,14 @@ public class SongSteps {
     private LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase;
     @Autowired
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
+
+    @Autowired
+    private DSLContext dslContext;
+
+    @Before
+    public void before() {
+        dslContext.truncate(Tables.SONG, Tables.PLAYLIST_SONG, Tables.PLAYLIST).execute();
+    }
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) {
