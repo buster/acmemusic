@@ -4,6 +4,7 @@
 package de.acme.jooq;
 
 
+import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.Playlist;
 import de.acme.jooq.tables.PlaylistSong;
 import de.acme.jooq.tables.Song;
@@ -14,6 +15,11 @@ import de.acme.jooq.tables.Song;
  */
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class Tables {
+
+    /**
+     * The table <code>public.benutzer</code>.
+     */
+    public static final Benutzer BENUTZER = Benutzer.BENUTZER;
 
     /**
      * The table <code>public.playlist</code>.
