@@ -1,4 +1,4 @@
-package de.acme.musicplayer.adapters.jpa;
+package de.acme.musicplayer.adapters.jdbc;
 
 import de.acme.jooq.Tables;
 import de.acme.jooq.tables.records.PlaylistRecord;
@@ -11,11 +11,9 @@ import static de.acme.jooq.tables.Playlist.PLAYLIST;
 
 public class PlaylistRepository implements PlaylistPort {
 
-    private final PlaylistJpaRepository playlistJpaRepository;
     private final DSLContext dslContext;
 
-    public PlaylistRepository(PlaylistJpaRepository playlistJpaRepository, DSLContext dslContext) {
-        this.playlistJpaRepository = playlistJpaRepository;
+    public PlaylistRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
 
@@ -28,7 +26,7 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public Playlist lade(String benutzername, String playlistName) {
-        String id = new PlaylistJpaEntity.PlaylistId(benutzername, playlistName).id();
+        String id = new Playlist.PlaylistId(benutzername, playlistName).id();
         PlaylistRecord record = fetchPlaylist(id);
         if (record == null) {
             createPlaylist(benutzername, playlistName);
@@ -41,7 +39,7 @@ public class PlaylistRepository implements PlaylistPort {
                 .fetch()
                 .forEach(playlistSongRecord -> {
                     String songId = playlistSongRecord.getSongId();
-                    playlist.addLied(new Lied.LiedId(songId));
+                    playlist.liedHinzufügen(new Lied.LiedId(songId));
                 });
         return playlist;
     }

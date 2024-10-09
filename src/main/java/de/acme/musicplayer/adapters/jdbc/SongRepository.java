@@ -1,4 +1,4 @@
-package de.acme.musicplayer.adapters.jpa;
+package de.acme.musicplayer.adapters.jdbc;
 
 import de.acme.jooq.Tables;
 import de.acme.jooq.tables.records.SongRecord;
@@ -12,11 +12,9 @@ import static de.acme.jooq.tables.Song.SONG;
 
 public class SongRepository implements LiedPort {
 
-    private final SongJpaRepository jpaRepo;
     private final DSLContext dslContext;
 
-    public SongRepository(SongJpaRepository jpaRepo, DSLContext dslContext) {
-        this.jpaRepo = jpaRepo;
+    public SongRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
 
