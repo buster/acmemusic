@@ -75,4 +75,12 @@ public class Playlist {
             return Objects.hashCode(id);
         }
     }
+
+    public static class Name {
+        private final String name;
+
+        public Name(String name) {
+            this.name = name;
+        }
+    }
 }

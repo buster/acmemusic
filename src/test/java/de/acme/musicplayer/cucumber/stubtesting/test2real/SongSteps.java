@@ -13,7 +13,6 @@ import io.cucumber.java.de.Wenn;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public class SongSteps {
                 .forEach(song ->
                         {
                             String titel = song.get("Titel");
-                            Lied.LiedId id = liedHochladenUseCase.liedHochladen(titel, song.get("Interpret"), song.get("Album"), song.get("Genre"), song.get("Erscheinungsjahr"), URI.create(song.get("URI")));
+                            Lied.LiedId id = liedHochladenUseCase.liedHochladen(titel);
                             titelToIdMap.put(titel, id);
                         }
                 );

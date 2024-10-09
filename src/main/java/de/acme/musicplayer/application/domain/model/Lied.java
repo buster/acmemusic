@@ -1,31 +1,20 @@
 package de.acme.musicplayer.application.domain.model;
 
 
-import java.net.URI;
 import java.util.Objects;
 
 public class Lied {
 
-    private final String titel;
-    private String interpret;
-    private String album;
-    private String genre;
-    private String erscheinungsjahr;
-    private URI uri;
+    private final Titel titel;
     private LiedId id;
 
-    public Lied(LiedId id, String titel) {
+    public Lied(LiedId id, Titel titel) {
         this.id = id;
         this.titel = titel;
     }
 
-    public Lied(String titel, String interpret, String album, String genre, String erscheinungsjahr, URI uri) {
+    public Lied(Titel titel) {
         this.titel = titel;
-        this.interpret = interpret;
-        this.album = album;
-        this.genre = genre;
-        this.erscheinungsjahr = erscheinungsjahr;
-        this.uri = uri;
     }
 
     public LiedId getId() {
@@ -37,7 +26,7 @@ public class Lied {
     }
 
     public String getTitel() {
-        return titel;
+        return titel.titel;
     }
 
     public record LiedId(String id) {
@@ -52,6 +41,14 @@ public class Lied {
         @Override
         public int hashCode() {
             return Objects.hashCode(id);
+        }
+    }
+
+    public static class Titel {
+        private final String titel;
+
+        public Titel(String titel) {
+            this.titel = titel;
         }
     }
 }
