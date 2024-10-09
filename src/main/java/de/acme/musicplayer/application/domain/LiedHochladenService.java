@@ -4,8 +4,6 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedHochladenUseCase;
 
-import java.net.URI;
-
 public class LiedHochladenService implements LiedHochladenUseCase {
 
     private final LiedPort liedPort;
@@ -15,7 +13,7 @@ public class LiedHochladenService implements LiedHochladenUseCase {
     }
 
     @Override
-    public Lied.LiedId liedHochladen(String title, String artist, String album, String genre, String releaseYear, URI uri) {
-        return liedPort.fügeLiedHinzu(new Lied(title, artist, album, genre, releaseYear, uri));
+    public Lied.LiedId liedHochladen(String title) {
+        return liedPort.fügeLiedHinzu(new Lied(new Lied.Titel(title)));
     }
 }
