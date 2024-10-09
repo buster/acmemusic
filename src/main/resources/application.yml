@@ -9,6 +9,5 @@ spring:
     password: acme
   docker:
     compose:
-      #      file: "./compose.yml"
       skip:
         in-tests: false
