@@ -26,21 +26,23 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The reference instance of <code>public.playlist_song</code>
      */
     public static final PlaylistSong PLAYLIST_SONG = new PlaylistSong();
-    private static final long serialVersionUID = 1L;
+    private transient PlaylistPath _playlist;
+
     /**
      * The column <code>public.playlist_song.song_id</code>.
      */
     public final TableField<PlaylistSongRecord, String> SONG_ID = createField(DSL.name("song_id"), SQLDataType.VARCHAR.nullable(false), this, "");
+
     /**
      * The column <code>public.playlist_song.playlist_id</code>.
      */
     public final TableField<PlaylistSongRecord, String> PLAYLIST_ID = createField(DSL.name("playlist_id"), SQLDataType.VARCHAR.nullable(false), this, "");
-    private transient PlaylistPath _playlist;
-    private transient SongPath _song;
 
     private PlaylistSong(Name alias, Table<PlaylistSongRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -74,14 +76,7 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     public <O extends Record> PlaylistSong(Table<O> path, ForeignKey<O, PlaylistSongRecord> childPath, InverseForeignKey<O, PlaylistSongRecord> parentPath) {
         super(path, childPath, parentPath, PLAYLIST_SONG);
     }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PlaylistSongRecord> getRecordType() {
-        return PlaylistSongRecord.class;
-    }
+    private transient SongPath _song;
 
     @Override
     public Schema getSchema() {
@@ -99,6 +94,14 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     }
 
     /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PlaylistSongRecord> getRecordType() {
+        return PlaylistSongRecord.class;
+    }
+
+    /**
      * Get the implicit join path to the <code>public.playlist</code> table.
      */
     public PlaylistPath playlist() {
@@ -106,6 +109,37 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
             _playlist = new PlaylistPath(this, Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, null);
 
         return _playlist;
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class PlaylistSongPath extends PlaylistSong implements Path<PlaylistSongRecord> {
+
+        private static final long serialVersionUID = 1L;
+
+        public <O extends Record> PlaylistSongPath(Table<O> path, ForeignKey<O, PlaylistSongRecord> childPath, InverseForeignKey<O, PlaylistSongRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+
+        private PlaylistSongPath(Name alias, Table<PlaylistSongRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public PlaylistSongPath as(String alias) {
+            return new PlaylistSongPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public PlaylistSongPath as(Name alias) {
+            return new PlaylistSongPath(alias, this);
+        }
+
+        @Override
+        public PlaylistSongPath as(Table<?> alias) {
+            return new PlaylistSongPath(alias.getQualifiedName(), this);
+        }
     }
 
     /**
@@ -239,36 +273,5 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     @Override
     public PlaylistSong whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class PlaylistSongPath extends PlaylistSong implements Path<PlaylistSongRecord> {
-
-        private static final long serialVersionUID = 1L;
-
-        public <O extends Record> PlaylistSongPath(Table<O> path, ForeignKey<O, PlaylistSongRecord> childPath, InverseForeignKey<O, PlaylistSongRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-
-        private PlaylistSongPath(Name alias, Table<PlaylistSongRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public PlaylistSongPath as(String alias) {
-            return new PlaylistSongPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public PlaylistSongPath as(Name alias) {
-            return new PlaylistSongPath(alias, this);
-        }
-
-        @Override
-        public PlaylistSongPath as(Table<?> alias) {
-            return new PlaylistSongPath(alias.getQualifiedName(), this);
-        }
     }
 }
