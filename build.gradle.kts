@@ -36,6 +36,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-docker-compose")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    implementation("com.google.guava:guava:33.3.1-jre")
+
+
     // cucumber
     testImplementation("io.cucumber:cucumber-java:7.18.1")
     testImplementation("io.cucumber:cucumber-junit:7.18.1")
