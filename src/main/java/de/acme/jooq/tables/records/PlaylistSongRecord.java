@@ -25,6 +25,13 @@ public class PlaylistSongRecord extends UpdatableRecordImpl<PlaylistSongRecord> 
     }
 
     /**
+     * Getter for <code>public.playlist_song.song_id</code>.
+     */
+    public String getSongId() {
+        return (String) get(0);
+    }
+
+    /**
      * Create a detached, initialised PlaylistSongRecord
      */
     public PlaylistSongRecord(String songId, String playlistId) {
@@ -36,11 +43,24 @@ public class PlaylistSongRecord extends UpdatableRecordImpl<PlaylistSongRecord> 
     }
 
     /**
-     * Getter for <code>public.playlist_song.song_id</code>.
+     * Getter for <code>public.playlist_song.playlist_id</code>.
      */
-    public String getSongId() {
-        return (String) get(0);
+    public String getPlaylistId() {
+        return (String) get(1);
     }
+
+    // -------------------------------------------------------------------------
+    // Primary key information
+    // -------------------------------------------------------------------------
+
+    @Override
+    public Record2<String, String> key() {
+        return (Record2) super.key();
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
 
     /**
      * Setter for <code>public.playlist_song.song_id</code>.
@@ -49,30 +69,10 @@ public class PlaylistSongRecord extends UpdatableRecordImpl<PlaylistSongRecord> 
         set(0, value);
     }
 
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
-
-    /**
-     * Getter for <code>public.playlist_song.playlist_id</code>.
-     */
-    public String getPlaylistId() {
-        return (String) get(1);
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
     /**
      * Setter for <code>public.playlist_song.playlist_id</code>.
      */
     public void setPlaylistId(String value) {
         set(1, value);
-    }
-
-    @Override
-    public Record2<String, String> key() {
-        return (Record2) super.key();
     }
 }

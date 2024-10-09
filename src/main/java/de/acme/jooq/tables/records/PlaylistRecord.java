@@ -25,6 +25,20 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     }
 
     /**
+     * Getter for <code>public.playlist.id</code>.
+     */
+    public String getId() {
+        return (String) get(0);
+    }
+
+    /**
+     * Setter for <code>public.playlist.name</code>.
+     */
+    public void setName(String value) {
+        set(1, value);
+    }
+
+    /**
      * Create a detached, initialised PlaylistRecord
      */
     public PlaylistRecord(String id, String name, String besitzer) {
@@ -37,36 +51,11 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     }
 
     /**
-     * Getter for <code>public.playlist.id</code>.
-     */
-    public String getId() {
-        return (String) get(0);
-    }
-
-    /**
      * Setter for <code>public.playlist.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
-
-    /**
-     * Getter for <code>public.playlist.name</code>.
-     */
-    public String getName() {
-        return (String) get(1);
-    }
-
-    /**
-     * Setter for <code>public.playlist.name</code>.
-     */
-    public void setName(String value) {
-        set(1, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>public.playlist.besitzer</code>.
@@ -76,18 +65,29 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     }
 
     // -------------------------------------------------------------------------
+    // Primary key information
+    // -------------------------------------------------------------------------
+
+    @Override
+    public Record1<String> key() {
+        return (Record1) super.key();
+    }
+
+    // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>public.playlist.name</code>.
+     */
+    public String getName() {
+        return (String) get(1);
+    }
 
     /**
      * Setter for <code>public.playlist.besitzer</code>.
      */
     public void setBesitzer(String value) {
         set(2, value);
-    }
-
-    @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
     }
 }
