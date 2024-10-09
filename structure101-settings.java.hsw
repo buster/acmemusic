@@ -12,7 +12,9 @@
   <property name="show-needs-to-compile" value="false" />
   <property name="project-type" value="classpath" />
   <property name="hide-externals" value="true" />
-  <classpath />
+  <classpath>
+    <classpathentry kind="lib" path="build/classes/java/main" module="musicplayer___main" displaymodule="musicplayer.main" />
+  </classpath>
   <pom-root-files />
   <modules>
     <module name="musicplayer___main" kind="ide-project" />
@@ -22,9 +24,9 @@
     </module>
   </modules>
   <modules-in-scope>
+    <module name="musicplayer" />
     <module name="musicplayer___main" />
     <module name="musicplayer___test" />
-    <module name="musicplayer" />
   </modules-in-scope>
   <excludes>
     <exclude expression="*.*&amp;amp;*" active="true" />
