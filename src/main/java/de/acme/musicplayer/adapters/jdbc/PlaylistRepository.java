@@ -2,6 +2,7 @@ package de.acme.musicplayer.adapters.jdbc;
 
 import de.acme.jooq.Tables;
 import de.acme.jooq.tables.records.PlaylistRecord;
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
@@ -25,17 +26,17 @@ public class PlaylistRepository implements PlaylistPort {
     }
 
     @Override
-    public Playlist lade(String benutzername, String playlistName) {
-        String id = new Playlist.PlaylistId(benutzername, playlistName).id();
-        PlaylistRecord record = fetchPlaylist(id);
-        if (record == null) {
-            createPlaylist(benutzername, playlistName);
-            record = fetchPlaylist(id);
-        }
-        Playlist playlist = new Playlist(record.getBesitzer(), record.getName());
+    public Playlist lade(Benutzer.Id benutzer, Playlist.Name playlistName) {
+        return lade(new Playlist.PlaylistId(benutzer.Id(), playlistName.name()));
+    }
+
+    @Override
+    public Playlist lade(Playlist.PlaylistId playlistId) {
+        PlaylistRecord record = fetchPlaylist(playlistId);
+        Playlist playlist = new Playlist(new Benutzer.Id(record.getBesitzer()), new Playlist.Name(record.getName()));
 
         dslContext.selectFrom(Tables.PLAYLIST_SONG)
-                .where(Tables.PLAYLIST_SONG.PLAYLIST_ID.eq(id))
+                .where(Tables.PLAYLIST_SONG.PLAYLIST_ID.eq(playlistId.id()))
                 .fetch()
                 .forEach(playlistSongRecord -> {
                     String songId = playlistSongRecord.getSongId();
@@ -44,17 +45,27 @@ public class PlaylistRepository implements PlaylistPort {
         return playlist;
     }
 
-    private PlaylistRecord fetchPlaylist(String id) {
+    @Override
+    public Playlist.PlaylistId erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name) {
+        PlaylistRecord record = fetchPlaylist(new Playlist.PlaylistId(benutzername.Id(), name.name()));
+        if (record == null) {
+            createPlaylist(benutzername, name);
+            record = fetchPlaylist(new Playlist.PlaylistId(benutzername.Id(), name.name()));
+        }
+        return new Playlist.PlaylistId(record.getId());
+    }
+
+    private PlaylistRecord fetchPlaylist(Playlist.PlaylistId id) {
         return dslContext
                 .selectFrom(Tables.PLAYLIST)
                 .where(PLAYLIST.ID
-                        .eq(id))
+                        .eq(id.id()))
                 .fetchOne();
     }
 
-    private void createPlaylist(String benutzername, String playlistName) {
+    private void createPlaylist(Benutzer.Id benutzer, Playlist.Name playlistName) {
         dslContext.insertInto(Tables.PLAYLIST, PLAYLIST.ID, PLAYLIST.BESITZER, PLAYLIST.NAME)
-                .values(new Playlist.PlaylistId(benutzername, playlistName).id(), benutzername, playlistName)
+                .values(new Playlist.PlaylistId(benutzer.Id(), playlistName.name()).id(), benutzer.Id(), playlistName.name())
                 .execute();
     }
 }

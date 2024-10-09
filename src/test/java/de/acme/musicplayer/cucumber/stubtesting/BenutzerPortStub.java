@@ -11,8 +11,9 @@ public class BenutzerPortStub implements BenutzerPort {
     private final List<Benutzer> benutzerList = new ArrayList<>();
 
     @Override
-    public void benutzerHinzufügen(Benutzer benutzer) {
+    public Benutzer.Id benutzerHinzufügen(Benutzer benutzer) {
         benutzerList.add(benutzer);
+        return new Benutzer.Id(String.valueOf(benutzerList.size()));
     }
 
     @Override

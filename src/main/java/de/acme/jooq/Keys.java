@@ -4,9 +4,11 @@
 package de.acme.jooq;
 
 
+import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.Playlist;
 import de.acme.jooq.tables.PlaylistSong;
 import de.acme.jooq.tables.Song;
+import de.acme.jooq.tables.records.BenutzerRecord;
 import de.acme.jooq.tables.records.PlaylistRecord;
 import de.acme.jooq.tables.records.PlaylistSongRecord;
 import de.acme.jooq.tables.records.SongRecord;
@@ -28,6 +30,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<BenutzerRecord> BENUTZER_PKEY = Internal.createUniqueKey(Benutzer.BENUTZER, DSL.name("benutzer_pkey"), new TableField[]{Benutzer.BENUTZER.ID}, true);
     public static final UniqueKey<PlaylistRecord> PLAYLIST_PKEY = Internal.createUniqueKey(Playlist.PLAYLIST, DSL.name("playlist_pkey"), new TableField[]{Playlist.PLAYLIST.ID}, true);
     public static final UniqueKey<PlaylistSongRecord> PK_PLAYLIST_SONG = Internal.createUniqueKey(PlaylistSong.PLAYLIST_SONG, DSL.name("pk_playlist_song"), new TableField[]{PlaylistSong.PLAYLIST_SONG.SONG_ID, PlaylistSong.PLAYLIST_SONG.PLAYLIST_ID}, true);
     public static final UniqueKey<SongRecord> SONG_PKEY = Internal.createUniqueKey(Song.SONG, DSL.name("song_pkey"), new TableField[]{Song.SONG.ID}, true);

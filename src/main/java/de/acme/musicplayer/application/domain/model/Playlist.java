@@ -7,18 +7,15 @@ import java.util.Objects;
 
 public class Playlist {
 
-    private final String name;
+    private final Name name;
+    private final Benutzer.Id besitzer;
     private PlaylistId id;
-    private List<Lied.LiedId> lieder = new ArrayList<>();
+    private final List<Lied.LiedId> lieder = new ArrayList<>();
 
-    public Playlist(String benutzername, String playlistName) {
-        this.name = playlistName;
-        this.id = new PlaylistId(benutzername, playlistName);
-    }
-
-    public Playlist(String name, List<Lied.LiedId> lieder) {
+    public Playlist(Benutzer.Id besitzerId, Name name) {
         this.name = name;
-        this.lieder = lieder;
+        this.besitzer = besitzerId;
+        this.id = new PlaylistId(besitzerId.Id(), name.name);
     }
 
     public List<Lied.LiedId> getLieder() {
@@ -34,7 +31,7 @@ public class Playlist {
     }
 
     public String getName() {
-        return name;
+        return name.name;
     }
 
     public void liedHinzufügen(Lied.LiedId liedId) {
@@ -74,11 +71,6 @@ public class Playlist {
         }
     }
 
-    public static class Name {
-        private final String name;
-
-        public Name(String name) {
-            this.name = name;
-        }
+    public record Name(String name) {
     }
 }
