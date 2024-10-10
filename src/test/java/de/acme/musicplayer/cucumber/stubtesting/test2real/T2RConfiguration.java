@@ -1,5 +1,6 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
+import de.acme.musicplayer.adapters.jdbc.BenutzerRepository;
 import de.acme.musicplayer.adapters.jdbc.PlaylistRepository;
 import de.acme.musicplayer.adapters.jdbc.SongRepository;
 import de.acme.musicplayer.application.domain.*;
@@ -7,7 +8,6 @@ import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.*;
-import de.acme.musicplayer.cucumber.stubtesting.BenutzerPortStub;
 import org.jooq.DSLContext;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +23,8 @@ public class T2RConfiguration {
     }
 
     @Bean
-    public BenutzerPort benutzerPort() {
-        return new BenutzerPortStub();
+    public BenutzerPort benutzerPort(DSLContext dslContext) {
+        return new BenutzerRepository(dslContext);
     }
 
     @Bean
@@ -33,6 +33,11 @@ public class T2RConfiguration {
     }
 
     // END: Adapter
+
+    @Bean
+    public PlaylistAnlegenUsecase playlistAnlegenUsecase(PlaylistPort playlistPort) {
+        return new PlaylistAnlegenService(playlistPort);
+    }
 
     @Bean
     public LiedAbspielenUseCase playSongUseCase(LiedPort liedPort) {
