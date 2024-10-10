@@ -6,9 +6,9 @@ import java.util.Objects;
 public class Lied {
 
     private final Titel titel;
-    private LiedId id;
+    private Id id;
 
-    public Lied(LiedId id, Titel titel) {
+    public Lied(Id id, Titel titel) {
         this.id = id;
         this.titel = titel;
     }
@@ -17,11 +17,11 @@ public class Lied {
         this.titel = titel;
     }
 
-    public LiedId getId() {
+    public Id getId() {
         return id;
     }
 
-    public void setId(LiedId id) {
+    public void setId(Id id) {
         this.id = id;
     }
 
@@ -29,12 +29,12 @@ public class Lied {
         return titel.titel;
     }
 
-    public record LiedId(String id) {
+    public record Id(String id) {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            LiedId liedId = (LiedId) o;
+            Id liedId = (Id) o;
             return Objects.equals(id, liedId.id);
         }
 

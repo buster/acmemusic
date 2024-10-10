@@ -25,6 +25,13 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     }
 
     /**
+     * Getter for <code>public.benutzer.id</code>.
+     */
+    public String getId() {
+        return (String) get(0);
+    }
+
+    /**
      * Create a detached, initialised BenutzerRecord
      */
     public BenutzerRecord(String id, String name, String email, String passwort) {
@@ -38,10 +45,17 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     }
 
     /**
-     * Getter for <code>public.benutzer.id</code>.
+     * Getter for <code>public.benutzer.name</code>.
      */
-    public String getId() {
-        return (String) get(0);
+    public String getName() {
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>public.benutzer.email</code>.
+     */
+    public void setEmail(String value) {
+        set(2, value);
     }
 
     /**
@@ -52,36 +66,11 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     }
 
     /**
-     * Getter for <code>public.benutzer.name</code>.
-     */
-    public String getName() {
-        return (String) get(1);
-    }
-
-    /**
      * Setter for <code>public.benutzer.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
-
-    /**
-     * Getter for <code>public.benutzer.email</code>.
-     */
-    public String getEmail() {
-        return (String) get(2);
-    }
-
-    /**
-     * Setter for <code>public.benutzer.email</code>.
-     */
-    public void setEmail(String value) {
-        set(2, value);
-    }
-
-    // -------------------------------------------------------------------------
-    // Primary key information
-    // -------------------------------------------------------------------------
 
     /**
      * Getter for <code>public.benutzer.passwort</code>.
@@ -91,18 +80,29 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     }
 
     // -------------------------------------------------------------------------
+    // Primary key information
+    // -------------------------------------------------------------------------
+
+    @Override
+    public Record1<String> key() {
+        return (Record1) super.key();
+    }
+
+    // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
+
+    /**
+     * Getter for <code>public.benutzer.email</code>.
+     */
+    public String getEmail() {
+        return (String) get(2);
+    }
 
     /**
      * Setter for <code>public.benutzer.passwort</code>.
      */
     public void setPasswort(String value) {
         set(3, value);
-    }
-
-    @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
     }
 }

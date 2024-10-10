@@ -105,14 +105,6 @@ public class Song extends TableImpl<SongRecord> {
         }
     }
 
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<SongRecord> getRecordType() {
-        return SongRecord.class;
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
@@ -121,6 +113,14 @@ public class Song extends TableImpl<SongRecord> {
     @Override
     public UniqueKey<SongRecord> getPrimaryKey() {
         return Keys.SONG_PKEY;
+    }
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<SongRecord> getRecordType() {
+        return SongRecord.class;
     }
 
     /**

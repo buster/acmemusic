@@ -15,7 +15,7 @@ public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufüg
     }
 
     @Override
-    public void liedHinzufügen(Benutzer.Id benutzername, Lied.LiedId songId, Playlist.PlaylistId playlistId) {
+    public void liedHinzufügen(Benutzer.Id benutzername, Lied.Id songId, Playlist.Id playlistId) {
         Playlist playlist = playlistPort.lade(playlistId);
         playlistPort.addSongToPlaylist(songId, playlist.getId());
     }

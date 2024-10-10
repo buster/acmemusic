@@ -9,24 +9,24 @@ public class Playlist {
 
     private final Name name;
     private final Benutzer.Id besitzer;
-    private PlaylistId id;
-    private final List<Lied.LiedId> lieder = new ArrayList<>();
+    private final List<Lied.Id> lieder = new ArrayList<>();
+    private Id id;
 
     public Playlist(Benutzer.Id besitzerId, Name name) {
         this.name = name;
         this.besitzer = besitzerId;
-        this.id = new PlaylistId(besitzerId.Id(), name.name);
+        this.id = new Id(besitzerId.Id(), name.name);
     }
 
-    public List<Lied.LiedId> getLieder() {
+    public List<Lied.Id> getLieder() {
         return lieder;
     }
 
-    public PlaylistId getId() {
+    public Id getId() {
         return id;
     }
 
-    public void setId(PlaylistId id) {
+    public void setId(Id id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class Playlist {
         return name.name;
     }
 
-    public void liedHinzufügen(Lied.LiedId liedId) {
+    public void liedHinzufügen(Lied.Id liedId) {
         if (lieder.stream().anyMatch(liedId::equals)) return;
         this.lieder.add(liedId);
     }
@@ -52,8 +52,8 @@ public class Playlist {
         return Objects.hashCode(id);
     }
 
-    public record PlaylistId(String id) {
-        public PlaylistId(String benutzername, String playlistName) {
+    public record Id(String id) {
+        public Id(String benutzername, String playlistName) {
             this(String.format("%s-%s", benutzername, playlistName));
         }
 
@@ -61,7 +61,7 @@ public class Playlist {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            PlaylistId that = (PlaylistId) o;
+            Id that = (Id) o;
             return Objects.equals(id, that.id);
         }
 

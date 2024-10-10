@@ -106,15 +106,6 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
             return new PlaylistSongPath(alias.getQualifiedName(), this);
         }
     }
-    private transient SongPath _song;
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PlaylistSongRecord> getRecordType() {
-        return PlaylistSongRecord.class;
-    }
 
     @Override
     public Schema getSchema() {
@@ -130,6 +121,7 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     public List<ForeignKey<PlaylistSongRecord, ?>> getReferences() {
         return Arrays.asList(Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, Keys.PLAYLIST_SONG__FK_SONG_ID);
     }
+    private transient SongPath _song;
 
     /**
      * Get the implicit join path to the <code>public.playlist</code> table.
@@ -139,6 +131,14 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
             _playlist = new PlaylistPath(this, Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, null);
 
         return _playlist;
+    }
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PlaylistSongRecord> getRecordType() {
+        return PlaylistSongRecord.class;
     }
 
     /**

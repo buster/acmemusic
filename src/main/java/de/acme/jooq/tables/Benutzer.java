@@ -21,23 +21,36 @@ import java.util.Collection;
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class Benutzer extends TableImpl<BenutzerRecord> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The reference instance of <code>public.benutzer</code>
      */
     public static final Benutzer BENUTZER = new Benutzer();
-    private static final long serialVersionUID = 1L;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<BenutzerRecord> getRecordType() {
+        return BenutzerRecord.class;
+    }
+
     /**
      * The column <code>public.benutzer.id</code>.
      */
     public final TableField<BenutzerRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "");
+
     /**
      * The column <code>public.benutzer.name</code>.
      */
     public final TableField<BenutzerRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "");
+
     /**
      * The column <code>public.benutzer.email</code>.
      */
     public final TableField<BenutzerRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR, this, "");
+
     /**
      * The column <code>public.benutzer.passwort</code>.
      */
@@ -70,14 +83,6 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
      */
     public Benutzer() {
         this(DSL.name("benutzer"), null);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<BenutzerRecord> getRecordType() {
-        return BenutzerRecord.class;
     }
 
     @Override

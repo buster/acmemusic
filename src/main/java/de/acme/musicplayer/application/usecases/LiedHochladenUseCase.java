@@ -4,5 +4,5 @@ import de.acme.musicplayer.application.domain.model.Lied;
 
 public interface LiedHochladenUseCase {
 
-    Lied.LiedId liedHochladen(String title);
+    Lied.Id liedHochladen(String title);
 }
