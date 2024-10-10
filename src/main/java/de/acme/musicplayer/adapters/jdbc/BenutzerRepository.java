@@ -28,4 +28,9 @@ public class BenutzerRepository implements BenutzerPort {
     public long zaehleBenutzer() {
         return dslContext.fetchCount(Tables.BENUTZER);
     }
+
+    @Override
+    public void loescheDatenbank() {
+        dslContext.truncate(Tables.BENUTZER).cascade().execute();
+    }
 }
