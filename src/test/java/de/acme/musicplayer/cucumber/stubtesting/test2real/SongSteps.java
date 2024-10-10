@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.glue;
+package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.*;
@@ -17,26 +17,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SongSteps {
 
+    private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
     @Autowired
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
-
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
-
     @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
-
     @Autowired
     private LiedHochladenUseCase liedHochladenUseCase;
-
     @Autowired
     private LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase;
-
     @Autowired
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
-
-    private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
-
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) {
