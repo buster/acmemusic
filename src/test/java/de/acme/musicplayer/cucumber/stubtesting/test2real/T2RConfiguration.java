@@ -40,6 +40,11 @@ public class T2RConfiguration {
     }
 
     @Bean
+    public PlaylistAdministrationUsecase playlistAdministrationUsecase(PlaylistPort playlistPort) {
+        return new PlaylistAdministrationService(playlistPort);
+    }
+
+    @Bean
     public LiedAbspielenUseCase playSongUseCase(LiedPort liedPort) {
         return new LiedAbspielenService(liedPort);
     }

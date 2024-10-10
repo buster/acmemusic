@@ -5,10 +5,7 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.de.Dann;
-import io.cucumber.java.de.Gegebenseien;
-import io.cucumber.java.de.Und;
-import io.cucumber.java.de.Wenn;
+import io.cucumber.java.de.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -37,6 +34,16 @@ public class SongSteps {
     @Autowired
     private PlaylistAnlegenUsecase playlistAnlegenUsecase;
 
+    @Autowired
+    private PlaylistAdministrationUsecase playlistAdministrationUsecase;
+
+    @Gegebensei("eine leere Datenbank")
+    public void gegebenSeiEineLeereDatenbank() {
+        benutzerAdministrationUsecase.löscheDatenbank();
+        playlistAdministrationUsecase.löscheDatenbank();
+        liedAdministrationUsecase.löscheDatenbank();
+    }
+
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) {
         dataTable.asMaps()
@@ -55,7 +62,7 @@ public class SongSteps {
         dataTable.asMaps()
                 .forEach(benutzer ->
                         {
-                            Benutzer.Id id = benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
+                            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
                             benutzerToIdMap.put(benutzer.get("Name"), id);
                         }
                 );
@@ -71,7 +78,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
         benutzerToIdMap.put(username, id);
     }
 
