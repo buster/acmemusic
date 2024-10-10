@@ -14,7 +14,7 @@ public class PlaylistPortStub implements PlaylistPort {
     private final Map<Playlist.Id, Playlist> playlists = new HashMap<>();
 
     @Override
-    public void addSongToPlaylist(Lied.Id liedId, Playlist.Id playlistId) {
+    public void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId) {
         playlists.get(playlistId).liedHinzufügen(liedId);
     }
 

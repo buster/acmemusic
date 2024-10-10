@@ -1,17 +1,17 @@
 package de.acme.musicplayer.adapters.web;
 
 import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.usecases.LiedAbspielenUseCase;
+import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PlaySongController {
+public class LiedAbspielenController {
 
-    private LiedAbspielenUseCase liedAbspielenUseCase;
+    private LiedAbspielenUsecase liedAbspielenUseCase;
 
     @PostMapping
-    public void playSong(String id) {
-        liedAbspielenUseCase.playSong(new Lied.Id(id));
+    public void liedAbspielen(String id) {
+        liedAbspielenUseCase.spieleLiedAb(new Lied.Id(id));
     }
 }

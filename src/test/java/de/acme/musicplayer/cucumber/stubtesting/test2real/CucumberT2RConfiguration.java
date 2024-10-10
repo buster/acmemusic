@@ -1,8 +1,8 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
 import de.acme.musicplayer.adapters.jdbc.BenutzerRepository;
+import de.acme.musicplayer.adapters.jdbc.LiedRepository;
 import de.acme.musicplayer.adapters.jdbc.PlaylistRepository;
-import de.acme.musicplayer.adapters.jdbc.SongRepository;
 import de.acme.musicplayer.application.domain.*;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -36,7 +36,7 @@ public class CucumberT2RConfiguration {
 
         @Bean
         public LiedPort liedPort(DSLContext dslContext) {
-            return new SongRepository(dslContext);
+            return new LiedRepository(dslContext);
         }
 
         // END: Adapter
@@ -52,7 +52,7 @@ public class CucumberT2RConfiguration {
         }
 
         @Bean
-        public LiedAbspielenUseCase playSongUseCase(LiedPort liedPort) {
+        public LiedAbspielenUsecase playSongUseCase(LiedPort liedPort) {
             return new LiedAbspielenService(liedPort);
         }
 
@@ -72,12 +72,12 @@ public class CucumberT2RConfiguration {
         }
 
         @Bean
-        public LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
+        public LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
             return new LiedZuPlaylistHinzufügenService(playlistPort);
         }
 
         @Bean
-        public LiedHochladenUseCase liedHochladenUseCase(LiedPort liedPort) {
+        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort) {
             return new LiedHochladenService(liedPort);
         }
 
