@@ -31,11 +31,11 @@
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">
             <column name="id" type="varchar">
-                <constraints primaryKey="true"></constraints>
+                <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar"></column>
-            <column name="email" type="varchar"></column>
-            <column name="passwort" type="varchar"></column>
+            <column name="name" type="varchar"/>
+            <column name="email" type="varchar"/>
+            <column name="passwort" type="varchar"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
