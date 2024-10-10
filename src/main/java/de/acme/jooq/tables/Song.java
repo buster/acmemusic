@@ -24,20 +24,23 @@ import java.util.Collection;
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class Song extends TableImpl<SongRecord> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The reference instance of <code>public.song</code>
      */
     public static final Song SONG = new Song();
-    private static final long serialVersionUID = 1L;
+    private transient PlaylistSongPath _playlistSong;
+
     /**
      * The column <code>public.song.id</code>.
      */
     public final TableField<SongRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "");
+
     /**
      * The column <code>public.song.titel</code>.
      */
     public final TableField<SongRecord, String> TITEL = createField(DSL.name("titel"), SQLDataType.VARCHAR, this, "");
-    private transient PlaylistSongPath _playlistSong;
 
     private Song(Name alias, Table<SongRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -88,6 +91,37 @@ public class Song extends TableImpl<SongRecord> {
     @Override
     public UniqueKey<SongRecord> getPrimaryKey() {
         return Keys.SONG_PKEY;
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class SongPath extends Song implements Path<SongRecord> {
+
+        private static final long serialVersionUID = 1L;
+
+        public <O extends Record> SongPath(Table<O> path, ForeignKey<O, SongRecord> childPath, InverseForeignKey<O, SongRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+
+        private SongPath(Name alias, Table<SongRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public SongPath as(String alias) {
+            return new SongPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public SongPath as(Name alias) {
+            return new SongPath(alias, this);
+        }
+
+        @Override
+        public SongPath as(Table<?> alias) {
+            return new SongPath(alias.getQualifiedName(), this);
+        }
     }
 
     /**
@@ -230,36 +264,5 @@ public class Song extends TableImpl<SongRecord> {
     @Override
     public Song whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class SongPath extends Song implements Path<SongRecord> {
-
-        private static final long serialVersionUID = 1L;
-
-        public <O extends Record> SongPath(Table<O> path, ForeignKey<O, SongRecord> childPath, InverseForeignKey<O, SongRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-
-        private SongPath(Name alias, Table<SongRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public SongPath as(String alias) {
-            return new SongPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public SongPath as(Name alias) {
-            return new SongPath(alias, this);
-        }
-
-        @Override
-        public SongPath as(Table<?> alias) {
-            return new SongPath(alias.getQualifiedName(), this);
-        }
     }
 }
