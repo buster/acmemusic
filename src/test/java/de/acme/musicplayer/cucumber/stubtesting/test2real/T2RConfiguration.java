@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 @TestConfiguration
 public class T2RConfiguration {
 
+
     // BEGIN: Adapter
     @Bean
     public PlaylistPort playlistPort(PlaylistJpaRepository playlistJpaRepository) {
