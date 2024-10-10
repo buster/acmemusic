@@ -1,5 +1,6 @@
 package de.acme.musicplayer.application.domain;
 
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
@@ -14,8 +15,9 @@ public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufüg
     }
 
     @Override
-    public void liedHinzufügen(String benutzername, Lied.LiedId songId, String playlistName) {
-        Playlist playlist = playlistPort.lade(benutzername, playlistName);
+    public void liedHinzufügen(Benutzer.Id benutzername, Lied.LiedId songId, Playlist.PlaylistId playlistId) {
+        Playlist playlist = playlistPort.lade(playlistId);
         playlistPort.addSongToPlaylist(songId, playlist.getId());
     }
+
 }
