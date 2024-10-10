@@ -10,4 +10,5 @@ public interface LiedPort {
 
     Lied.LiedId fügeLiedHinzu(Lied lied);
 
+    void löscheDatenbank();
 }

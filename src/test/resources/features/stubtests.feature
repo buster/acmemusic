@@ -5,7 +5,8 @@ Funktionalität:
   @T2T
   @T2R
   Szenario: Registrierung
-    Gegeben seien folgende Benutzer:
+    Gegeben sei eine leere Datenbank
+    Und folgende Benutzer:
       | Name | Passwort | Email          |
       | John | abc      | john@localhost |
     Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'alice@localhost' registriert hat
@@ -14,7 +15,8 @@ Funktionalität:
   @T2T
   @T2R
   Szenario: Song hinzufügen
-    Gegeben seien folgende Songs:
+    Gegeben sei eine leere Datenbank
+    Und folgende Songs:
       | Titel       |
       | Firestarter |
       | Breathe     |
@@ -29,7 +31,8 @@ Funktionalität:
 
   @T2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
-    Gegeben seien folgende Songs:
+    Gegeben sei eine leere Datenbank
+    Und folgende Songs:
       | Titel       |
       | Firestarter |
       | Breathe     |

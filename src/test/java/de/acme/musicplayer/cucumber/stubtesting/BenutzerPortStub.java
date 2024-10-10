@@ -20,4 +20,9 @@ public class BenutzerPortStub implements BenutzerPort {
     public long zaehleBenutzer() {
         return benutzerList.size();
     }
+
+    @Override
+    public void loescheDatenbank() {
+        benutzerList.clear();
+    }
 }

@@ -27,4 +27,9 @@ public class LiedPortStub implements LiedPort {
         lieder.add(lied);
         return lied.getId();
     }
+
+    @Override
+    public void löscheDatenbank() {
+        lieder.clear();
+    }
 }
