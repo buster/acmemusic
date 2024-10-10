@@ -4,8 +4,8 @@ import de.acme.musicplayer.application.domain.model.Benutzer;
 
 public interface BenutzerRegistrierenUsecase {
 
-    Benutzer.Id benutzerAnmelden(BenutzerAnmeldenCommand benutzerAnmeldenCommand);
+    Benutzer.Id registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand);
 
-    record BenutzerAnmeldenCommand(Benutzer.Name name, Benutzer.Passwort passwort, Benutzer.Email email) {
+    record BenutzerRegistrierenCommand(Benutzer.Name name, Benutzer.Passwort passwort, Benutzer.Email email) {
     }
 }
