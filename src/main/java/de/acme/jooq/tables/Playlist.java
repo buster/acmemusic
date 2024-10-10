@@ -24,24 +24,28 @@ import java.util.Collection;
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class Playlist extends TableImpl<PlaylistRecord> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The reference instance of <code>public.playlist</code>
      */
     public static final Playlist PLAYLIST = new Playlist();
-    private static final long serialVersionUID = 1L;
+    private transient PlaylistSongPath _playlistSong;
+
     /**
      * The column <code>public.playlist.id</code>.
      */
     public final TableField<PlaylistRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "");
+
     /**
      * The column <code>public.playlist.name</code>.
      */
     public final TableField<PlaylistRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "");
+
     /**
      * The column <code>public.playlist.besitzer</code>.
      */
     public final TableField<PlaylistRecord, String> BESITZER = createField(DSL.name("besitzer"), SQLDataType.VARCHAR, this, "");
-    private transient PlaylistSongPath _playlistSong;
 
     private Playlist(Name alias, Table<PlaylistRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -92,6 +96,37 @@ public class Playlist extends TableImpl<PlaylistRecord> {
     @Override
     public UniqueKey<PlaylistRecord> getPrimaryKey() {
         return Keys.PLAYLIST_PKEY;
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class PlaylistPath extends Playlist implements Path<PlaylistRecord> {
+
+        private static final long serialVersionUID = 1L;
+
+        public <O extends Record> PlaylistPath(Table<O> path, ForeignKey<O, PlaylistRecord> childPath, InverseForeignKey<O, PlaylistRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+
+        private PlaylistPath(Name alias, Table<PlaylistRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public PlaylistPath as(String alias) {
+            return new PlaylistPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public PlaylistPath as(Name alias) {
+            return new PlaylistPath(alias, this);
+        }
+
+        @Override
+        public PlaylistPath as(Table<?> alias) {
+            return new PlaylistPath(alias.getQualifiedName(), this);
+        }
     }
 
     /**
@@ -234,36 +269,5 @@ public class Playlist extends TableImpl<PlaylistRecord> {
     @Override
     public Playlist whereNotExists(Select<?> select) {
         return where(DSL.notExists(select));
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class PlaylistPath extends Playlist implements Path<PlaylistRecord> {
-
-        private static final long serialVersionUID = 1L;
-
-        public <O extends Record> PlaylistPath(Table<O> path, ForeignKey<O, PlaylistRecord> childPath, InverseForeignKey<O, PlaylistRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-
-        private PlaylistPath(Name alias, Table<PlaylistRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public PlaylistPath as(String alias) {
-            return new PlaylistPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public PlaylistPath as(Name alias) {
-            return new PlaylistPath(alias, this);
-        }
-
-        @Override
-        public PlaylistPath as(Table<?> alias) {
-            return new PlaylistPath(alias.getQualifiedName(), this);
-        }
     }
 }
