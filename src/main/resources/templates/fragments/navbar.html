@@ -3,25 +3,41 @@
 <head>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg" style="background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);"
+<nav class="navbar navbar-expand-lg"
+     style="background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);"
      th:fragment="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img alt="Logo" class="d-inline-block align-text-top" height="24" th:src="@{logo.svg}" width="24">
             ACME
         </a>
-        <button aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+        <button aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
                 data-bs-target="#navbar-collapse-1" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a aria-current="page" class="nav-link active" href="#">Docs</a>
+                    <a aria-current="page"
+                       class="nav-link "
+                       hx-get="fileUploadForm"
+                       hx-swap="innerHTML"
+                       hx-target="#content"
+                    >Upload</a>
                 </li>
+                <li class="nav-item">
+                <a aria-current="page"
+                   class="nav-link "
+                   hx-get="songlist"
+                   hx-swap="innerHTML"
+                   hx-target="#content"
+                   hx-include="#tenantId"
+                >Lieder</a>
+            </li>
                 <li class="nav-item dropdown">
                     <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                        role="button">
@@ -45,7 +61,8 @@
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
             <form>
-                <button class="btn btn-primary" id="open-register-modal-button" data-bs-target="#modal-dialog" data-bs-toggle="modal"
+                <button class="btn btn-primary" id="open-register-modal-button" data-bs-target="#modal-dialog"
+                        data-bs-toggle="modal"
                         hx-get="registration-form"
                         hx-target="#modal-content"
                         type="button">
