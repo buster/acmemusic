@@ -47,7 +47,7 @@ public class SongSteps {
     @Autowired
     private LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase;
     @Autowired
-    private LiederAuflistenUsecase liederAuflistenUseCase;
+    private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
     @Autowired
     private PlaylistAnlegenUsecase playlistAnlegenUsecase;
     @Autowired
@@ -150,7 +150,7 @@ public class SongSteps {
 
     @Dann("enthält die Playlist {string} von {string} {int} Lieder")
     public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
-        assertThat(liederAuflistenUseCase.liederInPlaylistAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
+        assertThat(liederInPlaylistAuflistenUseCase.liederInPlaylistAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
     }
 
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
