@@ -4,11 +4,11 @@ import de.acme.musicplayer.application.domain.model.Lied;
 
 public interface LiedPort {
 
-    Lied ladeLied(Lied.LiedId songId);
+    Lied ladeLied(Lied.Id songId);
 
     long zähleLieder();
 
-    Lied.LiedId fügeLiedHinzu(Lied lied);
+    Lied.Id fügeLiedHinzu(Lied lied);
 
     void löscheDatenbank();
 }
