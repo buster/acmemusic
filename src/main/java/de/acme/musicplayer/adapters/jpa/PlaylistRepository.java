@@ -18,6 +18,6 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public Playlist lade(String benutzername, String playlistName) {
-        return null;
+        return playlistJpaRepository.findById(new PlaylistJpaEntity.PlaylistId(benutzername, playlistName)).get().toPlaylistEntity();
     }
 }
