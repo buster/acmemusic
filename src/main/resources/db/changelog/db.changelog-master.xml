@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="sebastian">
+        <createTable tableName="song">
+            <column name="id" type="varchar">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="titel" type="varchar"/>
+        </createTable>
+        <createTable tableName="playlist">
+            <column name="id" type="varchar">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar"/>
+            <column name="besitzer" type="varchar"/>
+        </createTable>
+        <createTable tableName="playlist_song">
+            <column name="song_id" type="varchar">
+                <constraints nullable="false" foreignKeyName="fk_song_id" references="song(id)"/>
+            </column>
+            <column name="playlist_id" type="varchar">
+                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(id)"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="playlist_song" columnNames="song_id, playlist_id" constraintName="pk_playlist_song"/>
+    </changeSet>
+</databaseChangeLog>
