@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg" style="background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);"
+     th:fragment="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img alt="Logo" class="d-inline-block align-text-top" height="24" src="..." width="24">
+            Builder
+        </a>
+        <button aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbar-collapse-1" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">Docs</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       role="button">
+                        Product
+                    </a>
+                    <ul class="dropdown-menu mt-lg-2 rounded-top-0">
+                        <li><a class="dropdown-item" href="#">Page builder</a></li>
+                        <li><a class="dropdown-item" href="#">Form builder</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Plan and pricing</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Blog</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input aria-label="Search" class="form-control me-2" placeholder="Search docs" type="search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+            <form>
+                <button class="btn btn-primary" data-bs-target="#example-modal-1" data-bs-toggle="modal" hx-get="register"
+                        hx-target="#modal-content"
+                        type="button">
+                    Register
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
