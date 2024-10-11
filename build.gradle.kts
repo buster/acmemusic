@@ -108,5 +108,5 @@ jooq {
     }
 }
 
-tasks.get("jooqCodegen").dependsOn("update")
+tasks.get("jooqCodegen").dependsOn("dropAll", "update")
 tasks.get("update").dependsOn("startPostgres")

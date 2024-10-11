@@ -6,7 +6,7 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 
 public interface PlaylistPort {
 
-    void addSongToPlaylist(Lied.Id liedId, Playlist.Id playlistId);
+    void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId);
 
     Playlist lade(Benutzer.Id benutzername, Playlist.Name name);
 

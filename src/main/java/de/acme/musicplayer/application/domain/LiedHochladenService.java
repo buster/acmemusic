@@ -2,9 +2,9 @@ package de.acme.musicplayer.application.domain;
 
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
-import de.acme.musicplayer.application.usecases.LiedHochladenUseCase;
+import de.acme.musicplayer.application.usecases.LiedHochladenUsecase;
 
-public class LiedHochladenService implements LiedHochladenUseCase {
+public class LiedHochladenService implements LiedHochladenUsecase {
 
     private final LiedPort liedPort;
 
