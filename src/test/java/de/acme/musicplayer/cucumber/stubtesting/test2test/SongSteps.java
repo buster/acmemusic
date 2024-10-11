@@ -8,6 +8,11 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.de.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,16 +50,14 @@ public class SongSteps {
     }
 
     @Gegebenseien("folgende Songs:")
-    public void folgendeSongs(DataTable dataTable) {
-        dataTable.asMaps()
-                .forEach(song ->
-                        {
-                            String titel = song.get("Titel");
-                            Lied.Id id = liedHochladenUseCase.liedHochladen(titel);
-                            titelToIdMap.put(titel, id);
-                        }
-                );
-
+    public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
+        for (Map<String, String> song : dataTable.asMaps()) {
+            String titel = song.get("Titel");
+            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
+                Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream);
+                titelToIdMap.put(titel, id);
+            }
+        }
     }
 
     @Und("folgende Benutzer:")

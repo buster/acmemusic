@@ -46,6 +46,20 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
         return (String) get(1);
     }
 
+    /**
+     * Setter for <code>public.lied.bytes</code>.
+     */
+    public void setBytes(byte[] value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>public.lied.bytes</code>.
+     */
+    public byte[] getBytes() {
+        return (byte[]) get(2);
+    }
+
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -69,11 +83,12 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     /**
      * Create a detached, initialised LiedRecord
      */
-    public LiedRecord(String id, String titel) {
+    public LiedRecord(String id, String titel, byte[] bytes) {
         super(Lied.LIED);
 
         setId(id);
         setTitel(titel);
+        setBytes(bytes);
         resetChangedOnNotNull();
     }
 }
