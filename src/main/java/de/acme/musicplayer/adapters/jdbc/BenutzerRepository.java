@@ -4,9 +4,11 @@ import de.acme.jooq.Tables;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import org.jooq.DSLContext;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class BenutzerRepository implements BenutzerPort {
 
     private final DSLContext dslContext;
