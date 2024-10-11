@@ -3,6 +3,7 @@ package de.acme.musicplayer.cucumber.stubtesting;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,5 +36,10 @@ public class LiedPortStub implements LiedPort {
     @Override
     public void löscheDatenbank() {
         lieder.clear();
+    }
+
+    @Override
+    public InputStream ladeLiedStream(Lied.Id liedId) {
+        return new ByteArrayInputStream(bytestreams.get(Integer.parseInt(liedId.id())));
     }
 }

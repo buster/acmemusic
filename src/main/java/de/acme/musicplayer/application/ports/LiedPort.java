@@ -14,4 +14,6 @@ public interface LiedPort {
     Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException;
 
     void löscheDatenbank();
+
+    InputStream ladeLiedStream(Lied.Id liedId);
 }
