@@ -5,6 +5,7 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import org.jooq.DSLContext;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -45,5 +46,14 @@ public class LiedRepository implements LiedPort {
     @Override
     public void löscheDatenbank() {
         dslContext.truncate(LIED).cascade().execute();
+    }
+
+    @Override
+    public InputStream ladeLiedStream(Lied.Id liedId) {
+        return new ByteArrayInputStream(dslContext.select(LIED.BYTES)
+                .from(LIED)
+                .where(LIED.ID.eq(liedId.id()))
+                .fetchOne()
+                .value1());
     }
 }
