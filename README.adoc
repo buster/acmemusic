@@ -9,7 +9,8 @@ Marks: ❓ ❌  ✅
 
 Features:
 
-. MP3 abspielen [❓]
+. MP3 abspielen ✅
+. Registrieren ✅
 . Login [❓]
 . Testdaten Spike [❓]
 . Modulith [❓]
