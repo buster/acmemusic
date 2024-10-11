@@ -1,5 +1,6 @@
 plugins {
     java
+    idea
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jooq.jooq-codegen-gradle") version "3.19.13"
@@ -12,6 +13,19 @@ version = "0.0.1-SNAPSHOT"
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+    sourceSets.main {
+        java.srcDir("src/generated/java")
+    }
+}
+
+idea {
+    module {
+//         Not using += due to https://github.com/gradle/gradle/issues/8749
+//        sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // or tasks["kspKotlin"].destination
+//        testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
+        generatedSourceDirs =
+            generatedSourceDirs + file("src/generated/java")
     }
 }
 
@@ -101,7 +115,8 @@ jooq {
             generate { }
             target {
                 packageName = "de.acme.jooq"
-                directory = "src/main/java"
+                directory = "src/generated/java"
+
             }
         }
 
