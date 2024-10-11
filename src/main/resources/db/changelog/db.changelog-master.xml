@@ -7,13 +7,13 @@
     <changeSet id="1" author="sebastian">
         <createTable tableName="lied">
             <column name="id" type="varchar">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" unique="true" nullable="false"/>
             </column>
             <column name="titel" type="varchar"/>
         </createTable>
         <createTable tableName="playlist">
             <column name="id" type="varchar">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" unique="true" nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="besitzer" type="varchar"/>
@@ -31,11 +31,16 @@
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">
             <column name="id" type="varchar">
-                <constraints primaryKey="true"/>
+                <constraints primaryKey="true" unique="true" nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="email" type="varchar"/>
             <column name="passwort" type="varchar"/>
         </createTable>
+        <addForeignKeyConstraint baseTableName="playlist" baseColumnNames="besitzer"
+                                 constraintName="playlist_besitzer_fk"
+                                 referencedTableName="benutzer"
+                                 referencedColumnNames="id"
+                                 deleteCascade="false" referencesUniqueColumn="true"/>
     </changeSet>
 </databaseChangeLog>
