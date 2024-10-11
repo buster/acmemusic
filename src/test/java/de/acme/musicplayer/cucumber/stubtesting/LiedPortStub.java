@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LiedPortStub implements LiedPort {
 
-    private final List<Lied> lieder = new ArrayList<Lied>();
+    private final List<Lied> lieder = new ArrayList<>();
 
     @Override
     public Lied ladeLied(Lied.LiedId songId) {
