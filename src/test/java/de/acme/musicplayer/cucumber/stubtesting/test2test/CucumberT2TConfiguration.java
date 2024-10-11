@@ -47,7 +47,7 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedAbspielenUseCase playSongUseCase(LiedPort liedPort) {
+        public LiedAbspielenUsecase playSongUseCase(LiedPort liedPort) {
             return new LiedAbspielenService(liedPort);
         }
 
@@ -67,12 +67,12 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
+        public LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
             return new LiedZuPlaylistHinzufügenService(playlistPort);
         }
 
         @Bean
-        public LiedHochladenUseCase liedHochladenUseCase(LiedPort liedPort) {
+        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort) {
             return new LiedHochladenService(liedPort);
         }
 

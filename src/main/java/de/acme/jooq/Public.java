@@ -5,9 +5,9 @@ package de.acme.jooq;
 
 
 import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.Lied;
 import de.acme.jooq.tables.Playlist;
-import de.acme.jooq.tables.PlaylistSong;
-import de.acme.jooq.tables.Song;
+import de.acme.jooq.tables.PlaylistLied;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
@@ -35,19 +35,19 @@ public class Public extends SchemaImpl {
     public final Benutzer BENUTZER = Benutzer.BENUTZER;
 
     /**
+     * The table <code>public.lied</code>.
+     */
+    public final Lied LIED = Lied.LIED;
+
+    /**
      * The table <code>public.playlist</code>.
      */
     public final Playlist PLAYLIST = Playlist.PLAYLIST;
 
     /**
-     * The table <code>public.playlist_song</code>.
+     * The table <code>public.playlist_lied</code>.
      */
-    public final PlaylistSong PLAYLIST_SONG = PlaylistSong.PLAYLIST_SONG;
-
-    /**
-     * The table <code>public.song</code>.
-     */
-    public final Song SONG = Song.SONG;
+    public final PlaylistLied PLAYLIST_LIED = PlaylistLied.PLAYLIST_LIED;
 
     /**
      * No further instances allowed
@@ -66,9 +66,9 @@ public class Public extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
                 Benutzer.BENUTZER,
+                Lied.LIED,
                 Playlist.PLAYLIST,
-                PlaylistSong.PLAYLIST_SONG,
-                Song.SONG
+                PlaylistLied.PLAYLIST_LIED
         );
     }
 }

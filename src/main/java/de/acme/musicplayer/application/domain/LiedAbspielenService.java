@@ -2,9 +2,9 @@ package de.acme.musicplayer.application.domain;
 
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
-import de.acme.musicplayer.application.usecases.LiedAbspielenUseCase;
+import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
 
-public class LiedAbspielenService implements LiedAbspielenUseCase {
+public class LiedAbspielenService implements LiedAbspielenUsecase {
 
     private final LiedPort liedPort;
 
@@ -13,7 +13,7 @@ public class LiedAbspielenService implements LiedAbspielenUseCase {
     }
 
     @Override
-    public void playSong(Lied.Id songId) {
-        liedPort.ladeLied(songId);
+    public void spieleLiedAb(Lied.Id liedId) {
+        liedPort.ladeLied(liedId);
     }
 }
