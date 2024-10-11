@@ -19,11 +19,11 @@ public class SongRepository implements LiedPort {
     }
 
     @Override
-    public Lied ladeLied(Lied.LiedId songId) {
+    public Lied ladeLied(Lied.Id songId) {
         SongRecord songRecord = dslContext.selectFrom(SONG)
                 .where(SONG.ID.eq(songId.id()))
                 .fetchOne();
-        return new Lied(new Lied.LiedId(songRecord.getId()), new Lied.Titel(songRecord.getTitel()));
+        return new Lied(new Lied.Id(songRecord.getId()), new Lied.Titel(songRecord.getTitel()));
     }
 
     @Override
@@ -32,11 +32,11 @@ public class SongRepository implements LiedPort {
     }
 
     @Override
-    public Lied.LiedId fügeLiedHinzu(Lied lied) {
+    public Lied.Id fügeLiedHinzu(Lied lied) {
         String liedId = UUID.randomUUID().toString();
         dslContext.insertInto(Tables.SONG, SONG.ID, SONG.TITEL)
                 .values(liedId, lied.getTitel()).execute();
-        return new Lied.LiedId(liedId);
+        return new Lied.Id(liedId);
 
     }
 

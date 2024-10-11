@@ -12,6 +12,6 @@ public class PlaySongController {
 
     @PostMapping
     public void playSong(String id) {
-        liedAbspielenUseCase.playSong(new Lied.LiedId(id));
+        liedAbspielenUseCase.playSong(new Lied.Id(id));
     }
 }
