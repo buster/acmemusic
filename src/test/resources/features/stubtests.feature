@@ -14,7 +14,7 @@ Funktionalität:
 
   @T2T
   @T2R
-  Szenario: Song hinzufügen
+  Szenario: Song hinzufügen, Playlist erstellen, Song hinzufügen und Playlist abspielen
     Gegeben sei eine leere Datenbank
     Und folgende Songs:
       | Titel          | Dateiname                    |
@@ -28,6 +28,19 @@ Funktionalität:
     Und der Benutzer 'Alice' das Lied 'Breaking Rules' zur Playlist 'Favoriten' hinzufügt
 #    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
+
+  @T2T
+  @T2R
+  Szenario: Song abspielen
+    Gegeben sei eine leere Datenbank
+    Und folgende Songs:
+      | Titel     | Dateiname                    |
+      | Epic Song | BoxCat Games - Epic Song.mp3 |
+    Und folgende Benutzer:
+      | Name  | Passwort | Email             |
+      | Alice | abc      | bla@localhost.com |
+    Wenn der Benutzer 'Alice' das Lied 'Epic Song' abspielt
+    Dann erhält der Benutzer den Song 'Epic Song' mit mehr als 1000000 Byte Größe
 
   @T2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
