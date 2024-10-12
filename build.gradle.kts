@@ -9,7 +9,6 @@ plugins {
 
 group = "de.acme"
 version = "0.0.1-SNAPSHOT"
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -21,9 +20,6 @@ java {
 
 idea {
     module {
-//         Not using += due to https://github.com/gradle/gradle/issues/8749
-//        sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // or tasks["kspKotlin"].destination
-//        testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
         generatedSourceDirs =
             generatedSourceDirs + file("src/generated/java")
     }
@@ -33,6 +29,10 @@ repositories {
     mavenCentral()
 }
 
+val mockitoVersion = "5.14.1"
+val cucumberVersion = "7.19.0"
+extra["mockito.version"] = "$mockitoVersion"
+extra["byte-buddy.version"] = "1.15.3"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -40,6 +40,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("io.github.wimdeblauwe:htmx-spring-boot:3.5.0")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-jooq")
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
+//    implementation("org.springframework.boot:spring-boot-starter-security")
+//    implementation("org.springframework.session:spring-session-jdbc")
+//    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+//    testImplementation("org.springframework.security:spring-security-test")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-docker-compose")
     implementation("org.postgresql:postgresql:42.7.3")
@@ -47,14 +55,15 @@ dependencies {
 
     // Testing
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("io.cucumber:cucumber-java:7.18.1")
-    testImplementation("io.cucumber:cucumber-junit:7.18.1")
-    testImplementation("io.cucumber:cucumber-spring:7.18.1")
-    testImplementation("io.cucumber:cucumber-junit-platform-engine:7.18.1")
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-junit:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-spring:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:$cucumberVersion")
     testImplementation("org.junit.platform:junit-platform-suite")
+    testImplementation("org.mockito:mockito-junit-jupiter:$mockitoVersion")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
     testImplementation("org.assertj:assertj-core:3.26.3")
     testImplementation("com.microsoft.playwright:playwright:1.47.0")
-
     // Jooq
     implementation("org.jooq:jooq")
     jooqCodegen("org.postgresql:postgresql:42.7.3")
@@ -68,10 +77,17 @@ dependencies {
     // Extra
     implementation("org.projectlombok:lombok")
     implementation("com.google.guava:guava:33.3.1-jre")
+
+    // Web
+    runtimeOnly("org.webjars.npm:htmx.org:2.0.2")
 }
 
 tasks.withType<Test> {
-    jvmArgs("-noverify", "-XX:+EnableDynamicAgentLoading", "-Djdk.instrument.traceUsage")
+    jvmArgs(
+//        "-noverify",
+        "-XX:+EnableDynamicAgentLoading",
+        "-Djdk.instrument.traceUsage",
+    )
     systemProperty("cucumber.junit-platform.naming-strategy", "long")
     useJUnitPlatform()
 }

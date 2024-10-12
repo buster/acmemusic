@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.real2real.real2real;
+package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;

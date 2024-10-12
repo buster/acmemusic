@@ -7,9 +7,11 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import org.jooq.DSLContext;
+import org.springframework.stereotype.Component;
 
 import static de.acme.jooq.tables.Playlist.PLAYLIST;
 
+@Component
 public class PlaylistRepository implements PlaylistPort {
 
     private final DSLContext dslContext;
