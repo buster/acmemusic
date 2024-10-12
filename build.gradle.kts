@@ -53,6 +53,7 @@ dependencies {
     testImplementation("io.cucumber:cucumber-junit-platform-engine:7.18.1")
     testImplementation("org.junit.platform:junit-platform-suite")
     testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("com.microsoft.playwright:playwright:1.47.0")
 
     // Jooq
     implementation("org.jooq:jooq")
