@@ -29,4 +29,10 @@ public class LiedAbspielenController {
         model.addAttribute("greeting", "Hello World!");
         return "index.html";
     }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute("greeting", "Hello World!");
+        return "register.html";
+    }
 }
