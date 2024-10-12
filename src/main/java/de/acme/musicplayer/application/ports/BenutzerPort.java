@@ -8,6 +8,4 @@ public interface BenutzerPort {
     long zaehleBenutzer();
 
     void loescheDatenbank();
-
-    void löscheBenutzer(Benutzer.Id id);
 }

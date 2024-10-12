@@ -1,9 +1,7 @@
 package de.acme.musicplayer.application.domain;
 
-import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.PlaylistAdministrationUsecase;
-import org.springframework.transaction.annotation.Transactional;
 
 public class PlaylistAdministrationService implements PlaylistAdministrationUsecase {
 
@@ -16,11 +14,5 @@ public class PlaylistAdministrationService implements PlaylistAdministrationUsec
     @Override
     public void löscheDatenbank() {
         playlistPort.löscheDatenbank();
-    }
-
-    @Override
-    @Transactional
-    public void löschePlaylist(Playlist.Id id) {
-        playlistPort.löschePlaylist(id);
     }
 }

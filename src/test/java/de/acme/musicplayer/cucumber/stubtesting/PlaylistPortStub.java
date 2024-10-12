@@ -49,9 +49,4 @@ public class PlaylistPortStub implements PlaylistPort {
     public void löscheDatenbank() {
         playlists.clear();
     }
-
-    @Override
-    public void löschePlaylist(Playlist.Id id) {
-        playlists.remove(id);
-    }
 }
