@@ -41,12 +41,15 @@ public class SongSteps {
 
     @Autowired
     private PlaylistAdministrationUsecase playlistAdministrationUsecase;
+    @Autowired
+    private LiedAbspielenUsecase liedAbspielenUsecase;
+    private long lastReadSongSize;
 
     @Gegebensei("eine leere Datenbank")
     public void gegebenSeiEineLeereDatenbank() {
         benutzerAdministrationUsecase.löscheDatenbank();
-        playlistAdministrationUsecase.löscheDatenbank();
         liedAdministrationUsecase.löscheDatenbank();
+        playlistAdministrationUsecase.löscheDatenbank();
     }
 
     @Gegebenseien("folgende Songs:")
@@ -109,5 +112,16 @@ public class SongSteps {
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
         Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName));
         playlistToIdMap.put(playlistName, id);
+    }
+
+    @Wenn("der Benutzer {string} das Lied {string} abspielt")
+    public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
+        InputStream inputStream = liedAbspielenUsecase.liedStreamen(benutzerToIdMap.get(benutzer), titelToIdMap.get(lied));
+        lastReadSongSize = inputStream.readAllBytes().length;
+    }
+
+    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Byte Größe")
+    public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
+        assertThat(lastReadSongSize).isGreaterThan(size);
     }
 }
