@@ -13,7 +13,7 @@ public class BenutzerRegistrierenService implements BenutzerRegistrierenUsecase 
     }
 
     @Override
-    public void benutzerAnmelden(String benutzername, String passwort, String email) {
-        benutzerPort.benutzerHinzufügen(new Benutzer(benutzername, passwort, email));
+    public void benutzerAnmelden(BenutzerAnmeldenCommand benutzerAnmeldenCommand) {
+        benutzerPort.benutzerHinzufügen(new Benutzer(benutzerAnmeldenCommand.name(), benutzerAnmeldenCommand.passwort(), benutzerAnmeldenCommand.email()));
     }
 }

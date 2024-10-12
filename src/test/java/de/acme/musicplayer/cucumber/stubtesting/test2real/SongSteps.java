@@ -1,6 +1,7 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
 import de.acme.jooq.Tables;
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
@@ -60,7 +61,7 @@ public class SongSteps {
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps()
                 .forEach(benutzer ->
-                        benutzerRegistrierenUsecase.benutzerAnmelden(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"))
+                        benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))))
                 );
     }
 
@@ -74,7 +75,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        benutzerRegistrierenUsecase.benutzerAnmelden(username, password, email);
+        benutzerRegistrierenUsecase.benutzerAnmelden(new BenutzerRegistrierenUsecase.BenutzerAnmeldenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
     }
 
     @Gegebenseien("leere Datenbanken")
