@@ -6,5 +6,5 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.domain.model.TenantId;
 
 public interface LiedZuPlaylistHinzufügenUsecase {
-    void liedHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId);
+    void liedZuPlaylistHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId);
 }

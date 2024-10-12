@@ -18,9 +18,10 @@ public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufüg
 
     @Override
     @Transactional
-    public void liedHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
+    public void liedZuPlaylistHinzufügen(Benutzer.Id benutzerId, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
         Playlist playlist = playlistPort.lade(playlistId, tenantId);
-        playlistPort.fügeLiedHinzu(liedId, playlist.getId(), tenantId);
+        playlist.liedHinzufügen(liedId, benutzerId);
+        playlistPort.speichere(playlist, tenantId);
     }
 
 }

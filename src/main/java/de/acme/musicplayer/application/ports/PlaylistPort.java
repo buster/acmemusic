@@ -7,8 +7,6 @@ import de.acme.musicplayer.application.domain.model.TenantId;
 
 public interface PlaylistPort {
 
-    void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId);
-
     Playlist lade(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId);
 
     Playlist lade(Playlist.Id playlistId, TenantId tenantId);
@@ -16,4 +14,6 @@ public interface PlaylistPort {
     Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId);
 
     void löscheDatenbank(TenantId tenantId);
+
+    void speichere(Playlist playlist, TenantId tenantId);
 }
