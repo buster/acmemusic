@@ -35,9 +35,4 @@ public class BenutzerRepository implements BenutzerPort {
     public void loescheDatenbank() {
         dslContext.truncate(Tables.BENUTZER).cascade().execute();
     }
-
-    @Override
-    public void löscheBenutzer(Benutzer.Id id) {
-        dslContext.deleteFrom(Tables.BENUTZER).where(Tables.BENUTZER.ID.eq(id.Id())).execute();
-    }
 }

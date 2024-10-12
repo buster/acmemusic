@@ -16,6 +16,4 @@ public interface LiedPort {
     void löscheDatenbank();
 
     InputStream ladeLiedStream(Lied.Id liedId);
-
-    void löscheLied(Lied.Id id);
 }
