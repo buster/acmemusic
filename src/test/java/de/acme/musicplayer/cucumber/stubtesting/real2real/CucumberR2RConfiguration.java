@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.test2real;
+package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
 import de.acme.musicplayer.adapters.jdbc.BenutzerRepository;
 import de.acme.musicplayer.adapters.jdbc.LiedRepository;
@@ -14,9 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 
 @CucumberContextConfiguration
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-public class CucumberT2RConfiguration {
+public class CucumberR2RConfiguration {
+
 
     @TestConfiguration
     public static class T2RConfiguration {
@@ -38,5 +39,6 @@ public class CucumberT2RConfiguration {
         }
 
         // END: Adapter
+
     }
 }

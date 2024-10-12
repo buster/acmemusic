@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ACME Music Player</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <!--    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet" />-->
+    <!--    <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}" defer></script>-->
+    <script defer th:src="@{/webjars/htmx.org/1.9.6/dist/htmx.min.js}"></script>
+</head>
+<body>
+<main class="my-5">
+    <div class="container">
+        <h1 class="mb-4" th:text="#{home.index.headline}"/>
+        <p class="mb-5 js-greeting" th:text="${greeting}"/>
+    </div>
+</main>
+</body>
+</html>
