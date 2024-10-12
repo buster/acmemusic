@@ -35,10 +35,8 @@ public class SongSteps {
     private LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase;
     @Autowired
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
-
     @Autowired
     private PlaylistAnlegenUsecase playlistAnlegenUsecase;
-
     @Autowired
     private PlaylistAdministrationUsecase playlistAdministrationUsecase;
     @Autowired
@@ -65,13 +63,10 @@ public class SongSteps {
 
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
-        dataTable.asMaps()
-                .forEach(benutzer ->
-                        {
-                            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
-                            benutzerToIdMap.put(benutzer.get("Name"), id);
-                        }
-                );
+        dataTable.asMaps().forEach(benutzer -> {
+            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
+            benutzerToIdMap.put(benutzer.get("Name"), id);
+        });
     }
 
     @Wenn("der Benutzer {string} den Lied {string} zu einer Playlist {string} hinzufügt")
