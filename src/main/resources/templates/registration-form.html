@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="modal-title-1">Modal title</h1>
+    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+    This is the modal body which can contain all types of custom content, such as forms, tooltips, popovers,
+    grids, etc.
+    <!-- Sign in form -->
+    <form id="registration-form">
+        <div class="mb-3">
+            <label class="form-label" for="email">Username</label>
+            <input class="form-control" id="username" name="username" placeholder="Username" required type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-control" id="email" name="email" placeholder="Email address" required type="email">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" placeholder="Password" required type="password">
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="form-check mb-0">
+                <input class="form-check-input" id="remember" name="remember-me-checkbox" type="checkbox" value="">
+                <label class="form-check-label" for="remember">Remember me</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+            <button class="btn btn-primary ms-auto" data-bs-dismiss="modal" hx-include="#registration-form" hx-post="register-user"
+                    type="submit">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
+
+
+

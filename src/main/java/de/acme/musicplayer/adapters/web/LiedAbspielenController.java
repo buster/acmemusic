@@ -3,6 +3,7 @@ package de.acme.musicplayer.adapters.web;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +31,10 @@ public class LiedAbspielenController {
         return "index.html";
     }
 
-    @GetMapping("/register")
+    @HxRequest
+    @GetMapping("/registration-form")
     public String register(Model model) {
         model.addAttribute("greeting", "Hello World!");
-        return "register.html";
+        return "registration-form.html";
     }
 }
