@@ -1,9 +1,7 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2real;
 
-import de.acme.musicplayer.adapters.jpa.PlaylistJpaRepository;
-import de.acme.musicplayer.adapters.jpa.PlaylistRepository;
-import de.acme.musicplayer.adapters.jpa.SongJpaRepository;
-import de.acme.musicplayer.adapters.jpa.SongRepository;
+import de.acme.musicplayer.adapters.jdbc.PlaylistRepository;
+import de.acme.musicplayer.adapters.jdbc.SongRepository;
 import de.acme.musicplayer.application.domain.*;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -20,8 +18,8 @@ public class T2RConfiguration {
 
     // BEGIN: Adapter
     @Bean
-    public PlaylistPort playlistPort(PlaylistJpaRepository playlistJpaRepository, DSLContext dslContext) {
-        return new PlaylistRepository(playlistJpaRepository, dslContext);
+    public PlaylistPort playlistPort(DSLContext dslContext) {
+        return new PlaylistRepository(dslContext);
     }
 
     @Bean
@@ -30,8 +28,8 @@ public class T2RConfiguration {
     }
 
     @Bean
-    public LiedPort liedPort(SongJpaRepository songJpaRepository, DSLContext dslContext) {
-        return new SongRepository(songJpaRepository, dslContext);
+    public LiedPort liedPort(DSLContext dslContext) {
+        return new SongRepository(dslContext);
     }
 
     // END: Adapter

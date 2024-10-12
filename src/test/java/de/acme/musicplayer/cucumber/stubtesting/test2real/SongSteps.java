@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//TODO: SongSteps dürfen nicht abstrakt sein. Der Glue muss aber die Steps enthalten, also sind die Steps je Glue kopiert
 public class SongSteps {
 
     private final Map<String, Lied.LiedId> titelToIdMap = new HashMap<>();
