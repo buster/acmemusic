@@ -10,6 +10,7 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
 import static de.acme.jooq.tables.Playlist.PLAYLIST;
+import static de.acme.jooq.tables.PlaylistLied.PLAYLIST_LIED;
 
 @Component
 public class PlaylistRepository implements PlaylistPort {
@@ -60,6 +61,12 @@ public class PlaylistRepository implements PlaylistPort {
     @Override
     public void löscheDatenbank() {
         dslContext.truncate(Tables.PLAYLIST, Tables.PLAYLIST_LIED).cascade().execute();
+    }
+
+    @Override
+    public void löschePlaylist(Playlist.Id id) {
+        dslContext.deleteFrom(Tables.PLAYLIST_LIED).where(PLAYLIST_LIED.PLAYLIST_ID.eq(id.id())).execute();
+        dslContext.deleteFrom(Tables.PLAYLIST).where(PLAYLIST.ID.eq(id.id())).execute();
     }
 
     private PlaylistRecord fetchPlaylist(Playlist.Id id) {
