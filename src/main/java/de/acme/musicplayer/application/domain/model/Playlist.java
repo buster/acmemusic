@@ -10,12 +10,10 @@ public class Playlist {
     private final String name;
     private PlaylistId id;
     private List<Lied.LiedId> lieder = new ArrayList<>();
-    private String besitzer;
 
     public Playlist(String benutzername, String playlistName) {
-        this.besitzer = benutzername;
         this.name = playlistName;
-        this.id = new PlaylistId(String.format("%s-%s", benutzername, playlistName));
+        this.id = new PlaylistId(benutzername, playlistName);
     }
 
     public Playlist(String name, List<Lied.LiedId> lieder) {
