@@ -5,6 +5,7 @@ import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -37,6 +38,6 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public void loescheDatenbank(TenantId tenantId) {
-        dslContext.truncate(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value()))).cascade().execute();
+        dslContext.deleteFrom(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value()))).execute();
     }
 }

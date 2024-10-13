@@ -14,7 +14,12 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
-import io.cucumber.java.de.*;
+import io.cucumber.java.de.Dann;
+import io.cucumber.java.de.Gegebenseien;
+import io.cucumber.java.de.Und;
+import io.cucumber.java.de.Wenn;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -29,6 +34,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class SongSteps {
 
     private static Browser browser;
@@ -61,12 +67,6 @@ public class SongSteps {
     @LocalServerPort
     private int port;
 
-    @Before
-    public void generateTenantId() {
-        tenantId = new TenantId(UUID.randomUUID().toString());
-    }
-
-
     @BeforeAll
     public static void setupPlaywright() {
         playwright = Playwright.create();
@@ -82,6 +82,12 @@ public class SongSteps {
     }
 
     @Before
+    public void generateTenantId() {
+        tenantId = new TenantId(UUID.randomUUID().toString());
+        MDC.put("tenantId", tenantId.value());
+        log.info("TenantId: {}", tenantId);
+    }
+    @Before
     public void setupBrowserContext() {
         browserContext = browser.newContext();
 //         Start tracing before creating / navigating a page.
@@ -92,13 +98,18 @@ public class SongSteps {
     }
 
     @After
+    public void cleanDatabaseAfterScenario() {
+        playlistAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        MDC.remove("tenantId");
+    }
+
+    @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
     public void gegebenSeiEineLeereDatenbank() {
         Page page = browserContext.browser().newPage();
         page.navigate(String.format("http://localhost:%s", port));
         com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat(page).hasTitle("ACME Music Player");
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
-        liedAdministrationUsecase.löscheDatenbank(tenantId);
-        playlistAdministrationUsecase.löscheDatenbank(tenantId);
     }
 
     @Gegebenseien("folgende Songs:")

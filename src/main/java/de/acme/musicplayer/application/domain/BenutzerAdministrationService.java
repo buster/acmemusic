@@ -3,6 +3,7 @@ package de.acme.musicplayer.application.domain;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.application.domain.model.TenantId;
+import org.springframework.transaction.annotation.Transactional;
 
 public class BenutzerAdministrationService implements BenutzerAdministrationUsecase {
 
@@ -18,6 +19,7 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     }
 
     @Override
+    @Transactional
     public void löscheDatenbank(TenantId tenantId) {
         benutzerPort.loescheDatenbank(tenantId);
     }
