@@ -47,7 +47,7 @@ public class LiedRepository implements LiedPort {
 
     @Override
     public void löscheDatenbank(TenantId tenantId) {
-        dslContext.truncate(LIED.where(LIED.TENANT.eq(tenantId.value()))).cascade().execute();
+        dslContext.deleteFrom(LIED.where(LIED.TENANT.eq(tenantId.value()))).execute();
     }
 
     @Override
