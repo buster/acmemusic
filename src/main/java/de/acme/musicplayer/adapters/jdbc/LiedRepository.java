@@ -39,8 +39,7 @@ public class LiedRepository implements LiedPort {
     public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         String liedId = UUID.randomUUID().toString();
         dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES)
-                .values(liedId, lied.getTitel(), inputStream.readAllBytes())
-                .execute();
+                .values(liedId, lied.getTitel(), inputStream.readAllBytes()).execute();
         return new Lied.Id(liedId);
 
     }
@@ -57,10 +56,5 @@ public class LiedRepository implements LiedPort {
                 .where(LIED.ID.eq(liedId.id()))
                 .fetchOne()
                 .value1());
-    }
-
-    @Override
-    public void löscheLied(Lied.Id id) {
-        dslContext.deleteFrom(LIED).where(LIED.ID.eq(id.id())).execute();
     }
 }

@@ -1,6 +1,5 @@
 package de.acme.musicplayer.application.domain;
 
-import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedAdministrationUsecase;
 
@@ -21,10 +20,4 @@ public class LiedAdministrationService implements LiedAdministrationUsecase {
     public void löscheDatenbank() {
         liedPort.löscheDatenbank();
     }
-
-    @Override
-    public void löscheLied(Lied.Id id) {
-        liedPort.löscheLied(id);
-    }
-
 }
