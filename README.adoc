@@ -1,0 +1,4 @@
+= Getting Started
+
+PoC für Stubtesting mit Cucumber, Pact.
+Stubs im Test, Prod DB in Prod.
