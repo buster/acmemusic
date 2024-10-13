@@ -11,9 +11,9 @@ public class LiedPortStub implements LiedPort {
     private final List<Lied> lieder = new ArrayList<Lied>();
 
     @Override
-    public Lied ladeLied(String songId) {
+    public Lied ladeLied(Lied.LiedId songId) {
         System.out.println("Load Lied Port Stub!");
-        return lieder.get(Integer.parseInt(songId));
+        return lieder.get(Integer.parseInt(songId.id()));
     }
 
     @Override
