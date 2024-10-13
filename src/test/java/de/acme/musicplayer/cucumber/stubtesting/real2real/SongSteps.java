@@ -10,6 +10,7 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
@@ -90,7 +91,7 @@ public class SongSteps {
 //                .setSources(true));
     }
 
-    @Gegebensei("eine leere Datenbank")
+    @After
     public void gegebenSeiEineLeereDatenbank() {
         Page page = browserContext.browser().newPage();
         page.navigate(String.format("http://localhost:%s", port));

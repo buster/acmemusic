@@ -6,6 +6,7 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.de.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class SongSteps {
         tenantId = new TenantId(UUID.randomUUID().toString());
     }
 
-    @Gegebensei("eine leere Datenbank")
+    @After
     public void gegebenSeiEineLeereDatenbank() {
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);

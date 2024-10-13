@@ -6,7 +6,7 @@ Funktionalität:
   @T2R
   @R2R
   Szenario: Registrierung
-    Gegeben sei eine leere Datenbank
+#    Gegeben sei eine leere Datenbank
     Und folgende Benutzer:
       | Name | Passwort | Email          |
       | John | abc      | john@localhost |
@@ -16,7 +16,7 @@ Funktionalität:
   @T2T
   @T2R
   Szenario: Song hinzufügen, Playlist erstellen, Song hinzufügen und Playlist abspielen
-    Gegeben sei eine leere Datenbank
+#    Gegeben sei eine leere Datenbank
     Und folgende Songs:
       | Titel          | Dateiname                    |
       | Epic Song      | BoxCat Games - Epic Song.mp3 |
@@ -33,7 +33,7 @@ Funktionalität:
   @T2T
   @T2R
   Szenario: Song abspielen
-    Gegeben sei eine leere Datenbank
+#    Gegeben sei eine leere Datenbank
     Und folgende Songs:
       | Titel     | Dateiname                    |
       | Epic Song | BoxCat Games - Epic Song.mp3 |
@@ -45,7 +45,7 @@ Funktionalität:
 
   @T2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
-    Gegeben sei eine leere Datenbank
+#    Gegeben sei eine leere Datenbank
     Und folgende Songs:
       | Titel          | Dateiname                    |
       | Epic Song      | BoxCat Games - Epic Song.mp3 |
