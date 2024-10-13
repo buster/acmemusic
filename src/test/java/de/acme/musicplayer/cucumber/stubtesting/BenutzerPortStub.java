@@ -6,13 +6,13 @@ import de.acme.musicplayer.application.ports.BenutzerPort;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BenutzerPortStub implements BenutzerPort {
 
-    private final Map<Pair<String, TenantId>, Benutzer> benutzerList = new HashMap<>();
+    private final Map<Pair<String, TenantId>, Benutzer> benutzerList = new ConcurrentHashMap<>();
 
     @Override
     public Benutzer.Id benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
@@ -30,7 +30,7 @@ public class BenutzerPortStub implements BenutzerPort {
     }
 
     @Override
-    synchronized public void loescheDatenbank(TenantId tenantId) {
+    public void loescheDatenbank(TenantId tenantId) {
         for (Pair<String, TenantId> stringTenantIdPair : benutzerList.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 benutzerList.remove(stringTenantIdPair);
