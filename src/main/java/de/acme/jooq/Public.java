@@ -21,11 +21,13 @@ import java.util.List;
 @SuppressWarnings({"all", "unchecked", "rawtypes", "this-escape"})
 public class Public extends SchemaImpl {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
-    private static final long serialVersionUID = 1L;
+
     /**
      * The table <code>public.playlist</code>.
      */
