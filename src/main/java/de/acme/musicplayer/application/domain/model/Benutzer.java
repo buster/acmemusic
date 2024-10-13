@@ -32,6 +32,10 @@ public class Benutzer {
         return email;
     }
 
+    public Id getId() {
+        return id;
+    }
+
     public static class Name {
         public final String benutzername;
 

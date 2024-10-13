@@ -31,16 +31,16 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<BenutzerRecord> BENUTZER_PKEY = Internal.createUniqueKey(Benutzer.BENUTZER, DSL.name("benutzer_pkey"), new TableField[] { Benutzer.BENUTZER.ID }, true);
-    public static final UniqueKey<LiedRecord> LIED_PKEY = Internal.createUniqueKey(Lied.LIED, DSL.name("lied_pkey"), new TableField[] { Lied.LIED.ID }, true);
-    public static final UniqueKey<PlaylistRecord> PLAYLIST_PKEY = Internal.createUniqueKey(Playlist.PLAYLIST, DSL.name("playlist_pkey"), new TableField[] { Playlist.PLAYLIST.ID }, true);
-    public static final UniqueKey<PlaylistLiedRecord> PK_PLAYLIST_LIED = Internal.createUniqueKey(PlaylistLied.PLAYLIST_LIED, DSL.name("pk_playlist_lied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.LIED_ID, PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID }, true);
+    public static final UniqueKey<BenutzerRecord> PK_TENANT_BENUTZER = Internal.createUniqueKey(Benutzer.BENUTZER, DSL.name("pk_tenant_benutzer"), new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
+    public static final UniqueKey<LiedRecord> PK_TENANT_LIED = Internal.createUniqueKey(Lied.LIED, DSL.name("pk_tenant_lied"), new TableField[] { Lied.LIED.TENANT, Lied.LIED.ID }, true);
+    public static final UniqueKey<PlaylistRecord> PK_TENANT_PLAYLIST = Internal.createUniqueKey(Playlist.PLAYLIST, DSL.name("pk_tenant_playlist"), new TableField[] { Playlist.PLAYLIST.TENANT, Playlist.PLAYLIST.ID }, true);
+    public static final UniqueKey<PlaylistLiedRecord> PK_TENANT_PLAYLIST_LIED = Internal.createUniqueKey(PlaylistLied.PLAYLIST_LIED, DSL.name("pk_tenant_playlist_lied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.TENANT, PlaylistLied.PLAYLIST_LIED.LIED_ID, PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<PlaylistRecord, BenutzerRecord> PLAYLIST__PLAYLIST_BESITZER_FK = Internal.createForeignKey(Playlist.PLAYLIST, DSL.name("playlist_besitzer_fk"), new TableField[] { Playlist.PLAYLIST.BESITZER }, Keys.BENUTZER_PKEY, new TableField[] { Benutzer.BENUTZER.ID }, true);
-    public static final ForeignKey<PlaylistLiedRecord, LiedRecord> PLAYLIST_LIED__FK_LIED_ID = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_lied_id"), new TableField[] { PlaylistLied.PLAYLIST_LIED.LIED_ID }, Keys.LIED_PKEY, new TableField[] { Lied.LIED.ID }, true);
-    public static final ForeignKey<PlaylistLiedRecord, PlaylistRecord> PLAYLIST_LIED__FK_PLAYLIST_ID = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_playlist_id"), new TableField[] { PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID }, Keys.PLAYLIST_PKEY, new TableField[] { Playlist.PLAYLIST.ID }, true);
+    public static final ForeignKey<PlaylistRecord, BenutzerRecord> PLAYLIST__PLAYLIST_BESITZER_FK = Internal.createForeignKey(Playlist.PLAYLIST, DSL.name("playlist_besitzer_fk"), new TableField[] { Playlist.PLAYLIST.TENANT, Playlist.PLAYLIST.BESITZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
+    public static final ForeignKey<PlaylistLiedRecord, LiedRecord> PLAYLIST_LIED__FK_LIED_IED = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_lied_ied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.TENANT, PlaylistLied.PLAYLIST_LIED.LIED_ID }, Keys.PK_TENANT_LIED, new TableField[] { Lied.LIED.TENANT, Lied.LIED.ID }, true);
+    public static final ForeignKey<PlaylistLiedRecord, PlaylistRecord> PLAYLIST_LIED__FK_PLAYLIST_IED = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_playlist_ied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.TENANT, PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID }, Keys.PK_TENANT_PLAYLIST, new TableField[] { Playlist.PLAYLIST.TENANT, Playlist.PLAYLIST.ID }, true);
 }

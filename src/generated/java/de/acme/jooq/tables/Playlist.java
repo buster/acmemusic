@@ -7,7 +7,6 @@ package de.acme.jooq.tables;
 import de.acme.jooq.Keys;
 import de.acme.jooq.Public;
 import de.acme.jooq.tables.Benutzer.BenutzerPath;
-import de.acme.jooq.tables.Lied.LiedPath;
 import de.acme.jooq.tables.PlaylistLied.PlaylistLiedPath;
 import de.acme.jooq.tables.records.PlaylistRecord;
 
@@ -62,6 +61,11 @@ public class Playlist extends TableImpl<PlaylistRecord> {
      * The column <code>public.playlist.id</code>.
      */
     public final TableField<PlaylistRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
+     * The column <code>public.playlist.tenant</code>.
+     */
+    public final TableField<PlaylistRecord, String> TENANT = createField(DSL.name("tenant"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
      * The column <code>public.playlist.name</code>.
@@ -142,7 +146,7 @@ public class Playlist extends TableImpl<PlaylistRecord> {
 
     @Override
     public UniqueKey<PlaylistRecord> getPrimaryKey() {
-        return Keys.PLAYLIST_PKEY;
+        return Keys.PK_TENANT_PLAYLIST;
     }
 
     @Override
@@ -170,17 +174,9 @@ public class Playlist extends TableImpl<PlaylistRecord> {
      */
     public PlaylistLiedPath playlistLied() {
         if (_playlistLied == null)
-            _playlistLied = new PlaylistLiedPath(this, null, Keys.PLAYLIST_LIED__FK_PLAYLIST_ID.getInverseKey());
+            _playlistLied = new PlaylistLiedPath(this, null, Keys.PLAYLIST_LIED__FK_PLAYLIST_IED.getInverseKey());
 
         return _playlistLied;
-    }
-
-    /**
-     * Get the implicit many-to-many join path to the <code>public.lied</code>
-     * table
-     */
-    public LiedPath lied() {
-        return playlistLied().lied();
     }
 
     @Override
