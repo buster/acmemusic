@@ -65,12 +65,20 @@ public class SongSteps {
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
     }
+
+    @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
+    public void userHatSichEingelogged(String benutzername, String passwort, String email) {
+
+    }
+
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
         for (Map<String, String> song : dataTable.asMaps()) {
             String titel = song.get("Titel");
             try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
                 Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream, tenantId);
+                log.info("Song {} hochgeladen, ID: {}", titel, id);
+                assertThat(id).isNotNull();
                 titelToIdMap.put(titel, id);
             }
         }
@@ -80,6 +88,8 @@ public class SongSteps {
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
             Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
+            log.info("Benutzer {} registriert, ID: {}", benutzer.get("Name"), id);
+            assertThat(id).isNotNull();
             benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
@@ -121,6 +131,7 @@ public class SongSteps {
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
         Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
+        log.info("Playlist {} erstellt, ID: {}", playlistName, id);
         playlistToIdMap.put(playlistName, id);
     }
 
