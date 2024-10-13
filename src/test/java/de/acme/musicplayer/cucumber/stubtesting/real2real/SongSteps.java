@@ -81,8 +81,6 @@ public class SongSteps {
 //                .setSources(true));
     }
 
-
-
     @Gegebensei("eine leere Datenbank")
     public void gegebenSeiEineLeereDatenbank() {
         Page page = browserContext.browser().newPage();

@@ -15,6 +15,4 @@ public interface PlaylistPort {
     Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name);
 
     void löscheDatenbank();
-
-    void löschePlaylist(Playlist.Id id);
 }
