@@ -67,6 +67,11 @@ public class PlaylistLied extends TableImpl<PlaylistLiedRecord> {
      */
     public final TableField<PlaylistLiedRecord, String> PLAYLIST_ID = createField(DSL.name("playlist_id"), SQLDataType.VARCHAR.nullable(false), this, "");
 
+    /**
+     * The column <code>public.playlist_lied.tenant</code>.
+     */
+    public final TableField<PlaylistLiedRecord, String> TENANT = createField(DSL.name("tenant"), SQLDataType.VARCHAR.nullable(false), this, "");
+
     private PlaylistLied(Name alias, Table<PlaylistLiedRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
@@ -136,12 +141,12 @@ public class PlaylistLied extends TableImpl<PlaylistLiedRecord> {
 
     @Override
     public UniqueKey<PlaylistLiedRecord> getPrimaryKey() {
-        return Keys.PK_PLAYLIST_LIED;
+        return Keys.PK_TENANT_PLAYLIST_LIED;
     }
 
     @Override
     public List<ForeignKey<PlaylistLiedRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.PLAYLIST_LIED__FK_LIED_ID, Keys.PLAYLIST_LIED__FK_PLAYLIST_ID);
+        return Arrays.asList(Keys.PLAYLIST_LIED__FK_LIED_IED, Keys.PLAYLIST_LIED__FK_PLAYLIST_IED);
     }
 
     private transient LiedPath _lied;
@@ -151,7 +156,7 @@ public class PlaylistLied extends TableImpl<PlaylistLiedRecord> {
      */
     public LiedPath lied() {
         if (_lied == null)
-            _lied = new LiedPath(this, Keys.PLAYLIST_LIED__FK_LIED_ID, null);
+            _lied = new LiedPath(this, Keys.PLAYLIST_LIED__FK_LIED_IED, null);
 
         return _lied;
     }
@@ -163,7 +168,7 @@ public class PlaylistLied extends TableImpl<PlaylistLiedRecord> {
      */
     public PlaylistPath playlist() {
         if (_playlist == null)
-            _playlist = new PlaylistPath(this, Keys.PLAYLIST_LIED__FK_PLAYLIST_ID, null);
+            _playlist = new PlaylistPath(this, Keys.PLAYLIST_LIED__FK_PLAYLIST_IED, null);
 
         return _playlist;
     }

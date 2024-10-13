@@ -15,7 +15,6 @@ import org.springframework.test.annotation.DirtiesContext;
 
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext
 public class CucumberR2RConfiguration {
 
 

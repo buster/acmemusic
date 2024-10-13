@@ -2,6 +2,7 @@ package de.acme.musicplayer.application.domain;
 
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedAdministrationUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 public class LiedAdministrationService implements LiedAdministrationUsecase {
 
@@ -12,12 +13,12 @@ public class LiedAdministrationService implements LiedAdministrationUsecase {
     }
 
     @Override
-    public long zähleLieder() {
-        return liedPort.zähleLieder();
+    public long zähleLieder(TenantId tenantId) {
+        return liedPort.zähleLieder(tenantId);
     }
 
     @Override
-    public void löscheDatenbank() {
-        liedPort.löscheDatenbank();
+    public void löscheDatenbank(TenantId tenantId) {
+        liedPort.löscheDatenbank(tenantId);
     }
 }

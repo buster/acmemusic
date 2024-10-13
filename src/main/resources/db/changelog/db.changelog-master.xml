@@ -7,41 +7,74 @@
     <changeSet id="1" author="sebastian">
         <createTable tableName="lied">
             <column name="id" type="varchar">
-                <constraints primaryKey="true" unique="true" nullable="false"/>
+                <constraints  nullable="false" />
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints  nullable="false"/>
             </column>
             <column name="titel" type="varchar"/>
         </createTable>
+        <addPrimaryKey columnNames="tenant, id" tableName="lied" constraintName="PK_TENANT_LIED"/>
         <createTable tableName="playlist">
             <column name="id" type="varchar">
-                <constraints primaryKey="true" unique="true" nullable="false"/>
+                <constraints  nullable="false"/>
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints  nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="besitzer" type="varchar"/>
         </createTable>
+        <addPrimaryKey columnNames="tenant, id" tableName="playlist" constraintName="PK_TENANT_PLAYLIST"/>
+
         <createTable tableName="playlist_lied">
+
             <column name="lied_id" type="varchar">
-                <constraints nullable="false" foreignKeyName="fk_lied_id" references="lied(id)"/>
+<!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
             </column>
             <column name="playlist_id" type="varchar">
-                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(id)"/>
+<!--                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(tenant, id)"/>-->
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints  nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="playlist_lied" columnNames="lied_id, playlist_id" constraintName="pk_playlist_lied"/>
+        <addPrimaryKey tableName="playlist_lied"  columnNames="tenant, lied_id, playlist_id" constraintName="pk_tenant_playlist_lied"/>
+        <addForeignKeyConstraint constraintName="fk_lied_ied"
+                                 baseTableName="playlist_lied"
+                                 baseColumnNames="tenant, lied_id"
+                                 referencedTableName="lied"
+                                 referencedColumnNames="tenant, id"
+                                referencesUniqueColumn="true"/>
+        <addForeignKeyConstraint constraintName="fk_playlist_ied"
+                                 baseTableName="playlist_lied"
+                                 baseColumnNames="tenant, playlist_id"
+                                 referencedTableName="playlist"
+                                 referencedColumnNames="tenant, id"
+                                 referencesUniqueColumn="true"/>
     </changeSet>
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">
             <column name="id" type="varchar">
-                <constraints primaryKey="true" unique="true" nullable="false"/>
+                <constraints   nullable="false"/>
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints  nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="email" type="varchar"/>
             <column name="passwort" type="varchar"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="playlist" baseColumnNames="besitzer"
+        <addPrimaryKey tableName="benutzer" columnNames="tenant, id" constraintName="pk_tenant_benutzer"/>
+
+        <addForeignKeyConstraint baseTableName="playlist"
+                                 baseColumnNames="tenant, besitzer"
                                  constraintName="playlist_besitzer_fk"
                                  referencedTableName="benutzer"
-                                 referencedColumnNames="id"
-                                 deleteCascade="false" referencesUniqueColumn="true"/>
+                                 referencedColumnNames="tenant, id"
+                                 deleteCascade="false"
+                                 referencesUniqueColumn="true"
+        />
     </changeSet>
     <changeSet id="3" author="Sebastian May">
         <addColumn tableName="lied">

@@ -6,7 +6,7 @@ package de.acme.jooq.tables.records;
 
 import de.acme.jooq.tables.Playlist;
 
-import org.jooq.Record1;
+import org.jooq.Record2;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -33,31 +33,45 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     }
 
     /**
+     * Setter for <code>public.playlist.tenant</code>.
+     */
+    public void setTenant(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>public.playlist.tenant</code>.
+     */
+    public String getTenant() {
+        return (String) get(1);
+    }
+
+    /**
      * Setter for <code>public.playlist.name</code>.
      */
     public void setName(String value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>public.playlist.name</code>.
      */
     public String getName() {
-        return (String) get(1);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>public.playlist.besitzer</code>.
      */
     public void setBesitzer(String value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>public.playlist.besitzer</code>.
      */
     public String getBesitzer() {
-        return (String) get(2);
+        return (String) get(3);
     }
 
     // -------------------------------------------------------------------------
@@ -65,8 +79,8 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
+    public Record2<String, String> key() {
+        return (Record2) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -83,10 +97,11 @@ public class PlaylistRecord extends UpdatableRecordImpl<PlaylistRecord> {
     /**
      * Create a detached, initialised PlaylistRecord
      */
-    public PlaylistRecord(String id, String name, String besitzer) {
+    public PlaylistRecord(String id, String tenant, String name, String besitzer) {
         super(Playlist.PLAYLIST);
 
         setId(id);
+        setTenant(tenant);
         setName(name);
         setBesitzer(besitzer);
         resetChangedOnNotNull();
