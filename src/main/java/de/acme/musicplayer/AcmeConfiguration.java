@@ -1,18 +1,16 @@
 package de.acme.musicplayer;
 
-import de.acme.musicplayer.application.domain.*;
-import de.acme.musicplayer.application.domain.model.Benutzer;
-import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.ports.BenutzerPort;
-import de.acme.musicplayer.application.ports.LiedPort;
-import de.acme.musicplayer.application.ports.PlaylistPort;
-import de.acme.musicplayer.application.usecases.*;
+import de.acme.musicplayer.applications.musicplayer.domain.*;
+import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
+import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
+import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
+import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Collection;
-import java.util.List;
 
 @Configuration
 public class AcmeConfiguration {
