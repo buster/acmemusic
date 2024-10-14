@@ -112,13 +112,6 @@ public class SongSteps {
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
             benutzerRegistriertSich(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"));
-//            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(
-//                    new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
-//                            new Benutzer.Name(benutzer.get("Name")),
-//                            new Benutzer.Passwort(benutzer.get("Passwort")),
-//                            new Benutzer.Email(benutzer.get("Email")), tenantId));
-//            assertThat(id).isNotNull();
-//            benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
 
@@ -132,12 +125,13 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void benutzerRegistriertSich(String username, String password, String email) {
-        benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
                 new Benutzer.Name(username),
                 new Benutzer.Passwort(password),
                 new Benutzer.Email(email),
                 tenantId
         ));
+        benutzerToIdMap.put(username, id);
     }
 
     @Dann("kennt der Service {int} Lied(er)")
