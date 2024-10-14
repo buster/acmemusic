@@ -55,3 +55,38 @@ fachlichen Prozesses befinden?
 .. Statt "MP3 abspielen", "User Einloggen" als einzelne Szenarien, ein Szenario für den Prozess des Musikabspielens "User registriert sich, user loggt sich ein, user lädt MP3 hoch, user spielt MP3 ab" in einem Szenario
 .. Gegebenenfalls natürlich in sinnvoll Szenarien schneiden, wenn es zu komplex wird
 ... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt  Playlist mit Freunden"
+
+[plantuml, format=svg, opts="inline"]
+....
+
+left to right direction
+
+actor Nutzer
+actor Urheber
+
+package "Music Player" {
+  usecase "Lied hochladen"
+  usecase "Playlist anlegen"
+  usecase "Lied veröffentlichen"
+  usecase "Lied löschen" #green
+  usecase "Lied hören"
+}
+
+package "User Management" {
+  usecase "Registrieren"
+  usecase "Benutzer löschen" #green
+}
+
+Nutzer ----> "Registrieren"
+Nutzer ----> "Lied hochladen"
+Nutzer ----> "Playlist anlegen"
+Nutzer ----> "Lied hören"
+Nutzer ----> "Lied löschen"
+
+Urheber -u-> "Lied hochladen"
+Urheber -u-> "Lied veröffentlichen"
+
+actor Admin #green
+'Admin --> "Benutzer löschen"
+'Admin --> "Lied löschen"
+....
