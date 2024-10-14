@@ -6,4 +6,6 @@ public interface BenutzerPort {
     Benutzer.Id benutzerHinzufügen(Benutzer benutzer);
 
     long zaehleBenutzer();
+
+    void loescheDatenbank();
 }

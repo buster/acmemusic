@@ -15,4 +15,9 @@ public class LiedAdministrationService implements LiedAdministrationUsecase {
     public long zähleLieder() {
         return liedPort.zähleLieder();
     }
+
+    @Override
+    public void löscheDatenbank() {
+        liedPort.löscheDatenbank();
+    }
 }

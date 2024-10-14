@@ -1,8 +1,6 @@
 package de.acme.musicplayer.application.usecases;
 
-public interface BenutzerAdministrationUsecase {
-
-    long zähleBenutzer();
+public interface PlaylistAdministrationUsecase {
 
     void löscheDatenbank();
 }

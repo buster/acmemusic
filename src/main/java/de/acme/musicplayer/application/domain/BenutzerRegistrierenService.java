@@ -13,8 +13,8 @@ public class BenutzerRegistrierenService implements BenutzerRegistrierenUsecase 
     }
 
     @Override
-    public Benutzer.Id benutzerAnmelden(BenutzerAnmeldenCommand benutzerAnmeldenCommand) {
-        Benutzer benutzer = new Benutzer(benutzerAnmeldenCommand.name(), benutzerAnmeldenCommand.passwort(), benutzerAnmeldenCommand.email());
+    public Benutzer.Id registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand) {
+        Benutzer benutzer = new Benutzer(benutzerRegistrierenCommand.name(), benutzerRegistrierenCommand.passwort(), benutzerRegistrierenCommand.email());
         return benutzerPort.benutzerHinzufügen(benutzer);
     }
 }
