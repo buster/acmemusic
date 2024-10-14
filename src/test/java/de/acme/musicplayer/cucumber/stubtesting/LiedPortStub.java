@@ -9,14 +9,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LiedPortStub implements LiedPort {
 
-    private final Map<Pair<String, TenantId>, Lied> lieder = new HashMap<>();
-    private final Map<Pair<String, TenantId>, byte[]> bytestreams = new HashMap<>();
+    private final Map<Pair<String, TenantId>, Lied> lieder = new ConcurrentHashMap<>();
+    private final Map<Pair<String, TenantId>, byte[]> bytestreams = new ConcurrentHashMap<>();
 
     private static ImmutablePair<String, TenantId> tableKey(Lied.Id liedId, TenantId tenantId) {
         return new ImmutablePair<>(liedId.id(), tenantId);
@@ -44,7 +44,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    synchronized public void löscheDatenbank(TenantId tenantId) {
+    public void löscheDatenbank(TenantId tenantId) {
         for (Pair<String, TenantId> stringTenantIdPair : lieder.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 lieder.remove(stringTenantIdPair);
