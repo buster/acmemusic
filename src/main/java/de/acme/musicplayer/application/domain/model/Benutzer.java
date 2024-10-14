@@ -7,12 +7,29 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class Benutzer {
     private final Name name;
     private final Email email;
-    private Passwort passwort;
-
+    private Benutzer.Id id;
+    private final Passwort passwort;
     public Benutzer(Name name, Passwort passwort, Email email) {
         this.name = name;
         this.passwort = passwort;
         this.email = email;
+//        this.id = new Id(email.email);
+    }
+
+    public void setId(Id id) {
+        this.id = id;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Passwort getPasswort() {
+        return passwort;
+    }
+
+    public Email getEmail() {
+        return email;
     }
 
     public static class Name {
@@ -25,7 +42,7 @@ public class Benutzer {
     }
 
     public static class Passwort {
-        private final String passwort;
+        public final String passwort;
 
         public Passwort(String passwort) {
             checkArgument(isNotBlank(passwort), "Passwort darf nicht leer sein");
@@ -34,10 +51,13 @@ public class Benutzer {
     }
 
     public static class Email {
-        private final String email;
+        public final String email;
 
         public Email(String email) {
             this.email = email;
         }
+    }
+
+    public record Id(String Id) {
     }
 }

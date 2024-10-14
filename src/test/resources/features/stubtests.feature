@@ -21,7 +21,8 @@ Funktionalität:
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
-    Wenn der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
+    Wenn der Benutzer 'Alice' die Playlist 'Favoriten' erstellt
+    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
 #    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
@@ -35,7 +36,8 @@ Funktionalität:
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
-    Wenn der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
+    Wenn der Benutzer 'Alice' die Playlist 'Favoriten' erstellt
+    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
 #    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder

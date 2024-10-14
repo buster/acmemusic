@@ -36,6 +36,10 @@ public class CucumberT2TConfiguration {
             return new LiedPortStub();
         }
 
+        @Bean
+        public PlaylistAnlegenUsecase playlistAnlegenUsecase(PlaylistPort playlistPort) {
+            return new PlaylistAnlegenService(playlistPort);
+        }
 
         @Bean
         public LiedAbspielenUseCase playSongUseCase(LiedPort liedPort) {

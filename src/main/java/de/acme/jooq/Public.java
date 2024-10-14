@@ -4,6 +4,7 @@
 package de.acme.jooq;
 
 
+import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.Playlist;
 import de.acme.jooq.tables.PlaylistSong;
 import de.acme.jooq.tables.Song;
@@ -27,6 +28,11 @@ public class Public extends SchemaImpl {
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.benutzer</code>.
+     */
+    public final Benutzer BENUTZER = Benutzer.BENUTZER;
 
     /**
      * The table <code>public.playlist</code>.
@@ -59,6 +65,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+                Benutzer.BENUTZER,
                 Playlist.PLAYLIST,
                 PlaylistSong.PLAYLIST_SONG,
                 Song.SONG

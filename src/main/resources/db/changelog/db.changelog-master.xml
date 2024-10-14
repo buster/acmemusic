@@ -28,4 +28,14 @@
         </createTable>
         <addPrimaryKey tableName="playlist_song" columnNames="song_id, playlist_id" constraintName="pk_playlist_song"/>
     </changeSet>
+    <changeSet id="2" author="Sebastian May">
+        <createTable tableName="benutzer">
+            <column name="id" type="varchar">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="name" type="varchar"></column>
+            <column name="email" type="varchar"></column>
+            <column name="passwort" type="varchar"></column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

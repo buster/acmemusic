@@ -32,6 +32,7 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
      * The reference instance of <code>public.playlist_song</code>
      */
     public static final PlaylistSong PLAYLIST_SONG = new PlaylistSong();
+
     private transient PlaylistPath _playlist;
 
     /**
@@ -76,40 +77,6 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     public <O extends Record> PlaylistSong(Table<O> path, ForeignKey<O, PlaylistSongRecord> childPath, InverseForeignKey<O, PlaylistSongRecord> parentPath) {
         super(path, childPath, parentPath, PLAYLIST_SONG);
     }
-    private transient SongPath _song;
-
-    @Override
-    public Schema getSchema() {
-        return aliased() ? null : Public.PUBLIC;
-    }
-
-    @Override
-    public UniqueKey<PlaylistSongRecord> getPrimaryKey() {
-        return Keys.PK_PLAYLIST_SONG;
-    }
-
-    @Override
-    public List<ForeignKey<PlaylistSongRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, Keys.PLAYLIST_SONG__FK_SONG_ID);
-    }
-
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PlaylistSongRecord> getRecordType() {
-        return PlaylistSongRecord.class;
-    }
-
-    /**
-     * Get the implicit join path to the <code>public.playlist</code> table.
-     */
-    public PlaylistPath playlist() {
-        if (_playlist == null)
-            _playlist = new PlaylistPath(this, Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, null);
-
-        return _playlist;
-    }
 
     /**
      * A subtype implementing {@link Path} for simplified path-based joins.
@@ -117,11 +84,9 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
     public static class PlaylistSongPath extends PlaylistSong implements Path<PlaylistSongRecord> {
 
         private static final long serialVersionUID = 1L;
-
         public <O extends Record> PlaylistSongPath(Table<O> path, ForeignKey<O, PlaylistSongRecord> childPath, InverseForeignKey<O, PlaylistSongRecord> parentPath) {
             super(path, childPath, parentPath);
         }
-
         private PlaylistSongPath(Name alias, Table<PlaylistSongRecord> aliased) {
             super(alias, aliased);
         }
@@ -140,6 +105,40 @@ public class PlaylistSong extends TableImpl<PlaylistSongRecord> {
         public PlaylistSongPath as(Table<?> alias) {
             return new PlaylistSongPath(alias.getQualifiedName(), this);
         }
+    }
+    private transient SongPath _song;
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PlaylistSongRecord> getRecordType() {
+        return PlaylistSongRecord.class;
+    }
+
+    @Override
+    public Schema getSchema() {
+        return aliased() ? null : Public.PUBLIC;
+    }
+
+    @Override
+    public UniqueKey<PlaylistSongRecord> getPrimaryKey() {
+        return Keys.PK_PLAYLIST_SONG;
+    }
+
+    @Override
+    public List<ForeignKey<PlaylistSongRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, Keys.PLAYLIST_SONG__FK_SONG_ID);
+    }
+
+    /**
+     * Get the implicit join path to the <code>public.playlist</code> table.
+     */
+    public PlaylistPath playlist() {
+        if (_playlist == null)
+            _playlist = new PlaylistPath(this, Keys.PLAYLIST_SONG__FK_PLAYLIST_ID, null);
+
+        return _playlist;
     }
 
     /**
