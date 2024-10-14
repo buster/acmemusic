@@ -52,7 +52,7 @@ public class AcmeConfiguration {
     }
 
     @Bean
-    public LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase(PlaylistPort playlistPort) {
-        return new LiederInPlaylistAuflistenService(playlistPort);
+    public LiederAuflistenUsecase liederAuflistenUseCase(PlaylistPort playlistPort, LiedPort liedPort) {
+        return new LiederAuflistenService(playlistPort, liedPort);
     }
 }
