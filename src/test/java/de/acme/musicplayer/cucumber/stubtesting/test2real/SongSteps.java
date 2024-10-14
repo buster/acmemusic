@@ -3,8 +3,10 @@ package de.acme.musicplayer.cucumber.stubtesting.test2real;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
+import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.Before;
 import io.cucumber.java.de.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +17,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,12 +45,18 @@ public class SongSteps {
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
     private long lastReadSongSize;
+    private TenantId tenantId;
+
+    @Before
+    public void generateTenantId() {
+        tenantId = new TenantId(UUID.randomUUID().toString());
+    }
 
     @Gegebensei("eine leere Datenbank")
     public void gegebenSeiEineLeereDatenbank() {
-        benutzerAdministrationUsecase.löscheDatenbank();
-        liedAdministrationUsecase.löscheDatenbank();
-        playlistAdministrationUsecase.löscheDatenbank();
+        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheDatenbank(tenantId);
+        playlistAdministrationUsecase.löscheDatenbank(tenantId);
     }
 
     @Gegebenseien("folgende Songs:")
@@ -55,7 +64,7 @@ public class SongSteps {
         for (Map<String, String> song : dataTable.asMaps()) {
             String titel = song.get("Titel");
             try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
-                Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream);
+                Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream, tenantId);
                 titelToIdMap.put(titel, id);
             }
         }
@@ -64,7 +73,7 @@ public class SongSteps {
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email"))));
+            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
             benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
@@ -79,39 +88,39 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email)));
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
         benutzerToIdMap.put(username, id);
     }
 
     @Dann("kennt der Service {int} Lied(er)")
     public void enthältDieDatenbankLied(int c) {
-        assertThat(liedAdministrationUsecase.zähleLieder()).isEqualTo(c);
+        assertThat(liedAdministrationUsecase.zähleLieder(tenantId)).isEqualTo(c);
     }
 
     @Dann("kennt der Service {int} Benutzer")
     public void kenntDerServiceBenutzer(int anzahl) {
-        assertThat(benutzerAdministrationUsecase.zähleBenutzer()).isEqualTo(anzahl);
+        assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
     }
 
     @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
     public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
-        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname));
+        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname), tenantId);
     }
 
     @Dann("enthält die Playlist {string} von {string} {int} Lieder")
     public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
-        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist))).hasSize(anzahl);
+        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
     }
 
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
-        Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName));
+        Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
         playlistToIdMap.put(playlistName, id);
     }
 
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
-        InputStream inputStream = liedAbspielenUsecase.liedStreamen(benutzerToIdMap.get(benutzer), titelToIdMap.get(lied));
+        InputStream inputStream = liedAbspielenUsecase.liedStreamen(benutzerToIdMap.get(benutzer), titelToIdMap.get(lied), tenantId);
         lastReadSongSize = inputStream.readAllBytes().length;
     }
 

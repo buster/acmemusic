@@ -60,6 +60,11 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
     public final TableField<BenutzerRecord, String> ID = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
+     * The column <code>public.benutzer.tenant</code>.
+     */
+    public final TableField<BenutzerRecord, String> TENANT = createField(DSL.name("tenant"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * The column <code>public.benutzer.name</code>.
      */
     public final TableField<BenutzerRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "");
@@ -143,7 +148,7 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
 
     @Override
     public UniqueKey<BenutzerRecord> getPrimaryKey() {
-        return Keys.BENUTZER_PKEY;
+        return Keys.PK_TENANT_BENUTZER;
     }
 
     private transient PlaylistPath _playlist;
