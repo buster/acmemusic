@@ -65,11 +65,14 @@ actor Nutzer
 actor Urheber
 
 package "Music Player" {
-  usecase "Lied hochladen"
   usecase "Playlist anlegen"
+  usecase "Lied hören"
+}
+
+package "Song Management" {
+  usecase "Lied hochladen"
   usecase "Lied veröffentlichen"
   usecase "Lied löschen" #green
-  usecase "Lied hören"
 }
 
 package "User Management" {
@@ -78,12 +81,13 @@ package "User Management" {
 }
 
 Nutzer ----> "Registrieren"
-Nutzer ----> "Lied hochladen"
+Nutzer ----> "Lied hochladen" : eigene Lieder (privat)
 Nutzer ----> "Playlist anlegen"
 Nutzer ----> "Lied hören"
 Nutzer ----> "Lied löschen"
 
-Urheber -u-> "Lied hochladen"
+Urheber -u-> "Lied hochladen" : eigene Lieder (öffentlich)
+Urheber -u-> "Lied löschen"
 Urheber -u-> "Lied veröffentlichen"
 
 actor Admin #green
