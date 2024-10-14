@@ -1,8 +1,8 @@
 package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
-import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.ports.BenutzerPort;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 

@@ -1,10 +1,12 @@
 package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
-import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.domain.model.Playlist;
-import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.usecases.*;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
+import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
+import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

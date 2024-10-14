@@ -1,10 +1,9 @@
 package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
-import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.domain.model.Playlist;
-import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.ports.PlaylistPort;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
+import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;

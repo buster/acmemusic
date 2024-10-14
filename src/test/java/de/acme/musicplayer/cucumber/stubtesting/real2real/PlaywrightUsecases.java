@@ -1,8 +1,8 @@
 package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
 import com.microsoft.playwright.Page;
-import de.acme.musicplayer.application.domain.model.Benutzer;
-import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import io.cucumber.spring.ScenarioScope;
 import lombok.Setter;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
 package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
-import de.acme.musicplayer.application.domain.model.Lied;
-import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.ports.LiedPort;
+import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
+import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class LiedPortStub implements LiedPort {
 

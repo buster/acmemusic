@@ -1,10 +1,14 @@
 package de.acme.musicplayer.cucumber.stubtesting.test2test;
 
-import de.acme.musicplayer.application.domain.*;
-import de.acme.musicplayer.application.ports.BenutzerPort;
-import de.acme.musicplayer.application.ports.LiedPort;
-import de.acme.musicplayer.application.ports.PlaylistPort;
-import de.acme.musicplayer.application.usecases.*;
+import de.acme.musicplayer.applications.musicplayer.domain.*;
+import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
+import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
+import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
+import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.BenutzerPortStub;
 import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.LiedPortStub;
 import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.PlaylistPortStub;
