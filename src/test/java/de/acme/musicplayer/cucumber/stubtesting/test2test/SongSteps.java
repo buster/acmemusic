@@ -9,6 +9,9 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.de.*;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -22,6 +25,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class SongSteps {
 
     private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
@@ -51,15 +55,16 @@ public class SongSteps {
     @Before
     public void generateTenantId() {
         tenantId = new TenantId(UUID.randomUUID().toString());
+        MDC.put("tenantId", tenantId.value());
+        log.info("TenantId: {}", tenantId);
     }
-
     @After
-    public void gegebenSeiEineLeereDatenbank() {
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
-        liedAdministrationUsecase.löscheDatenbank(tenantId);
+    public void cleanDatabaseAfterScenario() {
         playlistAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        MDC.remove("tenantId");
     }
-
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
         for (Map<String, String> song : dataTable.asMaps()) {
