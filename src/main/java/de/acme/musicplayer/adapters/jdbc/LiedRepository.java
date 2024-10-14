@@ -1,6 +1,7 @@
 package de.acme.musicplayer.adapters.jdbc;
 
 import de.acme.jooq.tables.records.LiedRecord;
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static de.acme.jooq.Tables.LIED;
 
@@ -58,5 +62,15 @@ public class LiedRepository implements LiedPort {
                 .and(LIED.TENANT.eq(tenantId.value()))
                 .fetchOne()
                 .value1());
+    }
+
+    @Override
+    public Collection<Lied.Id> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
+        return dslContext.selectFrom(LIED)
+                .where(LIED.TENANT.eq(tenantId.value()))
+                .fetch(LIED.ID)
+                .stream()
+                .map(s -> new Lied.Id(s))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

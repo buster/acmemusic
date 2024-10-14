@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col">
+        <form id="song-upload-form" method="POST" enctype="multipart/form-data"
+              hx-encoding='multipart/form-data'
+              hx-post='uploadSong'
+              hx-target="#toast-container"
+              hx-include="#song-upload-form, #tenantId"
+              hx-swap="innerHTML">
+            <div class="mb-3">
+                <label class="form-label" for="titel">Titel</label>
+                <input class="form-control" id="titel" name="titel" placeholder="Titel" required type="text">
+            </div>
+            <div class="mb-3">
+                <label for="mp3upload" class="form-label">Lied hochladen</label>
+                <input class="form-control" type="file" name="file" id="mp3upload">
+            </div>
+            <button class="btn btn-primary ms-auto">Upload</button>
+            <progress id='progress' value='0' max='100'></progress>
+        </form>
+    </div>
+    <div class="col" id="bla">
+        <span> Test?!</span>
+    </div>
+    <div class="col">
+        <span> Test?!</span>
+    </div>
+</div>
