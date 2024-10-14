@@ -15,8 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.InputStream;
+import java.util.UUID;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Controller
 public class LiedAbspielenController {
@@ -36,8 +40,11 @@ public class LiedAbspielenController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(required = false) String tenantId) {
         model.addAttribute("greeting", "Hello World!");
+        if (isNotBlank(tenantId)) {
+            model.addAttribute("tenantId", tenantId);
+        }
         return "index.html";
     }
 
@@ -50,13 +57,12 @@ public class LiedAbspielenController {
 
     @HxRequest
     @PostMapping("/register-user")
-    public ResponseEntity<Void> registerUser(String username, String email, String password) {
-//        model.addAttribute("greeting", "Hello World!");
+    public ResponseEntity<Void> registerUser(String username, String email, String password, String tenantId) {
         benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenCommand(
                 new Name(username),
                 new Passwort(password),
                 new Email(email),
-                new TenantId("WEB")));
+                new TenantId(tenantId)));
         return ResponseEntity.ok().build();
     }
 }
