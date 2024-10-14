@@ -1,8 +1,10 @@
 package de.acme.musicplayer.application.usecases;
 
+import de.acme.musicplayer.application.domain.model.TenantId;
+
 public interface LiedAdministrationUsecase {
 
-    long zähleLieder();
+    long zähleLieder(TenantId tenantId);
 
-    void löscheDatenbank();
+    void löscheDatenbank(TenantId tenantId);
 }
