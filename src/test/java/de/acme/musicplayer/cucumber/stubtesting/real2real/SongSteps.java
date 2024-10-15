@@ -107,7 +107,7 @@ public class SongSteps {
     }
 
     @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
-    public void gegebenSeiEineLeereDatenbank(String benutzername, String passwort, String email) {
+    public void userHatSichEingelogged(String benutzername, String passwort, String email) {
         Page page = browserContext.browser().newPage();
         page.navigate(String.format("http://localhost:%s", port));
         assertThat(page).hasTitle("ACME Music Player");
@@ -119,6 +119,8 @@ public class SongSteps {
             String titel = song.get("Titel");
             try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
                 Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream, tenantId);
+                log.info("Song {} hochgeladen, ID: {}", titel, id);
+                assertThat(id).isNotNull();
                 titelToIdMap.put(titel, id);
             }
         }
@@ -127,8 +129,14 @@ public class SongSteps {
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
-            benutzerToIdMap.put(benutzer.get("Name"), id);
+            benutzerRegistriertSich(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"));
+//            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(
+//                    new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
+//                            new Benutzer.Name(benutzer.get("Name")),
+//                            new Benutzer.Passwort(benutzer.get("Passwort")),
+//                            new Benutzer.Email(benutzer.get("Email")), tenantId));
+//            assertThat(id).isNotNull();
+//            benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
 
@@ -141,9 +149,17 @@ public class SongSteps {
     }
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
-    public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
-        benutzerToIdMap.put(username, id);
+    public void benutzerRegistriertSich(String username, String password, String email) {
+        Page page = browserContext.browser().newPage();
+        page.navigate(String.format("http://localhost:%s", port));
+        assertThat(page).hasTitle("ACME Music Player");
+        page.click("#open-register-modal-button");
+        page.getByLabel("Username").fill(username);
+        page.getByLabel("Email address").fill(email);
+        page.getByLabel("Password").fill(password);
+        page.click("#registration-form-submit");
+//        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
+//        benutzerToIdMap.put(username, id);
     }
 
     @Dann("kennt der Service {int} Lied(er)")
