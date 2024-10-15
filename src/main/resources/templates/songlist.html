@@ -3,8 +3,7 @@
     Hier sind die Songs
     <div th:each="id: ${songIds}">
         <audio id="voice" controls="">
-            <source th:src="${'/streamSong?benutzerId=' + userId +
-            '&tenantId=' + tenantId +
+            <source th:src="${'/streamSong?tenantId=' + tenantId +
             '&liedId=' + id.id()}">
         </audio>
     </div>

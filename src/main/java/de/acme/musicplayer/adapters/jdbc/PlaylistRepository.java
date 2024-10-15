@@ -22,15 +22,8 @@ public class PlaylistRepository implements PlaylistPort {
     }
 
     @Override
-    public void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
-        dslContext.insertInto(PLAYLIST_LIED, PLAYLIST_LIED.PLAYLIST_ID, PLAYLIST_LIED.LIED_ID, PLAYLIST_LIED.TENANT)
-                .values(playlistId.id(), liedId.id(), tenantId.value())
-                .execute();
-    }
-
-    @Override
-    public Playlist lade(Benutzer.Id benutzer, Playlist.Name playlistName, TenantId tenantId) {
-        return lade(new Playlist.Id(benutzer.Id(), playlistName.name()), tenantId);
+    public Playlist lade(Benutzer.Id benutzerId, Playlist.Name playlistName, TenantId tenantId) {
+        return lade(new Playlist.Id(benutzerId.Id(), playlistName.name()), tenantId);
     }
 
     @Override
@@ -44,7 +37,7 @@ public class PlaylistRepository implements PlaylistPort {
                 .fetch()
                 .forEach(playlistSongRecord -> {
                     String liedId = playlistSongRecord.getLiedId();
-                    playlist.liedHinzufügen(new Lied.Id(liedId));
+                    playlist.liedHinzufügen(new Lied.Id(liedId), playlist.getBesitzer());
                 });
         return playlist;
     }
@@ -65,6 +58,28 @@ public class PlaylistRepository implements PlaylistPort {
                 .where(PLAYLIST_LIED.TENANT.eq(tenantId.value()))).execute();
         dslContext.deleteFrom(PLAYLIST
                 .where(PLAYLIST.TENANT.eq(tenantId.value()))).execute();
+    }
+
+    @Override
+    public void speichere(Playlist playlist, TenantId tenantId) {
+        dslContext.update(PLAYLIST)
+                .set(PLAYLIST.NAME, playlist.getName())
+                .where(PLAYLIST.ID.eq(playlist.getId().id()))
+                .and(PLAYLIST.TENANT.eq(tenantId.value()))
+                .execute();
+
+        dslContext.deleteFrom(PLAYLIST_LIED)
+                .where(PLAYLIST_LIED.PLAYLIST_ID.eq(playlist.getId().id()))
+                .and(PLAYLIST_LIED.TENANT.eq(tenantId.value()))
+                .execute();
+
+        playlist.getLieder().forEach(liedId -> {
+            dslContext.insertInto(PLAYLIST_LIED)
+                    .set(PLAYLIST_LIED.PLAYLIST_ID, playlist.getId().id())
+                    .set(PLAYLIST_LIED.LIED_ID, liedId.id())
+                    .set(PLAYLIST_LIED.TENANT, tenantId.value())
+                    .execute();
+        });
     }
 
     private PlaylistRecord fetchPlaylist(Playlist.Id id, TenantId tenantId) {
