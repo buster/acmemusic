@@ -33,3 +33,22 @@ Features:
 . test2test kommunikation wie? Async App Listener? Fake Antworten/Events
 . test2real == end to end test mit MessageBroker?
 
+=== Testdaten in komplexen Fachprozessen  ❓
+
+Wie können Tests geschrieben werden, welche sich am Ende eines komplexen
+fachlichen Prozesses befinden?
+
+. Fachlich korrekte Testdatenbuilder schreiben
+.. Gefahr der Re-Implementierung der Businesslogik im Testcode -> schlecht
+.. Wiederverwendung von Businesslogik möglich?
+.. Erzwingt Datenbankzugriff an Usecases vorbei im Testcode
+... zwingende Wiederverwendung der Domain-Objekte
+. Snapshot bzw. Backup/Restore Funktionalität für ein Szenario
+.. Szenario 1 laufen lassen
+.. Ergebnis von Szenario 1 snappshotten
+.. in Szenario 2 Snapshot wiederverwenden
+.. es entstehen Abhängigkeiten zwischen den Szenarien
+. Testszenarien entlang der Prozesse schneiden und nicht einzelner Features
+.. Statt "MP3 abspielen", "User Einloggen" als einzelne Szenarien, ein Szenario für den Prozess des Musikabspielens "User registriert sich, user loggt sich ein, user lädt MP3 hoch, user spielt MP3 ab" in einem Szenario
+.. Gegebenenfalls natürlich in sinnvoll Szenarien schneiden, wenn es zu komplex wird
+... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt  Playlist mit Freunden"
