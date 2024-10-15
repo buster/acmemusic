@@ -5,13 +5,13 @@ package de.acme.jooq;
 
 
 import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.Lied;
 import de.acme.jooq.tables.Playlist;
-import de.acme.jooq.tables.PlaylistSong;
-import de.acme.jooq.tables.Song;
+import de.acme.jooq.tables.PlaylistLied;
 import de.acme.jooq.tables.records.BenutzerRecord;
+import de.acme.jooq.tables.records.LiedRecord;
+import de.acme.jooq.tables.records.PlaylistLiedRecord;
 import de.acme.jooq.tables.records.PlaylistRecord;
-import de.acme.jooq.tables.records.PlaylistSongRecord;
-import de.acme.jooq.tables.records.SongRecord;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -31,14 +31,14 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<BenutzerRecord> BENUTZER_PKEY = Internal.createUniqueKey(Benutzer.BENUTZER, DSL.name("benutzer_pkey"), new TableField[]{Benutzer.BENUTZER.ID}, true);
+    public static final UniqueKey<LiedRecord> LIED_PKEY = Internal.createUniqueKey(Lied.LIED, DSL.name("lied_pkey"), new TableField[]{Lied.LIED.ID}, true);
     public static final UniqueKey<PlaylistRecord> PLAYLIST_PKEY = Internal.createUniqueKey(Playlist.PLAYLIST, DSL.name("playlist_pkey"), new TableField[]{Playlist.PLAYLIST.ID}, true);
-    public static final UniqueKey<PlaylistSongRecord> PK_PLAYLIST_SONG = Internal.createUniqueKey(PlaylistSong.PLAYLIST_SONG, DSL.name("pk_playlist_song"), new TableField[]{PlaylistSong.PLAYLIST_SONG.SONG_ID, PlaylistSong.PLAYLIST_SONG.PLAYLIST_ID}, true);
-    public static final UniqueKey<SongRecord> SONG_PKEY = Internal.createUniqueKey(Song.SONG, DSL.name("song_pkey"), new TableField[]{Song.SONG.ID}, true);
+    public static final UniqueKey<PlaylistLiedRecord> PK_PLAYLIST_LIED = Internal.createUniqueKey(PlaylistLied.PLAYLIST_LIED, DSL.name("pk_playlist_lied"), new TableField[]{PlaylistLied.PLAYLIST_LIED.LIED_ID, PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID}, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<PlaylistSongRecord, PlaylistRecord> PLAYLIST_SONG__FK_PLAYLIST_ID = Internal.createForeignKey(PlaylistSong.PLAYLIST_SONG, DSL.name("fk_playlist_id"), new TableField[]{PlaylistSong.PLAYLIST_SONG.PLAYLIST_ID}, Keys.PLAYLIST_PKEY, new TableField[]{Playlist.PLAYLIST.ID}, true);
-    public static final ForeignKey<PlaylistSongRecord, SongRecord> PLAYLIST_SONG__FK_SONG_ID = Internal.createForeignKey(PlaylistSong.PLAYLIST_SONG, DSL.name("fk_song_id"), new TableField[]{PlaylistSong.PLAYLIST_SONG.SONG_ID}, Keys.SONG_PKEY, new TableField[]{Song.SONG.ID}, true);
+    public static final ForeignKey<PlaylistLiedRecord, LiedRecord> PLAYLIST_LIED__FK_LIED_ID = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_lied_id"), new TableField[]{PlaylistLied.PLAYLIST_LIED.LIED_ID}, Keys.LIED_PKEY, new TableField[]{Lied.LIED.ID}, true);
+    public static final ForeignKey<PlaylistLiedRecord, PlaylistRecord> PLAYLIST_LIED__FK_PLAYLIST_ID = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_playlist_id"), new TableField[]{PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID}, Keys.PLAYLIST_PKEY, new TableField[]{Playlist.PLAYLIST.ID}, true);
 }

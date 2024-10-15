@@ -5,9 +5,9 @@ package de.acme.jooq;
 
 
 import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.Lied;
 import de.acme.jooq.tables.Playlist;
-import de.acme.jooq.tables.PlaylistSong;
-import de.acme.jooq.tables.Song;
+import de.acme.jooq.tables.PlaylistLied;
 
 
 /**
@@ -22,17 +22,17 @@ public class Tables {
     public static final Benutzer BENUTZER = Benutzer.BENUTZER;
 
     /**
+     * The table <code>public.lied</code>.
+     */
+    public static final Lied LIED = Lied.LIED;
+
+    /**
      * The table <code>public.playlist</code>.
      */
     public static final Playlist PLAYLIST = Playlist.PLAYLIST;
 
     /**
-     * The table <code>public.playlist_song</code>.
+     * The table <code>public.playlist_lied</code>.
      */
-    public static final PlaylistSong PLAYLIST_SONG = PlaylistSong.PLAYLIST_SONG;
-
-    /**
-     * The table <code>public.song</code>.
-     */
-    public static final Song SONG = Song.SONG;
+    public static final PlaylistLied PLAYLIST_LIED = PlaylistLied.PLAYLIST_LIED;
 }

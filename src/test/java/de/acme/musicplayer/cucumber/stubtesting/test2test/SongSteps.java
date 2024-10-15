@@ -25,9 +25,9 @@ public class SongSteps {
     @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
     @Autowired
-    private LiedHochladenUseCase liedHochladenUseCase;
+    private LiedHochladenUsecase liedHochladenUseCase;
     @Autowired
-    private LiedZuPlaylistHinzufügenUseCase liedZuPlaylistHinzufügenUseCase;
+    private LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase;
     @Autowired
     private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
 
