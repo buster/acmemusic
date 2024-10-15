@@ -5,13 +5,12 @@ import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.*;
-import de.acme.musicplayer.cucumber.stubtesting.BenutzerPortStub;
-import de.acme.musicplayer.cucumber.stubtesting.LiedPortStub;
-import de.acme.musicplayer.cucumber.stubtesting.PlaylistPortStub;
+import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.BenutzerPortStub;
+import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.LiedPortStub;
+import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.PlaylistPortStub;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.annotation.DirtiesContext;
 
 @CucumberContextConfiguration
 public class CucumberT2TConfiguration {
