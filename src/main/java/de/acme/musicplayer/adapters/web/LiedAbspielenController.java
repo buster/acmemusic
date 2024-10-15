@@ -49,7 +49,7 @@ public class LiedAbspielenController {
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
     public ResponseEntity<InputStreamResource> liedAbspielen(@RequestParam(required = false) String benutzerId, @RequestParam(required = false) String liedId, @RequestParam(required = false)String tenantId) throws IOException {
-        InputStream inputStream = liedAbspielenUseCase.liedStreamen(new Benutzer.Id(benutzerId), new Lied.Id(liedId), new TenantId(tenantId));
+        InputStream inputStream = liedAbspielenUseCase.liedStreamen(new Lied.Id(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -104,7 +104,7 @@ public class LiedAbspielenController {
     @HxRequest
     @GetMapping("/songlist")
     public String songList(Model model, @RequestParam("tenantId") String tenantId,  @RequestParam(value = "benutzerId", required = false) String benutzerId) {
-        Collection<Lied.Id> ids = liederAuflistenUseCase.liederAuflisten(null, new TenantId(tenantId));
+        Collection<Lied.Id> ids = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId));
         model.addAttribute("songIds", ids);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
