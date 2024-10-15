@@ -1,6 +1,5 @@
 package de.acme.musicplayer.adapters.jdbc;
 
-import de.acme.jooq.tables.records.LiedRecord;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -55,12 +54,11 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public Collection<Lied.Id> listeLiederAuf(TenantId tenantId) {
+    public Collection<Lied> listeLiederAuf(TenantId tenantId) {
         return dslContext.selectFrom(LIED)
                 .where(LIED.TENANT.eq(tenantId.value()))
-                .fetch(LIED.ID)
                 .stream()
-                .map(s -> new Lied.Id(s))
-                .collect(Collectors.toUnmodifiableList());
+                .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel())))
+                .toList();
     }
 }
