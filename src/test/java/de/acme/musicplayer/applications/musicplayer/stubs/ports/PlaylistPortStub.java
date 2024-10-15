@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
+package de.acme.musicplayer.applications.musicplayer.stubs.ports;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;

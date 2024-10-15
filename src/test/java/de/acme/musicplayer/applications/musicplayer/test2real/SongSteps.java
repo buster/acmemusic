@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.test2test;
+package de.acme.musicplayer.applications.musicplayer.test2real;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
@@ -10,7 +10,10 @@ import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUseca
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.de.*;
+import io.cucumber.java.de.Dann;
+import io.cucumber.java.de.Gegebenseien;
+import io.cucumber.java.de.Und;
+import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +73,6 @@ public class SongSteps {
 
     @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
     public void userHatSichEingelogged(String benutzername, String passwort, String email) {
-
     }
 
     @Gegebenseien("folgende Songs:")

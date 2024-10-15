@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.test2test;
+package de.acme.musicplayer.applications.musicplayer.test2test;
 
 import de.acme.musicplayer.applications.musicplayer.domain.*;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
@@ -9,9 +9,9 @@ import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationServi
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.BenutzerPortStub;
-import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.LiedPortStub;
-import de.acme.musicplayer.cucumber.stubtesting.stubs.ports.PlaylistPortStub;
+import de.acme.musicplayer.applications.musicplayer.stubs.ports.BenutzerPortStub;
+import de.acme.musicplayer.applications.musicplayer.stubs.ports.LiedPortStub;
+import de.acme.musicplayer.applications.musicplayer.stubs.ports.PlaylistPortStub;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

@@ -37,6 +37,7 @@ Features:
 . zweites Modul erstellen
 . test2test kommunikation wie? Async App Listener? Fake Antworten/Events
 . test2real == end to end test mit MessageBroker?
+. Feature Test kann ja bestehen bleiben, je nach Modul andere Steps, aber Steps die für das Modul irrelevant sind -> NOOP. Geht das?
 . ArchUnit?
   . Zugriff von einem Modul auf Model anderes Moduls verbieten?
 

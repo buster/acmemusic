@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.real2real;
+package de.acme.musicplayer.applications.musicplayer.real2real;
 
 import com.microsoft.playwright.BrowserContext;
 import io.cucumber.spring.ScenarioScope;

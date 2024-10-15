@@ -1,6 +1,8 @@
 package de.acme.musicplayer.applications.users.domain.model;
 
 
+import de.acme.musicplayer.ModuleApi;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -62,6 +64,7 @@ public class Benutzer {
         }
     }
 
+    @ModuleApi
     public record Id(String Id) {
     }
 }
