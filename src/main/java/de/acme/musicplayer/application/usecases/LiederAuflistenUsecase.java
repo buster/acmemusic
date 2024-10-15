@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface LiederAuflistenUsecase {
 
-    Collection<Lied.Id> liederAuflisten(TenantId tenantId);
+    Collection<Lied> liederAuflisten(TenantId tenantId);
 }
