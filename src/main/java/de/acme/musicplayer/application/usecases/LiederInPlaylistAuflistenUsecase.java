@@ -8,5 +8,5 @@ import java.util.Collection;
 
 public interface LiederInPlaylistAuflistenUsecase {
 
-    Collection<Lied.LiedId> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName);
+    Collection<Lied.Id> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName);
 }

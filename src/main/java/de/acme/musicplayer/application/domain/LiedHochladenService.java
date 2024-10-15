@@ -13,7 +13,7 @@ public class LiedHochladenService implements LiedHochladenUseCase {
     }
 
     @Override
-    public Lied.LiedId liedHochladen(String title) {
+    public Lied.Id liedHochladen(String title) {
         return liedPort.fügeLiedHinzu(new Lied(new Lied.Titel(title)));
     }
 }

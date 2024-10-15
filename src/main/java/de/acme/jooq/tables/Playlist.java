@@ -110,14 +110,6 @@ public class Playlist extends TableImpl<PlaylistRecord> {
         }
     }
 
-    /**
-     * The class holding records for this type
-     */
-    @Override
-    public Class<PlaylistRecord> getRecordType() {
-        return PlaylistRecord.class;
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
@@ -126,6 +118,14 @@ public class Playlist extends TableImpl<PlaylistRecord> {
     @Override
     public UniqueKey<PlaylistRecord> getPrimaryKey() {
         return Keys.PLAYLIST_PKEY;
+    }
+
+    /**
+     * The class holding records for this type
+     */
+    @Override
+    public Class<PlaylistRecord> getRecordType() {
+        return PlaylistRecord.class;
     }
 
     /**

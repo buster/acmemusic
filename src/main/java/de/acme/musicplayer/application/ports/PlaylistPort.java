@@ -6,13 +6,13 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 
 public interface PlaylistPort {
 
-    void addSongToPlaylist(Lied.LiedId liedId, Playlist.PlaylistId playlistId);
+    void addSongToPlaylist(Lied.Id liedId, Playlist.Id playlistId);
 
     Playlist lade(Benutzer.Id benutzername, Playlist.Name name);
 
-    Playlist lade(Playlist.PlaylistId playlistId);
+    Playlist lade(Playlist.Id playlistId);
 
-    Playlist.PlaylistId erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name);
+    Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name);
 
     void löscheDatenbank();
 }
