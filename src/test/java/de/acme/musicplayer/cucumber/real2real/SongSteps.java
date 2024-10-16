@@ -98,10 +98,10 @@ public class SongSteps {
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
-        for (Map<String, String> song : dataTable.asMaps()) {
-            String titel = song.get("Titel");
-            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
-                Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream, tenantId);
+        for (Map<String, String> eintrag : dataTable.asMaps()) {
+            String titel = eintrag.get("Titel");
+            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(eintrag.get("Dateiname")).toURI()))) {
+                Lied.Id id = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(eintrag.get("Benutzer")), new Lied.Titel(titel), inputStream, tenantId);
                 log.info("Song {} hochgeladen, ID: {}", titel, id);
                 assertThat(id).isNotNull();
                 titelToIdMap.put(titel, id);
