@@ -1,5 +1,6 @@
 package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
+import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -9,9 +10,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class LiedPortStub implements LiedPort {
 
@@ -55,5 +58,13 @@ public class LiedPortStub implements LiedPort {
     @Override
     public InputStream ladeLiedStream(Lied.Id liedId, TenantId tenantId) {
         return new ByteArrayInputStream(bytestreams.get(tableKey(liedId, tenantId)));
+    }
+
+    @Override
+    public Collection<Lied.Id> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
+        return lieder.keySet().stream()
+                .filter(stringTenantIdPair -> stringTenantIdPair.getRight().equals(tenantId))
+                .map(stringTenantIdPair -> new Lied.Id(stringTenantIdPair.getLeft()))
+                .collect(Collectors.toUnmodifiableList());
     }
 }
