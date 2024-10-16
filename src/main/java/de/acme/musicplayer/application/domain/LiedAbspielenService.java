@@ -1,6 +1,5 @@
 package de.acme.musicplayer.application.domain;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
@@ -19,7 +18,7 @@ public class LiedAbspielenService implements LiedAbspielenUsecase {
 
     @Override
     @Transactional
-    public InputStream liedStreamen(Benutzer.Id id, Lied.Id liedId, TenantId tenantId) {
+    public InputStream liedStreamen(Lied.Id liedId, TenantId tenantId) {
         return liedPort.ladeLiedStream(liedId, tenantId);
     }
 }

@@ -1,6 +1,5 @@
 package de.acme.musicplayer.cucumber.stubtesting.stubs.ports;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
@@ -23,12 +22,6 @@ public class LiedPortStub implements LiedPort {
 
     private static ImmutablePair<String, TenantId> tableKey(Lied.Id liedId, TenantId tenantId) {
         return new ImmutablePair<>(liedId.id(), tenantId);
-    }
-
-    @Override
-    public Lied ladeLied(Lied.Id songId, TenantId tenantId) {
-        System.out.println("Load Lied Port Stub!");
-        return lieder.get(Integer.parseInt(songId.id()));
     }
 
     @Override
@@ -61,7 +54,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Collection<Lied.Id> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
+    public Collection<Lied.Id> listeLiederAuf(TenantId tenantId) {
         return lieder.keySet().stream()
                 .filter(stringTenantIdPair -> stringTenantIdPair.getRight().equals(tenantId))
                 .map(stringTenantIdPair -> new Lied.Id(stringTenantIdPair.getLeft()))
