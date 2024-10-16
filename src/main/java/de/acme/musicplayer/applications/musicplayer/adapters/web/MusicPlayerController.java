@@ -1,16 +1,10 @@
-package de.acme.musicplayer.web;
+package de.acme.musicplayer.applications.musicplayer.adapters.web;
 
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer.Email;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer.Name;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer.Passwort;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
-import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -32,17 +26,15 @@ import java.util.Collection;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Controller
-public class LiedAbspielenController {
+public class MusicPlayerController {
 
     private final LiedAbspielenUsecase liedAbspielenUseCase;
 
-    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
     private final LiederAuflistenUsecase liederAuflistenUseCase;
 
-    public LiedAbspielenController(LiedAbspielenUsecase liedAbspielenUseCase, BenutzerRegistrierenUsecase benutzerRegistrierenUsecase, LiedHochladenUsecase liedHochladenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
+    public MusicPlayerController(LiedAbspielenUsecase liedAbspielenUseCase, LiedHochladenUsecase liedHochladenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
         this.liedAbspielenUseCase = liedAbspielenUseCase;
-        this.benutzerRegistrierenUsecase = benutzerRegistrierenUsecase;
         this.liedHochladenUseCase = liedHochladenUseCase;
         this.liederAuflistenUseCase = liederAuflistenUseCase;
     }
@@ -55,35 +47,6 @@ public class LiedAbspielenController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return new ResponseEntity(inputStreamResource, httpHeaders, HttpStatus.OK);
-    }
-
-    @GetMapping("/")
-    public String index(Model model, @RequestParam(required = false) String tenantId) {
-        model.addAttribute("greeting", "Hello World!");
-        if (isNotBlank(tenantId)) {
-            model.addAttribute("tenantId", tenantId);
-        }
-        return "index.html";
-    }
-
-    @HxRequest
-    @GetMapping("/registration-form")
-    public String register(Model model) {
-        model.addAttribute("greeting", "Hello World!");
-        return "htmx-responses/registration-form.html";
-    }
-
-    @HxRequest
-    @PostMapping("/register-user")
-    public String registerUser(Model model, String username, String email, String password, String tenantId) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenCommand(
-                new Name(username),
-                new Passwort(password),
-                new Email(email),
-                new TenantId(tenantId)));
-        model.addAttribute("userId", id.Id());
-        model.addAttribute("userName", username);
-        return "htmx-responses/user-registration-successfull-toast.html";
     }
 
     @HxRequest
