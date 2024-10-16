@@ -58,6 +58,7 @@ public class LiedPortStub implements LiedPort {
         return lieder.entrySet().stream()
                 .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .map(Map.Entry::getValue)
+                .filter(lied -> lied.getBesitzer().equals(benutzerId))
                 .toList();
     }
 }
