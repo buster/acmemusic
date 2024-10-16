@@ -11,7 +11,7 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 @Suite
 @IncludeEngines("cucumber")
 @SelectPackages("de.acme")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "de.acme.musicplayer.applications.musicplayer.test2real")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "de.acme.musicplayer.cucumber.test2real")
 @ConfigurationParameter(key = FEATURES_PROPERTY_NAME, value = "src/test/resources/features")
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@T2R")
 public class CucumberT2RTest {
