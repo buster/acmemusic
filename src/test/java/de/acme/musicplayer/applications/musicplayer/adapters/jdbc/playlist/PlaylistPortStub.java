@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.stubs.ports;
+package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;

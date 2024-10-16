@@ -40,6 +40,7 @@ Features:
 . Feature Test kann ja bestehen bleiben, je nach Modul andere Steps, aber Steps die für das Modul irrelevant sind -> NOOP. Geht das?
 . ArchUnit?
   . Zugriff von einem Modul auf Model anderes Moduls verbieten?
+. Usecase darf anderen Usecase in anderem Modul aufrufen, aber der Usecase gibt ein internes Domainobjekt zurück, ist das problematisch? In zwei Microservices gesplittet, wäre das Objekt ein DTO und hätte keine "Extra-Logik". Annahme: wenn aus dem Modulithen zwei Microservices werden, muss das beachtet werden. Vermutlich werden dann die Getter einfach im Controller aufgerufen und die "Extra-Logik" findet bei der Umwandlung zum DTO für die API automatisch statt.
 
 === Testdaten in komplexen Fachprozessen  ❓
 

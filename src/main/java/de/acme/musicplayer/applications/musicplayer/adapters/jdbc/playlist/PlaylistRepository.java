@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.adapters.jdbc;
+package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist;
 
 import de.acme.jooq.tables.records.PlaylistRecord;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;

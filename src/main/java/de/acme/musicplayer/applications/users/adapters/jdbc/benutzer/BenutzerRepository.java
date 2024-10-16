@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.users.adapters.jdbc;
+package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;

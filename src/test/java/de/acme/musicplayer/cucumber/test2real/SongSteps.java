@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.real2real;
+package de.acme.musicplayer.cucumber.test2real;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
@@ -17,7 +17,6 @@ import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -37,9 +35,8 @@ public class SongSteps {
     private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
     private final Map<String, Benutzer.Id> benutzerToIdMap = new HashMap<>();
     private final Map<String, Playlist.Id> playlistToIdMap = new HashMap<>();
-    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
-    private final PlaywrightUsecases playwriteUsecases;
-
+    @Autowired
+    private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
@@ -56,29 +53,14 @@ public class SongSteps {
     private PlaylistAdministrationUsecase playlistAdministrationUsecase;
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
-
-    @LocalServerPort
-    private int port;
     private long lastReadSongSize;
     private TenantId tenantId;
-
-    public SongSteps(PlaywrightUsecases playwrightUsecases) {
-        this.benutzerRegistrierenUsecase = playwrightUsecases;
-        this.playwriteUsecases = playwrightUsecases;
-    }
-
-    @Before
-    public void setPort() {
-        this.playwriteUsecases.setPort(port);
-    }
 
     @Before
     public void generateTenantId() {
         tenantId = new TenantId(UUID.randomUUID().toString());
         MDC.put("tenantId", tenantId.value());
         log.info("TenantId: {}", tenantId);
-
-        this.playwriteUsecases.setTenantId(tenantId.value());
     }
 
     @After
@@ -91,9 +73,6 @@ public class SongSteps {
 
     @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
     public void userHatSichEingelogged(String benutzername, String passwort, String email) {
-//        Page page = browserContextComponent.getBrowserContext().browser().newPage();
-//        page.navigate(String.format("http://localhost:%s", port));
-//        assertThat(page).hasTitle("ACME Music Player");
     }
 
     @Gegebenseien("folgende Songs:")
@@ -112,7 +91,10 @@ public class SongSteps {
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            benutzerRegistriertSich(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"));
+            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
+            log.info("Benutzer {} registriert, ID: {}", benutzer.get("Name"), id);
+            assertThat(id).isNotNull();
+            benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
 
@@ -125,13 +107,8 @@ public class SongSteps {
     }
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
-    public void benutzerRegistriertSich(String username, String password, String email) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
-                new Benutzer.Name(username),
-                new Benutzer.Passwort(password),
-                new Benutzer.Email(email),
-                tenantId
-        ));
+    public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
         benutzerToIdMap.put(username, id);
     }
 
@@ -158,6 +135,7 @@ public class SongSteps {
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
         Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
+        log.info("Playlist {} erstellt, ID: {}", playlistName, id);
         playlistToIdMap.put(playlistName, id);
     }
 

@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.stubs.ports;
+package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;

@@ -35,6 +35,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class LiedAbspielenController {
 
     private final LiedAbspielenUsecase liedAbspielenUseCase;
+
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
     private final LiederAuflistenUsecase liederAuflistenUseCase;

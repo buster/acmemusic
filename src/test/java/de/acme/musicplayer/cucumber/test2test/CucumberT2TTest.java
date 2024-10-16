@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.test2test;
+package de.acme.musicplayer.cucumber.test2test;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;

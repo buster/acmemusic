@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.test2test;
+package de.acme.musicplayer.cucumber.test2test;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;

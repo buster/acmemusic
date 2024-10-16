@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.real2real;
+package de.acme.musicplayer.cucumber.real2real;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Playwright;

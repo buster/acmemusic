@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer.real2real;
+package de.acme.musicplayer.cucumber.real2real;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
