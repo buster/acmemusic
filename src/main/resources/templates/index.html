@@ -14,11 +14,13 @@
 <script crossorigin="anonymous"
         integrity="sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw="
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    htmx.on('#form', 'htmx:xhr:progress', function (evt) {
-        htmx.find('#progress').setAttribute('value', evt.detail.loaded / evt.detail.total * 100)
-    });
-</script>
+
+<style>
+    a:hover {
+        cursor:pointer;
+    }
+</style>
+
 
 <div th:replace="~{fragments/navbar :: navbar}">...</div>
 
