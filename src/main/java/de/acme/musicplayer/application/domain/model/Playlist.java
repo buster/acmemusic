@@ -34,9 +34,13 @@ public class Playlist {
         return name.name;
     }
 
-    public void liedHinzufügen(Lied.Id liedId) {
+    public void liedHinzufügen(Lied.Id liedId, Benutzer.Id benutzerId) {
         if (lieder.stream().anyMatch(liedId::equals)) return;
-        this.lieder.add(liedId);
+        if (besitzer.equals(benutzerId)) {
+            lieder.add(liedId);
+        } else {
+            throw new IllegalArgumentException("Nur der Besitzer kann Lieder hinzufügen");
+        }
     }
 
     @Override
@@ -50,6 +54,10 @@ public class Playlist {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public Benutzer.Id getBesitzer() {
+        return besitzer;
     }
 
     public record Id(String id) {

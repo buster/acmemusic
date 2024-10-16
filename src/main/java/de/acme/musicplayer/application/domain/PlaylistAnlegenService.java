@@ -17,7 +17,7 @@ public class PlaylistAnlegenService implements PlaylistAnlegenUsecase {
 
     @Override
     @Transactional
-    public Playlist.Id playlistAnlegen(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId) {
-        return playlistPort.erstellePlaylist(benutzername, name, tenantId);
+    public Playlist.Id playlistAnlegen(Benutzer.Id benutzerId, Playlist.Name playlistName, TenantId tenantId) {
+        return playlistPort.erstellePlaylist(benutzerId, playlistName, tenantId);
     }
 }
