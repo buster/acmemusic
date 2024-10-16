@@ -7,7 +7,8 @@ import de.acme.musicplayer.application.domain.model.TenantId;
 
 import java.util.Collection;
 
-public interface LiederInPlaylistAuflistenUsecase {
+public interface LiederAuflistenUsecase {
 
-    Collection<Lied.Id> liederAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName, TenantId tenantId);
+    Collection<Lied.Id> liederInPlaylistAuflisten(Benutzer.Id benutzerId, Playlist.Name playlistName, TenantId tenantId);
+    Collection<Lied.Id> liederAuflisten(Benutzer.Id benutzerId, TenantId tenantId);
 }

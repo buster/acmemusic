@@ -1,6 +1,5 @@
 package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
-import com.microsoft.playwright.Page;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
@@ -48,7 +47,7 @@ public class SongSteps {
     @Autowired
     private LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase;
     @Autowired
-    private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
+    private LiederAuflistenUsecase liederAuflistenUseCase;
     @Autowired
     private PlaylistAnlegenUsecase playlistAnlegenUsecase;
     @Autowired
@@ -151,7 +150,7 @@ public class SongSteps {
 
     @Dann("enthält die Playlist {string} von {string} {int} Lieder")
     public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
-        assertThat(liederInPlaylistAuflistenUseCase.liederAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
+        assertThat(liederAuflistenUseCase.liederInPlaylistAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
     }
 
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
