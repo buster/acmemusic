@@ -2,7 +2,6 @@ package de.acme.musicplayer.cucumber.stubtesting.test2test;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
 import static io.cucumber.core.options.Constants.FEATURES_PROPERTY_NAME;
