@@ -3,6 +3,7 @@ package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +32,8 @@ public class LiedRepository implements LiedPort {
     @Override
     public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException {
         String liedId = UUID.randomUUID().toString();
-        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES, LIED.TENANT)
-                .values(liedId, lied.getTitel(), inputStream.readAllBytes(), tenantId.value()).execute();
+        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES, LIED.TENANT, LIED.BESITZER_ID)
+                .values(liedId, lied.getTitel(), inputStream.readAllBytes(), tenantId.value(), lied.getBesitzer().Id()).execute();
         return new Lied.Id(liedId);
 
     }
@@ -53,11 +54,11 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public Collection<Lied> listeLiederAuf(TenantId tenantId) {
+    public Collection<Lied> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
         return dslContext.selectFrom(LIED)
                 .where(LIED.TENANT.eq(tenantId.value()))
                 .stream()
-                .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel())))
+                .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel()), new Benutzer.Id(s.getBesitzerId())))
                 .toList();
     }
 }
