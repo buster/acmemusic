@@ -61,17 +61,31 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     }
 
     /**
+     * Setter for <code>public.lied.besitzer_id</code>.
+     */
+    public void setBesitzerId(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>public.lied.besitzer_id</code>.
+     */
+    public String getBesitzerId() {
+        return (String) get(3);
+    }
+
+    /**
      * Setter for <code>public.lied.bytes</code>.
      */
     public void setBytes(byte[] value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>public.lied.bytes</code>.
      */
     public byte[] getBytes() {
-        return (byte[]) get(3);
+        return (byte[]) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -97,12 +111,13 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
     /**
      * Create a detached, initialised LiedRecord
      */
-    public LiedRecord(String id, String tenant, String titel, byte[] bytes) {
+    public LiedRecord(String id, String tenant, String titel, String besitzerId, byte[] bytes) {
         super(Lied.LIED);
 
         setId(id);
         setTenant(tenant);
         setTitel(titel);
+        setBesitzerId(besitzerId);
         setBytes(bytes);
         resetChangedOnNotNull();
     }

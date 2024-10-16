@@ -4,6 +4,7 @@ import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class LiedHochladenService implements LiedHochladenUsecase {
 
     @Override
     @Transactional
-    public Lied.Id liedHochladen(Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
-        return liedPort.fügeLiedHinzu(new Lied(title), lied, tenantId);
+    public Lied.Id liedHochladen(Benutzer.Id benutzerId, Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
+        return liedPort.fügeLiedHinzu(new Lied(title, benutzerId), lied, tenantId);
     }
 }

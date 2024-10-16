@@ -1,20 +1,27 @@
 package de.acme.musicplayer.applications.musicplayer.domain.model;
 
 
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+
 import java.util.Objects;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Lied {
 
     private final Titel titel;
+    private final Benutzer.Id besitzer;
     private Id id;
 
-    public Lied(Id id, Titel titel) {
+    public Lied(Id id, Titel titel, Benutzer.Id besitzerId) {
         this.id = id;
         this.titel = titel;
+        this.besitzer = besitzerId;
     }
 
-    public Lied(Titel titel) {
+    public Lied(Titel titel, Benutzer.Id besitzer) {
         this.titel = titel;
+        this.besitzer = besitzer;
     }
 
     public Id getId() {
@@ -29,7 +36,16 @@ public class Lied {
         return titel.titel;
     }
 
+    public Benutzer.Id getBesitzer() {
+        return besitzer;
+    }
+
     public record Id(String id) {
+        public Id(String id) {
+            checkNotNull(id);
+            this.id = id;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -48,6 +64,7 @@ public class Lied {
         private final String titel;
 
         public Titel(String titel) {
+            checkNotNull(titel);
             this.titel = titel;
         }
     }
