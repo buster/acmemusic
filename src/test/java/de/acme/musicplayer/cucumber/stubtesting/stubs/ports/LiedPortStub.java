@@ -54,10 +54,10 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Collection<Lied.Id> listeLiederAuf(TenantId tenantId) {
-        return lieder.keySet().stream()
-                .filter(stringTenantIdPair -> stringTenantIdPair.getRight().equals(tenantId))
-                .map(stringTenantIdPair -> new Lied.Id(stringTenantIdPair.getLeft()))
-                .collect(Collectors.toUnmodifiableList());
+    public Collection<Lied> listeLiederAuf(TenantId tenantId) {
+        return lieder.entrySet().stream()
+                .filter(entry -> entry.getKey().getRight().equals(tenantId))
+                .map(Map.Entry::getValue)
+                .toList();
     }
 }

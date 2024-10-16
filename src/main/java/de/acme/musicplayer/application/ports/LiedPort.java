@@ -17,5 +17,5 @@ public interface LiedPort {
 
     InputStream ladeLiedStream(Lied.Id liedId, TenantId tenantId);
 
-    Collection<Lied.Id> listeLiederAuf(TenantId tenantId);
+    Collection<Lied> listeLiederAuf(TenantId tenantId);
 }
