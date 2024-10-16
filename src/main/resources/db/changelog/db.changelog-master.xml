@@ -43,4 +43,11 @@
                                  referencedColumnNames="id"
                                  deleteCascade="false" referencesUniqueColumn="true"/>
     </changeSet>
+    <changeSet id="3" author="Sebastian May">
+        <addColumn tableName="lied">
+            <column name="bytes" type="bytea">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

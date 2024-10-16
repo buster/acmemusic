@@ -17,15 +17,15 @@ Funktionalität:
   Szenario: Song hinzufügen
     Gegeben sei eine leere Datenbank
     Und folgende Songs:
-      | Titel       |
-      | Firestarter |
-      | Breathe     |
+      | Titel          | Dateiname                    |
+      | Epic Song      | BoxCat Games - Epic Song.mp3 |
+      | Breaking Rules | Serat - Breaking Rules.mp3   |
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
     Wenn der Benutzer 'Alice' die Playlist 'Favoriten' erstellt
-    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
-    Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
+    Und der Benutzer 'Alice' das Lied 'Epic Song' zur Playlist 'Favoriten' hinzufügt
+    Und der Benutzer 'Alice' das Lied 'Breaking Rules' zur Playlist 'Favoriten' hinzufügt
 #    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
 
@@ -33,14 +33,14 @@ Funktionalität:
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
     Gegeben sei eine leere Datenbank
     Und folgende Songs:
-      | Titel       |
-      | Firestarter |
-      | Breathe     |
+      | Titel          | Dateiname                    |
+      | Epic Song      | BoxCat Games - Epic Song.mp3 |
+      | Breaking Rules | Serat - Breaking Rules.mp3   |
     Und folgende Benutzer:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
     Wenn der Benutzer 'Alice' die Playlist 'Favoriten' erstellt
-    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
-    Und der Benutzer 'Alice' das Lied 'Breathe' zur Playlist 'Favoriten' hinzufügt
+    Und der Benutzer 'Alice' das Lied 'Epic Song' zur Playlist 'Favoriten' hinzufügt
+    Und der Benutzer 'Alice' das Lied 'Breaking Rules' zur Playlist 'Favoriten' hinzufügt
 #    Und der Benutzer 'Alice' das Lied 'Firestarter' zur Playlist 'Favoriten' hinzufügt
     Dann enthält die Playlist 'Favoriten' von 'Alice' 2 Lieder
