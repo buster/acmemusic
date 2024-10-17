@@ -3,6 +3,7 @@ package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -53,7 +54,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Collection<Lied> listeLiederAuf(TenantId tenantId) {
+    public Collection<Lied> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
         return lieder.entrySet().stream()
                 .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .map(Map.Entry::getValue)
