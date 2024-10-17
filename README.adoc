@@ -13,7 +13,10 @@ Features:
 . Registrieren ✅
 . Login [❓]
 . Testdaten Spike [❓]
-. Modulith [❓]
+. Modulith ✅
+. Gamification score board [❓]
+.. Dritter event Driven service
+.. Basis für längerlaufende Testdaten 
 . Quick-Registration
 .. Als "Demo-Mode" zum Anteasern, Lied Hochladen + User + Email == 10 Minuten Zugriff auf Software bis Email-Verifikation abgeschlossen wurde, danach gesperrt/pausiert [❓]
 
@@ -33,7 +36,7 @@ Features:
 .. in AfterAll löschen aller Testdaten anhand des Tenants  ✅
 ... Admin-Usecase zum Löschen?
 
-=== Modulith  ❓
+=== Modulith  ✅
 . zweites Modul erstellen
 . test2test kommunikation wie? Async App Listener? Fake Antworten/Events
 . test2real == end to end test mit MessageBroker?
