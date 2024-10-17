@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.stubtesting.real2real.real2real;
+package de.acme.musicplayer.cucumber.stubtesting.real2real;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;

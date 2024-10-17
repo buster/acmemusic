@@ -4,6 +4,7 @@ import de.acme.jooq.tables.records.LiedRecord;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import org.jooq.DSLContext;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 import static de.acme.jooq.Tables.LIED;
 
-
+@Component
 public class LiedRepository implements LiedPort {
 
     private final DSLContext dslContext;

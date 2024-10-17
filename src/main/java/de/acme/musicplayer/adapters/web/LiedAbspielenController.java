@@ -3,12 +3,14 @@ package de.acme.musicplayer.adapters.web;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
 
-@RestController
+@Controller
 public class LiedAbspielenController {
 
     private final LiedAbspielenUsecase liedAbspielenUseCase;
@@ -20,5 +22,11 @@ public class LiedAbspielenController {
     @PostMapping
     public InputStream liedAbspielen(String benutzerId, String liedId) {
         return liedAbspielenUseCase.liedStreamen(new Benutzer.Id(benutzerId), new Lied.Id(liedId));
+    }
+
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("greeting", "Hello World!");
+        return "index.html";
     }
 }
