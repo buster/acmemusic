@@ -17,7 +17,7 @@ public class LiederAuflistenService implements LiederAuflistenUsecase {
 
 
     @Override
-    public Collection<Lied.Id> liederAuflisten(TenantId tenantId) {
+    public Collection<Lied> liederAuflisten(TenantId tenantId) {
         return liedPort.listeLiederAuf(tenantId);
     }
 }
