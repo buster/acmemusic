@@ -14,6 +14,7 @@ public class MusicplayerTest {
     public static final ArchRule onion_architecture_in_module = onionArchitecture()
             .adapter("liedrepository", "de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied..")
             .adapter("playlistrepository", "de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist..")
+            .adapter("webcontroller", "de.acme.musicplayer.applications.musicplayer.adapters.web..")
             .domainModels("de.acme.musicplayer.applications.musicplayer.domain.model..")
             .domainServices("de.acme.musicplayer.applications.musicplayer.domain..",
                     "de.acme.musicplayer.applications.musicplayer.usecases..",
