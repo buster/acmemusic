@@ -88,16 +88,6 @@ public class SongSteps {
         }
     }
 
-    @Und("der Benutzer {string} lädt das Lied mit dem Titel {string} aus der Datei {string} hoch")
-    public void derBenutzerLädtDasLiedHoch(String benutzer, String titel, String datei) throws IOException, URISyntaxException {
-        try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(datei).toURI()))) {
-            Lied.Id id = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(benutzer), new Lied.Titel(titel), inputStream, tenantId);
-            log.info("Song {} hoch geladen, ID: {}", titel, id);
-            assertThat(id).isNotNull();
-            titelToIdMap.put(titel, id);
-        }
-    }
-
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
@@ -174,4 +164,16 @@ public class SongSteps {
         Lied lied = liedAdministrationUsecase.leseLied(id, tenantId);
         assertThat(lied.getAuszeichnungen()).contains(LiedAuszeichnung.valueOf(auszeichnung));
     }
+
+
+    @Und("der Benutzer {string} lädt das Lied mit dem Titel {string} aus der Datei {string} hoch")
+    public void derBenutzerLädtDasLiedHoch(String benutzer, String titel, String datei) throws IOException, URISyntaxException {
+        try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(datei).toURI()))) {
+            Lied.Id id = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(benutzer), new Lied.Titel(titel), inputStream, tenantId);
+            log.info("Song {} hoch geladen, ID: {}", titel, id);
+            assertThat(id).isNotNull();
+            titelToIdMap.put(titel, id);
+        }
+    }
+
 }
