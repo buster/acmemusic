@@ -4,6 +4,7 @@ Funktionalität:
 
   @T2T
   @T2R
+  @R2R
   Szenario: Registrierung
     Gegeben sei eine leere Datenbank
     Und folgende Benutzer:

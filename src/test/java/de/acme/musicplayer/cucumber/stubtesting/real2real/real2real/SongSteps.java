@@ -1,12 +1,20 @@
-package de.acme.musicplayer.cucumber.stubtesting.test2real;
+package de.acme.musicplayer.cucumber.stubtesting.real2real.real2real;
 
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.de.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SongSteps {
 
+    private static Browser browser;
+    private static Playwright playwright;
     private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
     private final Map<String, Benutzer.Id> benutzerToIdMap = new HashMap<>();
     private final Map<String, Playlist.Id> playlistToIdMap = new HashMap<>();
@@ -42,9 +52,40 @@ public class SongSteps {
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
     private long lastReadSongSize;
+    private BrowserContext browserContext;
+    @LocalServerPort
+    private int port;
+
+
+    @BeforeAll
+    public static void setupPlaywright() {
+        playwright = Playwright.create();
+        browser = playwright.firefox().launch();
+    }
+
+    @AfterAll
+    public static void shutdownPlaywright() {
+        playwright.close();
+        // Stop tracing and export it into a zip archive.
+//        browserContext.tracing().stop(new Tracing.StopOptions()
+//                .setPath(Paths.get("trace.zip")));
+    }
+
+    @Before
+    public void setupBrowserContext() {
+        browserContext = browser.newContext();
+//         Start tracing before creating / navigating a page.
+//        browserContext.tracing().start(new Tracing.StartOptions()
+//                .setScreenshots(true)
+//                .setSnapshots(true)
+//                .setSources(true));
+    }
 
     @Gegebensei("eine leere Datenbank")
     public void gegebenSeiEineLeereDatenbank() {
+        Page page = browserContext.browser().newPage();
+        page.navigate(String.format("http://localhost:%s", port));
+        com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat(page).hasTitle("ACME Music Player");
         benutzerAdministrationUsecase.löscheDatenbank();
         liedAdministrationUsecase.löscheDatenbank();
         playlistAdministrationUsecase.löscheDatenbank();
