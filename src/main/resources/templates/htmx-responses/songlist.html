@@ -1,10 +1,14 @@
 <div class="row">
-
-    Hier sind die Songs
-    <div th:each="lied: ${lieder}">
-        <audio id="voice" controls="">
-            <source th:src="${'/streamSong?tenantId=' + tenantId +
-            '&liedId=' + lied.getId().id()}">
-        </audio>
-    </div>
+    <h1>Deine Lieder</h1>
+    <ul class="list-group">
+        <li class="list-group-item d-flex" th:each="lied: ${lieder}">
+            <div class="mx-3">
+                <div th:text="${lied.getTitel()}">Titel</div>
+                <div class="text-body-secondary">Extra Stuff</div>
+            </div>
+            <audio class="flex-fill" id="voice" controls="">
+                <source th:src="${'/streamSong?tenantId=' + tenantId + '&liedId=' + lied.getId().id()}">
+            </audio>
+        </li>
+    </ul>
 </div>
