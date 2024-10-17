@@ -6,6 +6,7 @@ package de.acme.jooq.tables;
 
 import de.acme.jooq.Keys;
 import de.acme.jooq.Public;
+import de.acme.jooq.tables.LiedAuszeichnungen.LiedAuszeichnungenPath;
 import de.acme.jooq.tables.PlaylistLied.PlaylistLiedPath;
 import de.acme.jooq.tables.records.LiedRecord;
 
@@ -162,6 +163,19 @@ public class Lied extends TableImpl<LiedRecord> {
             _playlistLied = new PlaylistLiedPath(this, null, Keys.PLAYLIST_LIED__FK_LIED_IED.getInverseKey());
 
         return _playlistLied;
+    }
+
+    private transient LiedAuszeichnungenPath _liedAuszeichnungen;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.lied_auszeichnungen</code> table
+     */
+    public LiedAuszeichnungenPath liedAuszeichnungen() {
+        if (_liedAuszeichnungen == null)
+            _liedAuszeichnungen = new LiedAuszeichnungenPath(this, null, Keys.LIED_AUSZEICHNUNGEN__LIED_AUSZEICHNUNGEN_FK.getInverseKey());
+
+        return _liedAuszeichnungen;
     }
 
     @Override

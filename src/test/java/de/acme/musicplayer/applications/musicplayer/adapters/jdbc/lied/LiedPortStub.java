@@ -61,4 +61,9 @@ public class LiedPortStub implements LiedPort {
                 .filter(lied -> lied.getBesitzer().equals(benutzerId))
                 .toList();
     }
+
+    @Override
+    public Lied leseLied(Lied.Id id, TenantId tenantId) {
+        return lieder.get(tableKey(id, tenantId));
+    }
 }
