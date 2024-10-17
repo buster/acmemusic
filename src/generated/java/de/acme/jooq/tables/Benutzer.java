@@ -6,6 +6,7 @@ package de.acme.jooq.tables;
 
 import de.acme.jooq.Keys;
 import de.acme.jooq.Public;
+import de.acme.jooq.tables.BenutzerAuszeichnungen.BenutzerAuszeichnungenPath;
 import de.acme.jooq.tables.Playlist.PlaylistPath;
 import de.acme.jooq.tables.records.BenutzerRecord;
 
@@ -149,6 +150,19 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
     @Override
     public UniqueKey<BenutzerRecord> getPrimaryKey() {
         return Keys.PK_TENANT_BENUTZER;
+    }
+
+    private transient BenutzerAuszeichnungenPath _benutzerAuszeichnungen;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.benutzer_auszeichnungen</code> table
+     */
+    public BenutzerAuszeichnungenPath benutzerAuszeichnungen() {
+        if (_benutzerAuszeichnungen == null)
+            _benutzerAuszeichnungen = new BenutzerAuszeichnungenPath(this, null, Keys.BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK.getInverseKey());
+
+        return _benutzerAuszeichnungen;
     }
 
     private transient PlaylistPath _playlist;
