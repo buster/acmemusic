@@ -30,10 +30,12 @@
 
         <createTable tableName="playlist_lied">
 
-            <column name="lied_id" type="varchar">
+            <column name="lied_id" type="varchar" >
+                <constraints nullable="false"/>
                 <!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
             </column>
             <column name="playlist_id" type="varchar">
+                <constraints nullable="false"/>
                 <!--                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(tenant, id)"/>-->
             </column>
             <column name="tenant" type="varchar">

@@ -11,6 +11,7 @@ Features:
 
 . MP3 abspielen ✅
 . Registrieren ✅
+. Spring Native ✅
 . Login [❓]
 . Testdaten Spike [❓]
 . Modulith ✅
@@ -64,6 +65,26 @@ fachlichen Prozesses befinden?
 .. Statt "MP3 abspielen", "User Einloggen" als einzelne Szenarien, ein Szenario für den Prozess des Musikabspielens "User registriert sich, user loggt sich ein, user lädt MP3 hoch, user spielt MP3 ab" in einem Szenario
 .. Gegebenenfalls natürlich in sinnvoll Szenarien schneiden, wenn es zu komplex wird
 ... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt  Playlist mit Freunden"
+
+=== Spring Native
+[source, console]
+----
+sdk install java 24.1.r23-nik
+sdk use java 24.1.r23-nik
+./mvnw -Pnative native:compile
+./target/acme
+----
+
+=== H2 Datenbank anlegen
+(!) Non working (!)
+
+[source, console]
+----
+rm acme.db.mv.db acme.db.trace.db
+./mvnw liquibase:update@h2-liquibase
+----
+
+== Usecases
 
 [plantuml, format=svg, opts="inline"]
 ....
