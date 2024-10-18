@@ -5,7 +5,12 @@ import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,17 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import java.util.Map;
 
 @Controller
 public class MusicPlayerController {
@@ -51,28 +53,37 @@ public class MusicPlayerController {
 
     @HxRequest
     @PostMapping("/uploadSong")
-    public String uploadSong(Model model, String titel, @RequestParam("file") MultipartFile file, String tenantId) throws IOException {
-        Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
+    public HtmxResponse uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, String tenantId) throws IOException {
+        Lied.Id id = liedHochladenUseCase.liedHochladen(new Benutzer.Id(userId), new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
         model.addAttribute("titel", titel);
         model.addAttribute("file", file.getOriginalFilename());
         model.addAttribute("songId", id.id());
-        return "htmx-responses/file-upload-successfull-toast.html";
+        return HtmxResponse.builder().view("htmx-responses/song-upload-successfull-toast.html").build();
     }
 
     @HxRequest
     @GetMapping("/fileUploadForm")
     public String fileUploadForm(Model model) {
-        return "htmx-responses/file-upload.html";
+        return "htmx-responses/song-upload.html";
     }
 
     @HxRequest
     @GetMapping("/songlist")
-    public String songList(Model model, @RequestParam("tenantId") String tenantId,  @RequestParam(value = "benutzerId", required = false) String benutzerId) {
-        Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId));
+    public String songList(Model model, @RequestParam("tenantId") String tenantId,  @CookieValue(value = "userId") String benutzerId) {
+        Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new Benutzer.Id(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
 
         return "htmx-responses/songlist.html";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public HtmxResponse handleError(Exception ex) {
+        return HtmxResponse.builder()
+                .retarget("#toast-container")
+                .reswap(HtmxReswap.innerHtml())
+                .view(new ModelAndView("htmx-responses/error-toast.html", Map.of("message", ex.getMessage())))
+                .build();
     }
 }
