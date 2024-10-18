@@ -265,10 +265,10 @@
                 <version>1.0.0</version>
                 <executions>
                     <execution>
+                        <id>run-docker</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>up</goal>
-                            <!--                            <goal>down</goal>-->
                         </goals>
                         <configuration>
                             <projectName>acme</projectName>
