@@ -58,6 +58,8 @@ Features:
 . Spring Native ✅
 . Login [❓]
 . Testdaten Spike [❓]
+.. Tenant in Entity aufnehmen
+.. Events in Entity aufnehmen und transaktional speichern
 . Modulith ✅
 . Gamification score board [❓]
 .. Dritter event Driven service
