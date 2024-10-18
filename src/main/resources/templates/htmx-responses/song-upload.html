@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col">
-        <form id="song-upload-form" method="POST" enctype="multipart/form-data"
+        <form id="song-upload-form" class="progress-form" method="POST" enctype="multipart/form-data"
               hx-encoding='multipart/form-data'
               hx-post='uploadSong'
               hx-target="#toast-container"
@@ -19,3 +19,8 @@
         </form>
     </div>
 </div>
+<script>
+    htmx.on('.progress-form', 'htmx:xhr:progress', function (evt) {
+        htmx.find('#progress').setAttribute('value', evt.detail.loaded / evt.detail.total * 100)
+    });
+</script>
