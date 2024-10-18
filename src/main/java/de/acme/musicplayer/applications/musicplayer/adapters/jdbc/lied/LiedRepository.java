@@ -56,7 +56,7 @@ public class LiedRepository implements LiedPort {
     @Override
     public Collection<Lied> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
         return dslContext.selectFrom(LIED)
-                .where(LIED.TENANT.eq(tenantId.value()))
+                .where(LIED.TENANT.eq(tenantId.value()).and(LIED.BESITZER_ID.eq(benutzerId.Id())))
                 .stream()
                 .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel()), new Benutzer.Id(s.getBesitzerId())))
                 .toList();
