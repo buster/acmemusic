@@ -71,8 +71,11 @@ public class LiedRepository implements LiedPort {
         Result<Record> records = dslContext.select().from(LIED.leftOuterJoin(LIED_AUSZEICHNUNGEN).on(LIED_AUSZEICHNUNGEN.TENANT.eq(tenantId.value()).and(LIED_AUSZEICHNUNGEN.LIEDID.eq(id.id()))))
                 .fetch();
 
-        Lied lied = new Lied(new Lied.Id(records.get(0).get(LIED.ID)), new Lied.Titel(records.get(0).get(LIED.TITEL)), new Benutzer.Id(records.get(0).get(LIED.BESITZER_ID)));
-        lied.setAuszeichnungen(records.stream().map(r -> LiedAuszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))).toList());
+        Lied lied = new Lied(new Lied.Id(records.getFirst().get(LIED.ID)), new Lied.Titel(records.getFirst().get(LIED.TITEL)), new Benutzer.Id(records.getFirst().get(LIED.BESITZER_ID)));
+        lied.setAuszeichnungen(
+                records.stream()
+                        .filter(r -> r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG) != null)
+                        .map(r -> LiedAuszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))).toList());
         return lied;
     }
 }
