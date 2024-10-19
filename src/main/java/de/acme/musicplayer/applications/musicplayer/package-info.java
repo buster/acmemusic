@@ -1,6 +1,6 @@
 @AppModule(
         name = "Musicplayer",
-        allowedDependencies = {"Users"},
+        allowedDependencies = {"Users", "Gamification", "Events"},
         exposedPackages = {"de.acme.musicplayer.applications.musicplayer.usecases",
                 "de.acme.musicplayer.applications.musicplayer.domain.model"}
 )
