@@ -43,7 +43,7 @@ public class MusicPlayerController {
 
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> liedAbspielen(@RequestParam(required = false) String benutzerId, @RequestParam(required = false) String liedId, @RequestParam(required = false)String tenantId) throws IOException {
+    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @RequestParam(required = false)String tenantId) throws IOException {
         InputStream inputStream = liedAbspielenUseCase.liedStreamen(new Lied.Id(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -53,7 +53,7 @@ public class MusicPlayerController {
 
     @HxRequest
     @PostMapping("/uploadSong")
-    public HtmxResponse uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, String tenantId) throws IOException {
+    public HtmxResponse uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, @CookieValue(value = "tenantId") String tenantId) throws IOException {
         Lied.Id id = liedHochladenUseCase.liedHochladen(new Benutzer.Id(userId), new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
         model.addAttribute("titel", titel);
         model.addAttribute("file", file.getOriginalFilename());
@@ -69,7 +69,7 @@ public class MusicPlayerController {
 
     @HxRequest
     @GetMapping("/songlist")
-    public String songList(Model model, @RequestParam("tenantId") String tenantId,  @CookieValue(value = "userId") String benutzerId) {
+    public String songList(Model model, @CookieValue(value = "tenantId") String tenantId,  @CookieValue(value = "userId") String benutzerId) {
         Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new Benutzer.Id(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);

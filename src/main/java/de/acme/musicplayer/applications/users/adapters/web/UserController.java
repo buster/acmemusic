@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -29,7 +30,7 @@ public class UserController {
 
     @HxRequest
     @PostMapping("/register-user")
-    public String registerUser(Model model, HttpServletResponse response, String username, String email, String password, String tenantId) {
+    public String registerUser(Model model, HttpServletResponse response, String username, String email, String password, @CookieValue(value = "tenantId") String tenantId) {
         Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
                 new Benutzer.Name(username),
                 new Benutzer.Passwort(password),
