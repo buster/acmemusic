@@ -1,26 +1,28 @@
 package de.acme.musicplayer.applications.users.domain.model;
 
 
+import com.google.common.base.Objects;
 import de.acme.musicplayer.ModuleApi;
+
+import java.util.Collection;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Benutzer {
     private final Name name;
     private final Email email;
-    private Benutzer.Id id;
     private final Passwort passwort;
+    private Id id;
+    private Collection<Auszeichnung> auszeichnungen = emptyList();
+
     public Benutzer(Name name, Passwort passwort, Email email) {
         this.name = name;
         this.passwort = passwort;
         this.email = email;
 //        this.id = new Id(email.email);
-    }
-
-    public void setId(Id id) {
-        this.id = id;
     }
 
     public Name getName() {
@@ -37,6 +39,18 @@ public class Benutzer {
 
     public Id getId() {
         return id;
+    }
+
+    public void setId(Id id) {
+        this.id = id;
+    }
+
+    public Collection<Auszeichnung> getAuszeichnungen() {
+        return auszeichnungen;
+    }
+
+    public void setAuszeichnungen(Collection<Auszeichnung> auszeichnungen) {
+        this.auszeichnungen = auszeichnungen;
     }
 
     public static class Name {

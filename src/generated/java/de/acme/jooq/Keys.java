@@ -5,10 +5,14 @@ package de.acme.jooq;
 
 
 import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.BenutzerAuszeichnungen;
 import de.acme.jooq.tables.Lied;
+import de.acme.jooq.tables.LiedAuszeichnungen;
 import de.acme.jooq.tables.Playlist;
 import de.acme.jooq.tables.PlaylistLied;
+import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
 import de.acme.jooq.tables.records.BenutzerRecord;
+import de.acme.jooq.tables.records.LiedAuszeichnungenRecord;
 import de.acme.jooq.tables.records.LiedRecord;
 import de.acme.jooq.tables.records.PlaylistLiedRecord;
 import de.acme.jooq.tables.records.PlaylistRecord;
@@ -40,6 +44,8 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<BenutzerAuszeichnungenRecord, BenutzerRecord> BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK = Internal.createForeignKey(BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN, DSL.name("benutzer_auszeichnungen_fk"), new TableField[] { BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.TENANT, BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.BENUTZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
+    public static final ForeignKey<LiedAuszeichnungenRecord, LiedRecord> LIED_AUSZEICHNUNGEN__LIED_AUSZEICHNUNGEN_FK = Internal.createForeignKey(LiedAuszeichnungen.LIED_AUSZEICHNUNGEN, DSL.name("lied_auszeichnungen_fk"), new TableField[] { LiedAuszeichnungen.LIED_AUSZEICHNUNGEN.TENANT, LiedAuszeichnungen.LIED_AUSZEICHNUNGEN.LIEDID }, Keys.PK_TENANT_LIED, new TableField[] { Lied.LIED.TENANT, Lied.LIED.ID }, true);
     public static final ForeignKey<PlaylistRecord, BenutzerRecord> PLAYLIST__PLAYLIST_BESITZER_FK = Internal.createForeignKey(Playlist.PLAYLIST, DSL.name("playlist_besitzer_fk"), new TableField[] { Playlist.PLAYLIST.TENANT, Playlist.PLAYLIST.BESITZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
     public static final ForeignKey<PlaylistLiedRecord, LiedRecord> PLAYLIST_LIED__FK_LIED_IED = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_lied_ied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.TENANT, PlaylistLied.PLAYLIST_LIED.LIED_ID }, Keys.PK_TENANT_LIED, new TableField[] { Lied.LIED.TENANT, Lied.LIED.ID }, true);
     public static final ForeignKey<PlaylistLiedRecord, PlaylistRecord> PLAYLIST_LIED__FK_PLAYLIST_IED = Internal.createForeignKey(PlaylistLied.PLAYLIST_LIED, DSL.name("fk_playlist_ied"), new TableField[] { PlaylistLied.PLAYLIST_LIED.TENANT, PlaylistLied.PLAYLIST_LIED.PLAYLIST_ID }, Keys.PK_TENANT_PLAYLIST, new TableField[] { Playlist.PLAYLIST.TENANT, Playlist.PLAYLIST.ID }, true);
