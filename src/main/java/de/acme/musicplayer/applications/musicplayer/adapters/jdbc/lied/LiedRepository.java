@@ -34,11 +34,10 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException {
-        String liedId = UUID.randomUUID().toString();
+    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES, LIED.TENANT, LIED.BESITZER_ID)
-                .values(liedId, lied.getTitel(), inputStream.readAllBytes(), tenantId.value(), lied.getBesitzer().Id()).execute();
-        return new Lied.Id(liedId);
+                .values(lied.getId().id(), lied.getTitel(), inputStream.readAllBytes(), lied.getTenantId().value(), lied.getBesitzer().Id()).execute();
+        return lied.getId();
 
     }
 
@@ -62,7 +61,7 @@ public class LiedRepository implements LiedPort {
         return dslContext.selectFrom(LIED)
                 .where(LIED.TENANT.eq(tenantId.value()).and(LIED.BESITZER_ID.eq(benutzerId.Id())))
                 .stream()
-                .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel()), new Benutzer.Id(s.getBesitzerId())))
+                .map(s -> new Lied(new Lied.Id(s.getId()), new Lied.Titel(s.getTitel()), new Benutzer.Id(s.getBesitzerId()), new TenantId(s.getTenant())))
                 .toList();
     }
 
@@ -71,7 +70,7 @@ public class LiedRepository implements LiedPort {
         Result<Record> records = dslContext.select().from(LIED.leftOuterJoin(LIED_AUSZEICHNUNGEN).on(LIED_AUSZEICHNUNGEN.TENANT.eq(tenantId.value()).and(LIED_AUSZEICHNUNGEN.LIEDID.eq(id.id()))))
                 .fetch();
 
-        Lied lied = new Lied(new Lied.Id(records.getFirst().get(LIED.ID)), new Lied.Titel(records.getFirst().get(LIED.TITEL)), new Benutzer.Id(records.getFirst().get(LIED.BESITZER_ID)));
+        Lied lied = new Lied(new Lied.Id(records.getFirst().get(LIED.ID)), new Lied.Titel(records.getFirst().get(LIED.TITEL)), new Benutzer.Id(records.getFirst().get(LIED.BESITZER_ID)), new TenantId(records.getFirst().get(LIED.TENANT)));
         lied.setAuszeichnungen(
                 records.stream()
                         .filter(r -> r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG) != null)

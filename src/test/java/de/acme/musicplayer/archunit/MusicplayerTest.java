@@ -15,6 +15,7 @@ public class MusicplayerTest {
             .adapter("liedrepository", "de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied..")
             .adapter("playlistrepository", "de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist..")
             .adapter("webcontroller", "de.acme.musicplayer.applications.musicplayer.adapters.web..")
+            .adapter("events", "de.acme.musicplayer.applications.musicplayer.adapters.events..")
             .domainModels("de.acme.musicplayer.applications.musicplayer.domain.model..")
             .domainServices("de.acme.musicplayer.applications.musicplayer.domain..",
                     "de.acme.musicplayer.applications.musicplayer.usecases..",

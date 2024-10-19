@@ -2,6 +2,7 @@ package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -30,10 +31,8 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException {
-        Lied.Id id = new Lied.Id(UUID.randomUUID().toString());
-        lied.setId(id);
-        ImmutablePair<String, TenantId> k = tableKey(lied.getId(), tenantId);
+    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
+        ImmutablePair<String, TenantId> k = tableKey(lied.getId(), lied.getTenantId());
         bytestreams.put(k, inputStream.readAllBytes());
         lieder.put(k, lied);
         return lied.getId();
