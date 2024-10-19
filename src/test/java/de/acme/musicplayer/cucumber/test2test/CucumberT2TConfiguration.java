@@ -1,17 +1,21 @@
 package de.acme.musicplayer.cucumber.test2test;
 
+import de.acme.musicplayer.applications.gamification.domain.NeuesLiedWurdeAngelegtService;
+import de.acme.musicplayer.applications.gamification.usecases.NeuesLiedWurdeAngelegtUsecase;
+import de.acme.musicplayer.applications.musicplayer.adapters.events.DirectEventPublisherStub;
+import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
+import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
 import de.acme.musicplayer.applications.musicplayer.domain.*;
-import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
+import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
-import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
-import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -74,13 +78,23 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort) {
-            return new LiedHochladenService(liedPort);
+        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, EventPublisher eventPublisher) {
+            return new LiedHochladenService(liedPort, eventPublisher);
         }
 
         @Bean
         public LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase(PlaylistPort playlistPort) {
             return new LiederInPlaylistAuflistenService(playlistPort);
+        }
+
+        @Bean
+        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase() {
+            return new NeuesLiedWurdeAngelegtService();
+        }
+
+        @Bean
+        public EventPublisher eventPublisher(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
+            return new DirectEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
         }
     }
 }
