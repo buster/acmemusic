@@ -201,6 +201,17 @@
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>4.29.2</version>
+                    <executions>
+                        <execution>
+                            <id>h2-liquibase</id>
+                            <configuration>
+                                <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+                                <url>jdbc:h2:file:./acme.db;SCHEMA=public</url>
+                                <username>sa</username>
+                                <password>password</password>
+                            </configuration>
+                        </execution>
+                    </executions>
                     <configuration>
                         <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
                         <url>jdbc:postgresql://localhost:5432/acmedb</url>
@@ -214,12 +225,21 @@
                             <artifactId>postgresql</artifactId>
                             <version>42.7.3</version>
                         </dependency>
+                        <dependency>
+                            <groupId>com.h2database</groupId>
+                            <artifactId>h2</artifactId>
+                            <version>2.2.224</version>
+                        </dependency>
                     </dependencies>
                 </plugin>
 
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
