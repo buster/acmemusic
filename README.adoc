@@ -8,7 +8,7 @@ Marks: ❓ ❌  ✅
 == Usecases
 
 [plantuml, format=svg, opts="inline"]
-....
+--
 
 left to right direction
 
@@ -29,7 +29,7 @@ package "User Management" {
 }
 
 package "Gamification" {
-  usecase "
+  usecase "Poweruser identifizieren"
 
 }
 
@@ -46,7 +46,7 @@ Urheber -u-> "Lied veröffentlichen"
 actor Admin #green
 'Admin --> "Benutzer löschen"
 'Admin --> "Lied löschen"
-....
+--
 
 
 == TODO
@@ -113,6 +113,14 @@ fachlichen Prozesses befinden?
 == Quickstart
 
 === Java
+
+JDK 21 für normale Entwicklung,
+
+[source, bash]
+--
+sdk install java 21.0.2-tem
+sdk use java 21.0.2-tem
+--
 
 JDK 23, NIK 24 (Native image. JDK 21 sollte auch einfach gehen)
 
