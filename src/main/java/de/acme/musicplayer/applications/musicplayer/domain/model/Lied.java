@@ -3,6 +3,7 @@ package de.acme.musicplayer.applications.musicplayer.domain.model;
 
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -12,6 +13,7 @@ public class Lied {
     private final Titel titel;
     private final Benutzer.Id besitzer;
     private Id id;
+    private Collection<LiedAuszeichnung> auszeichnungen;
 
     public Lied(Id id, Titel titel, Benutzer.Id besitzerId) {
         this.id = id;
@@ -38,6 +40,14 @@ public class Lied {
 
     public Benutzer.Id getBesitzer() {
         return besitzer;
+    }
+
+    public Collection<LiedAuszeichnung> getAuszeichnungen() {
+        return auszeichnungen;
+    }
+
+    public void setAuszeichnungen(Collection<LiedAuszeichnung> auszeichnungen) {
+        this.auszeichnungen = auszeichnungen;
     }
 
     public record Id(String id) {

@@ -9,4 +9,6 @@ public interface BenutzerPort {
     long zaehleBenutzer(TenantId tenantId);
 
     void loescheDatenbank(TenantId tenantId);
+
+    Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId);
 }
