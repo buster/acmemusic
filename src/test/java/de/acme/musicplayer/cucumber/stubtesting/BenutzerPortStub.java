@@ -3,17 +3,18 @@ package de.acme.musicplayer.cucumber.stubtesting;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BenutzerPortStub implements BenutzerPort {
 
-    private final List<Benutzer> benutzerList = new ArrayList<>();
+    private final Map<String, Benutzer> benutzerList = new HashMap<>();
 
     @Override
     public Benutzer.Id benutzerHinzufügen(Benutzer benutzer) {
-        benutzerList.add(benutzer);
-        return new Benutzer.Id(String.valueOf(benutzerList.size()));
+        Benutzer.Id id = new Benutzer.Id(UUID.randomUUID().toString());
+        benutzer.setId(id);
+        benutzerList.put(id.Id(), benutzer);
+        return id;
     }
 
     @Override
@@ -24,5 +25,10 @@ public class BenutzerPortStub implements BenutzerPort {
     @Override
     public void loescheDatenbank() {
         benutzerList.clear();
+    }
+
+    @Override
+    public void löscheBenutzer(Benutzer.Id id) {
+        benutzerList.remove(id.Id());
     }
 }
