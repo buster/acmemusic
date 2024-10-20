@@ -11,9 +11,11 @@ import de.acme.musicplayer.applications.musicplayer.usecases.*;
 import de.acme.musicplayer.applications.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
 import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
+import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
 import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
+import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.adapters.events.UserEventPublisherStub;
 import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
@@ -84,6 +86,11 @@ public class CucumberT2TConfiguration {
         @Bean
         public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort) {
             return new LiedAdministrationService(liedPort);
+        }
+
+        @Bean
+        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardRepository userScoreBoardRepository) {
+            return new ScoreBoardAdministrationService(userScoreBoardRepository);
         }
 
         @Bean

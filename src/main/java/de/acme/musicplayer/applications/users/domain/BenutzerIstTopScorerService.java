@@ -8,8 +8,10 @@ import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import de.acme.musicplayer.events.BenutzerHatAuszeichnungVerlorenEvent;
 import de.acme.musicplayer.events.BenutzerHatNeueAuszeichnungEvent;
 import de.acme.musicplayer.events.NeuerTopScorerEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 public class BenutzerIstTopScorerService implements BenutzerIstTopScorerUsecase {
 
     private final BenutzerPort benutzerPort;
@@ -24,6 +26,7 @@ public class BenutzerIstTopScorerService implements BenutzerIstTopScorerUsecase 
     @Transactional
     public void neuerTopScorerGefunden(NeuerTopScorerEvent event) {
         Benutzer neuerTopScorer = benutzerPort.leseBenutzer(event.neuerTopScorer(), event.tenantId());
+        log.info("New top scorer: {}  (event user id: {})", neuerTopScorer, event.neuerTopScorer());
         neuerTopScorer.getAuszeichnungen().add(Auszeichnung.MUSIC_LOVER_LOVER);
         userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungEvent(neuerTopScorer.getId(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
         if (event.alterTopScorer() != null) {
