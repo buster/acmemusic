@@ -1,6 +1,7 @@
 services:
   database:
     image: 'postgres:latest'
+    command: -c 'max_connections=500'
     ports:
       - '5432:5432'
     environment:

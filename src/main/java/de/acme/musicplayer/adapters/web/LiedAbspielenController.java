@@ -3,6 +3,7 @@ package de.acme.musicplayer.adapters.web;
 import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +22,8 @@ public class LiedAbspielenController {
     }
 
     @PostMapping
-    public InputStream liedAbspielen(String benutzerId, String liedId) {
-        return liedAbspielenUseCase.liedStreamen(new Benutzer.Id(benutzerId), new Lied.Id(liedId));
+    public InputStream liedAbspielen(String benutzerId, String liedId, String tenantId) {
+        return liedAbspielenUseCase.liedStreamen(new Benutzer.Id(benutzerId), new Lied.Id(liedId), new TenantId(tenantId));
     }
 
     @GetMapping("/")

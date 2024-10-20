@@ -3,6 +3,7 @@ package de.acme.musicplayer.application.domain;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedHochladenUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ public class LiedHochladenService implements LiedHochladenUsecase {
     }
 
     @Override
-    public Lied.Id liedHochladen(Lied.Titel title, InputStream lied) throws IOException {
-        return liedPort.fügeLiedHinzu(new Lied(title), lied);
+    public Lied.Id liedHochladen(Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
+        return liedPort.fügeLiedHinzu(new Lied(title), lied, tenantId);
     }
 }

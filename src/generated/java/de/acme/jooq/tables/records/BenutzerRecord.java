@@ -6,7 +6,7 @@ package de.acme.jooq.tables.records;
 
 import de.acme.jooq.tables.Benutzer;
 
-import org.jooq.Record1;
+import org.jooq.Record2;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -33,45 +33,59 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     }
 
     /**
+     * Setter for <code>public.benutzer.tenant</code>.
+     */
+    public void setTenant(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>public.benutzer.tenant</code>.
+     */
+    public String getTenant() {
+        return (String) get(1);
+    }
+
+    /**
      * Setter for <code>public.benutzer.name</code>.
      */
     public void setName(String value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>public.benutzer.name</code>.
      */
     public String getName() {
-        return (String) get(1);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>public.benutzer.email</code>.
      */
     public void setEmail(String value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>public.benutzer.email</code>.
      */
     public String getEmail() {
-        return (String) get(2);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>public.benutzer.passwort</code>.
      */
     public void setPasswort(String value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>public.benutzer.passwort</code>.
      */
     public String getPasswort() {
-        return (String) get(3);
+        return (String) get(4);
     }
 
     // -------------------------------------------------------------------------
@@ -79,8 +93,8 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<String> key() {
-        return (Record1) super.key();
+    public Record2<String, String> key() {
+        return (Record2) super.key();
     }
 
     // -------------------------------------------------------------------------
@@ -97,10 +111,11 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
     /**
      * Create a detached, initialised BenutzerRecord
      */
-    public BenutzerRecord(String id, String name, String email, String passwort) {
+    public BenutzerRecord(String id, String tenant, String name, String email, String passwort) {
         super(Benutzer.BENUTZER);
 
         setId(id);
+        setTenant(tenant);
         setName(name);
         setEmail(email);
         setPasswort(passwort);

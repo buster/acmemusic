@@ -2,6 +2,7 @@ package de.acme.musicplayer.application.domain;
 
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 public class BenutzerAdministrationService implements BenutzerAdministrationUsecase {
 
@@ -12,12 +13,12 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     }
 
     @Override
-    public long zähleBenutzer() {
-        return benutzerPort.zaehleBenutzer();
+    public long zähleBenutzer(TenantId tenantId) {
+        return benutzerPort.zaehleBenutzer(tenantId);
     }
 
     @Override
-    public void löscheDatenbank() {
-        benutzerPort.loescheDatenbank();
+    public void löscheDatenbank(TenantId tenantId) {
+        benutzerPort.loescheDatenbank(tenantId);
     }
 }

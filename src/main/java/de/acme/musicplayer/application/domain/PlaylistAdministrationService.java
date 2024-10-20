@@ -2,6 +2,7 @@ package de.acme.musicplayer.application.domain;
 
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.PlaylistAdministrationUsecase;
+import de.acme.musicplayer.application.domain.model.TenantId;
 
 public class PlaylistAdministrationService implements PlaylistAdministrationUsecase {
 
@@ -12,7 +13,7 @@ public class PlaylistAdministrationService implements PlaylistAdministrationUsec
     }
 
     @Override
-    public void löscheDatenbank() {
-        playlistPort.löscheDatenbank();
+    public void löscheDatenbank(TenantId tenantId) {
+        playlistPort.löscheDatenbank(tenantId);
     }
 }

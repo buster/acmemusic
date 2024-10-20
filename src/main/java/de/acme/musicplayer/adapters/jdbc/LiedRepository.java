@@ -2,6 +2,7 @@ package de.acme.musicplayer.adapters.jdbc;
 
 import de.acme.jooq.tables.records.LiedRecord;
 import de.acme.musicplayer.application.domain.model.Lied;
+import de.acme.musicplayer.application.domain.model.TenantId;
 import de.acme.musicplayer.application.ports.LiedPort;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public Lied ladeLied(Lied.Id liedId) {
+    public Lied ladeLied(Lied.Id liedId, TenantId tenantId) {
         LiedRecord liedRecord = dslContext.selectFrom(LIED)
                 .where(LIED.ID.eq(liedId.id()))
                 .fetchOne();
@@ -31,29 +32,30 @@ public class LiedRepository implements LiedPort {
     }
 
     @Override
-    public long zähleLieder() {
-        return 0L;
+    public long zähleLieder(TenantId tenantId) {
+        return dslContext.fetchCount(LIED.where(LIED.TENANT.eq(tenantId.value())));
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
+    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException {
         String liedId = UUID.randomUUID().toString();
-        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES)
-                .values(liedId, lied.getTitel(), inputStream.readAllBytes()).execute();
+        dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES, LIED.TENANT)
+                .values(liedId, lied.getTitel(), inputStream.readAllBytes(), tenantId.value()).execute();
         return new Lied.Id(liedId);
 
     }
 
     @Override
-    public void löscheDatenbank() {
-        dslContext.truncate(LIED).cascade().execute();
+    public void löscheDatenbank(TenantId tenantId) {
+        dslContext.truncate(LIED.where(LIED.TENANT.eq(tenantId.value()))).cascade().execute();
     }
 
     @Override
-    public InputStream ladeLiedStream(Lied.Id liedId) {
+    public InputStream ladeLiedStream(Lied.Id liedId, TenantId tenantId) {
         return new ByteArrayInputStream(dslContext.select(LIED.BYTES)
                 .from(LIED)
                 .where(LIED.ID.eq(liedId.id()))
+                .and(LIED.TENANT.eq(tenantId.value()))
                 .fetchOne()
                 .value1());
     }
