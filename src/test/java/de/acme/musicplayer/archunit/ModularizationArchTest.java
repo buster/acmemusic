@@ -1,10 +1,12 @@
-package de.acme.musicplayer;
+package de.acme.musicplayer.archunit;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.modules.syntax.ModuleRuleDefinition;
+import de.acme.musicplayer.AppModule;
+import de.acme.musicplayer.ModuleApi;
 
 import static com.tngtech.archunit.library.modules.syntax.ModuleDependencyScope.consideringOnlyDependenciesInAnyPackage;
 import static com.tngtech.archunit.library.modules.syntax.ModuleRuleDefinition.modules;
