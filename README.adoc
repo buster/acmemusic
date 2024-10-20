@@ -2,20 +2,3 @@
 
 PoC für Stubtesting mit Cucumber, Pact.
 Stubs im Test, Prod DB in Prod.
-
-
-== Ideen
-
-=== Paralleles Testing ermöglichen
-. Daten nur explizit anlegen
-. UUID am Szenarioanfang im Test
-.. testdata-UUID()@testdata.local
-.. testdata-UUID().mp3
-. in AfterAll löschen aller Testdaten anhand der UUID
-.. Admin-Usecase zum Löschen?
-
-=== Modulith
-. zweites Modul erstellen
-. test2test kommunikation wie? Async App Listener? Fake Antworten/Events
-. test2real == end to end test mit MessageBroker?
-

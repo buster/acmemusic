@@ -1,6 +1,5 @@
 package de.acme.musicplayer.application.domain;
 
-import de.acme.musicplayer.application.domain.model.Benutzer;
 import de.acme.musicplayer.application.ports.BenutzerPort;
 import de.acme.musicplayer.application.usecases.BenutzerAdministrationUsecase;
 
@@ -20,10 +19,5 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     @Override
     public void löscheDatenbank() {
         benutzerPort.loescheDatenbank();
-    }
-
-    @Override
-    public void löscheBenutzer(Benutzer.Id id) {
-        benutzerPort.löscheBenutzer(id);
     }
 }
