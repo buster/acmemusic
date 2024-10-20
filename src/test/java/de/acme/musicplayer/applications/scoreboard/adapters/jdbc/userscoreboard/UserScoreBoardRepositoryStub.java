@@ -27,8 +27,9 @@ public class UserScoreBoardRepositoryStub implements UserScoreBoardRepository {
     }
 
     @Override
-    public Benutzer.Id höchstePunktZahl() {
+    public Benutzer.Id höchstePunktZahl(TenantId tenantId) {
         return scoreBoard.entrySet().stream()
+                .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .max(comparingInt(Map.Entry::getValue))
                 .map(mutablePairIntegerEntry -> mutablePairIntegerEntry.getKey().getLeft())
                 .orElse(null);
