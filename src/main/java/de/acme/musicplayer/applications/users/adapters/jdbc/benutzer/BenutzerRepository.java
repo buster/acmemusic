@@ -1,15 +1,12 @@
 package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
-import de.acme.jooq.tables.records.BenutzerRecord;
-import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
+import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
-import org.jooq.SelectJoinStep;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -53,7 +50,13 @@ public class BenutzerRepository implements BenutzerPort {
                 .fetch();
 
         Benutzer benutzer = new Benutzer(new Benutzer.Name(records.getFirst().get(BENUTZER.NAME)), new Benutzer.Passwort(records.getFirst().get(BENUTZER.PASSWORT)), new Benutzer.Email(records.getFirst().get(BENUTZER.EMAIL)));
-        benutzer.setAuszeichnungen(records.stream().map(r -> Auszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))).toList());
+        benutzer.setAuszeichnungen(
+                records.stream()
+                        .filter(r -> r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG) != null)
+                        .map(r ->
+                                Auszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))
+
+                        ).toList());
         return benutzer;
     }
 }
