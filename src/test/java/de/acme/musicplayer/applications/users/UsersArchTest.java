@@ -1,4 +1,4 @@
-package de.acme.musicplayer.archunit;
+package de.acme.musicplayer.applications.users;
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -8,7 +8,7 @@ import static com.tngtech.archunit.base.DescribedPredicate.describe;
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
 @AnalyzeClasses(packages = "de.acme.musicplayer.applications.users")
-public class UsersTest {
+public class UsersArchTest {
 
     @ArchTest
     public static final ArchRule onion_architecture_in_module = onionArchitecture()

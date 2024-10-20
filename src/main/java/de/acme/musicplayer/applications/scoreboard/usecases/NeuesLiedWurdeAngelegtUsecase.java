@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.gamification.usecases;
+package de.acme.musicplayer.applications.scoreboard.usecases;
 
 import de.acme.musicplayer.ModuleApi;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;

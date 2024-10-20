@@ -1,6 +1,6 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.events;
 
-import de.acme.musicplayer.applications.gamification.usecases.NeuesLiedWurdeAngelegtUsecase;
+import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.events.Event;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;

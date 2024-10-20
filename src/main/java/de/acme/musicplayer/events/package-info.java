@@ -1,6 +1,6 @@
 @AppModule(
         name = "Events",
-        allowedDependencies = {"Musicplayer", "Gamification", "Users"},
+        allowedDependencies = {"Musicplayer", "Scoreboard", "Users"},
         exposedPackages = {"de.acme.musicplayer.events"}
 )
 package de.acme.musicplayer.events;
