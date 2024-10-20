@@ -2,7 +2,6 @@ package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LiedPortStub implements LiedPort {

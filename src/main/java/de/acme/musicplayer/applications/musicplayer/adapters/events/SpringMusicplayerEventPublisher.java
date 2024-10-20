@@ -1,15 +1,15 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.events;
 
 import de.acme.musicplayer.events.Event;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpringEventPublisher implements EventPublisher {
+public class SpringMusicplayerEventPublisher implements MusicplayerEventPublisher {
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public SpringEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    public SpringMusicplayerEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
