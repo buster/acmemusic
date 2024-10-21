@@ -8,7 +8,11 @@ import de.acme.musicplayer.application.usecases.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.de.*;
+import io.cucumber.java.de.Dann;
+import io.cucumber.java.de.Gegebenseien;
+import io.cucumber.java.de.Und;
+import io.cucumber.java.de.Wenn;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -22,6 +26,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class SongSteps {
 
     private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
@@ -66,6 +71,8 @@ public class SongSteps {
             String titel = song.get("Titel");
             try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(song.get("Dateiname")).toURI()))) {
                 Lied.Id id = liedHochladenUseCase.liedHochladen(new Lied.Titel(titel), inputStream, tenantId);
+                log.info("Song {} hochgeladen, ID: {}", titel, id);
+                assertThat(id).isNotNull();
                 titelToIdMap.put(titel, id);
             }
         }
@@ -75,6 +82,8 @@ public class SongSteps {
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
             Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
+            log.info("Benutzer {} registriert, ID: {}", benutzer.get("Name"), id);
+            assertThat(id).isNotNull();
             benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
