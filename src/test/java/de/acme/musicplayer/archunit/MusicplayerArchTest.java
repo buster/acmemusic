@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.musicplayer;
+package de.acme.musicplayer.archunit;
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
