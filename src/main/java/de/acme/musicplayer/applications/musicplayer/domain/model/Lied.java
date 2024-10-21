@@ -1,6 +1,7 @@
 package de.acme.musicplayer.applications.musicplayer.domain.model;
 
 
+import de.acme.musicplayer.ModuleApi;
 import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
@@ -64,6 +65,7 @@ public class Lied {
         return tenantId;
     }
 
+    @ModuleApi
     public record Id(String id) {
         public Id(String id) {
             checkNotNull(id);
