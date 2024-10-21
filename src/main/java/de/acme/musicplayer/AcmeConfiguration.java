@@ -2,6 +2,9 @@ package de.acme.musicplayer;
 
 import de.acme.musicplayer.applications.musicplayer.domain.*;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
+import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
+import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
@@ -61,7 +64,13 @@ public class AcmeConfiguration {
         return new LiederInPlaylistAuflistenService(playlistPort);
     }
 
-    @Bean LiederAuflistenUsecase liederAuflistenUsecase(LiedPort liedPort) {
+    @Bean
+    LiederAuflistenUsecase liederAuflistenUsecase(LiedPort liedPort) {
         return new LiederAuflistenService(liedPort);
+    }
+
+    @Bean
+    public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort) {
+        return new ScoreBoardAdministrationService(userScoreBoardPort);
     }
 }
