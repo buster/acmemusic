@@ -273,6 +273,7 @@
                         <configuration>
                             <projectName>acme</projectName>
                             <file>compose.yml</file>
+                            <skip>${skipDocker}</skip>
                         </configuration>
                     </execution>
                 </executions>
