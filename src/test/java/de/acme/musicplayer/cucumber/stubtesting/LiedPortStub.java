@@ -44,7 +44,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public void löscheDatenbank(TenantId tenantId) {
+    synchronized public void löscheDatenbank(TenantId tenantId) {
         for (Pair<String, TenantId> stringTenantIdPair : lieder.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 lieder.remove(stringTenantIdPair);

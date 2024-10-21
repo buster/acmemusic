@@ -30,7 +30,7 @@ public class BenutzerPortStub implements BenutzerPort {
     }
 
     @Override
-    public void loescheDatenbank(TenantId tenantId) {
+    synchronized public void loescheDatenbank(TenantId tenantId) {
         for (Pair<String, TenantId> stringTenantIdPair : benutzerList.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 benutzerList.remove(stringTenantIdPair);

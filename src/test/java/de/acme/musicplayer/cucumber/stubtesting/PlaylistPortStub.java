@@ -47,7 +47,7 @@ public class PlaylistPortStub implements PlaylistPort {
     }
 
     @Override
-    public void löscheDatenbank(TenantId tenantId) {
+    synchronized public void löscheDatenbank(TenantId tenantId) {
         playlists.clear();
     }
 }
