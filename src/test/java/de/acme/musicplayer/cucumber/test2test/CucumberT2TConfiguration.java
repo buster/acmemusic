@@ -1,6 +1,6 @@
 package de.acme.musicplayer.cucumber.test2test;
 
-import de.acme.musicplayer.applications.musicplayer.adapters.events.MusicplayerMusicplayerEventPublisherStub;
+import de.acme.musicplayer.applications.musicplayer.adapters.events.MusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
 import de.acme.musicplayer.applications.musicplayer.domain.*;
@@ -120,7 +120,7 @@ public class CucumberT2TConfiguration {
 
         @Bean
         public MusicplayerEventPublisher MusicplayereventPublisher(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
-            return new MusicplayerMusicplayerEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
+            return new MusicplayerEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
         }
 
         @Bean
