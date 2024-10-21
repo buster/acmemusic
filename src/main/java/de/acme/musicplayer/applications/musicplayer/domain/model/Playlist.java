@@ -47,10 +47,11 @@ public class Playlist {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Playlist playlist = (Playlist) o;
-        return Objects.equals(id, playlist.id);
+        if (this.id == null) return false;
+        if (this == o) return true;
+        if (this.id.equals(((Playlist) o).id)) return true;
+        return false;
     }
 
     @Override
