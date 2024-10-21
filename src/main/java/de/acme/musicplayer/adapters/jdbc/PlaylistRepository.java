@@ -9,7 +9,8 @@ import de.acme.musicplayer.application.ports.PlaylistPort;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
-import static de.acme.jooq.Tables.*;
+import static de.acme.jooq.Tables.PLAYLIST;
+import static de.acme.jooq.Tables.PLAYLIST_LIED;
 
 @Component
 public class PlaylistRepository implements PlaylistPort {
@@ -60,9 +61,10 @@ public class PlaylistRepository implements PlaylistPort {
 
     @Override
     public void löscheDatenbank(TenantId tenantId) {
-        dslContext.truncate(PLAYLIST
-                        .where(PLAYLIST.TENANT.eq(tenantId.value())),
-                PLAYLIST_LIED.where(PLAYLIST_LIED.TENANT.eq(tenantId.value()))).cascade().execute();
+        dslContext.deleteFrom(PLAYLIST_LIED
+                .where(PLAYLIST_LIED.TENANT.eq(tenantId.value()))).execute();
+        dslContext.deleteFrom(PLAYLIST
+                .where(PLAYLIST.TENANT.eq(tenantId.value()))).execute();
     }
 
     private PlaylistRecord fetchPlaylist(Playlist.Id id, TenantId tenantId) {

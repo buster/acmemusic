@@ -5,6 +5,7 @@ import de.acme.musicplayer.application.domain.model.Playlist;
 import de.acme.musicplayer.application.ports.PlaylistPort;
 import de.acme.musicplayer.application.usecases.PlaylistAnlegenUsecase;
 import de.acme.musicplayer.application.domain.model.TenantId;
+import org.springframework.transaction.annotation.Transactional;
 
 public class PlaylistAnlegenService implements PlaylistAnlegenUsecase {
 
@@ -15,6 +16,7 @@ public class PlaylistAnlegenService implements PlaylistAnlegenUsecase {
     }
 
     @Override
+    @Transactional
     public Playlist.Id playlistAnlegen(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId) {
         return playlistPort.erstellePlaylist(benutzername, name, tenantId);
     }

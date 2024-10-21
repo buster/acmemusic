@@ -5,6 +5,7 @@ import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.ports.LiedPort;
 import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.application.domain.model.TenantId;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 
@@ -17,6 +18,7 @@ public class LiedAbspielenService implements LiedAbspielenUsecase {
     }
 
     @Override
+    @Transactional
     public InputStream liedStreamen(Benutzer.Id id, Lied.Id liedId, TenantId tenantId) {
         return liedPort.ladeLiedStream(liedId, tenantId);
     }
