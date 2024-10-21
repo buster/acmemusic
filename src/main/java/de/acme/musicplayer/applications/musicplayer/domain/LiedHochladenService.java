@@ -3,7 +3,7 @@ package de.acme.musicplayer.applications.musicplayer.domain;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
@@ -15,11 +15,11 @@ import java.io.InputStream;
 public class LiedHochladenService implements LiedHochladenUsecase {
 
     private final LiedPort liedPort;
-    private final EventPublisher eventPublisher;
+    private final MusicplayerEventPublisher musicplayerEventPublisher;
 
-    public LiedHochladenService(LiedPort liedPort, EventPublisher eventPublisher) {
+    public LiedHochladenService(LiedPort liedPort, MusicplayerEventPublisher musicplayerEventPublisher) {
         this.liedPort = liedPort;
-        this.eventPublisher = eventPublisher;
+        this.musicplayerEventPublisher = musicplayerEventPublisher;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class LiedHochladenService implements LiedHochladenUsecase {
     public Lied.Id liedHochladen(Benutzer.Id benutzerId, Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
         Lied neuesLied = Lied.neuesLied(title, benutzerId, tenantId);
         Lied.Id id = liedPort.fügeLiedHinzu(neuesLied, lied);
-        eventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId(),
+        musicplayerEventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId(),
                 neuesLied.getTitel(),
                 neuesLied.getBesitzer(),
                 neuesLied.getTenantId())

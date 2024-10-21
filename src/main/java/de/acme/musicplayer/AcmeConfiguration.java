@@ -1,7 +1,7 @@
 package de.acme.musicplayer;
 
 import de.acme.musicplayer.applications.musicplayer.domain.*;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
@@ -52,8 +52,8 @@ public class AcmeConfiguration {
     }
 
     @Bean
-    public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, EventPublisher eventPublisher) {
-        return new LiedHochladenService(liedPort, eventPublisher);
+    public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, MusicplayerEventPublisher musicplayerEventPublisher) {
+        return new LiedHochladenService(liedPort, musicplayerEventPublisher);
     }
 
     @Bean
