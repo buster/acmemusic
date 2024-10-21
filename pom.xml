@@ -260,19 +260,19 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.4.1</version>
+                <groupId>io.brachu</groupId>
+                <artifactId>docker-compose-maven-plugin</artifactId>
+                <version>1.0.0</version>
                 <executions>
                     <execution>
                         <id>run-docker</id>
                         <phase>generate-sources</phase>
+                        <goals>
+                            <goal>up</goal>
+                        </goals>
                         <configuration>
-                            <executable>docker compose</executable>
-                            <arguments>
-                                <argument>up</argument>
-                                <argument>-d</argument>
-                            </arguments>
+                            <projectName>acme</projectName>
+                            <file>compose.yml</file>
                         </configuration>
                     </execution>
                 </executions>
