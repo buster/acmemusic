@@ -1,18 +1,16 @@
-package de.acme.musicplayer.archunit;
+package de.acme.musicplayer;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import com.tngtech.archunit.library.modules.syntax.ModuleRuleDefinition;
-import de.acme.musicplayer.AppModule;
-import de.acme.musicplayer.ModuleApi;
 
 import static com.tngtech.archunit.library.modules.syntax.ModuleDependencyScope.consideringOnlyDependenciesInAnyPackage;
 import static com.tngtech.archunit.library.modules.syntax.ModuleRuleDefinition.modules;
 
 @AnalyzeClasses(packages = "de.acme.musicplayer", importOptions = ImportOption.DoNotIncludeTests.class)
-public class ModuleTest {
+public class ModularizationArchTest {
 
     @ArchTest
     public static final ArchRule adapters_should_be_cycle_free = ModuleRuleDefinition.modules()

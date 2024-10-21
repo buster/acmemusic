@@ -27,10 +27,10 @@ public class LiedHochladenService implements LiedHochladenUsecase {
     public Lied.Id liedHochladen(Benutzer.Id benutzerId, Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
         Lied neuesLied = Lied.neuesLied(title, benutzerId, tenantId);
         Lied.Id id = liedPort.fügeLiedHinzu(neuesLied, lied);
-        eventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId().id(),
+        eventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId(),
                 neuesLied.getTitel(),
-                neuesLied.getBesitzer().Id(),
-                neuesLied.getTenantId().value())
+                neuesLied.getBesitzer(),
+                neuesLied.getTenantId())
         );
         return id;
     }
