@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -106,10 +107,10 @@ public class SongSteps {
     }
 
     @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
-    public void gegebenSeiEineLeereDatenbank() {
+    public void gegebenSeiEineLeereDatenbank(String benutzername, String passwort, String email) {
         Page page = browserContext.browser().newPage();
         page.navigate(String.format("http://localhost:%s", port));
-        com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat(page).hasTitle("ACME Music Player");
+        assertThat(page).hasTitle("ACME Music Player");
     }
 
     @Gegebenseien("folgende Songs:")
