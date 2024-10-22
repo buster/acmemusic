@@ -65,6 +65,7 @@ Features:
 .. Dritter event Driven service
 .. Basis für längerlaufende Testdaten
 .. Events mit Value Objects aus der Domain oder Plain Objects!?
+.. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo? 
 . Quick-Registration
 .. Als "Demo-Mode" zum Anteasern, Lied Hochladen + User + Email == 10 Minuten Zugriff auf Software bis Email-Verifikation abgeschlossen wurde, danach gesperrt/pausiert [❓]
 
