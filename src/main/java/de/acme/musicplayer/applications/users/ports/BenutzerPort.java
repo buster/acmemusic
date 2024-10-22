@@ -11,4 +11,6 @@ public interface BenutzerPort {
     void loescheDatenbank(TenantId tenantId);
 
     Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId);
+
+    void speichereBenutzer(Benutzer neuerTopScorer, TenantId tenant);
 }
