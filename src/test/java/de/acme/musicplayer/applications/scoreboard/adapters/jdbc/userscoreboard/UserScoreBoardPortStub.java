@@ -1,7 +1,7 @@
 package de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Comparator.comparingInt;
 
-public class UserScoreBoardRepositoryStub implements UserScoreBoardRepository {
+public class UserScoreBoardPortStub implements UserScoreBoardPort {
 
     private ConcurrentHashMap<MutablePair<Benutzer.Id, TenantId>, Integer> scoreBoard = new ConcurrentHashMap<>();
 
