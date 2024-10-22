@@ -7,6 +7,7 @@ import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.events.NeuerTopScorerEvent;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 public class NeuesLiedWurdeAngelegtService implements NeuesLiedWurdeAngelegtUsecase {
@@ -20,6 +21,7 @@ public class NeuesLiedWurdeAngelegtService implements NeuesLiedWurdeAngelegtUsec
     }
 
     @Override
+    @Transactional
     public void neuesLiedWurdeAngelegt(NeuesLiedWurdeAngelegt event) {
         log.info("Received event: {}", event);
         Benutzer.Id aktuellerTopScorer = userScoreBoardPort.höchstePunktZahl(event.getTenant());
