@@ -21,8 +21,10 @@ import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUseca
 import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @Configuration
+@EnableAsync
 public class AcmeConfiguration {
 
     @Bean
