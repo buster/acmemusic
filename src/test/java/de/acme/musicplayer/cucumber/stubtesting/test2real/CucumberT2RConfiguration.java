@@ -17,25 +17,6 @@ import org.springframework.test.annotation.DirtiesContext;
 @SpringBootTest
 public class CucumberT2RConfiguration {
 
-    @TestConfiguration
-    public static class T2RConfiguration {
-
-        // BEGIN: Adapter
-        @Bean
-        public PlaylistPort playlistPort(DSLContext dslContext) {
-            return new PlaylistRepository(dslContext);
-        }
-
-        @Bean
-        public BenutzerPort benutzerPort(DSLContext dslContext) {
-            return new BenutzerRepository(dslContext);
-        }
-
-        @Bean
-        public LiedPort liedPort(DSLContext dslContext) {
-            return new LiedRepository(dslContext);
-        }
-
-        // END: Adapter
-    }
+    // No Beans needed: Ports are configured in Application (no stubbing)
+    // Usecases are used directly
 }
