@@ -1,7 +1,9 @@
 package de.acme.musicplayer.cucumber.test2test;
 
-import de.acme.musicplayer.applications.gamification.domain.NeuesLiedWurdeAngelegtService;
-import de.acme.musicplayer.applications.gamification.usecases.NeuesLiedWurdeAngelegtUsecase;
+import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
+import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
+import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.applications.musicplayer.adapters.events.DirectEventPublisherStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
@@ -40,6 +42,11 @@ public class CucumberT2TConfiguration {
         @Bean
         public LiedPort liedPort() {
             return new LiedPortStub();
+        }
+
+        @Bean
+        public UserScoreBoardRepository userScoreBoardRepository() {
+            return new UserScoreBoardRepositoryStub();
         }
 
         @Bean
@@ -88,8 +95,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase() {
-            return new NeuesLiedWurdeAngelegtService();
+        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardRepository userScoreBoardRepository) {
+            return new NeuesLiedWurdeAngelegtService(userScoreBoardRepository);
         }
 
         @Bean

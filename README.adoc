@@ -28,7 +28,7 @@ package "User Management" {
   usecase "Benutzer löschen" #green
 }
 
-package "Gamification" {
+package "Scoreboard" {
   usecase "Poweruser identifizieren"
 
 }
@@ -61,7 +61,7 @@ Features:
 .. Tenant in Entity aufnehmen
 .. Events in Entity aufnehmen und transaktional speichern
 . Modulith ✅
-. Gamification score board [❓]
+. Scoreboard score board [❓]
 .. Dritter event Driven service
 .. Basis für längerlaufende Testdaten 
 . Quick-Registration
