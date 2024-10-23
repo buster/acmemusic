@@ -41,7 +41,7 @@ public class MusicPlayerController {
 
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @RequestParam(required = false) String tenantId) throws IOException {
+    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @CookieValue(value = "tenantId") String tenantId) throws IOException {
         InputStream inputStream = liedAbspielenUseCase.liedStreamen(new LiedId(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();

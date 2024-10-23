@@ -3,7 +3,6 @@ package de.acme.musicplayer.applications.users.adapters.events;
 import de.acme.musicplayer.common.TenantId;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -27,7 +26,6 @@ public class SseEmitterService {
         emitter.onTimeout(() -> emitters.get(tenantId).remove(emitter));
     }
 
-    @Async
     public void sendEvent(TenantId tenant, String eventData) {
         emitters.entrySet().stream()
                 .filter(pairSetEntry -> pairSetEntry.getKey().getLeft().equals(tenant.value()))
@@ -50,7 +48,6 @@ public class SseEmitterService {
                 });
     }
 
-    @Async
     public void sendEventToUser(String userId, TenantId tenant, String eventData) {
         emitters.entrySet().stream()
                 .filter(pairSetEntry -> pairSetEntry.getKey().getLeft().equals(tenant.value()))
