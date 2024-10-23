@@ -1,11 +1,12 @@
 package de.acme.musicplayer.applications.musicplayer.usecases;
 
 import de.acme.musicplayer.ModuleApi;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.PlaylistId;
+import de.acme.musicplayer.common.TenantId;
+
 @ModuleApi
 public interface LiedZuPlaylistHinzufügenUsecase {
-    void liedZuPlaylistHinzufügen(Benutzer.Id benutzername, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId);
+    void liedZuPlaylistHinzufügen(BenutzerId benutzername, LiedId liedId, PlaylistId playlistId, TenantId tenantId);
 }

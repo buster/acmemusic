@@ -1,9 +1,10 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist;
 
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.PlaylistId;
+import de.acme.musicplayer.common.TenantId;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
@@ -13,15 +14,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaylistPortStub implements PlaylistPort {
 
-    private final Map<Pair<Playlist.Id, TenantId>, Playlist> playlists = new ConcurrentHashMap<>();
+    private final Map<Pair<PlaylistId, TenantId>, Playlist> playlists = new ConcurrentHashMap<>();
 
-    private Playlist loadPlaylistByIdAndTenant(Playlist.Id playlistId, TenantId tenantId) {
-        Optional<Map.Entry<Pair<Playlist.Id, TenantId>, Playlist>> pairPlaylistEntry1 = playlists.entrySet().stream()
+    private Playlist loadPlaylistByIdAndTenant(PlaylistId playlistId, TenantId tenantId) {
+        Optional<Map.Entry<Pair<PlaylistId, TenantId>, Playlist>> pairPlaylistEntry1 = playlists.entrySet().stream()
                 .filter(
                         pairPlaylistEntry -> pairPlaylistEntry.getKey().getLeft().equals(playlistId)
                                 && pairPlaylistEntry.getKey().getRight().equals(tenantId)
                 )
                 .findFirst();
+        //noinspection OptionalIsPresent
         if (pairPlaylistEntry1.isEmpty()) {
             return null;
         } else {
@@ -30,7 +32,7 @@ public class PlaylistPortStub implements PlaylistPort {
     }
 
     @Override
-    public Playlist lade(Playlist.Id playlistId, TenantId tenantId) {
+    public Playlist lade(PlaylistId playlistId, TenantId tenantId) {
         Playlist currentPlaylist = loadPlaylistByIdAndTenant(playlistId, tenantId);
         if (currentPlaylist == null) {
             throw new IllegalArgumentException(String.format("Playlist %s not found", playlistId));
@@ -40,13 +42,13 @@ public class PlaylistPortStub implements PlaylistPort {
     }
 
     @Override
-    public Playlist lade(Benutzer.Id benutzer, Playlist.Name playlistName, TenantId tenantId) {
-        return lade(new Playlist.Id(benutzer.Id(), playlistName.name()), tenantId);
+    public Playlist lade(BenutzerId benutzer, Playlist.Name playlistName, TenantId tenantId) {
+        return lade(new PlaylistId(benutzer.Id(), playlistName.name()), tenantId);
     }
 
     @Override
-    public Playlist.Id erstellePlaylist(Benutzer.Id benutzer, Playlist.Name name, TenantId tenantId) {
-        Playlist.Id playlistId = new Playlist.Id(benutzer.Id(), name.name());
+    public PlaylistId erstellePlaylist(BenutzerId benutzer, Playlist.Name name, TenantId tenantId) {
+        PlaylistId playlistId = new PlaylistId(benutzer.Id(), name.name());
         if (loadPlaylistByIdAndTenant(playlistId, tenantId) != null) {
             return loadPlaylistByIdAndTenant(playlistId, tenantId).getId();
         } else {
@@ -58,7 +60,7 @@ public class PlaylistPortStub implements PlaylistPort {
 
     @Override
     public void löscheDatenbank(TenantId tenantId) {
-        for (Pair<Playlist.Id, TenantId> idTenantIdPair : playlists.keySet()) {
+        for (Pair<PlaylistId, TenantId> idTenantIdPair : playlists.keySet()) {
             if (idTenantIdPair.getRight().equals(tenantId)) {
                 playlists.remove(idTenantIdPair);
             }

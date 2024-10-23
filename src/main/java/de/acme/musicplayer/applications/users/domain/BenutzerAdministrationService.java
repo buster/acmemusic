@@ -1,9 +1,10 @@
 package de.acme.musicplayer.applications.users.domain;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BenutzerAdministrationService implements BenutzerAdministrationUsecase {
@@ -26,7 +27,7 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     }
 
     @Override
-    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
-        return benutzerPort.leseBenutzer(id, tenantId);
+    public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
+        return benutzerPort.leseBenutzer(benutzerId, tenantId);
     }
 }

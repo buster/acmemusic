@@ -1,8 +1,8 @@
 package de.acme.musicplayer.applications.scoreboard.domain;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
+import de.acme.musicplayer.common.TenantId;
 
 public class ScoreBoardAdministrationService implements ScoreBoardAdministrationUsecase {
 

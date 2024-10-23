@@ -1,12 +1,13 @@
 package de.acme.musicplayer.applications.musicplayer.domain;
 
+import de.acme.musicplayer.applications.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.TenantId;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -24,14 +25,14 @@ public class LiedHochladenService implements LiedHochladenUsecase {
 
     @Override
     @Transactional
-    public Lied.Id liedHochladen(Benutzer.Id benutzerId, Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
+    public LiedId liedHochladen(BenutzerId benutzerId, Lied.Titel title, InputStream lied, TenantId tenantId) throws IOException {
         Lied neuesLied = Lied.neuesLied(title, benutzerId, tenantId);
-        Lied.Id id = liedPort.fügeLiedHinzu(neuesLied, lied);
+        LiedId liedId = liedPort.fügeLiedHinzu(neuesLied, lied);
         musicplayerEventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId(),
                 neuesLied.getTitel(),
                 neuesLied.getBesitzer(),
                 neuesLied.getTenantId())
         );
-        return id;
+        return liedId;
     }
 }

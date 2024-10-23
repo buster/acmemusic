@@ -1,11 +1,12 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist;
 
 import de.acme.jooq.tables.records.PlaylistRecord;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.PlaylistId;
+import de.acme.musicplayer.common.TenantId;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Component;
 
@@ -22,14 +23,14 @@ public class PlaylistRepository implements PlaylistPort {
     }
 
     @Override
-    public Playlist lade(Benutzer.Id benutzerId, Playlist.Name playlistName, TenantId tenantId) {
-        return lade(new Playlist.Id(benutzerId.Id(), playlistName.name()), tenantId);
+    public Playlist lade(BenutzerId benutzerId, Playlist.Name playlistName, TenantId tenantId) {
+        return lade(new PlaylistId(benutzerId.Id(), playlistName.name()), tenantId);
     }
 
     @Override
-    public Playlist lade(Playlist.Id playlistId, TenantId tenantId) {
+    public Playlist lade(PlaylistId playlistId, TenantId tenantId) {
         PlaylistRecord record = fetchPlaylist(playlistId, tenantId);
-        Playlist playlist = new Playlist(new Benutzer.Id(record.getBesitzer()), new Playlist.Name(record.getName()));
+        Playlist playlist = new Playlist(new BenutzerId(record.getBesitzer()), new Playlist.Name(record.getName()));
 
         dslContext.selectFrom(PLAYLIST_LIED)
                 .where(PLAYLIST_LIED.PLAYLIST_ID.eq(playlistId.id()))
@@ -37,19 +38,19 @@ public class PlaylistRepository implements PlaylistPort {
                 .fetch()
                 .forEach(playlistSongRecord -> {
                     String liedId = playlistSongRecord.getLiedId();
-                    playlist.liedHinzufügen(new Lied.Id(liedId), playlist.getBesitzer());
+                    playlist.liedHinzufügen(new LiedId(liedId), playlist.getBesitzer());
                 });
         return playlist;
     }
 
     @Override
-    public Playlist.Id erstellePlaylist(Benutzer.Id benutzername, Playlist.Name name, TenantId tenantId) {
-        PlaylistRecord record = fetchPlaylist(new Playlist.Id(benutzername.Id(), name.name()), tenantId);
+    public PlaylistId erstellePlaylist(BenutzerId benutzername, Playlist.Name name, TenantId tenantId) {
+        PlaylistRecord record = fetchPlaylist(new PlaylistId(benutzername.Id(), name.name()), tenantId);
         if (record == null) {
             createPlaylist(benutzername, name, tenantId);
-            record = fetchPlaylist(new Playlist.Id(benutzername.Id(), name.name()), tenantId);
+            record = fetchPlaylist(new PlaylistId(benutzername.Id(), name.name()), tenantId);
         }
-        return new Playlist.Id(record.getId());
+        return new PlaylistId(record.getId());
     }
 
     @Override
@@ -82,17 +83,17 @@ public class PlaylistRepository implements PlaylistPort {
         });
     }
 
-    private PlaylistRecord fetchPlaylist(Playlist.Id id, TenantId tenantId) {
+    private PlaylistRecord fetchPlaylist(PlaylistId playlistId, TenantId tenantId) {
         return dslContext
                 .selectFrom(PLAYLIST)
-                .where(PLAYLIST.ID.eq(id.id()))
+                .where(PLAYLIST.ID.eq(playlistId.id()))
                 .and(PLAYLIST.TENANT.eq(tenantId.value()))
                 .fetchOne();
     }
 
-    private void createPlaylist(Benutzer.Id benutzer, Playlist.Name playlistName, TenantId tenantId) {
+    private void createPlaylist(BenutzerId benutzer, Playlist.Name playlistName, TenantId tenantId) {
         dslContext.insertInto(PLAYLIST, PLAYLIST.ID, PLAYLIST.BESITZER, PLAYLIST.NAME, PLAYLIST.TENANT)
-                .values(new Playlist.Id(benutzer.Id(), playlistName.name()).id(), benutzer.Id(), playlistName.name(), tenantId.value())
+                .values(new PlaylistId(benutzer.Id(), playlistName.name()).id(), benutzer.Id(), playlistName.name(), tenantId.value())
                 .execute();
     }
 }

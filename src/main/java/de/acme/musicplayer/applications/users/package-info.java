@@ -2,7 +2,9 @@
         name = "Users",
         allowedDependencies = {"Musicplayer", "Events", "Scoreboard"},
         exposedPackages = {"de.acme.musicplayer.applications.users.usecases",
-                "de.acme.musicplayer.applications.users.domain.model"}
+                "de.acme.musicplayer.applications.users.domain.model",
+                "de.acme.musicplayer.applications.users.domain.events",
+        }
 )
 package de.acme.musicplayer.applications.users;
 

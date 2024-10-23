@@ -1,6 +1,6 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.events;
 
-import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
+import de.acme.musicplayer.applications.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

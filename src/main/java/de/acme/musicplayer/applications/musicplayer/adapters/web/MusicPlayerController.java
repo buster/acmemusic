@@ -1,11 +1,12 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.web;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.TenantId;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
@@ -41,7 +42,7 @@ public class MusicPlayerController {
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
     public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @RequestParam(required = false) String tenantId) throws IOException {
-        InputStream inputStream = liedAbspielenUseCase.liedStreamen(new Lied.Id(liedId), new TenantId(tenantId));
+        InputStream inputStream = liedAbspielenUseCase.liedStreamen(new LiedId(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -51,10 +52,10 @@ public class MusicPlayerController {
     @HxRequest
     @PostMapping("/uploadSong")
     public HtmxResponse uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, @CookieValue(value = "tenantId") String tenantId) throws IOException {
-        Lied.Id id = liedHochladenUseCase.liedHochladen(new Benutzer.Id(userId), new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
+        LiedId liedId = liedHochladenUseCase.liedHochladen(new BenutzerId(userId), new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
         model.addAttribute("titel", titel);
         model.addAttribute("file", file.getOriginalFilename());
-        model.addAttribute("songId", id.id());
+        model.addAttribute("songId", liedId.id());
         return HtmxResponse.builder().view("htmx-responses/song-upload-successfull-toast.html").build();
     }
 
@@ -67,7 +68,7 @@ public class MusicPlayerController {
     @HxRequest
     @GetMapping("/songlist")
     public String songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
-        Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new Benutzer.Id(benutzerId));
+        Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new BenutzerId(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
