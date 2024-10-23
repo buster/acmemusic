@@ -1,24 +1,29 @@
 package de.acme.musicplayer.cucumber.test2test;
 
-import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
-import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
-import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
-import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
-import de.acme.musicplayer.applications.musicplayer.adapters.events.DirectEventPublisherStub;
+import de.acme.musicplayer.applications.musicplayer.adapters.events.MusicplayerMusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
 import de.acme.musicplayer.applications.musicplayer.domain.*;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.scoreboard.adapters.adapters.events.ScoreboardMusicplayerEventPublisherStub;
+import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
+import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
+import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
+import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
+import de.acme.musicplayer.applications.users.domain.BenutzerIstTopScorerService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
+import de.acme.musicplayer.applications.users.usecases.BenutzerIstTopScorerUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -85,8 +90,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, EventPublisher eventPublisher) {
-            return new LiedHochladenService(liedPort, eventPublisher);
+        public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, @Qualifier("MusicplayereventPublisher") MusicplayerEventPublisher musicplayerEventPublisher) {
+            return new LiedHochladenService(liedPort, musicplayerEventPublisher);
         }
 
         @Bean
@@ -95,13 +100,23 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardRepository userScoreBoardRepository) {
-            return new NeuesLiedWurdeAngelegtService(userScoreBoardRepository);
+        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardRepository userScoreBoardRepository, ScoreboardEventPublisher scoreboardEventPublisher) {
+            return new NeuesLiedWurdeAngelegtService(userScoreBoardRepository, scoreboardEventPublisher);
         }
 
         @Bean
-        public EventPublisher eventPublisher(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
-            return new DirectEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
+        public BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase(BenutzerPort benutzerPort) {
+            return new BenutzerIstTopScorerService(benutzerPort);
+        }
+
+        @Bean
+        public MusicplayerEventPublisher MusicplayereventPublisher(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
+            return new MusicplayerMusicplayerEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
+        }
+
+        @Bean
+        public ScoreboardEventPublisher ScoreboardeventPublisher(BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase) {
+            return new ScoreboardMusicplayerEventPublisherStub(benutzerIstTopScorerUsecase);
         }
     }
 }

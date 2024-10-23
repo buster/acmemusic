@@ -3,13 +3,13 @@ package de.acme.musicplayer.applications.musicplayer.adapters.events;
 import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.events.Event;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
+import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 
-public class DirectEventPublisherStub implements EventPublisher {
+public class MusicplayerMusicplayerEventPublisherStub implements MusicplayerEventPublisher {
 
     private final NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase;
 
-    public DirectEventPublisherStub(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
+    public MusicplayerMusicplayerEventPublisherStub(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
         this.neuesLiedWurdeAngelegtUsecase = neuesLiedWurdeAngelegtUsecase;
     }
 
