@@ -39,11 +39,11 @@
 </div>
 
 <!-- Toast Container -->
-<div class="toast-container top-50 start-50 translate-middle-x" id="toast-container">
-
-    <div hx-ext="sse" sse-connect="/users/sse" sse-swap="message"
-         class="toast-container top start-50 translate-middle-x" id="user-sse-container">
-    </div>
+<div class="toast-container top-50 start-50 translate-middle-x" id="toast-container"></div>
     <!-- Toast Container END -->
+
+<div class="toast-container top start-50 translate-middle-x" hx-ext="sse" id="user-sse-container"
+     sse-connect="/users/sse" sse-swap="message">
+</div>
 </body>
 </html>
