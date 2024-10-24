@@ -1,0 +1,11 @@
+<div class="row">
+
+    Hier sind die Songs
+    <div th:each="id: ${songIds}">
+        <audio id="voice" controls="">
+            <source th:src="${'/streamSong?benutzerId=' + userId +
+            '&tenantId=' + tenantId +
+            '&liedId=' + id.id()}">
+        </audio>
+    </div>
+</div>
