@@ -13,7 +13,9 @@ public class ScoreboardArchTest {
     @ArchTest
     public static final ArchRule onion_architecture_in_module = onionArchitecture()
             .adapter("userscoreboard", "de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard..")
-            .domainModels("de.acme.musicplayer.applications.scoreboard.domain.model..")
+            .adapter("eventpublisher", "de.acme.musicplayer.applications.scoreboard.adapters.events..")
+            .adapter("events", "de.acme.musicplayer.events..")
+            .domainModels("de.acme.musicplayer.applications.scoreboard.adapters.events..")
             .domainServices("de.acme.musicplayer.applications.scoreboard.domain..",
                     "de.acme.musicplayer.applications.scoreboard.usecases..",
                     "de.acme.musicplayer.applications.scoreboard.ports..")
