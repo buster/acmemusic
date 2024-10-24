@@ -14,6 +14,7 @@ import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegt
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
 import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
+import de.acme.musicplayer.applications.users.adapters.events.UserEventPublisherStub;
 import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
 import de.acme.musicplayer.applications.users.domain.BenutzerIstTopScorerService;
@@ -22,6 +23,7 @@ import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerIstTopScorerUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -105,8 +107,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase(BenutzerPort benutzerPort) {
-            return new BenutzerIstTopScorerService(benutzerPort);
+        public BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase(BenutzerPort benutzerPort, UserEventPublisher userEventPublisher) {
+            return new BenutzerIstTopScorerService(benutzerPort, userEventPublisher);
         }
 
         @Bean
@@ -117,6 +119,11 @@ public class CucumberT2TConfiguration {
         @Bean
         public ScoreboardEventPublisher ScoreboardeventPublisher(BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase) {
             return new ScoreboardMusicplayerEventPublisherStub(benutzerIstTopScorerUsecase);
+        }
+
+        @Bean
+        public UserEventPublisher userEventPublisher() {
+            return new UserEventPublisherStub();
         }
     }
 }

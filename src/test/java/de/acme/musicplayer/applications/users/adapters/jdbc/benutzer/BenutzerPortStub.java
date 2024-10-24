@@ -1,5 +1,6 @@
 package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
+import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
@@ -12,12 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class BenutzerPortStub implements BenutzerPort {
 
-    private final Map<Pair<String, TenantId>, Benutzer> benutzerList = new ConcurrentHashMap<>();
+    private final Map<Pair<Benutzer.Id, TenantId>, Benutzer> benutzerList = new ConcurrentHashMap<>();
 
     @Override
     public Benutzer.Id benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
-        String id = UUID.randomUUID().toString();
-        benutzer.setId(new Benutzer.Id(id));
+        Benutzer.Id id = new Benutzer.Id(UUID.randomUUID().toString());
+        benutzer.setId(id);
         benutzerList.put(new ImmutablePair<>(id, tenantId), benutzer);
         return benutzer.getId();
     }
@@ -31,7 +32,7 @@ public class BenutzerPortStub implements BenutzerPort {
 
     @Override
     public void loescheDatenbank(TenantId tenantId) {
-        for (Pair<String, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 benutzerList.remove(stringTenantIdPair);
             }
@@ -40,6 +41,11 @@ public class BenutzerPortStub implements BenutzerPort {
 
     @Override
     public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
-        return benutzerList.get(new ImmutablePair<>(id.Id(), tenantId));
+        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+            if (stringTenantIdPair.getRight().equals(tenantId) && stringTenantIdPair.getLeft().equals(id)) {
+                return benutzerList.get(stringTenantIdPair);
+            }
+        }
+        return null;
     }
 }

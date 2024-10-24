@@ -10,6 +10,7 @@ import org.jooq.Result;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static de.acme.jooq.Tables.*;
 
@@ -56,7 +57,7 @@ public class BenutzerRepository implements BenutzerPort {
                         .map(r ->
                                 Auszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))
 
-                        ).toList());
+                        ).collect(Collectors.toSet()));
         return benutzer;
     }
 }
