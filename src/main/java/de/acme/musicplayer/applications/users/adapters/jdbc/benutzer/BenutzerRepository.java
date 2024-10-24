@@ -53,7 +53,7 @@ public class BenutzerRepository implements BenutzerPort {
         BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.Id())
                         .and(BENUTZER.TENANT.eq(tenantId.value()))))
                 .fetchOne();
-        checkState(benutzerRecord != null, "Benutzer nicht gefunden");
+        checkState(benutzerRecord != null, "Benutzer {} in tenant {} nicht gefunden", benutzerId, tenantId);
 
         Benutzer benutzer = new Benutzer(
                 new Benutzer.Name(benutzerRecord.getName()),
@@ -87,7 +87,7 @@ public class BenutzerRepository implements BenutzerPort {
                 .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort)
                 .set(BENUTZER.EMAIL, benutzer.getEmail().email)
                 .execute();
-        checkState(updatedRecords == 1, "Benutzer nicht gefunden");
+        checkState(updatedRecords == 1, "Benutzer {} in tenant {}  nicht gefunden", benutzer.getId(), tenant);
 
         for (Auszeichnung auszeichnung : benutzer.getAuszeichnungen()) {
             dslContext.insertInto(BENUTZER_AUSZEICHNUNGEN)

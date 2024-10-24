@@ -26,7 +26,7 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase {
 
     @Override
     public BenutzerId registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand) {
-        try (Page page = browserContextComponent.getBrowserContext().browser().newPage()94) {
+        try (Page page = browserContextComponent.getBrowserContext().browser().newPage()) {
             page.navigate(String.format("http://localhost:%s/?tenantId=%s", port, tenantId));
             assertThat(page).hasTitle("ACME Music Player");
             page.click("#open-register-modal-button");
