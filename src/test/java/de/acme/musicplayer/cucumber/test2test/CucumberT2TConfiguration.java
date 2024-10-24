@@ -9,11 +9,11 @@ import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublis
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.*;
 import de.acme.musicplayer.applications.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherStub;
-import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
+import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardPortStub;
 import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
 import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
-import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.adapters.events.UserEventPublisherStub;
@@ -54,8 +54,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public UserScoreBoardRepository userScoreBoardRepository() {
-            return new UserScoreBoardRepositoryStub();
+        public UserScoreBoardPort userScoreBoardRepository() {
+            return new UserScoreBoardPortStub();
         }
 
         @Bean
@@ -89,8 +89,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardRepository userScoreBoardRepository) {
-            return new ScoreBoardAdministrationService(userScoreBoardRepository);
+        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort) {
+            return new ScoreBoardAdministrationService(userScoreBoardPort);
         }
 
         @Bean
@@ -109,8 +109,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardRepository userScoreBoardRepository, ScoreboardEventPublisher scoreboardEventPublisher) {
-            return new NeuesLiedWurdeAngelegtService(userScoreBoardRepository, scoreboardEventPublisher);
+        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+            return new NeuesLiedWurdeAngelegtService(userScoreBoardPort, scoreboardEventPublisher);
         }
 
         @Bean
