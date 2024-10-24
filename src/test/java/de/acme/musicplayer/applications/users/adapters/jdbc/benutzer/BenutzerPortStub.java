@@ -1,9 +1,9 @@
 package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
-import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -13,13 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class BenutzerPortStub implements BenutzerPort {
 
-    private final Map<Pair<Benutzer.Id, TenantId>, Benutzer> benutzerList = new ConcurrentHashMap<>();
+    private final Map<Pair<BenutzerId, TenantId>, Benutzer> benutzerList = new ConcurrentHashMap<>();
 
     @Override
-    public Benutzer.Id benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
-        Benutzer.Id id = new Benutzer.Id(UUID.randomUUID().toString());
-        benutzer.setId(id);
-        benutzerList.put(new ImmutablePair<>(id, tenantId), benutzer);
+    public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
+        BenutzerId benutzerId = new BenutzerId(UUID.randomUUID().toString());
+        benutzer.setId(benutzerId);
+        benutzerList.put(new ImmutablePair<>(benutzerId, tenantId), benutzer);
         return benutzer.getId();
     }
 
@@ -32,7 +32,7 @@ public class BenutzerPortStub implements BenutzerPort {
 
     @Override
     public void loescheDatenbank(TenantId tenantId) {
-        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+        for (Pair<BenutzerId, TenantId> stringTenantIdPair : benutzerList.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenantId)) {
                 benutzerList.remove(stringTenantIdPair);
             }
@@ -40,9 +40,9 @@ public class BenutzerPortStub implements BenutzerPort {
     }
 
     @Override
-    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
-        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
-            if (stringTenantIdPair.getRight().equals(tenantId) && stringTenantIdPair.getLeft().equals(id)) {
+    public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
+        for (Pair<BenutzerId, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+            if (stringTenantIdPair.getRight().equals(tenantId) && stringTenantIdPair.getLeft().equals(benutzerId)) {
                 return benutzerList.get(stringTenantIdPair);
             }
         }
@@ -51,7 +51,7 @@ public class BenutzerPortStub implements BenutzerPort {
 
     @Override
     public void speichereBenutzer(Benutzer benutzer, TenantId tenant) {
-        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+        for (Pair<BenutzerId, TenantId> stringTenantIdPair : benutzerList.keySet()) {
             if (stringTenantIdPair.getRight().equals(tenant) && stringTenantIdPair.getLeft().equals(benutzer.getId())) {
                 benutzerList.put(stringTenantIdPair, benutzer);
             }

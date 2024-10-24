@@ -1,11 +1,12 @@
 package de.acme.musicplayer.applications.musicplayer.domain;
 
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedZuPlaylistHinzufügenUsecase;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.PlaylistId;
+import de.acme.musicplayer.common.TenantId;
 import org.springframework.transaction.annotation.Transactional;
 
 public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufügenUsecase {
@@ -18,7 +19,7 @@ public class LiedZuPlaylistHinzufügenService implements LiedZuPlaylistHinzufüg
 
     @Override
     @Transactional
-    public void liedZuPlaylistHinzufügen(Benutzer.Id benutzerId, Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
+    public void liedZuPlaylistHinzufügen(BenutzerId benutzerId, LiedId liedId, PlaylistId playlistId, TenantId tenantId) {
         Playlist playlist = playlistPort.lade(playlistId, tenantId);
         playlist.liedHinzufügen(liedId, benutzerId);
         playlistPort.speichere(playlist, tenantId);

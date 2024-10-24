@@ -1,25 +1,22 @@
 package de.acme.musicplayer.applications.users.adapters.events;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.common.TenantId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static java.util.Collections.synchronizedList;
-
 @Service
 @Slf4j
 public class SseEmitterService {
 
-    private ConcurrentHashMap<String, Set<SseEmitter>> emitters = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Set<SseEmitter>> emitters = new ConcurrentHashMap<>();
 
     public void addEmitter(SseEmitter emitter, String tenantId) {
         Set<SseEmitter> tenantEmitters = emitters.getOrDefault(tenantId, new CopyOnWriteArraySet<>());
@@ -30,7 +27,7 @@ public class SseEmitterService {
     }
 
     @Async
-    public void sendEvent(TenantId tenant, String eventName, String eventData) {
+    public void sendEvent(TenantId tenant, String eventData) {
         if (!emitters.containsKey(tenant.value())) {
             log.info("No emitters for tenant: " + tenant.value());
             return;
@@ -42,7 +39,6 @@ public class SseEmitterService {
                 log.info("event data: " + eventData);
                 emitter.send(SseEmitter.event()
                         .name("message")
-//                        .name(eventName)
                         .data(eventData));
             } catch (Exception e) {
                 log.error("Error sending event to tenant: " + tenant.value(), e);

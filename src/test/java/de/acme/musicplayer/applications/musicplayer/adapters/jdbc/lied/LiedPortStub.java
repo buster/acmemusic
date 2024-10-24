@@ -1,9 +1,10 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.TenantId;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -19,7 +20,7 @@ public class LiedPortStub implements LiedPort {
     private final Map<Pair<String, TenantId>, Lied> lieder = new ConcurrentHashMap<>();
     private final Map<Pair<String, TenantId>, byte[]> bytestreams = new ConcurrentHashMap<>();
 
-    private static ImmutablePair<String, TenantId> tableKey(Lied.Id liedId, TenantId tenantId) {
+    private static ImmutablePair<String, TenantId> tableKey(LiedId liedId, TenantId tenantId) {
         return new ImmutablePair<>(liedId.id(), tenantId);
     }
 
@@ -29,7 +30,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
+    public LiedId fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         ImmutablePair<String, TenantId> k = tableKey(lied.getId(), lied.getTenantId());
         bytestreams.put(k, inputStream.readAllBytes());
         lieder.put(k, lied);
@@ -46,12 +47,12 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public InputStream ladeLiedStream(Lied.Id liedId, TenantId tenantId) {
+    public InputStream ladeLiedStream(LiedId liedId, TenantId tenantId) {
         return new ByteArrayInputStream(bytestreams.get(tableKey(liedId, tenantId)));
     }
 
     @Override
-    public Collection<Lied> listeLiederAuf(Benutzer.Id benutzerId, TenantId tenantId) {
+    public Collection<Lied> listeLiederAuf(BenutzerId benutzerId, TenantId tenantId) {
         return lieder.entrySet().stream()
                 .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .map(Map.Entry::getValue)
@@ -60,7 +61,7 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public Lied leseLied(Lied.Id id, TenantId tenantId) {
-        return lieder.get(tableKey(id, tenantId));
+    public Lied leseLied(LiedId liedId, TenantId tenantId) {
+        return lieder.get(tableKey(liedId, tenantId));
     }
 }
