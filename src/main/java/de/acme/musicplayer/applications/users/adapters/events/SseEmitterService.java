@@ -43,7 +43,7 @@ public class SseEmitterService {
             } catch (Exception e) {
                 log.error("Error sending event to tenant: " + tenant.value(), e);
                 errorEmitters.add(emitter);
-//                emitter.complete();
+                emitter.complete();
             }
         }
         errorEmitters.forEach(emitter -> emitters.get(tenant.value()).remove(emitter));
