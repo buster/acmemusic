@@ -10,20 +10,20 @@ import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.*;
 import de.acme.musicplayer.applications.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardPortStub;
-import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
 import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
+import de.acme.musicplayer.applications.scoreboard.domain.ZähleNeueLieder;
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
-import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
+import de.acme.musicplayer.applications.scoreboard.usecases.ZähleNeueLiederUsecase;
 import de.acme.musicplayer.applications.users.adapters.events.UserEventPublisherStub;
 import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPortStub;
+import de.acme.musicplayer.applications.users.domain.AuszeichnungFürNeueTopScorerService;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
-import de.acme.musicplayer.applications.users.domain.BenutzerIstTopScorerService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
-import de.acme.musicplayer.applications.users.usecases.BenutzerIstTopScorerUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -109,23 +109,23 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
-            return new NeuesLiedWurdeAngelegtService(userScoreBoardPort, scoreboardEventPublisher);
+        public ZähleNeueLiederUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+            return new ZähleNeueLieder(userScoreBoardPort, scoreboardEventPublisher);
         }
 
         @Bean
-        public BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase(BenutzerPort benutzerPort, UserEventPublisher userEventPublisher) {
-            return new BenutzerIstTopScorerService(benutzerPort, userEventPublisher);
+        public AuszeichnungFürNeueTopScorer benutzerIstTopScorerUsecase(BenutzerPort benutzerPort, UserEventPublisher userEventPublisher) {
+            return new AuszeichnungFürNeueTopScorerService(benutzerPort, userEventPublisher);
         }
 
         @Bean
-        public MusicplayerEventPublisher MusicplayereventPublisher(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
-            return new MusicplayerEventPublisherStub(neuesLiedWurdeAngelegtUsecase);
+        public MusicplayerEventPublisher MusicplayereventPublisher(ZähleNeueLiederUsecase zähleNeueLiederUsecase) {
+            return new MusicplayerEventPublisherStub(zähleNeueLiederUsecase);
         }
 
         @Bean
-        public ScoreboardEventPublisher ScoreboardeventPublisher(BenutzerIstTopScorerUsecase benutzerIstTopScorerUsecase) {
-            return new ScoreboardMusicplayerEventPublisherStub(benutzerIstTopScorerUsecase);
+        public ScoreboardEventPublisher ScoreboardeventPublisher(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer) {
+            return new ScoreboardMusicplayerEventPublisherStub(auszeichnungFürNeueTopScorer);
         }
 
         @Bean

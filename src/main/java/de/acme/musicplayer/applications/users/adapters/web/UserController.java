@@ -1,8 +1,9 @@
 package de.acme.musicplayer.applications.users.adapters.web;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,17 +32,17 @@ public class UserController {
     @HxRequest
     @PostMapping("/register-user")
     public String registerUser(Model model, HttpServletResponse response, String username, String email, String password, @CookieValue(value = "tenantId") String tenantId) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
+        BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
                 new Benutzer.Name(username),
                 new Benutzer.Passwort(password),
                 new Benutzer.Email(email),
                 new TenantId(tenantId)));
 
-        Cookie userId = new Cookie("userId", id.Id());
+        Cookie userId = new Cookie("userId", benutzerId.Id());
         userId.setHttpOnly(true);
         response.addCookie(userId);
 
-        model.addAttribute("userId", id.Id());
+        model.addAttribute("userId", benutzerId.Id());
         model.addAttribute("userName", username);
         return "htmx-responses/user-registration-successfull-toast.html";
     }
