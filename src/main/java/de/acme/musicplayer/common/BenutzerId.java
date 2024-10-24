@@ -6,8 +6,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @ModuleApi
 public record BenutzerId(String Id) {
-    public BenutzerId(String Id) {
+    public BenutzerId {
         checkNotNull(Id);
-        this.Id = Id;
     }
 }
