@@ -1,7 +1,7 @@
 package de.acme.musicplayer.applications.users.domain;
 
 import de.acme.musicplayer.applications.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
-import de.acme.musicplayer.applications.users.domain.events.BenutzerHatAuszeichnungVerloren;
+import de.acme.musicplayer.applications.users.domain.events.BenutzerHatAuszeichnungAnAnderenNutzerVerloren;
 import de.acme.musicplayer.applications.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
@@ -29,12 +29,12 @@ public class AuszeichnungFürNeueTopScorerService implements AuszeichnungFürNeu
         log.info("New top scorer: {}  (event user id: {})", neuerTopScorer, event.neuerTopScorer());
         neuerTopScorer.getAuszeichnungen().add(Auszeichnung.MUSIC_LOVER_LOVER);
         benutzerPort.speichereBenutzer(neuerTopScorer, event.getTenant());
-        userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungErhalten(neuerTopScorer.getId(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
+        userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungErhalten(neuerTopScorer.getId(), neuerTopScorer.getName().benutzername, Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
         if (event.alterTopScorer() != null) {
             Benutzer alterTopScorer = benutzerPort.leseBenutzer(event.alterTopScorer(), event.tenantId());
             alterTopScorer.getAuszeichnungen().remove(Auszeichnung.MUSIC_LOVER_LOVER);
             benutzerPort.speichereBenutzer(alterTopScorer, event.tenantId());
-            userEventPublisher.publishEvent(new BenutzerHatAuszeichnungVerloren(alterTopScorer.getId(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
+            userEventPublisher.publishEvent(new BenutzerHatAuszeichnungAnAnderenNutzerVerloren(alterTopScorer.getId(), alterTopScorer.getName().benutzername, neuerTopScorer.getId(), neuerTopScorer.getName().benutzername, Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
 
         }
     }
