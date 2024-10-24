@@ -4,10 +4,14 @@ import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepositor
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.Comparator.comparingInt;
 
 public class UserScoreBoardRepositoryStub implements UserScoreBoardRepository {
 
-    private HashMap<Benutzer.Id, Integer> scoreBoard = new HashMap<>();
+    private ConcurrentHashMap<Benutzer.Id, Integer> scoreBoard = new ConcurrentHashMap<>();
 
     @Override
     public void zähleNeuesLied(Benutzer.Id benutzerId) {
@@ -17,7 +21,7 @@ public class UserScoreBoardRepositoryStub implements UserScoreBoardRepository {
     @Override
     public Benutzer.Id höchstePunktZahl() {
         return scoreBoard.entrySet().stream()
-                .max((entry1, entry2) -> entry1.getValue() - entry2.getValue())
+                .max(comparingInt(Map.Entry::getValue))
                 .map(HashMap.Entry::getKey)
                 .orElse(null);
     }

@@ -28,7 +28,7 @@ public class NeuesLiedWurdeAngelegtService implements NeuesLiedWurdeAngelegtUsec
 
         if (!neuerTopScorer.equals(aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
-            scoreboardEventPublisher.publishEvent(new NeuerTopScorerEvent(neuerTopScorer, event.getTenant()));
+            scoreboardEventPublisher.publishEvent(new NeuerTopScorerEvent(neuerTopScorer, aktuellerTopScorer, event.getTenant()));
         }
     }
 }
