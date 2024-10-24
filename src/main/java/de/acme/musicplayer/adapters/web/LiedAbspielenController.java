@@ -57,12 +57,14 @@ public class LiedAbspielenController {
 
     @HxRequest
     @PostMapping("/register-user")
-    public ResponseEntity<Void> registerUser(String username, String email, String password, String tenantId) {
-        benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenCommand(
+    public String registerUser(Model model, String username, String email, String password, String tenantId) {
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenCommand(
                 new Name(username),
                 new Passwort(password),
                 new Email(email),
                 new TenantId(tenantId)));
-        return ResponseEntity.ok().build();
+        model.addAttribute("userId", id.Id());
+        model.addAttribute("userName", username);
+        return "user-registration-successfull-toast.html";
     }
 }
