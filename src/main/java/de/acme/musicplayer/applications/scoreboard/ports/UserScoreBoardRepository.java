@@ -6,7 +6,7 @@ import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 public interface UserScoreBoardRepository {
     void zähleNeuesLied(Benutzer.Id benutzerId, TenantId tenant);
 
-    Benutzer.Id höchstePunktZahl();
+    Benutzer.Id höchstePunktZahl(TenantId tenantId);
 
     void löscheDatenbank(TenantId tenantId);
 }
