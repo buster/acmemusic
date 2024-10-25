@@ -1,10 +1,15 @@
 package de.acme.musicplayer;
 
-import de.acme.musicplayer.applications.musicplayer.domain.*;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedAbspielenService;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedAdministrationService;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedHochladenService;
+import de.acme.musicplayer.applications.musicplayer.domain.LiederAuflistenService;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
-import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
-import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
 import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
 import de.acme.musicplayer.applications.scoreboard.domain.ZähleNeueLieder;
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
@@ -15,10 +20,10 @@ import de.acme.musicplayer.applications.users.domain.AuszeichnungFürNeueTopScor
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.users.ports.UserEventPublisher;
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -30,16 +35,6 @@ public class AcmeConfiguration {
     @Bean
     public LiedAbspielenUsecase liedAbspielenUsecase(LiedPort liedPort) {
         return new LiedAbspielenService(liedPort);
-    }
-
-    @Bean
-    public PlaylistAnlegenUsecase playlistAnlegenUsecase(PlaylistPort playlistPort) {
-        return new PlaylistAnlegenService(playlistPort);
-    }
-
-    @Bean
-    public PlaylistAdministrationUsecase playlistAdministrationUsecase(PlaylistPort playlistPort) {
-        return new PlaylistAdministrationService(playlistPort);
     }
 
     @Bean
@@ -58,18 +53,8 @@ public class AcmeConfiguration {
     }
 
     @Bean
-    public LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
-        return new LiedZuPlaylistHinzufügenService(playlistPort);
-    }
-
-    @Bean
     public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, MusicplayerEventPublisher musicplayerEventPublisher) {
         return new LiedHochladenService(liedPort, musicplayerEventPublisher);
-    }
-
-    @Bean
-    public LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase(PlaylistPort playlistPort) {
-        return new LiederInPlaylistAuflistenService(playlistPort);
     }
 
     @Bean
