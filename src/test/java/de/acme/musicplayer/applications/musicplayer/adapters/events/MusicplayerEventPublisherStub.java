@@ -5,11 +5,11 @@ import de.acme.musicplayer.events.Event;
 import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 
-public class MusicplayerMusicplayerEventPublisherStub implements MusicplayerEventPublisher {
+public class MusicplayerEventPublisherStub implements MusicplayerEventPublisher {
 
     private final NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase;
 
-    public MusicplayerMusicplayerEventPublisherStub(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
+    public MusicplayerEventPublisherStub(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
         this.neuesLiedWurdeAngelegtUsecase = neuesLiedWurdeAngelegtUsecase;
     }
 

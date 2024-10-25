@@ -48,4 +48,13 @@ public class BenutzerPortStub implements BenutzerPort {
         }
         return null;
     }
+
+    @Override
+    public void speichereBenutzer(Benutzer benutzer, TenantId tenant) {
+        for (Pair<Benutzer.Id, TenantId> stringTenantIdPair : benutzerList.keySet()) {
+            if (stringTenantIdPair.getRight().equals(tenant) && stringTenantIdPair.getLeft().equals(benutzer.getId())) {
+                benutzerList.put(stringTenantIdPair, benutzer);
+            }
+        }
+    }
 }
