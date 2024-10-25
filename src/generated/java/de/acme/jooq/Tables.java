@@ -4,13 +4,7 @@
 package de.acme.jooq;
 
 
-import de.acme.jooq.tables.Benutzer;
-import de.acme.jooq.tables.BenutzerAuszeichnungen;
-import de.acme.jooq.tables.BenutzerScoreBoard;
-import de.acme.jooq.tables.Lied;
-import de.acme.jooq.tables.LiedAuszeichnungen;
-import de.acme.jooq.tables.Playlist;
-import de.acme.jooq.tables.PlaylistLied;
+import de.acme.jooq.tables.*;
 
 
 /**
@@ -43,14 +37,4 @@ public class Tables {
      * The table <code>public.lied_auszeichnungen</code>.
      */
     public static final LiedAuszeichnungen LIED_AUSZEICHNUNGEN = LiedAuszeichnungen.LIED_AUSZEICHNUNGEN;
-
-    /**
-     * The table <code>public.playlist</code>.
-     */
-    public static final Playlist PLAYLIST = Playlist.PLAYLIST;
-
-    /**
-     * The table <code>public.playlist_lied</code>.
-     */
-    public static final PlaylistLied PLAYLIST_LIED = PlaylistLied.PLAYLIST_LIED;
 }

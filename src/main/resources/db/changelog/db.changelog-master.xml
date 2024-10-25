@@ -37,45 +37,6 @@
                                  referencesUniqueColumn="true"
         />
 
-        <createTable tableName="playlist">
-            <column name="id" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="tenant" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="varchar"/>
-            <column name="besitzer" type="varchar"/>
-        </createTable>
-        <addPrimaryKey columnNames="tenant, id" tableName="playlist" constraintName="PK_TENANT_PLAYLIST"/>
-
-        <createTable tableName="playlist_lied">
-            <column name="lied_id" type="varchar" >
-                <constraints nullable="false"/>
-                <!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
-            </column>
-            <column name="playlist_id" type="varchar">
-                <constraints nullable="false"/>
-                <!--                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(tenant, id)"/>-->
-            </column>
-            <column name="tenant" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <addPrimaryKey tableName="playlist_lied" columnNames="tenant, lied_id, playlist_id"
-                       constraintName="pk_tenant_playlist_lied"/>
-        <addForeignKeyConstraint constraintName="fk_lied_ied"
-                                 baseTableName="playlist_lied"
-                                 baseColumnNames="tenant, lied_id"
-                                 referencedTableName="lied"
-                                 referencedColumnNames="tenant, id"
-                                 referencesUniqueColumn="true"/>
-        <addForeignKeyConstraint constraintName="fk_playlist_ied"
-                                 baseTableName="playlist_lied"
-                                 baseColumnNames="tenant, playlist_id"
-                                 referencedTableName="playlist"
-                                 referencedColumnNames="tenant, id"
-                                 referencesUniqueColumn="true"/>
     </changeSet>
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">
@@ -102,14 +63,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="playlist"
-                                 baseColumnNames="tenant, besitzer"
-                                 constraintName="playlist_besitzer_fk"
-                                 referencedTableName="benutzer"
-                                 referencedColumnNames="tenant, id"
-                                 deleteCascade="false"
-                                 referencesUniqueColumn="true"
-        />
         <addForeignKeyConstraint baseTableName="benutzer_auszeichnungen"
                                  baseColumnNames="tenant, benutzer"
                                  constraintName="benutzer_auszeichnungen_fk"
