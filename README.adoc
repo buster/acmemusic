@@ -13,40 +13,39 @@ Marks: ❓ ❌  ✅
 left to right direction
 
 actor Nutzer
-actor Urheber
 
 package "Music Player" {
-  usecase "Playlist anlegen"
   usecase "Lied hören"
   usecase "Lied hochladen"
-  usecase "Lied veröffentlichen"
   usecase "Lied löschen" #green
 }
 
 package "User Management" {
   usecase "Registrieren"
+  usecase "Benutzer erhält Auszeichnung"
   usecase "Benutzer löschen" #green
 }
 
 package "Scoreboard" {
-  usecase "Poweruser identifizieren"
-
+  usecase "Scores löschen" #green
 }
 
 Nutzer ----> "Registrieren"
 Nutzer ----> "Lied hochladen" : eigene Lieder (privat)
-Nutzer ----> "Playlist anlegen"
 Nutzer ----> "Lied hören"
 Nutzer ----> "Lied löschen"
+Nutzer ----> "Benutzer erhält Auszeichnung"
 
-Urheber -u-> "Lied hochladen" : eigene Lieder (öffentlich)
-Urheber -u-> "Lied löschen"
-Urheber -u-> "Lied veröffentlichen"
 
 actor Admin #green
-'Admin --> "Benutzer löschen"
-'Admin --> "Lied löschen"
+Admin -u-> "Benutzer löschen"
+Admin -u-> "Lied löschen"
+Admin -u-> "Scores löschen"
 --
+
+== Aufbau
+
+image::acme-aufbau.drawio.png[Acme Aufbau,100%]
 
 
 == TODO
@@ -61,8 +60,8 @@ Features:
 .. Tenant in Entity aufnehmen
 .. Events in Entity aufnehmen und transaktional speichern
 . Modulith ✅
-. Scoreboard score board [❓]
-.. Dritter event Driven service
+. Scoreboard score board ✅
+.. Dritter event Driven service ✅
 .. Basis für längerlaufende Testdaten
 .. Events mit Value Objects aus der Domain oder Plain Objects!?
 .. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo? 
