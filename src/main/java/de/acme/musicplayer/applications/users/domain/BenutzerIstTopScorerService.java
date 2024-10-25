@@ -28,10 +28,12 @@ public class BenutzerIstTopScorerService implements BenutzerIstTopScorerUsecase 
         Benutzer neuerTopScorer = benutzerPort.leseBenutzer(event.neuerTopScorer(), event.tenantId());
         log.info("New top scorer: {}  (event user id: {})", neuerTopScorer, event.neuerTopScorer());
         neuerTopScorer.getAuszeichnungen().add(Auszeichnung.MUSIC_LOVER_LOVER);
+        benutzerPort.speichereBenutzer(neuerTopScorer, event.getTenant());
         userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungEvent(neuerTopScorer.getId(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
         if (event.alterTopScorer() != null) {
             Benutzer alterTopScorer = benutzerPort.leseBenutzer(event.alterTopScorer(), event.tenantId());
             alterTopScorer.getAuszeichnungen().remove(Auszeichnung.MUSIC_LOVER_LOVER);
+            benutzerPort.speichereBenutzer(alterTopScorer, event.tenantId());
             userEventPublisher.publishEvent(new BenutzerHatAuszeichnungVerlorenEvent(alterTopScorer.getId(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()));
 
         }

@@ -20,7 +20,6 @@ public class LiedAdministrationService implements LiedAdministrationUsecase {
     }
 
     @Override
-    @Transactional
     public void löscheDatenbank(TenantId tenantId) {
         liedPort.löscheDatenbank(tenantId);
     }
