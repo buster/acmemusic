@@ -14,7 +14,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.UUID;
 
 import static de.acme.jooq.Tables.LIED;
 import static de.acme.jooq.Tables.LIED_AUSZEICHNUNGEN;

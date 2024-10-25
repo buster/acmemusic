@@ -1,6 +1,7 @@
 package de.acme.musicplayer.cucumber.test2real;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
+import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
@@ -55,6 +56,9 @@ public class SongSteps {
     private PlaylistAdministrationUsecase playlistAdministrationUsecase;
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
+    @Autowired
+    private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
+
     private long lastReadSongSize;
     private TenantId tenantId;
 
@@ -67,9 +71,11 @@ public class SongSteps {
 
     @After
     public void cleanDatabaseAfterScenario() {
+        log.info("Clean database after scenario  {}", tenantId);
         playlistAdministrationUsecase.löscheDatenbank(tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
     }
 
@@ -151,7 +157,6 @@ public class SongSteps {
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
     }
-
 
     @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
     @Und("der Benutzer {string} erhält die Auszeichnung {string}")
