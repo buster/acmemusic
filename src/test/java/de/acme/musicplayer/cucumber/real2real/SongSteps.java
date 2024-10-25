@@ -2,8 +2,9 @@ package de.acme.musicplayer.cucumber.real2real;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
-import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
-import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
@@ -11,7 +12,6 @@ import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUse
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
-import de.acme.musicplayer.common.PlaylistId;
 import de.acme.musicplayer.common.TenantId;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -36,14 +36,15 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Slf4j
 public class SongSteps {
 
-    private final PlaywrightUsecases playwriteUsecases;
-    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
-    private final Map<String, PlaylistId> playlistToIdMap = new HashMap<>();
+    // SPECIAL Casing for Real 2 Real Test
+    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
+    private final PlaywrightUsecases playwriteUsecases;
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
@@ -51,18 +52,9 @@ public class SongSteps {
     @Autowired
     private LiedHochladenUsecase liedHochladenUseCase;
     @Autowired
-    private LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase;
-    @Autowired
-    private LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
-    @Autowired
-    private PlaylistAnlegenUsecase playlistAnlegenUsecase;
-    @Autowired
-    private PlaylistAdministrationUsecase playlistAdministrationUsecase;
-    @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
-
     @LocalServerPort
     private int port;
     private long lastReadSongSize;
@@ -86,22 +78,15 @@ public class SongSteps {
 
         this.playwriteUsecases.setTenantId(tenantId.value());
     }
+    // SPECIAL Casing for Real 2 Real Test
 
     @After
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
-        playlistAdministrationUsecase.löscheDatenbank(tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
         scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
-    }
-
-    @Wenn("sich der Benutzer {string} mit dem Passwort {string} und der Email {string} eingelogged hat")
-    public void userHatSichEingelogged(String benutzername, String passwort, String email) {
-//        Page page = browserContextComponent.getBrowserContext().browser().newPage();
-//        page.navigate(String.format("http://localhost:%s", port));
-//        assertThat(page).hasTitle("ACME Music Player");
     }
 
     @Gegebenseien("folgende Songs:")
@@ -127,13 +112,6 @@ public class SongSteps {
         });
     }
 
-    @Wenn("der Benutzer {string} den Lied {string} zu einer Playlist {string} hinzufügt")
-    public void derBenutzerAliceDenSongFirestarterZuEinerPlaylistFavoritenHinzufügt() {
-    }
-
-    @Dann("enthält die Playlist {string} von {string} die Songs:")
-    public void enthältDiePlaylistFavoritenVonAliceDieSongs() {
-    }
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
@@ -151,34 +129,17 @@ public class SongSteps {
         assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
     }
 
-    @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
-    public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
-        liedZuPlaylistHinzufügenUseCase.liedZuPlaylistHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname), tenantId);
-    }
-
-    @Dann("enthält die Playlist {string} von {string} {int} Lieder")
-    public void enthältDiePlaylistFavoritenVonAliceLieder(String playlist, String benutzer, int anzahl) {
-        assertThat(liederInPlaylistAuflistenUseCase.liederInPlaylistAuflisten(benutzerToIdMap.get(benutzer), new Playlist.Name(playlist), tenantId)).hasSize(anzahl);
-    }
-
-    @Wenn("der Benutzer {string} die Playlist {string} erstellt")
-    public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
-        PlaylistId playlistId = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
-        log.info("Playlist {} erstellt, ID: {}", playlistName, playlistId);
-        playlistToIdMap.put(playlistName, playlistId);
-    }
-
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
-        InputStream inputStream = liedAbspielenUsecase.liedStreamen(titelToIdMap.get(lied), tenantId);
-        lastReadSongSize = inputStream.readAllBytes().length;
+        try (InputStream inputStream = liedAbspielenUsecase.liedStreamen(titelToIdMap.get(lied), tenantId)) {
+            lastReadSongSize = inputStream.readAllBytes().length;
+        }
     }
 
     @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Byte Größe")
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
     }
-
 
     @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
     @Und("der Benutzer {string} erhält die Auszeichnung {string}")
