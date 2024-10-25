@@ -1,5 +1,7 @@
 package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
+import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
+import de.acme.jooq.tables.records.BenutzerRecord;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
 import static de.acme.jooq.Tables.*;
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Component
 public class BenutzerRepository implements BenutzerPort {
@@ -46,23 +49,26 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
-        Result<Record> records = dslContext.select().from(BENUTZER.leftOuterJoin(BENUTZER_AUSZEICHNUNGEN)
-                        .on(BENUTZER.ID.eq(BENUTZER_AUSZEICHNUNGEN.BENUTZER).and(BENUTZER.TENANT.eq(BENUTZER_AUSZEICHNUNGEN.TENANT))))
-                .fetch();
+        BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(id.Id())
+                        .and(BENUTZER.TENANT.eq(tenantId.value()))))
+                .fetchOne();
+        checkState(benutzerRecord != null, "Benutzer nicht gefunden");
 
         Benutzer benutzer = new Benutzer(
-                new Benutzer.Name(records.getFirst().get(BENUTZER.NAME)),
-                new Benutzer.Passwort(records.getFirst().get(BENUTZER.PASSWORT)),
-                new Benutzer.Email(records.getFirst().get(BENUTZER.EMAIL)));
-        benutzer.setId(new Benutzer.Id(records.getFirst().get(BENUTZER.ID)));
+                new Benutzer.Name(benutzerRecord.getName()),
+                new Benutzer.Passwort(benutzerRecord.getPasswort()),
+                new Benutzer.Email(benutzerRecord.getEmail()));
+        benutzer.setId(new Benutzer.Id(benutzerRecord.getId()));
 
-        benutzer.setAuszeichnungen(
-                records.stream()
-                        .filter(r -> r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG) != null)
-                        .map(r ->
-                                Auszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))
+        Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(id.Id())
+                .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenantId.value())))).fetch();
 
-                        ).collect(Collectors.toSet()));
+        if (isNotEmpty(auszeichnungen)) {
+            benutzer.setAuszeichnungen(
+                    auszeichnungen.stream()
+                            .map(r -> Auszeichnung.valueOf(r.getAuszeichnung()))
+                            .collect(Collectors.toSet()));
+        }
         return benutzer;
     }
 
