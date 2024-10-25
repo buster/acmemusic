@@ -16,12 +16,6 @@ public class PlaylistPortStub implements PlaylistPort {
 
     private final Map<Pair<Playlist.Id, TenantId>, Playlist> playlists = new ConcurrentHashMap<>();
 
-    @Override
-    public void fügeLiedHinzu(Lied.Id liedId, Playlist.Id playlistId, TenantId tenantId) {
-        loadPlaylistByIdAndTenant(playlistId, tenantId)
-                .liedHinzufügen(liedId);
-    }
-
     private Playlist loadPlaylistByIdAndTenant(Playlist.Id playlistId, TenantId tenantId) {
         Optional<Map.Entry<Pair<Playlist.Id, TenantId>, Playlist>> pairPlaylistEntry1 = playlists.entrySet().stream()
                 .filter(
@@ -70,5 +64,10 @@ public class PlaylistPortStub implements PlaylistPort {
                 playlists.remove(idTenantIdPair);
             }
         }
+    }
+
+    @Override
+    public void speichere(Playlist playlist, TenantId tenantId) {
+        playlists.put(Pair.of(playlist.getId(), tenantId), playlist);
     }
 }

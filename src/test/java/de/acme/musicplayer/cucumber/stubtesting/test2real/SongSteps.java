@@ -122,7 +122,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} das Lied {string} zur Playlist {string} hinzufügt")
     public void derBenutzerAliceDasLiedFirestarterZurPlaylistFavoritenHinzufügt(String benutzername, String liedname, String playlistname) {
-        liedZuPlaylistHinzufügenUseCase.liedHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname), tenantId);
+        liedZuPlaylistHinzufügenUseCase.liedZuPlaylistHinzufügen(benutzerToIdMap.get(benutzername), titelToIdMap.get(liedname), playlistToIdMap.get(playlistname), tenantId);
     }
 
     @Dann("enthält die Playlist {string} von {string} {int} Lieder")
@@ -139,7 +139,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
-        InputStream inputStream = liedAbspielenUsecase.liedStreamen(benutzerToIdMap.get(benutzer), titelToIdMap.get(lied), tenantId);
+        InputStream inputStream = liedAbspielenUsecase.liedStreamen(titelToIdMap.get(lied), tenantId);
         lastReadSongSize = inputStream.readAllBytes().length;
     }
 
