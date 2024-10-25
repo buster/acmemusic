@@ -6,11 +6,8 @@ import de.acme.musicplayer.application.domain.model.Benutzer.Name;
 import de.acme.musicplayer.application.domain.model.Benutzer.Passwort;
 import de.acme.musicplayer.application.domain.model.Lied;
 import de.acme.musicplayer.application.domain.model.TenantId;
-import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.application.usecases.*;
 import de.acme.musicplayer.application.usecases.BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand;
-import de.acme.musicplayer.application.usecases.LiedAbspielenUsecase;
-import de.acme.musicplayer.application.usecases.LiedHochladenUsecase;
-import de.acme.musicplayer.application.usecases.LiederAuflistenUsecase;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.UUID;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -39,12 +35,14 @@ public class LiedAbspielenController {
 
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
+    private final LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
     private final LiederAuflistenUsecase liederAuflistenUseCase;
 
-    public LiedAbspielenController(LiedAbspielenUsecase liedAbspielenUseCase, BenutzerRegistrierenUsecase benutzerRegistrierenUsecase, LiedHochladenUsecase liedHochladenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
+    public LiedAbspielenController(LiedAbspielenUsecase liedAbspielenUseCase, BenutzerRegistrierenUsecase benutzerRegistrierenUsecase, LiedHochladenUsecase liedHochladenUseCase, LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
         this.liedAbspielenUseCase = liedAbspielenUseCase;
         this.benutzerRegistrierenUsecase = benutzerRegistrierenUsecase;
         this.liedHochladenUseCase = liedHochladenUseCase;
+        this.liederInPlaylistAuflistenUseCase = liederInPlaylistAuflistenUseCase;
         this.liederAuflistenUseCase = liederAuflistenUseCase;
     }
 
