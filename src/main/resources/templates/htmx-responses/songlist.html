@@ -6,7 +6,7 @@
                 <div th:text="${lied.getTitel()}">Titel</div>
                 <div class="text-body-secondary">Extra Stuff</div>
             </div>
-            <audio class="flex-fill" id="voice" controls="">
+            <audio class="flex-fill" controls="" id="voice" th:data-testid="${'songlist-'+lied.getId().id()}">
                 <source th:src="${'/streamSong?liedId=' + lied.getId().id()}">
             </audio>
         </li>

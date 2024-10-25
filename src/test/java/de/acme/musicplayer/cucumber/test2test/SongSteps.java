@@ -120,7 +120,7 @@ public class SongSteps {
         }
     }
 
-    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Byte Größe")
+    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Sekunden Länge")
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
     }
