@@ -64,12 +64,9 @@ public class Lied {
         return tenantId;
     }
 
-    public static class Titel {
-        private final String titel;
-
-        public Titel(String titel) {
+    public record Titel(String titel) {
+        public Titel {
             checkNotNull(titel);
-            this.titel = titel;
         }
     }
 }
