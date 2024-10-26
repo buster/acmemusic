@@ -4,8 +4,17 @@
 package de.acme.jooq;
 
 
-import de.acme.jooq.tables.*;
-import de.acme.jooq.tables.records.*;
+import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.BenutzerAuszeichnungen;
+import de.acme.jooq.tables.BenutzerScoreBoard;
+import de.acme.jooq.tables.Lied;
+import de.acme.jooq.tables.LiedAuszeichnungen;
+import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
+import de.acme.jooq.tables.records.BenutzerRecord;
+import de.acme.jooq.tables.records.BenutzerScoreBoardRecord;
+import de.acme.jooq.tables.records.LiedAuszeichnungenRecord;
+import de.acme.jooq.tables.records.LiedRecord;
+
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;

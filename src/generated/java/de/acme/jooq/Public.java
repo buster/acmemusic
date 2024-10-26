@@ -4,13 +4,18 @@
 package de.acme.jooq;
 
 
-import de.acme.jooq.tables.*;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
+import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.BenutzerAuszeichnungen;
+import de.acme.jooq.tables.BenutzerScoreBoard;
+import de.acme.jooq.tables.Lied;
+import de.acme.jooq.tables.LiedAuszeichnungen;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -71,7 +76,7 @@ public class Public extends SchemaImpl {
             BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN,
             BenutzerScoreBoard.BENUTZER_SCORE_BOARD,
             Lied.LIED,
-                LiedAuszeichnungen.LIED_AUSZEICHNUNGEN
+            LiedAuszeichnungen.LIED_AUSZEICHNUNGEN
         );
     }
 }
