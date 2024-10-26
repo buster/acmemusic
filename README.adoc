@@ -56,6 +56,12 @@ Features:
 . Registrieren ✅
 . Spring Native ✅
 . Login [❓]
+. Event und Prozessdokumentation [❓]
+.. In event Bibliothek test ob events alle in der Readme auftauchen
+.. In der Readme draw io Bild mit event und Prozess? 
+. Event Bibliothek [❓]
+.. Inbox und outbox pattern
+.. Dokumentation von Event zu Service Zugehörigkeit? 
 . Testdaten Spike [❓]
 .. Tenant in Entity aufnehmen
 .. Events in Entity aufnehmen und transaktional speichern
