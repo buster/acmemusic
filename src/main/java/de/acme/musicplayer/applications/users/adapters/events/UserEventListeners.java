@@ -6,6 +6,7 @@ import de.acme.musicplayer.applications.users.domain.events.BenutzerHatNeueAusze
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,6 +28,7 @@ public class UserEventListeners {
     }
 
     @EventListener
+    @Async
     public void BenutzerHatNeueAuszeichnungEvent(BenutzerHatNeueAuszeichnungErhalten event) {
         log.info("Listener: BenutzerHatNeueAuszeichnungEvent");
         log.info("Sende SSE Event für BenutzerHatNeueAuszeichnungEvent");
@@ -49,6 +51,7 @@ public class UserEventListeners {
     }
 
     @EventListener
+    @Async
     public void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
         log.info("Listener: BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         log.info("Sende SSE Event für BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
