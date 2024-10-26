@@ -40,7 +40,7 @@ public class SseEmitterService {
                                     .name("message")
                                     .data(eventData));
                         } catch (Exception e) {
-                            log.error("Error sending event to tenant: " + tenant.value(), e);
+                            log.debug("Error sending event to tenant: " + tenant.value(), e);
                             errorEmitters.add(emitter);
                             emitter.complete();
                         }
