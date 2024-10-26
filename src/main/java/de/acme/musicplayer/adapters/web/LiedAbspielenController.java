@@ -35,14 +35,12 @@ public class LiedAbspielenController {
 
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
-    private final LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase;
     private final LiederAuflistenUsecase liederAuflistenUseCase;
 
-    public LiedAbspielenController(LiedAbspielenUsecase liedAbspielenUseCase, BenutzerRegistrierenUsecase benutzerRegistrierenUsecase, LiedHochladenUsecase liedHochladenUseCase, LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
+    public LiedAbspielenController(LiedAbspielenUsecase liedAbspielenUseCase, BenutzerRegistrierenUsecase benutzerRegistrierenUsecase, LiedHochladenUsecase liedHochladenUseCase, LiederAuflistenUsecase liederAuflistenUseCase) {
         this.liedAbspielenUseCase = liedAbspielenUseCase;
         this.benutzerRegistrierenUsecase = benutzerRegistrierenUsecase;
         this.liedHochladenUseCase = liedHochladenUseCase;
-        this.liederInPlaylistAuflistenUseCase = liederInPlaylistAuflistenUseCase;
         this.liederAuflistenUseCase = liederAuflistenUseCase;
     }
 
@@ -69,7 +67,7 @@ public class LiedAbspielenController {
     @GetMapping("/registration-form")
     public String register(Model model) {
         model.addAttribute("greeting", "Hello World!");
-        return "registration-form.html";
+        return "htmx-responses/registration-form.html";
     }
 
     @HxRequest
@@ -82,7 +80,7 @@ public class LiedAbspielenController {
                 new TenantId(tenantId)));
         model.addAttribute("userId", id.Id());
         model.addAttribute("userName", username);
-        return "user-registration-successfull-toast.html";
+        return "htmx-responses/user-registration-successfull-toast.html";
     }
 
     @HxRequest
@@ -92,23 +90,23 @@ public class LiedAbspielenController {
         model.addAttribute("titel", titel);
         model.addAttribute("file", file.getOriginalFilename());
         model.addAttribute("songId", id.id());
-        return "file-upload-successfull-toast.html";
+        return "htmx-responses/file-upload-successfull-toast.html";
     }
 
     @HxRequest
     @GetMapping("/fileUploadForm")
     public String fileUploadForm(Model model) {
-        return "file-upload.html";
+        return "htmx-responses/file-upload.html";
     }
 
     @HxRequest
     @GetMapping("/songlist")
     public String songList(Model model, @RequestParam("tenantId") String tenantId,  @RequestParam(value = "benutzerId", required = false) String benutzerId) {
-        Collection<Lied.Id> ids = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId));
-        model.addAttribute("songIds", ids);
+        Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId));
+        model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
 
-        return "songlist.html";
+        return "htmx-responses/songlist.html";
     }
 }
