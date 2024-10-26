@@ -1,8 +1,8 @@
 package de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import org.jooq.Record1;
 import org.jooq.impl.DefaultDSLContext;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     }
 
     @Override
-    public void zähleNeuesLied(Benutzer.Id benutzerId, TenantId tenant) {
+    public void zähleNeuesLied(BenutzerId benutzerId, TenantId tenant) {
         dslContext.insertInto(BENUTZER_SCORE_BOARD)
                 .set(BENUTZER_SCORE_BOARD.BENUTZERID, benutzerId.Id())
                 .set(BENUTZER_SCORE_BOARD.TENANT, tenant.value())
@@ -31,7 +31,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     }
 
     @Override
-    public Benutzer.Id höchstePunktZahl(TenantId tenantId) {
+    public BenutzerId höchstePunktZahl(TenantId tenantId) {
         Record1<String> one = dslContext.select(BENUTZER_SCORE_BOARD.BENUTZERID)
                 .from(BENUTZER_SCORE_BOARD)
                 .where(BENUTZER_SCORE_BOARD.TENANT.eq(tenantId.value()))
@@ -39,7 +39,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
                 .limit(1)
                 .fetchOne();
         if (one == null) { return null; }
-        return new Benutzer.Id(one.value1());
+        return new BenutzerId(one.value1());
     }
 
     @Override

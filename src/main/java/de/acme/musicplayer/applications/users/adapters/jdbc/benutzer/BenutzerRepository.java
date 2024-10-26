@@ -2,12 +2,12 @@ package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
 import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
 import de.acme.jooq.tables.records.BenutzerRecord;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
-import static de.acme.jooq.Tables.*;
+import static de.acme.jooq.Tables.BENUTZER;
+import static de.acme.jooq.Tables.BENUTZER_AUSZEICHNUNGEN;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Component
@@ -28,12 +29,12 @@ public class BenutzerRepository implements BenutzerPort {
     }
 
     @Override
-    public Benutzer.Id benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
-        Benutzer.Id id = new Benutzer.Id(UUID.randomUUID().toString());
+    public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
+        BenutzerId benutzerId = new BenutzerId(UUID.randomUUID().toString());
         dslContext.insertInto(BENUTZER, BENUTZER.ID, BENUTZER.NAME, BENUTZER.PASSWORT, BENUTZER.EMAIL, BENUTZER.TENANT)
-                .values(id.Id(), benutzer.getName().benutzername, benutzer.getPasswort().passwort, benutzer.getEmail().email, tenantId.value())
+                .values(benutzerId.Id(), benutzer.getName().benutzername, benutzer.getPasswort().passwort, benutzer.getEmail().email, tenantId.value())
                 .execute();
-        return id;
+        return benutzerId;
     }
 
     @Override
@@ -48,8 +49,8 @@ public class BenutzerRepository implements BenutzerPort {
     }
 
     @Override
-    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
-        BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(id.Id())
+    public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
+        BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.Id())
                         .and(BENUTZER.TENANT.eq(tenantId.value()))))
                 .fetchOne();
         checkState(benutzerRecord != null, "Benutzer nicht gefunden");
@@ -58,9 +59,9 @@ public class BenutzerRepository implements BenutzerPort {
                 new Benutzer.Name(benutzerRecord.getName()),
                 new Benutzer.Passwort(benutzerRecord.getPasswort()),
                 new Benutzer.Email(benutzerRecord.getEmail()));
-        benutzer.setId(new Benutzer.Id(benutzerRecord.getId()));
+        benutzer.setId(new BenutzerId(benutzerRecord.getId()));
 
-        Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(id.Id())
+        Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzerId.Id())
                 .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenantId.value())))).fetch();
 
         if (isNotEmpty(auszeichnungen)) {

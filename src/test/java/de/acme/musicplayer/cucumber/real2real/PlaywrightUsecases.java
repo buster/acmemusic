@@ -1,8 +1,8 @@
 package de.acme.musicplayer.cucumber.real2real;
 
 import com.microsoft.playwright.Page;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.common.BenutzerId;
 import io.cucumber.spring.ScenarioScope;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase {
     }
 
     @Override
-    public Benutzer.Id registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand) {
+    public BenutzerId registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand) {
         try (Page page = browserContextComponent.getBrowserContext().browser().newPage()) {
             page.navigate(String.format("http://localhost:%s/?tenantId=%s", port, tenantId));
             assertThat(page).hasTitle("ACME Music Player");
@@ -35,7 +35,7 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase {
             page.getByLabel("Password").fill(benutzerRegistrierenCommand.passwort().passwort);
             page.click("#registration-form-submit");
             String id = page.inputValue("#userId");
-            return new Benutzer.Id(id);
+            return new BenutzerId(id);
         }
     }
 }
