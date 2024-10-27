@@ -59,7 +59,7 @@ jobs:
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@5.3.11
         with:
-          reports: **/jacoco.xml
+          reports: '**/jacoco.xml'
           targetdir: coveragereport
           reporttypes: lcov;Badges
 
