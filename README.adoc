@@ -2,6 +2,8 @@
 
 ![coverage](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fbuster%2Fe9c1695395e516101b48bb852a31602c%2Fraw%2Facmemusic-jacoco-coverage.json)
 
+![coverage](https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fbuster%2Fe9c1695395e516101b48bb852a31602c%2Fraw%2Facmemusic-lcov-coverage.json)
+
 = Getting Started
 
 PoC für Stubtesting mit Cucumber, Pact.
