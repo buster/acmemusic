@@ -29,7 +29,11 @@ public class UserEventListeners {
     public void BenutzerHatNeueAuszeichnungEvent(BenutzerHatNeueAuszeichnungErhalten event) {
         log.info("Listener: BenutzerHatNeueAuszeichnungEvent");
         log.info("Sende SSE Event für BenutzerHatNeueAuszeichnungEvent");
-        String eventData = "<div>Benutzer " + event.benutzerId().Id() + " hat die Auszeichnung " + event.auszeichnung() + " erhalten</div>";
+        String eventData = "<div>Benutzer " +
+                event.benutzername() +
+                " hat die Auszeichnung " +
+                event.auszeichnung() +
+                " erhalten</div>";
         String eventDiv = String.format("<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
@@ -37,7 +41,6 @@ public class UserEventListeners {
                 "    </div>\n" +
                 "    <div class=\"toast-body\">\n" +
                 "<span>" + eventData + "</span>" +
-                "        <input type=\"hidden\" id=\"userId\" name=\"userId\" th:value=\"${userId}\">\n" +
                 "    </div>\n" +
                 "</div>");
         sseEmitterService.sendEvent(event.getTenant(),
