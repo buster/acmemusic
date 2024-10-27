@@ -1,4 +1,4 @@
-package de.acme.musicplayer.applications.users.usecases;
+package de.acme.musicplayer.applications.users.ports;
 
 import de.acme.musicplayer.common.Event;
 
