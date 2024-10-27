@@ -2,7 +2,9 @@ package de.acme.musicplayer.applications.musicplayer.usecases;
 
 import de.acme.musicplayer.ModuleApi;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.TenantId;
+
 @ModuleApi
 public interface LiedAdministrationUsecase {
 
@@ -10,5 +12,5 @@ public interface LiedAdministrationUsecase {
 
     void löscheDatenbank(TenantId tenantId);
 
-    Lied leseLied(Lied.Id id, TenantId tenantId);
+    Lied leseLied(LiedId liedId, TenantId tenantId);
 }

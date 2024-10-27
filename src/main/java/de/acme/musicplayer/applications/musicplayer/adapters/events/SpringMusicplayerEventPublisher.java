@@ -1,7 +1,7 @@
 package de.acme.musicplayer.applications.musicplayer.adapters.events;
 
-import de.acme.musicplayer.events.Event;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
+import de.acme.musicplayer.common.Event;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 

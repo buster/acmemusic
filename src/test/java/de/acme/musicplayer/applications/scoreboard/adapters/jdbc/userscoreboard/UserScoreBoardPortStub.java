@@ -1,8 +1,8 @@
 package de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard;
 
-import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.TenantId;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.Map;
@@ -12,10 +12,10 @@ import static java.util.Comparator.comparingInt;
 
 public class UserScoreBoardPortStub implements UserScoreBoardPort {
 
-    private ConcurrentHashMap<MutablePair<Benutzer.Id, TenantId>, Integer> scoreBoard = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<MutablePair<BenutzerId, TenantId>, Integer> scoreBoard = new ConcurrentHashMap<>();
 
     @Override
-    public void zähleNeuesLied(Benutzer.Id benutzerId, TenantId tenant) {
+    public void zähleNeuesLied(BenutzerId benutzerId, TenantId tenant) {
         scoreBoard.entrySet().stream()
                 .filter(entry -> entry.getKey().getLeft().equals(benutzerId))
                 .filter(entry -> entry.getKey().getRight().equals(tenant))
@@ -27,7 +27,7 @@ public class UserScoreBoardPortStub implements UserScoreBoardPort {
     }
 
     @Override
-    public Benutzer.Id höchstePunktZahl(TenantId tenantId) {
+    public BenutzerId höchstePunktZahl(TenantId tenantId) {
         return scoreBoard.entrySet().stream()
                 .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .max(comparingInt(Map.Entry::getValue))
@@ -37,7 +37,7 @@ public class UserScoreBoardPortStub implements UserScoreBoardPort {
 
     @Override
     public void löscheDatenbank(TenantId tenantId) {
-        for (Map.Entry<MutablePair<Benutzer.Id, TenantId>, Integer> mutablePairIntegerEntry : scoreBoard.entrySet()) {
+        for (Map.Entry<MutablePair<BenutzerId, TenantId>, Integer> mutablePairIntegerEntry : scoreBoard.entrySet()) {
             if (mutablePairIntegerEntry.getKey().getRight().equals(tenantId)) {
                 scoreBoard.remove(mutablePairIntegerEntry.getKey());
             }

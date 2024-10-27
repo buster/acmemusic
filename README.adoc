@@ -134,6 +134,14 @@ sdk install java 24.1.r23-nik
 sdk use java 24.1.r23-nik
 --
 
+=== DB neu aufsetzen und Modell generieren
+
+[source,bash]
+--
+./mvnw io.brachu:docker-compose-maven-plugin:up@run-docker org.liquibase:liquibase-maven-plugin:dropAll org.liquibase:liquibase-maven-plugin:update org.jooq:jooq-codegen-maven:generate
+
+--
+
 === Test
 
 startet auch  docker container
