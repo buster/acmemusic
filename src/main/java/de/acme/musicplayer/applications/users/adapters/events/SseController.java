@@ -16,9 +16,10 @@ public class SseController {
     }
 
     @GetMapping(path = "/users/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@CookieValue(value = "tenantId") String tenantId) {
+    public SseEmitter subscribe(@CookieValue(value = "tenantId") String tenantId,
+                                @CookieValue(value = "userId", required = false) String userId) {
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
-        sseEmitterService.addEmitter(emitter, tenantId);
+        sseEmitterService.addEmitter(emitter, tenantId, userId);
         return emitter;
     }
 }
