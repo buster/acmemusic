@@ -7,31 +7,14 @@ package de.acme.jooq.tables;
 import de.acme.jooq.Keys;
 import de.acme.jooq.Public;
 import de.acme.jooq.tables.BenutzerAuszeichnungen.BenutzerAuszeichnungenPath;
-import de.acme.jooq.tables.Playlist.PlaylistPath;
 import de.acme.jooq.tables.records.BenutzerRecord;
-
-import java.util.Collection;
-
-import org.jooq.Condition;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.InverseForeignKey;
-import org.jooq.Name;
-import org.jooq.Path;
-import org.jooq.PlainSQL;
-import org.jooq.QueryPart;
 import org.jooq.Record;
-import org.jooq.SQL;
-import org.jooq.Schema;
-import org.jooq.Select;
-import org.jooq.Stringly;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.Collection;
 
 
 /**
@@ -163,19 +146,6 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
             _benutzerAuszeichnungen = new BenutzerAuszeichnungenPath(this, null, Keys.BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK.getInverseKey());
 
         return _benutzerAuszeichnungen;
-    }
-
-    private transient PlaylistPath _playlist;
-
-    /**
-     * Get the implicit to-many join path to the <code>public.playlist</code>
-     * table
-     */
-    public PlaylistPath playlist() {
-        if (_playlist == null)
-            _playlist = new PlaylistPath(this, null, Keys.PLAYLIST__PLAYLIST_BESITZER_FK.getInverseKey());
-
-        return _playlist;
     }
 
     @Override
