@@ -4,6 +4,7 @@ package de.acme.musicplayer.applications.users.domain.model;
 import de.acme.musicplayer.ModuleApi;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Benutzer {
@@ -66,5 +67,9 @@ public class Benutzer {
 
     @ModuleApi
     public record Id(String Id) {
+        public Id(String Id) {
+            checkNotNull(Id);
+            this.Id = Id;
+        }
     }
 }

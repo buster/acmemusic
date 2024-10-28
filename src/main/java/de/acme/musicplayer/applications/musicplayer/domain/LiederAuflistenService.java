@@ -4,6 +4,7 @@ import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
 import java.util.Collection;
 
@@ -17,7 +18,7 @@ public class LiederAuflistenService implements LiederAuflistenUsecase {
 
 
     @Override
-    public Collection<Lied> liederAuflisten(TenantId tenantId) {
-        return liedPort.listeLiederAuf(tenantId);
+    public Collection<Lied> liederAuflisten(TenantId tenantId, Benutzer.Id benutzerId) {
+        return liedPort.listeLiederAuf(benutzerId, tenantId);
     }
 }

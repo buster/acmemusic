@@ -7,20 +7,21 @@
     <changeSet id="1" author="sebastian">
         <createTable tableName="lied">
             <column name="id" type="varchar">
-                <constraints  nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="tenant" type="varchar">
-                <constraints  nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="titel" type="varchar"/>
+            <column name="besitzer_id" type="varchar"/>
         </createTable>
         <addPrimaryKey columnNames="tenant, id" tableName="lied" constraintName="PK_TENANT_LIED"/>
         <createTable tableName="playlist">
             <column name="id" type="varchar">
-                <constraints  nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="tenant" type="varchar">
-                <constraints  nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="besitzer" type="varchar"/>
@@ -30,22 +31,23 @@
         <createTable tableName="playlist_lied">
 
             <column name="lied_id" type="varchar">
-<!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
+                <!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
             </column>
             <column name="playlist_id" type="varchar">
-<!--                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(tenant, id)"/>-->
+                <!--                <constraints nullable="false" foreignKeyName="fk_playlist_id" references="playlist(tenant, id)"/>-->
             </column>
             <column name="tenant" type="varchar">
-                <constraints  nullable="false"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="playlist_lied"  columnNames="tenant, lied_id, playlist_id" constraintName="pk_tenant_playlist_lied"/>
+        <addPrimaryKey tableName="playlist_lied" columnNames="tenant, lied_id, playlist_id"
+                       constraintName="pk_tenant_playlist_lied"/>
         <addForeignKeyConstraint constraintName="fk_lied_ied"
                                  baseTableName="playlist_lied"
                                  baseColumnNames="tenant, lied_id"
                                  referencedTableName="lied"
                                  referencedColumnNames="tenant, id"
-                                referencesUniqueColumn="true"/>
+                                 referencesUniqueColumn="true"/>
         <addForeignKeyConstraint constraintName="fk_playlist_ied"
                                  baseTableName="playlist_lied"
                                  baseColumnNames="tenant, playlist_id"
@@ -56,10 +58,10 @@
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">
             <column name="id" type="varchar">
-                <constraints   nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="tenant" type="varchar">
-                <constraints  nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar"/>
             <column name="email" type="varchar"/>
