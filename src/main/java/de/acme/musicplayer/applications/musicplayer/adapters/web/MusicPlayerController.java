@@ -65,15 +65,18 @@ public class MusicPlayerController {
         return "htmx-responses/song-upload.html";
     }
 
-    @HxRequest
+    // HxRequest nicht, damit das Fragment auch im Browser sichtbar wird
+    // @HxRequest
     @GetMapping("/songlist")
-    public String songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
+    public HtmxResponse songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
         Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new BenutzerId(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
-
-        return "htmx-responses/songlist.html";
+        return HtmxResponse.builder()
+                .view("htmx-responses/songlist.html")
+                .reselect("#songlist-content")
+                .build();
     }
 
     @ExceptionHandler(Exception.class)

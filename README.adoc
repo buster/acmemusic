@@ -3,50 +3,11 @@
 PoC für Stubtesting mit Cucumber, Pact.
 Stubs im Test, Prod DB in Prod.
 
-Marks: ❓ ❌  ✅
-
-== Usecases
-
-[plantuml, format=svg, opts="inline"]
---
-
-left to right direction
-
-actor Nutzer
-
-package "Music Player" {
-  usecase "Lied hören"
-  usecase "Lied hochladen"
-  usecase "Lied löschen" #green
-}
-
-package "User Management" {
-  usecase "Registrieren"
-  usecase "Benutzer erhält Auszeichnung"
-  usecase "Benutzer löschen" #green
-}
-
-package "Scoreboard" {
-  usecase "Scores löschen" #green
-}
-
-Nutzer ----> "Registrieren"
-Nutzer ----> "Lied hochladen" : eigene Lieder (privat)
-Nutzer ----> "Lied hören"
-Nutzer ----> "Lied löschen"
-Nutzer ----> "Benutzer erhält Auszeichnung"
-
-
-actor Admin #green
-Admin -u-> "Benutzer löschen"
-Admin -u-> "Lied löschen"
-Admin -u-> "Scores löschen"
---
+Marks: ❓ ❌ ✅
 
 == Aufbau
 
 image::acme-aufbau.drawio.png[Acme Aufbau,100%]
-
 
 == TODO
 
@@ -58,10 +19,10 @@ Features:
 . Login [❓]
 . Event und Prozessdokumentation [❓]
 .. In event Bibliothek test ob events alle in der Readme auftauchen
-.. In der Readme draw io Bild mit event und Prozess? 
+.. In der Readme draw io Bild mit event und Prozess?
 . Event Bibliothek [❓]
 .. Inbox und outbox pattern
-.. Dokumentation von Event zu Service Zugehörigkeit? 
+.. Dokumentation von Event zu Service Zugehörigkeit?
 . Testdaten Spike [❓]
 .. Tenant in Entity aufnehmen
 .. Events in Entity aufnehmen und transaktional speichern
@@ -70,14 +31,14 @@ Features:
 .. Dritter event Driven service ✅
 .. Basis für längerlaufende Testdaten
 .. Events mit Value Objects aus der Domain oder Plain Objects!?
-.. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo? 
+.. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo?
 . Quick-Registration
 .. Als "Demo-Mode" zum Anteasern, Lied Hochladen + User + Email == 10 Minuten Zugriff auf Software bis Email-Verifikation abgeschlossen wurde, danach gesperrt/pausiert [❓]
-
 
 == Ideen
 
 === Paralleles Testing ermöglichen ✅
+
 . Daten nur explizit anlegen
 .. UUID am Szenarioanfang im Test
 ... A) spezifische Testdaten: ❌
@@ -87,29 +48,36 @@ Features:
 .... alle Usecase Commands um "Tenant" Parameter erweitern
 ..... Default "1" oder "GLOBAL"
 .... Repos/Indizes nach Tenant-Id umbauen
-.. in AfterAll löschen aller Testdaten anhand des Tenants  ✅
+.. in AfterAll löschen aller Testdaten anhand des Tenants ✅
 ... Admin-Usecase zum Löschen?
 
 === Modulith  ✅
+
 . zweites Modul erstellen
-. test2test kommunikation wie? Async App Listener? Fake Antworten/Events
+. test2test kommunikation wie?
+Async App Listener?
+Fake Antworten/Events
 . test2real == end to end test mit MessageBroker?
-. Feature Test kann ja bestehen bleiben, je nach Modul andere Steps, aber Steps die für das Modul irrelevant sind -> NOOP. Geht das?
+. Feature Test kann ja bestehen bleiben, je nach Modul andere Steps, aber Steps die für das Modul irrelevant sind -> NOOP.
+Geht das?
 . ArchUnit?
-  . Zugriff von einem Modul auf Model anderes Moduls verbieten?
-. Usecase darf anderen Usecase in anderem Modul aufrufen, aber der Usecase gibt ein internes Domainobjekt zurück, ist das problematisch? In zwei Microservices gesplittet, wäre das Objekt ein DTO und hätte keine "Extra-Logik". Annahme: wenn aus dem Modulithen zwei Microservices werden, muss das beachtet werden. Vermutlich werden dann die Getter einfach im Controller aufgerufen und die "Extra-Logik" findet bei der Umwandlung zum DTO für die API automatisch statt.
+. Zugriff von einem Modul auf Model anderes Moduls verbieten?
+. Usecase darf anderen Usecase in anderem Modul aufrufen, aber der Usecase gibt ein internes Domainobjekt zurück, ist das problematisch?
+In zwei Microservices gesplittet, wäre das Objekt ein DTO und hätte keine "Extra-Logik".
+Annahme: wenn aus dem Modulithen zwei Microservices werden, muss das beachtet werden.
+Vermutlich werden dann die Getter einfach im Controller aufgerufen und die "Extra-Logik" findet bei der Umwandlung zum DTO für die API automatisch statt.
 
 === Testdaten in komplexen Fachprozessen  ❓
 
-Wie können Tests geschrieben werden, welche sich am Ende eines komplexen
-fachlichen Prozesses befinden?
+Wie können Tests geschrieben werden, welche sich am Ende eines komplexen fachlichen Prozesses befinden?
 
 . Fachlich korrekte Testdatenbuilder schreiben
 .. Gefahr der Re-Implementierung der Businesslogik im Testcode -> schlecht
 .. Wiederverwendung von Businesslogik möglich?
 .. Erzwingt Datenbankzugriff an Usecases vorbei im Testcode
 ... zwingende Wiederverwendung der Domain-Objekte
-. Snapshot bzw. Backup/Restore Funktionalität für ein Szenario
+. Snapshot bzw.
+Backup/Restore Funktionalität für ein Szenario
 .. Szenario 1 laufen lassen
 .. Ergebnis von Szenario 1 snappshotten
 .. in Szenario 2 Snapshot wiederverwenden
@@ -117,7 +85,7 @@ fachlichen Prozesses befinden?
 . Testszenarien entlang der Prozesse schneiden und nicht einzelner Features
 .. Statt "MP3 abspielen", "User Einloggen" als einzelne Szenarien, ein Szenario für den Prozess des Musikabspielens "User registriert sich, user loggt sich ein, user lädt MP3 hoch, user spielt MP3 ab" in einem Szenario
 .. Gegebenenfalls natürlich in sinnvoll Szenarien schneiden, wenn es zu komplex wird
-... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt  Playlist mit Freunden"
+... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt Playlist mit Freunden"
 
 == Quickstart
 
@@ -125,15 +93,16 @@ fachlichen Prozesses befinden?
 
 JDK 21 für normale Entwicklung,
 
-[source, bash]
+[source,bash]
 --
 sdk install java 21.0.2-tem
 sdk use java 21.0.2-tem
 --
 
-JDK 23, NIK 24 (Native image. JDK 21 sollte auch einfach gehen)
+JDK 23, NIK 24 (Native image.
+JDK 21 sollte auch einfach gehen)
 
-[source, bash]
+[source,bash]
 --
 sdk install java 24.1.r23-nik
 sdk use java 24.1.r23-nik
@@ -149,24 +118,65 @@ sdk use java 24.1.r23-nik
 
 === Test
 
-startet auch  docker container
+startet auch docker container
 
-[source, bash]
+[source,bash]
 --
 ./mvnw clean test
 --
 
 === Run
 
-[source, bash]
+[source,bash]
 --
 ./mvnw docker-compose:up@run-docker
 ./mvnw spring-boot:run
 --
 
 === Run Spring Native
-[source, bash]
+
+[source,bash]
 --
 ./mvnw -Pnative native:compile -DskipTests=true
 ./target/acme
 --
+
+
+//
+// == Usecases
+//
+// [plantuml, format=svg, opts="inline"]
+// --
+//
+// left to right direction
+//
+// actor Nutzer
+//
+// package "Music Player" {
+//   usecase "Lied hören"
+//   usecase "Lied hochladen"
+//   usecase "Lied löschen" #green
+// }
+//
+// package "User Management" {
+//   usecase "Registrieren"
+//   usecase "Benutzer erhält Auszeichnung"
+//   usecase "Benutzer löschen" #green
+// }
+//
+// package "Scoreboard" {
+//   usecase "Scores löschen" #green
+// }
+//
+// Nutzer ----> "Registrieren"
+// Nutzer ----> "Lied hochladen" : eigene Lieder (privat)
+// Nutzer ----> "Lied hören"
+// Nutzer ----> "Lied löschen"
+// Nutzer ----> "Benutzer erhält Auszeichnung"
+//
+//
+// actor Admin #green
+// Admin -u-> "Benutzer löschen"
+// Admin -u-> "Lied löschen"
+// Admin -u-> "Scores löschen"
+// --

@@ -6,7 +6,6 @@ Funktionalität:
   @T2R
   @R2R
   Szenario: Auszeichnungen
-#    Gegeben sei eine leere Datenbank
     Gegeben seien folgende Benutzer:
       | Name  | Passwort | Email         |
       | Alice | abc      | bla@localhost |
