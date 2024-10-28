@@ -344,7 +344,7 @@
                 <version>0.8.12</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/jooq/**/*.class</exclude>
+                        <exclude>**/generated/**</exclude>
                     </excludes>
                     <formats>HTML,XML</formats>
                 </configuration>
