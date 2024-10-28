@@ -34,7 +34,8 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase {
             page.getByLabel("Email address").fill(benutzerRegistrierenCommand.email().email);
             page.getByLabel("Password").fill(benutzerRegistrierenCommand.passwort().passwort);
             page.click("#registration-form-submit");
-            String id = page.inputValue("#userId");
+            page.waitForSelector("[data-testid=\"registration-successful-toast\"]");
+            String id = page.context().cookies().stream().filter(cookie -> cookie.name.equals("userId")).findFirst().orElseThrow().value;
             return new BenutzerId(id);
         }
     }
