@@ -46,12 +46,11 @@ public class SongSteps {
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final PlaywrightUsecases playwriteUsecases;
     private final LiedAbspielenUsecase liedAbspielenUsecase;
+    private final LiedHochladenUsecase liedHochladenUseCase;
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
-    @Autowired
-    private LiedHochladenUsecase liedHochladenUseCase;
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @LocalServerPort
@@ -63,6 +62,7 @@ public class SongSteps {
         this.benutzerRegistrierenUsecase = playwrightUsecases;
         this.playwriteUsecases = playwrightUsecases;
         this.liedAbspielenUsecase = playwrightUsecases;
+        this.liedHochladenUseCase = playwrightUsecases;
     }
 
     @Before
