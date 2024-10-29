@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -51,7 +52,7 @@ public class SseEmitterService {
     public void sendEventToUser(String userId, TenantId tenant, String eventData) {
         emitters.entrySet().stream()
                 .filter(pairSetEntry -> pairSetEntry.getKey().getLeft().equals(tenant.value()))
-                .filter(pairSetEntry -> pairSetEntry.getKey().getRight().equals(userId))
+                .filter(pairSetEntry -> Objects.equals(pairSetEntry.getKey().getRight(), userId))
                 .forEach(pairSetEntry -> {
                     List<SseEmitter> errorEmitters = new ArrayList<>();
                     for (SseEmitter emitter : pairSetEntry.getValue()) {
