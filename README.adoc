@@ -102,15 +102,6 @@ sdk install java 21.0.2-tem
 sdk use java 21.0.2-tem
 --
 
-JDK 23, NIK 24 (Native image.
-JDK 21 sollte auch einfach gehen)
-
-[source,bash]
---
-sdk install java 24.1.r23-nik
-sdk use java 24.1.r23-nik
---
-
 === DB neu aufsetzen und Modell generieren
 
 [source,bash]
@@ -138,9 +129,23 @@ startet auch docker container
 
 === Run Spring Native
 
+Hinweis: Jooq benötigt extra Instrumentation (oder automatisches Tracing), siehe https://github.com/jOOQ/jOOQ/issues/8779
+
+JDK 23, NIK 24 (Native image.
+JDK 21 sollte auch einfach gehen)
+
+==== Compiling
 [source,bash]
 --
-./mvnw -Pnative native:compile -DskipTests=true
+sdk install java 24.1.1.r23-nik
+sdk use java 24.1.1.r23-nik
+./mvnw -Pnative native:compile
+--
+
+==== Native Running
+
+[source,bash]
+--
 ./target/acme
 --
 
