@@ -3,6 +3,7 @@ package de.acme.musicplayer.cucumber.real2real;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Playwright;
 import io.cucumber.spring.ScenarioScope;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +23,12 @@ public class BrowserComponent {
 
     public Browser getBrowser() {
         return browser;
+    }
+
+    @PreDestroy
+    public void closeBrowser() {
+        log.info("closing browser");
+        browser.close();
+        playwright.close();
     }
 }

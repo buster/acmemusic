@@ -116,8 +116,8 @@ public class SongSteps {
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
         try (InputStream inputStream = liedAbspielenUsecase.liedStreamen(titelToIdMap.get(lied), tenantId)) {
-        lastReadSongSize = inputStream.readAllBytes().length;
-    }
+            lastReadSongSize = inputStream.readAllBytes().length;
+        }
     }
 
     @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Sekunden Länge")
