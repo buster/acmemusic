@@ -346,6 +346,7 @@
                     <excludes>
                         <exclude>**/jooq/**/*.class</exclude>
                     </excludes>
+                    <formats>HTML,XML</formats>
                 </configuration>
                 <!--                <configuration>-->
                 <!--                    <skip>${maven.test.skip}</skip>-->
@@ -360,7 +361,7 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-site</id>
+                        <id>report</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
