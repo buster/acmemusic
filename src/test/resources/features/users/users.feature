@@ -10,11 +10,11 @@ Funktionalität:
     Gegeben seien  folgende Benutzer:
       | Name | Passwort | Email          |
       | John | abc      | john@localhost |
-    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'John@localhost' registriert hat
+    Wenn der Benutzer 'Alice' sich mit dem Passwort 'abc' und der Email 'john@localhost' registriert hat
     Dann kennt der Service 2 Benutzer
 
   @T2T
-#  @T2R
+  @T2R
 #  @R2R
   @Users
   Szenario: Registrierung

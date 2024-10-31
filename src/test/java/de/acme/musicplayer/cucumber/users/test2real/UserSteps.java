@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.users.test2test;
+package de.acme.musicplayer.cucumber.users.test2real;
 
 import de.acme.musicplayer.applications.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
@@ -7,6 +7,7 @@ import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUse
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
 import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -28,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class UserSteps {
 
+    private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
     @Autowired
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
@@ -36,6 +38,7 @@ public class UserSteps {
     @Autowired
     private UserEventDispatcher userEventDispatcher;
 
+    private long lastReadSongSize;
     private TenantId tenantId;
 
     @Before
@@ -51,6 +54,7 @@ public class UserSteps {
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
     }
+
 
     private Benutzer fetchBenutzer(String benutzer) {
         BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
@@ -79,10 +83,16 @@ public class UserSteps {
         assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
     }
 
+    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Sekunden Länge")
+    public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
+        assertThat(lastReadSongSize).isGreaterThan(size);
+    }
+
     @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
     @Und("der Benutzer {string} erhält die Auszeichnung {string}")
     public void erhältDerBenutzerAliceDieAuszeichnungTopUploader(String benutzer, String auszeichnung) {
-        Benutzer benutzerEntity = fetchBenutzer(benutzer);
+        BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
+        Benutzer benutzerEntity = benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
         assertThat(benutzerEntity.getAuszeichnungen()).contains(Auszeichnung.valueOf(auszeichnung));
     }
 
