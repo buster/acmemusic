@@ -1,7 +1,10 @@
 package de.acme.musicplayer.common;
 
+import de.acme.musicplayer.ModuleApi;
+
 import java.util.List;
 
+@ModuleApi
 public interface EventPublisher {
     void publishEvent(Event event);
 
