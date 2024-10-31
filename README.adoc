@@ -1,7 +1,8 @@
+== ACME Music Player - Architecture Playground
+
 image::.github/badges/jacoco.svg[Line Coverage]
 image::.github/badges/branches.svg[Branch Coverage]
 
-= Getting Started
 
 PoC für component testing (https://www.thoughtworks.com/radar/techniques/summary/component-testing) in hexagonaler Architektur mit Cucumber.
 Stubs im Test, Prod DB in Prod.
@@ -37,6 +38,11 @@ Features:
 .. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo?
 . Quick-Registration
 .. Als "Demo-Mode" zum Anteasern, Lied Hochladen + User + Email == 10 Minuten Zugriff auf Software bis Email-Verifikation abgeschlossen wurde, danach gesperrt/pausiert [❓]
+
+== Erkenntnisse/ADRs
+
+- xref:adrs/01-spring-native.adoc[Spring Native]
+- xref:adrs/02-testing-framework.adoc[Testing Framework]
 
 == Ideen
 
