@@ -75,6 +75,7 @@ public class ScoreboardSteps {
         log.info("Benutzer {} hat ein neues Lied hochgeladen, ID: {}", benutzerName, liedId);
         assertThat(liedId).isNotNull();
         NeuesLiedWurdeAngelegt neuesLiedWurdeAngelegt = new NeuesLiedWurdeAngelegt(liedId, benutzerId, tenantId);
+
         zähleNeueLiederUsecase.zähleNeueAngelegteLieder(neuesLiedWurdeAngelegt);
     }
 
