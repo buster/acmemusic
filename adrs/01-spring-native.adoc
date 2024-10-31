@@ -1,0 +1,17 @@
+== Was soll entschieden werden?
+
+== Optionen
+
+=== Spring
+
+==== Pros
+
+==== Cons
+
+=== Spring Native
+
+==== Pros
+
+==== Cons
+
+== Entscheidung

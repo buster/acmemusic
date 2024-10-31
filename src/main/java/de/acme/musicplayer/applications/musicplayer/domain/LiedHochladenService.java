@@ -29,7 +29,6 @@ public class LiedHochladenService implements LiedHochladenUsecase {
         Lied neuesLied = Lied.neuesLied(title, benutzerId, tenantId);
         LiedId liedId = liedPort.fügeLiedHinzu(neuesLied, lied);
         musicplayerEventPublisher.publishEvent(new NeuesLiedWurdeAngelegt(neuesLied.getId(),
-                neuesLied.getTitel(),
                 neuesLied.getBesitzer(),
                 neuesLied.getTenantId())
         );

@@ -7,7 +7,7 @@ import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 
 @ModuleApi
-public record NeuesLiedWurdeAngelegt(LiedId liedId, String titel, BenutzerId besitzerId,
+public record NeuesLiedWurdeAngelegt(LiedId liedId, BenutzerId besitzerId,
                                      TenantId tenantId)
         implements Event {
 
