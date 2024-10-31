@@ -1,6 +1,7 @@
 package de.acme.musicplayer.applications.users.domain;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
+import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +23,10 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     @Transactional
     public void löscheDatenbank(TenantId tenantId) {
         benutzerPort.loescheDatenbank(tenantId);
+    }
+
+    @Override
+    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
+        return benutzerPort.leseBenutzer(id, tenantId);
     }
 }

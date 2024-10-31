@@ -1,5 +1,7 @@
 package de.acme.musicplayer.cucumber.test2test;
 
+import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
+import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Playlist;
@@ -86,6 +88,16 @@ public class SongSteps {
         }
     }
 
+    @Und("der Benutzer {string} lädt das Lied mit dem Titel {string} aus der Datei {string} hoch")
+    public void derBenutzerLädtDasLiedHoch(String benutzer, String titel, String datei) throws IOException, URISyntaxException {
+        try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(datei).toURI()))) {
+            Lied.Id id = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(benutzer), new Lied.Titel(titel), inputStream, tenantId);
+            log.info("Song {} hoch geladen, ID: {}", titel, id);
+            assertThat(id).isNotNull();
+            titelToIdMap.put(titel, id);
+        }
+    }
+
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
@@ -146,5 +158,20 @@ public class SongSteps {
     @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Byte Größe")
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
+    }
+
+    @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
+    @Und("der Benutzer {string} erhält die Auszeichnung {string}")
+    public void erhältDerBenutzerAliceDieAuszeichnungTopUploader(String benutzer, String auszeichnung) {
+        Benutzer.Id id = benutzerToIdMap.get(benutzer);
+        Benutzer benutzerEntity = benutzerAdministrationUsecase.leseBenutzer(id, tenantId);
+        assertThat(benutzerEntity.getAuszeichnungen()).contains(Auszeichnung.valueOf(auszeichnung));
+    }
+
+    @Dann("erhält das Lied {string} die Auszeichnung {string}")
+    public void erhältDasLiedEpicSongDieAuszeichnungTopSong(String titel, String auszeichnung) {
+        Lied.Id id = titelToIdMap.get(titel);
+        Lied lied = liedAdministrationUsecase.leseLied(id, tenantId);
+        assertThat(lied.getAuszeichnungen()).contains(LiedAuszeichnung.valueOf(auszeichnung));
     }
 }

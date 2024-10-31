@@ -37,4 +37,9 @@ public class BenutzerPortStub implements BenutzerPort {
             }
         }
     }
+
+    @Override
+    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
+        return benutzerList.get(new ImmutablePair<>(id.Id(), tenantId));
+    }
 }

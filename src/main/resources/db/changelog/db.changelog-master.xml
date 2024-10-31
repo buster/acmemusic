@@ -16,6 +16,27 @@
             <column name="besitzer_id" type="varchar"/>
         </createTable>
         <addPrimaryKey columnNames="tenant, id" tableName="lied" constraintName="PK_TENANT_LIED"/>
+
+        <createTable tableName="lied_auszeichnungen">
+            <column name="liedId" type="varchar" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="auszeichnung" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="lied_auszeichnungen"
+                                 baseColumnNames="tenant, liedId"
+                                 constraintName="lied_auszeichnungen_fk"
+                                 referencedTableName="lied"
+                                 referencedColumnNames="tenant, id"
+                                 deleteCascade="true"
+                                 referencesUniqueColumn="true"
+        />
+
         <createTable tableName="playlist">
             <column name="id" type="varchar">
                 <constraints nullable="false"/>
@@ -29,7 +50,6 @@
         <addPrimaryKey columnNames="tenant, id" tableName="playlist" constraintName="PK_TENANT_PLAYLIST"/>
 
         <createTable tableName="playlist_lied">
-
             <column name="lied_id" type="varchar" >
                 <constraints nullable="false"/>
                 <!--                <constraints nullable="false" foreignKeyName="fk_lied_id"  references="lied(tenant, id)"/>-->
@@ -71,12 +91,31 @@
         </createTable>
         <addPrimaryKey tableName="benutzer" columnNames="tenant, id" constraintName="pk_tenant_benutzer"/>
 
+        <createTable tableName="benutzer_auszeichnungen">
+            <column name="benutzer" type="varchar" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="auszeichnung" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
         <addForeignKeyConstraint baseTableName="playlist"
                                  baseColumnNames="tenant, besitzer"
                                  constraintName="playlist_besitzer_fk"
                                  referencedTableName="benutzer"
                                  referencedColumnNames="tenant, id"
                                  deleteCascade="false"
+                                 referencesUniqueColumn="true"
+        />
+        <addForeignKeyConstraint baseTableName="benutzer_auszeichnungen"
+                                 baseColumnNames="tenant, benutzer"
+                                 constraintName="benutzer_auszeichnungen_fk"
+                                 referencedTableName="benutzer"
+                                 referencedColumnNames="tenant, id"
+                                 deleteCascade="true"
                                  referencesUniqueColumn="true"
         />
     </changeSet>
@@ -87,4 +126,5 @@
             </column>
         </addColumn>
     </changeSet>
+
 </databaseChangeLog>

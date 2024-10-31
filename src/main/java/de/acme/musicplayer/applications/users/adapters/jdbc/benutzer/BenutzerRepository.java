@@ -1,14 +1,20 @@
 package de.acme.musicplayer.applications.users.adapters.jdbc.benutzer;
 
+import de.acme.jooq.tables.records.BenutzerRecord;
+import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
+import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
+import org.jooq.SelectJoinStep;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-import static de.acme.jooq.Tables.BENUTZER;
+import static de.acme.jooq.Tables.*;
 
 @Component
 public class BenutzerRepository implements BenutzerPort {
@@ -38,5 +44,16 @@ public class BenutzerRepository implements BenutzerPort {
     @Override
     public void loescheDatenbank(TenantId tenantId) {
         dslContext.deleteFrom(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value()))).execute();
+    }
+
+    @Override
+    public Benutzer leseBenutzer(Benutzer.Id id, TenantId tenantId) {
+        Result<Record> records = dslContext.select().from(BENUTZER.leftOuterJoin(BENUTZER_AUSZEICHNUNGEN)
+                        .on(BENUTZER.ID.eq(BENUTZER_AUSZEICHNUNGEN.BENUTZER).and(BENUTZER.TENANT.eq(BENUTZER_AUSZEICHNUNGEN.TENANT))))
+                .fetch();
+
+        Benutzer benutzer = new Benutzer(new Benutzer.Name(records.getFirst().get(BENUTZER.NAME)), new Benutzer.Passwort(records.getFirst().get(BENUTZER.PASSWORT)), new Benutzer.Email(records.getFirst().get(BENUTZER.EMAIL)));
+        benutzer.setAuszeichnungen(records.stream().map(r -> Auszeichnung.valueOf(r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG))).toList());
+        return benutzer;
     }
 }

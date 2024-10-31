@@ -5,7 +5,9 @@ package de.acme.jooq;
 
 
 import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.BenutzerAuszeichnungen;
 import de.acme.jooq.tables.Lied;
+import de.acme.jooq.tables.LiedAuszeichnungen;
 import de.acme.jooq.tables.Playlist;
 import de.acme.jooq.tables.PlaylistLied;
 
@@ -36,9 +38,19 @@ public class Public extends SchemaImpl {
     public final Benutzer BENUTZER = Benutzer.BENUTZER;
 
     /**
+     * The table <code>public.benutzer_auszeichnungen</code>.
+     */
+    public final BenutzerAuszeichnungen BENUTZER_AUSZEICHNUNGEN = BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN;
+
+    /**
      * The table <code>public.lied</code>.
      */
     public final Lied LIED = Lied.LIED;
+
+    /**
+     * The table <code>public.lied_auszeichnungen</code>.
+     */
+    public final LiedAuszeichnungen LIED_AUSZEICHNUNGEN = LiedAuszeichnungen.LIED_AUSZEICHNUNGEN;
 
     /**
      * The table <code>public.playlist</code>.
@@ -67,7 +79,9 @@ public class Public extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Benutzer.BENUTZER,
+            BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN,
             Lied.LIED,
+            LiedAuszeichnungen.LIED_AUSZEICHNUNGEN,
             Playlist.PLAYLIST,
             PlaylistLied.PLAYLIST_LIED
         );
