@@ -273,7 +273,8 @@
                         </goals>
                         <configuration>
                             <projectName>acme</projectName>
-                            <file>compose.yml</file>
+                            <file>docker/compose.yml</file>
+                            <workDir>docker</workDir>
                             <skip>${skipDocker}</skip>
                         </configuration>
                     </execution>
