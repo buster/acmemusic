@@ -1,9 +1,9 @@
 package de.acme.musicplayer.applications.users.adapters.events;
 
-import de.acme.musicplayer.applications.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.applications.users.domain.events.BenutzerHatAuszeichnungAnAnderenNutzerVerloren;
 import de.acme.musicplayer.applications.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
-import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
+import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
+import de.acme.musicplayer.common.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -11,20 +11,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class UserEventListeners {
+public class SpringUserEventListener {
 
-    private final AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer;
+    private final UserEventDispatcher userEventDispatcher;
+
     private final SseEmitterService sseEmitterService;
 
-    public UserEventListeners(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer, SseEmitterService sseEmitterService) {
-        this.auszeichnungFürNeueTopScorer = auszeichnungFürNeueTopScorer;
+    public SpringUserEventListener(UserEventDispatcher userEventDispatcher, SseEmitterService sseEmitterService) {
+        this.userEventDispatcher = userEventDispatcher;
         this.sseEmitterService = sseEmitterService;
     }
 
     @EventListener
-    public void neuerTopScorer(BenutzerIstNeuerTopScorer event) {
-        log.info("Listener: NeuerTopScorerEvent");
-        auszeichnungFürNeueTopScorer.vergebeAuszeichnungFürNeuenTopScorer(event);
+    public void neuerTopScorer(Event event) {
+        log.info("Listener: {}", event.getClass().getSimpleName());
+        userEventDispatcher.handleEvent(event);
     }
 
     @EventListener

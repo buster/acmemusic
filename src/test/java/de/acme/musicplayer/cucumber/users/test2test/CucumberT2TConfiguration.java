@@ -5,11 +5,13 @@ import de.acme.musicplayer.applications.users.adapters.jdbc.benutzer.BenutzerPor
 import de.acme.musicplayer.applications.users.domain.AuszeichnungFürNeueTopScorerService;
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
+import de.acme.musicplayer.applications.users.domain.UserEventDispatcherImpl;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
 import de.acme.musicplayer.applications.users.ports.UserEventPublisher;
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +46,11 @@ public class CucumberT2TConfiguration {
         @Bean
         public UserEventPublisher userEventPublisher() {
             return new UserEventPublisherStub();
+        }
+
+        @Bean
+        public UserEventDispatcher userEventDispatcher(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer) {
+            return new UserEventDispatcherImpl(auszeichnungFürNeueTopScorer);
         }
     }
 }
