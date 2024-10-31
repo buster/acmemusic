@@ -1,10 +1,14 @@
 package de.acme.musicplayer.cucumber.users.test2test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
 import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.Event;
 import de.acme.musicplayer.common.TenantId;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -19,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,6 +37,8 @@ public class UserSteps {
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
+    @Autowired
+    private UserEventDispatcher userEventDispatcher;
 
     private TenantId tenantId;
 
@@ -73,8 +81,48 @@ public class UserSteps {
     @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
     @Und("der Benutzer {string} erhält die Auszeichnung {string}")
     public void erhältDerBenutzerAliceDieAuszeichnungTopUploader(String benutzer, String auszeichnung) {
-        BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
-        Benutzer benutzerEntity = benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
+        Benutzer benutzerEntity = fetchBenutzer(benutzer);
         assertThat(benutzerEntity.getAuszeichnungen()).contains(Auszeichnung.valueOf(auszeichnung));
+    }
+
+    @Und("der Benutzer {string} erhält nicht die Auszeichnung {string}")
+    public void derBenutzerBobErhältNichtDieAuszeichnungMUSIC_LOVER_LOVER(String benutzer, String auszeichnung) {
+        Benutzer benutzerEntity = fetchBenutzer(benutzer);
+        assertThat(benutzerEntity.getAuszeichnungen()).doesNotContain(Auszeichnung.valueOf(auszeichnung));
+    }
+
+    private Benutzer fetchBenutzer(String benutzer) {
+        BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
+        return benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
+    }
+
+    @Wenn("das Ereignis {string} mit den folgenden Werten empfangen wird:")
+    public void dasEreignisBenutzerIstNeuerTopScorerMitDenFolgendenWertenEmpfangenWird(String eventClass, DataTable dataTable) throws ClassNotFoundException, JsonProcessingException {
+        Event event = buildEventFromStringAndDatatable(eventClass, dataTable);
+        userEventDispatcher.handleEvent(event);
+    }
+
+    private Event buildEventFromStringAndDatatable(String eventClass, DataTable dataTable) throws JsonProcessingException, ClassNotFoundException {
+        Map<String, String> values = dataTable.asMap(String.class, String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        StringBuilder eventContent = new StringBuilder("{");
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            String value = replacePlaceholders(entry.getValue());
+            eventContent.append(entry.getKey()).append(":").append(value).append(",");
+        }
+        eventContent.deleteCharAt(eventContent.length() - 1);
+        eventContent.append("}");
+        return (Event) objectMapper.readValue(eventContent.toString(), Class.forName("de.acme.musicplayer.applications.scoreboard.domain.events." + eventClass));
+    }
+
+    private String replacePlaceholders(String value) {
+        Matcher benutzerIdMatcher = Pattern.compile("<BenutzerId:(.*)?>").matcher(value);
+        if (benutzerIdMatcher.find()) {
+            String benutzerName = benutzerIdMatcher.group(1);
+            return benutzerIdMatcher.replaceAll(benutzerToIdMap.get(benutzerName.strip()).Id());
+        } else if (value.contains("<tenantId>")) {
+            return value.replace("<tenantId>", tenantId.value());
+        }
+        return value;
     }
 }
