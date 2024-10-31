@@ -50,6 +50,19 @@ jobs:
       - name: Build with Maven
         run: mvn -B verify -DskipDocker
 
+      - name: Setup .NET Core # Required to execute ReportGenerator
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+          dotnet-quality: 'ga'
+
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.3.11
+        with:
+          reports: **/jacoco.xml
+          targetdir: coveragereport
+          reporttypes: lcov;Badges
+
       - uses: gaelgirodon/ci-badges-action@v1
         with:
           gist-id: e9c1695395e516101b48bb852a31602c
