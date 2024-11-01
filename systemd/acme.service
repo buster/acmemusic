@@ -4,8 +4,8 @@ After=network.target
 StopWhenUnneeded=true
 
 [Service]
-ExecStart=/usr/local/bin/acme
-Environment="SERVER_PORT=8081"
+User=acme
+ExecStart=/home/acme/projects/acme/run_service.sh
 Type=simple
 
 [Install]
