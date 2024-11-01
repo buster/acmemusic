@@ -34,8 +34,8 @@ public class UsersModuleConfiguration {
 
     @Bean
     @Primary
-    public BenutzerAdministrationUsecase benutzerAdministrationUsecase(BenutzerPort benutzerPort) {
-        return new BenutzerAdministrationService(benutzerPort);
+    public BenutzerAdministrationUsecase benutzerAdministrationUsecase(BenutzerPort benutzerPort, UserEventPublisher userEventPublisher) {
+        return new BenutzerAdministrationService(benutzerPort, userEventPublisher);
     }
 
     @Bean

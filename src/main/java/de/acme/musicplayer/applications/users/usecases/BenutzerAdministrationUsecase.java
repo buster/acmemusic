@@ -13,4 +13,7 @@ public interface BenutzerAdministrationUsecase {
     void löscheDatenbank(TenantId tenantId);
 
     Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId);
+
+    void löscheEvents(TenantId tenantId);
+
 }

@@ -10,10 +10,10 @@ Funktionalität:
       | Name  | Passwort | Email         |
       | Alice | abc      | bla@localhost |
       | Bob   | 123      | bob@localhost |
-    Wenn der Benutzer 'Bob' ein neues Lied hochgeladen hat
+    Wenn der Benutzer 'Bob' ein neues Lied namens 'Epic Song 1' aus der Datei 'BoxCat Games - Epic Song.mp3' hochgeladen hat
     Dann ist der Benutzer 'Bob' neuer TopScorer geworden
-    Wenn der Benutzer 'Alice' ein neues Lied hochgeladen hat
-    Und der Benutzer 'Alice' ein neues Lied hochgeladen hat
+    Wenn der Benutzer 'Alice' ein neues Lied namens 'Epic Song 1' aus der Datei 'BoxCat Games - Epic Song.mp3' hochgeladen hat
+    Und der Benutzer 'Alice' ein neues Lied namens 'Epic Song 1' aus der Datei 'BoxCat Games - Epic Song.mp3' hochgeladen hat
     Dann ist der Benutzer 'Alice' neuer TopScorer geworden und hat 'Bob' abgelöst
 #    Wenn der Benutzer 'Alice' lädt das Lied mit dem Titel 'Epic Song 1' aus der Datei 'BoxCat Games - Epic Song.mp3' hoch
 #    Dann erhält der Benutzer 'Alice' die Auszeichnung 'MUSIC_LOVER_LOVER'
