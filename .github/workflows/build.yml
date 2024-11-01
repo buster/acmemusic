@@ -76,10 +76,10 @@ jobs:
           fail-on-branches-decrease: false
           generate-workflow-summary: true
           workflow-summary-heading: JaCoCo Test Coverage Summary
-      - name: Upload Coverage Report JSON
-        uses: exuanbo/actions-deploy-gist@v1
+      - name: Push file to Gist
+        uses: stellarhub/push-gist-action@v1
         with:
-          token: $${{ secrets.GIST_TOKEN }}
+          token: ${{ secrets.GIST_TOKEN }}
           gist_id: e9c1695395e516101b48bb852a31602c
           file_path: .github/badges/jacoco.json
           file_type: binary
