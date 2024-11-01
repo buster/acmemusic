@@ -1,5 +1,13 @@
 == Was soll entschieden werden?
 
+Spring Native oder JVM?
+
+Startzeiten:
+Native: ~200ms JVM: ~2,6s
+
+Memory:
+Native: ~200MB JVM: ~280MB
+
 == Optionen
 
 === Spring
