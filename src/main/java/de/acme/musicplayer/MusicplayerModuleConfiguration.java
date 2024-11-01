@@ -1,15 +1,9 @@
 package de.acme.musicplayer;
 
-import de.acme.musicplayer.applications.musicplayer.domain.LiedAbspielenService;
-import de.acme.musicplayer.applications.musicplayer.domain.LiedAdministrationService;
-import de.acme.musicplayer.applications.musicplayer.domain.LiedHochladenService;
-import de.acme.musicplayer.applications.musicplayer.domain.LiederAuflistenService;
+import de.acme.musicplayer.applications.musicplayer.domain.*;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
-import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
-import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
-import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
-import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,7 +11,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @Configuration
 @EnableAsync
-public class AcmeConfiguration {
+public class MusicplayerModuleConfiguration {
+
+    @Bean
+    @Primary
+    public MusicplayerEventDispatcher musicplayerEventDispatcher() {
+        return new MusicplayerEventDispatcherImpl();
+    }
 
     @Bean
     @Primary
