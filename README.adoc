@@ -3,7 +3,7 @@ image::https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.
 
 = Getting Started
 
-PoC für Stubtesting mit Cucumber, Pact.
+PoC für component testing in hexagonaler Architektur mit Cucumber. 
 Stubs im Test, Prod DB in Prod.
 
 Marks: ❓ ❌ ✅
