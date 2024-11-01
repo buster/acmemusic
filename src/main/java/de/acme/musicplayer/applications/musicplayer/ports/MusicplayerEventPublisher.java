@@ -1,8 +1,7 @@
 package de.acme.musicplayer.applications.musicplayer.ports;
 
-import de.acme.musicplayer.common.Event;
+import de.acme.musicplayer.common.EventPublisher;
 
-public interface MusicplayerEventPublisher {
-    void publishEvent(Event event);
+public interface MusicplayerEventPublisher extends EventPublisher {
 
 }

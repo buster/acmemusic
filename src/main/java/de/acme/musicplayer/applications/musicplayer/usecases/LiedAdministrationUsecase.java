@@ -13,4 +13,7 @@ public interface LiedAdministrationUsecase {
     void löscheDatenbank(TenantId tenantId);
 
     Lied leseLied(LiedId liedId, TenantId tenantId);
+
+    void löscheEvents(TenantId tenantId);
+
 }

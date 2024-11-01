@@ -1,4 +1,4 @@
-package de.acme.musicplayer.cucumber.test2real;
+package de.acme.musicplayer.cucumber.musicplayer.test2real;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
