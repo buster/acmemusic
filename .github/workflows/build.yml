@@ -76,13 +76,14 @@ jobs:
           fail-on-branches-decrease: false
           generate-workflow-summary: true
           workflow-summary-heading: JaCoCo Test Coverage Summary
-      - name: Push file to Gist
-        uses: stellarhub/push-gist-action@v1
+      - uses: popsiclestick/gist-sync-action@v1.2.0
+        id: sync
         with:
-          token: ${{ secrets.GIST_TOKEN }}
-          gist_id: e9c1695395e516101b48bb852a31602c
-          file_path: .github/badges/jacoco.json
-          file_type: binary
+          auth: ${{ secrets.GIST_TOKEN }}
+          gist_url: https://gist.github.com/buster/e9c1695395e516101b48bb852a31602c
+          gist_title: Coverage
+          gist_description: Coverage
+          github_file: .github/badges/jacoco.json
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
