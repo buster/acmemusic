@@ -22,4 +22,7 @@ Native: ~200MB JVM: ~280MB
 
 ==== Cons
 
+- runtime hints
+- Vor allem: Laufzeitfehler die weder beim Kompilieren noch beim Starten auftreten und bei denen die Tests (nicht native) durchliefen: siehe Lied.java/Controller in Commit d947acd84f811fa15ee8d6777807f617cb68b7c8
+
 == Entscheidung
