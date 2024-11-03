@@ -1,7 +1,6 @@
 package de.acme.musicplayer.cucumber.real2real;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
@@ -134,11 +133,6 @@ public class SongSteps {
         benutzerToIdMap.put(username, benutzerId);
     }
 
-    @Dann("kennt der Service {int} Lied(er)")
-    public void enthältDieDatenbankLied(int c) {
-        assertThat(liedAdministrationUsecase.zähleLieder(tenantId)).isEqualTo(c);
-    }
-
     @Dann("kennt der Service {int} Benutzer")
     public void kenntDerServiceBenutzer(int anzahl) {
         assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
@@ -163,14 +157,6 @@ public class SongSteps {
         Benutzer benutzerEntity = benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
         await().untilAsserted(() -> assertThat(benutzerEntity.getAuszeichnungen()).contains(Auszeichnung.valueOf(auszeichnung)));
     }
-
-    @Dann("erhält das Lied {string} die Auszeichnung {string}")
-    public void erhältDasLiedEpicSongDieAuszeichnungTopSong(String titel, String auszeichnung) {
-        LiedId liedId = titelToIdMap.get(titel);
-        Lied lied = liedAdministrationUsecase.leseLied(liedId, tenantId);
-        assertThat(lied.getAuszeichnungen()).contains(LiedAuszeichnung.valueOf(auszeichnung));
-    }
-
 
     @Und("der Benutzer {string} lädt das Lied mit dem Titel {string} aus der Datei {string} hoch")
     public void derBenutzerLädtDasLiedHoch(String benutzer, String titel, String datei) throws IOException, URISyntaxException {
