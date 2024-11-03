@@ -7,7 +7,6 @@ import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUse
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
 import de.acme.musicplayer.common.BenutzerId;
-import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -29,7 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class UserSteps {
 
-    private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
     @Autowired
     private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
@@ -38,7 +36,6 @@ public class UserSteps {
     @Autowired
     private UserEventDispatcher userEventDispatcher;
 
-    private long lastReadSongSize;
     private TenantId tenantId;
 
     @Before
@@ -81,11 +78,6 @@ public class UserSteps {
     @Dann("kennt der Service {int} Benutzer")
     public void kenntDerServiceBenutzer(int anzahl) {
         assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
-    }
-
-    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Sekunden Länge")
-    public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
-        assertThat(lastReadSongSize).isGreaterThan(size);
     }
 
     @Dann("erhält der Benutzer {string} die Auszeichnung {string}")

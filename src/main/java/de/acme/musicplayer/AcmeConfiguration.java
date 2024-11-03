@@ -10,12 +10,6 @@ import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecas
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiederAuflistenUsecase;
-import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
-import de.acme.musicplayer.applications.scoreboard.domain.ZähleNeueLieder;
-import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
-import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
-import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
-import de.acme.musicplayer.applications.scoreboard.usecases.ZähleNeueLiederUsecase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -47,17 +41,5 @@ public class AcmeConfiguration {
     @Primary
     LiederAuflistenUsecase liederAuflistenUsecase(LiedPort liedPort) {
         return new LiederAuflistenService(liedPort);
-    }
-
-    @Primary
-    @Bean
-    public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort) {
-        return new ScoreBoardAdministrationService(userScoreBoardPort);
-    }
-
-    @Bean
-    @Primary
-    public ZähleNeueLiederUsecase zähleNeueLiederUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
-        return new ZähleNeueLieder(userScoreBoardPort, scoreboardEventPublisher);
     }
 }
