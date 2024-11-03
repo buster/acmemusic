@@ -65,16 +65,20 @@ public class ScoreboardSteps {
             benutzerToIdMap.put(benutzer.get("Name"), benutzerId);
         });
     }
-
-
     @Wenn("der Benutzer {string} ein neues Lied namens {string} aus der Datei {string} hochgeladen hat")
-    public void derBenutzerBobEinNeuesLiedHochgeladenHat(String benutzerName, String titel, String datei) {
+    public void liedUploadMitTitelUndDatei(String benutzer, String titel, String datei) {
+        liedUploadMitBenutzer(benutzer);
+    }
+
+    @Wenn("der Benutzer {string} ein neues Lied hochgeladen hat")
+    public void liedUploadMitBenutzer(String benutzerName) {
         BenutzerId benutzerId = benutzerToIdMap.get(benutzerName);
         assertThat(benutzerId).isNotNull();
         LiedId liedId = new LiedId(UUID.randomUUID().toString());
         log.info("Benutzer {} hat ein neues Lied hochgeladen, ID: {}", benutzerName, liedId);
         assertThat(liedId).isNotNull();
         NeuesLiedWurdeAngelegt neuesLiedWurdeAngelegt = new NeuesLiedWurdeAngelegt(liedId, benutzerId, tenantId);
+
         zähleNeueLiederUsecase.zähleNeueAngelegteLieder(neuesLiedWurdeAngelegt);
     }
 
