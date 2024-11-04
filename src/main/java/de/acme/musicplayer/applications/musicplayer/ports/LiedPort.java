@@ -12,7 +12,7 @@ public interface LiedPort {
 
     long zähleLieder(TenantId tenantId);
 
-    Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream, TenantId tenantId) throws IOException;
+    Lied.Id fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException;
 
     void löscheDatenbank(TenantId tenantId);
 

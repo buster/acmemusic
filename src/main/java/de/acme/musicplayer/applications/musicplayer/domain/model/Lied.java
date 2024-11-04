@@ -1,10 +1,12 @@
 package de.acme.musicplayer.applications.musicplayer.domain.model;
 
 
+import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -12,18 +14,26 @@ public class Lied {
 
     private final Titel titel;
     private final Benutzer.Id besitzer;
+    private final TenantId tenantId;
     private Id id;
     private Collection<LiedAuszeichnung> auszeichnungen;
 
-    public Lied(Id id, Titel titel, Benutzer.Id besitzerId) {
+    public Lied(Id id, Titel titel, Benutzer.Id besitzerId, TenantId tenantId) {
         this.id = id;
         this.titel = titel;
         this.besitzer = besitzerId;
+        this.tenantId = tenantId;
     }
 
-    public Lied(Titel titel, Benutzer.Id besitzer) {
+    public Lied(Titel titel, Benutzer.Id besitzer, TenantId tenantId) {
         this.titel = titel;
         this.besitzer = besitzer;
+        this.tenantId = tenantId;
+    }
+
+    public static Lied neuesLied(Titel titel, Benutzer.Id besitzer, TenantId tenantId) {
+        Lied lied = new Lied(new Id(UUID.randomUUID().toString()), titel, besitzer, tenantId);
+        return lied;
     }
 
     public Id getId() {
@@ -48,6 +58,10 @@ public class Lied {
 
     public void setAuszeichnungen(Collection<LiedAuszeichnung> auszeichnungen) {
         this.auszeichnungen = auszeichnungen;
+    }
+
+    public TenantId getTenantId() {
+        return tenantId;
     }
 
     public record Id(String id) {
