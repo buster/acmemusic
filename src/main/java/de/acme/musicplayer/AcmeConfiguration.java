@@ -27,8 +27,8 @@ public class AcmeConfiguration {
 
     @Bean
     @Primary
-    public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort) {
-        return new LiedAdministrationService(liedPort);
+    public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort, MusicplayerEventPublisher musicplayerEventPublisher) {
+        return new LiedAdministrationService(liedPort, musicplayerEventPublisher);
     }
 
     @Bean
