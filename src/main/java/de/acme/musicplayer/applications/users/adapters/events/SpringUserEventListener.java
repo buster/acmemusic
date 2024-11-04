@@ -23,6 +23,7 @@ public class SpringUserEventListener {
     }
 
     @EventListener
+    @Async
     public void neuerTopScorer(Event event) {
         log.info("Listener: {}", event.getClass().getSimpleName());
         userEventDispatcher.handleEvent(event);
