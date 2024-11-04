@@ -25,11 +25,6 @@ public class LiedPortStub implements LiedPort {
     }
 
     @Override
-    public long zähleLieder(TenantId tenantId) {
-        return lieder.size();
-    }
-
-    @Override
     public LiedId fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         ImmutablePair<String, TenantId> k = tableKey(lied.getId(), lied.getTenantId());
         bytestreams.put(k, inputStream.readAllBytes());
@@ -60,8 +55,4 @@ public class LiedPortStub implements LiedPort {
                 .toList();
     }
 
-    @Override
-    public Lied leseLied(LiedId liedId, TenantId tenantId) {
-        return lieder.get(tableKey(liedId, tenantId));
-    }
 }

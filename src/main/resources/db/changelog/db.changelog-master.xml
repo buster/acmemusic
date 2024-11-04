@@ -16,27 +16,6 @@
             <column name="besitzer_id" type="varchar"/>
         </createTable>
         <addPrimaryKey columnNames="tenant, id" tableName="lied" constraintName="PK_TENANT_LIED"/>
-
-        <createTable tableName="lied_auszeichnungen">
-            <column name="liedId" type="varchar" >
-                <constraints nullable="false"/>
-            </column>
-            <column name="auszeichnung" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="tenant" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <addForeignKeyConstraint baseTableName="lied_auszeichnungen"
-                                 baseColumnNames="tenant, liedId"
-                                 constraintName="lied_auszeichnungen_fk"
-                                 referencedTableName="lied"
-                                 referencedColumnNames="tenant, id"
-                                 deleteCascade="true"
-                                 referencesUniqueColumn="true"
-        />
-
     </changeSet>
     <changeSet id="2" author="Sebastian May">
         <createTable tableName="benutzer">

@@ -11,8 +11,6 @@ import java.util.Collection;
 
 public interface LiedPort {
 
-    long zähleLieder(TenantId tenantId);
-
     LiedId fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException;
 
     void löscheDatenbank(TenantId tenantId);
@@ -20,6 +18,4 @@ public interface LiedPort {
     InputStream ladeLiedStream(LiedId liedId, TenantId tenantId);
 
     Collection<Lied> listeLiederAuf(BenutzerId benutzerId, TenantId tenantId);
-
-    Lied leseLied(LiedId liedId, TenantId tenantId);
 }
