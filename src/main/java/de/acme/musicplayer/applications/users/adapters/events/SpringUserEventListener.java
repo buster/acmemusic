@@ -39,17 +39,19 @@ public class SpringUserEventListener {
                 " hat die Auszeichnung " +
                 event.auszeichnung() +
                 " erhalten</div>";
-        String eventDiv = String.format("<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
+        String eventDiv = "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
                 "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
                 "    </div>\n" +
                 "    <div class=\"toast-body\">\n" +
-                "<span>" + eventData + "</span>" +
+                "<span>" +
+                eventData +
+                "</span>" +
                 "    </div>\n" +
-                "</div>");
-        sseEmitterService.sendEvent(event.getTenant(),
-                eventDiv);
+                "</div>";
+
+        sseEmitterService.sendEvent(event.getTenant(), eventDiv);
     }
 
     @EventListener
