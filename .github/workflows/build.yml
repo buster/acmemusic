@@ -85,6 +85,7 @@ jobs:
           echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
 
       - name: Commit the badge (if it changed)
+        continue-on-error: true
         run: |
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'buster'
