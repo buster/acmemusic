@@ -74,16 +74,8 @@ public class SongSteps {
 
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
-        dataTable.asMaps().forEach(benutzer -> {
-            benutzerToIdMap.put(benutzer.get("Name"), new BenutzerId(UUID.randomUUID().toString()));
-        });
+        dataTable.asMaps().forEach(benutzer -> benutzerToIdMap.put(benutzer.get("Name"), new BenutzerId(UUID.randomUUID().toString())));
     }
-
-//
-//    @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
-//    public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-//        benutzerToIdMap.put(username, new BenutzerId(UUID.randomUUID().toString()));
-//    }
 
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
