@@ -77,6 +77,7 @@ Features:
 .. In event Bibliothek test ob events alle in der Readme auftauchen
 .. In der Readme draw io Bild mit event und Prozess?
 . Event Bibliothek [❓]
+.. Events als API in eigener Bibliothek
 .. Inbox und outbox pattern
 .. Dokumentation von Event zu Service Zugehörigkeit?
 . Testdaten Spike [❓]
@@ -193,6 +194,7 @@ JDK 23, NIK 24 (Native image.
 JDK 21 sollte auch einfach gehen)
 
 ==== Compiling
+
 [source,bash]
 --
 sdk install java 24.1.1.r23-nik
