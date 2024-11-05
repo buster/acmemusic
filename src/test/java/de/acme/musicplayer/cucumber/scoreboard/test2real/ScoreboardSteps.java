@@ -66,9 +66,13 @@ public class ScoreboardSteps {
         });
     }
 
+    @Wenn("der Benutzer {string} ein neues Lied namens {string} aus der Datei {string} hochgeladen hat")
+    public void liedUploadMitTitelUndDatei(String benutzer, String titel, String datei) {
+        liedUploadMitBenutzer(benutzer);
+    }
 
     @Wenn("der Benutzer {string} ein neues Lied hochgeladen hat")
-    public void derBenutzerBobEinNeuesLiedHochgeladenHat(String benutzerName) {
+    public void liedUploadMitBenutzer(String benutzerName) {
         BenutzerId benutzerId = benutzerToIdMap.get(benutzerName);
         assertThat(benutzerId).isNotNull();
         LiedId liedId = new LiedId(UUID.randomUUID().toString());
@@ -98,5 +102,5 @@ public class ScoreboardSteps {
                 .toList();
         scoreboardEventPublisher.removeEvents(events);
     }
-    
+
 }
