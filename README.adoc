@@ -45,6 +45,8 @@ Features:
 . Registrieren ✅
 .. Login gefaked durch Registrierung (kein separater Login) ✅
 . Spring Native ✅
+. parallele Tests ✅
+. Komponententests ✅
 . Modulith ✅
 . Scoreboard score board ✅
 .. Dritter event Driven service ✅
@@ -65,6 +67,7 @@ Features:
 
 - xref:documentation/01-spring-native.adoc[Spring Native]
 - xref:documentation/02-testing-framework.adoc[Testing Framework]
+- xref:documentation/03-persistenzframework.adoc[Persistenz Framework]
 
 == Ideen
 
