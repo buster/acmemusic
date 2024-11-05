@@ -1,3 +1,5 @@
+NOTE: TODO
+
 == Was soll entschieden werden?
 
 JPA/Hibernate, Spring Data JDBC oder JOOQ?
