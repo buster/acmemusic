@@ -1,0 +1,12 @@
+== Erkenntnisse/ADRs
+
+- xref:01-spring-native.adoc[Spring Native]
+- xref:02-testing-framework.adoc[Testing Framework]
+- xref:03-persistenzframework.adoc[Persistenz Framework]
+
+- Paralleles Testen mittels "Tenant"
++
+In großen Projekten wird das Testen typischerweise immer langsamer und stört die Entwickler.
+Oftmals sind die sequentiell ablaufenden Integrationtests das Problem, da vor jedem Integrationstest die komplette Datenbank geleert wird.
+Durch die konsequente Nutzung eines "Tenant" Parameters in allen Usecases und Repositories kann die Datenbank nach jedem Test parallel geleert werden und alle Tests können in ihrem eigenen "Tenant" arbeiten.
+
