@@ -3,9 +3,31 @@
 image::.github/badges/jacoco.svg[Line Coverage]
 image::.github/badges/branches.svg[Branch Coverage]
 
+Spielwiese für Architektur-Experimente.
 
-PoC für component testing (https://www.thoughtworks.com/radar/techniques/summary/component-testing) in hexagonaler Architektur mit Cucumber.
-Stubs im Test, Prod DB in Prod.
+aktueller Stand:
+
+* 3 Module/Komponenten
+** Users
+** Musicplayer
+** Scoreboard
+* Cucumber basierte Komponententests
+* Datenbankmigration mit Liquibase, Java Modell Generierung mittels JOOQ
+** kein JPA: JOOQ-basierte Datenbankzugriffe mittels JDBC
+* maximal parallele, unabhängige Tests
+* Event Driven
+* Frontend mittels HTMX, Halfmoon CSS und Server Sent Events (SSE)
+* Spring Native getestet und verworfen (siehe <<Erkenntnisse/ADRs>> )
+
+ungefähres Zielbild als "Spielwiese":
+
+* keine neue Funktionalität
+* minimal lauffähiger Prototyp mit etwas Funktionalität
+** ein Benutzer kann sich registrieren (User Komponente) und beliebig Lieder hochladen, auflisten und abspielen (Musicplayer Komponente)
+** der Benutzer mit den meisten hochgeladenen Liedern bekommt eine "Auszeichnung" (Scoreboard Komponente)
+* 3 Module
+** ein Microservice
+** ein Modulith mit 2 Komponenten
 
 Marks: ❓ ❌ ✅
 
@@ -19,8 +41,14 @@ Features:
 
 . MP3 abspielen ✅
 . Registrieren ✅
+.. Login gefaked durch Registrierung (kein separater Login) ✅
 . Spring Native ✅
-. Login [❓]
+. Modulith ✅
+. Scoreboard score board ✅
+.. Dritter event Driven service ✅
+.. Basis für längerlaufende Testdaten
+.. Events mit Value Objects aus der Domain oder Plain Objects!?
+.. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo?
 . Event und Prozessdokumentation [❓]
 .. In event Bibliothek test ob events alle in der Readme auftauchen
 .. In der Readme draw io Bild mit event und Prozess?
@@ -30,14 +58,6 @@ Features:
 . Testdaten Spike [❓]
 .. Tenant in Entity aufnehmen
 .. Events in Entity aufnehmen und transaktional speichern
-. Modulith ✅
-. Scoreboard score board ✅
-.. Dritter event Driven service ✅
-.. Basis für längerlaufende Testdaten
-.. Events mit Value Objects aus der Domain oder Plain Objects!?
-.. Nachvollziehbarkeit/Dokumentation welche Events von wo nach wo?
-. Quick-Registration
-.. Als "Demo-Mode" zum Anteasern, Lied Hochladen + User + Email == 10 Minuten Zugriff auf Software bis Email-Verifikation abgeschlossen wurde, danach gesperrt/pausiert [❓]
 
 == Erkenntnisse/ADRs
 

@@ -8,7 +8,6 @@ import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.BenutzerAuszeichnungen;
 import de.acme.jooq.tables.BenutzerScoreBoard;
 import de.acme.jooq.tables.Lied;
-import de.acme.jooq.tables.LiedAuszeichnungen;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,11 +51,6 @@ public class Public extends SchemaImpl {
     public final Lied LIED = Lied.LIED;
 
     /**
-     * The table <code>public.lied_auszeichnungen</code>.
-     */
-    public final LiedAuszeichnungen LIED_AUSZEICHNUNGEN = LiedAuszeichnungen.LIED_AUSZEICHNUNGEN;
-
-    /**
      * No further instances allowed
      */
     private Public() {
@@ -75,8 +69,7 @@ public class Public extends SchemaImpl {
             Benutzer.BENUTZER,
             BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN,
             BenutzerScoreBoard.BENUTZER_SCORE_BOARD,
-            Lied.LIED,
-            LiedAuszeichnungen.LIED_AUSZEICHNUNGEN
+            Lied.LIED
         );
     }
 }
