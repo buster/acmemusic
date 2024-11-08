@@ -2,7 +2,6 @@ package de.acme.musicplayer.applications.musicplayer.domain.model;
 
 
 import de.acme.musicplayer.ModuleApi;
-import de.acme.musicplayer.applications.musicplayer.ports.EventPublisher;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 
 import java.util.Collection;
