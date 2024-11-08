@@ -14,6 +14,7 @@ public class UsersArchTest {
     public static final ArchRule onion_architecture_in_module = onionArchitecture()
             .adapter("benutzerrepository", "de.acme.musicplayer.applications.users.adapters.jdbc.benutzer..")
             .adapter("controller", "de.acme.musicplayer.applications.users.adapters.web..")
+            .adapter("events", "de.acme.musicplayer.events..")
             .domainModels("de.acme.musicplayer.applications.users.domain.model..")
             .domainServices("de.acme.musicplayer.applications.users.domain..",
                     "de.acme.musicplayer.applications.users.usecases..",
