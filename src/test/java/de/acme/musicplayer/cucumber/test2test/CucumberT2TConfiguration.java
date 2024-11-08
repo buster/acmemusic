@@ -8,7 +8,7 @@ import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
 import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
 import de.acme.musicplayer.applications.musicplayer.usecases.*;
-import de.acme.musicplayer.applications.scoreboard.adapters.adapters.events.ScoreboardMusicplayerEventPublisherStub;
+import de.acme.musicplayer.applications.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardRepositoryStub;
 import de.acme.musicplayer.applications.scoreboard.domain.NeuesLiedWurdeAngelegtService;
 import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
