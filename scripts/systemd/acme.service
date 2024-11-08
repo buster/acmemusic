@@ -5,7 +5,7 @@ StopWhenUnneeded=true
 
 [Service]
 User=acme
-ExecStart=/home/acme/projects/acme/run_service.sh
+ExecStart=/home/acme/projects/acme/scripts/run_service.sh
 Type=simple
 
 [Install]
