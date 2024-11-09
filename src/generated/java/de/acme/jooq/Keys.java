@@ -8,11 +8,9 @@ import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.BenutzerAuszeichnungen;
 import de.acme.jooq.tables.BenutzerScoreBoard;
 import de.acme.jooq.tables.Lied;
-import de.acme.jooq.tables.LiedAuszeichnungen;
 import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
 import de.acme.jooq.tables.records.BenutzerRecord;
 import de.acme.jooq.tables.records.BenutzerScoreBoardRecord;
-import de.acme.jooq.tables.records.LiedAuszeichnungenRecord;
 import de.acme.jooq.tables.records.LiedRecord;
 
 import org.jooq.ForeignKey;
@@ -42,5 +40,4 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<BenutzerAuszeichnungenRecord, BenutzerRecord> BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK = Internal.createForeignKey(BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN, DSL.name("benutzer_auszeichnungen_fk"), new TableField[] { BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.TENANT, BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.BENUTZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
-    public static final ForeignKey<LiedAuszeichnungenRecord, LiedRecord> LIED_AUSZEICHNUNGEN__LIED_AUSZEICHNUNGEN_FK = Internal.createForeignKey(LiedAuszeichnungen.LIED_AUSZEICHNUNGEN, DSL.name("lied_auszeichnungen_fk"), new TableField[] { LiedAuszeichnungen.LIED_AUSZEICHNUNGEN.TENANT, LiedAuszeichnungen.LIED_AUSZEICHNUNGEN.LIEDID }, Keys.PK_TENANT_LIED, new TableField[] { Lied.LIED.TENANT, Lied.LIED.ID }, true);
 }

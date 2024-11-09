@@ -6,20 +6,15 @@ package de.acme.jooq.tables;
 
 import de.acme.jooq.Keys;
 import de.acme.jooq.Public;
-import de.acme.jooq.tables.LiedAuszeichnungen.LiedAuszeichnungenPath;
 import de.acme.jooq.tables.records.LiedRecord;
 
 import java.util.Collection;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.InverseForeignKey;
 import org.jooq.Name;
-import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
-import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -108,39 +103,6 @@ public class Lied extends TableImpl<LiedRecord> {
         this(DSL.name("lied"), null);
     }
 
-    public <O extends Record> Lied(Table<O> path, ForeignKey<O, LiedRecord> childPath, InverseForeignKey<O, LiedRecord> parentPath) {
-        super(path, childPath, parentPath, LIED);
-    }
-
-    /**
-     * A subtype implementing {@link Path} for simplified path-based joins.
-     */
-    public static class LiedPath extends Lied implements Path<LiedRecord> {
-
-        private static final long serialVersionUID = 1L;
-        public <O extends Record> LiedPath(Table<O> path, ForeignKey<O, LiedRecord> childPath, InverseForeignKey<O, LiedRecord> parentPath) {
-            super(path, childPath, parentPath);
-        }
-        private LiedPath(Name alias, Table<LiedRecord> aliased) {
-            super(alias, aliased);
-        }
-
-        @Override
-        public LiedPath as(String alias) {
-            return new LiedPath(DSL.name(alias), this);
-        }
-
-        @Override
-        public LiedPath as(Name alias) {
-            return new LiedPath(alias, this);
-        }
-
-        @Override
-        public LiedPath as(Table<?> alias) {
-            return new LiedPath(alias.getQualifiedName(), this);
-        }
-    }
-
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
@@ -149,19 +111,6 @@ public class Lied extends TableImpl<LiedRecord> {
     @Override
     public UniqueKey<LiedRecord> getPrimaryKey() {
         return Keys.PK_TENANT_LIED;
-    }
-
-    private transient LiedAuszeichnungenPath _liedAuszeichnungen;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>public.lied_auszeichnungen</code> table
-     */
-    public LiedAuszeichnungenPath liedAuszeichnungen() {
-        if (_liedAuszeichnungen == null)
-            _liedAuszeichnungen = new LiedAuszeichnungenPath(this, null, Keys.LIED_AUSZEICHNUNGEN__LIED_AUSZEICHNUNGEN_FK.getInverseKey());
-
-        return _liedAuszeichnungen;
     }
 
     @Override
