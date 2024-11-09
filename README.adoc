@@ -5,7 +5,7 @@ image::.github/badges/branches.svg[Branch Coverage]
 
 Spielwiese für Architektur-Experimente.
 
-aktueller Stand:
+=== aktueller Stand
 
 * 3 Module/Komponenten
 ** Users
@@ -19,7 +19,7 @@ aktueller Stand:
 * Frontend mittels HTMX, Halfmoon CSS und Server Sent Events (SSE)
 * Spring Native getestet und verworfen (siehe <<Erkenntnisse/ADRs>> )
 
-ungefähres Zielbild als "Spielwiese":
+=== ungefähres Zielbild als "Spielwiese"
 
 * keine neue Funktionalität
 * minimal lauffähiger Prototyp mit etwas Funktionalität
