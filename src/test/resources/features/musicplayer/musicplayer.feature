@@ -10,19 +10,7 @@ Funktionalität:
       | Name  | Passwort | Email             |
       | Alice | abc      | bla@localhost.com |
     Und folgende Songs:
-      | Titel     | Dateiname                    | Benutzer |
-      | Epic Song | BoxCat Games - Epic Song.mp3 | Alice    |
+      | Titel     | Dateiname                          | Benutzer |
+      | Epic Song | files/BoxCat Games - Epic Song.mp3 | Alice    |
     Wenn der Benutzer 'Alice' das Lied 'Epic Song' abspielt
     Dann erhält der Benutzer den Song 'Epic Song' mit mehr als 10 Sekunden Länge
-
-#  @T2R
-#  @R2R
-#  Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
-#    Gegeben seien folgende Benutzer:
-#      | Name  | Passwort | Email             |
-#      | Alice | abc      | bla@localhost.com |
-#    Und folgende Songs:
-#      | Titel          | Dateiname                    | Benutzer |
-#      | Epic Song      | BoxCat Games - Epic Song.mp3 | Alice    |
-#      | Breaking Rules | Serat - Breaking Rules.mp3   | Alice    |
-

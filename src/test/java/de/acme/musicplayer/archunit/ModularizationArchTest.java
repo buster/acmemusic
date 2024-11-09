@@ -16,7 +16,7 @@ public class ModularizationArchTest {
 
     @ArchTest
     public static final ArchRule adapters_should_be_cycle_free = ModuleRuleDefinition.modules()
-            .definedByPackages("de.acme.musicplayer.applications.(*).adapters..").should().beFreeOfCycles();
+            .definedByPackages("de.acme.musicplayer.components.(*).adapters..").should().beFreeOfCycles();
 
     @ArchTest
     static ArchRule modules_should_only_depend_on_each_other_through_module_API =

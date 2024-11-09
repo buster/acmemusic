@@ -1,0 +1,40 @@
+== Was soll entschieden werden?
+
+Cucumber, (plain) JUnit oder Spock?
+
+=== Optionen
+
+==== Cucumber
+
+===== Pros
+
+- von jedem lesbar und theoretisch auch schreibbar
+- Abstraktion von der Implementierung
+-> ein Testfall (Feature) kann für Unittests, Integrationtests und End-To-End-Tests verwendet werden
+
+===== Cons
+
+- zusätzliche Komplexität
+
+==== JUnit
+
+===== Pros
+
+-
+
+===== Cons
+
+-
+
+==== Spock
+
+===== Pros
+
+-
+
+===== Cons
+
+-
+
+=== Entscheidung
+

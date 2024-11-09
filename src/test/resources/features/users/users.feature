@@ -5,7 +5,6 @@ Funktionalität:
   @T2T
   @T2R
   @R2R
-  @Users
   Szenario: Registrierung
     Gegeben seien  folgende Benutzer:
       | Name | Passwort | Email          |
@@ -16,7 +15,6 @@ Funktionalität:
   @T2T
   @T2R
   @R2R
-  @Users
   Szenario: Registrierung
     Gegeben seien  folgende Benutzer:
       | Name | Passwort | Email          |
