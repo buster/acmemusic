@@ -5,6 +5,8 @@ image::.github/badges/branches.svg[Branch Coverage]
 
 Spielwiese für Architektur-Experimente.
 
+:toc:
+
 === aktueller Stand
 
 * 3 Module/Komponenten

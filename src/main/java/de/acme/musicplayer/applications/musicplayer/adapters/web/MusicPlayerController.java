@@ -8,7 +8,6 @@ import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,12 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Map;
 
 @Controller
 public class MusicPlayerController {
@@ -41,12 +38,12 @@ public class MusicPlayerController {
 
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @CookieValue(value = "tenantId") String tenantId) throws IOException {
+    public ResponseEntity<InputStreamResource> liedAbspielen(@RequestParam(required = false) String liedId, @CookieValue(value = "tenantId") String tenantId) {
         InputStream inputStream = liedAbspielenUseCase.liedStreamen(new LiedId(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return new ResponseEntity(inputStreamResource, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(inputStreamResource, httpHeaders, HttpStatus.OK);
     }
 
     @HxRequest
@@ -61,7 +58,7 @@ public class MusicPlayerController {
 
     @HxRequest
     @GetMapping("/fileUploadForm")
-    public String fileUploadForm(Model model) {
+    public String fileUploadForm() {
         return "htmx-responses/song-upload.html";
     }
 
@@ -76,15 +73,6 @@ public class MusicPlayerController {
         return HtmxResponse.builder()
                 .view("htmx-responses/songlist.html")
                 .reselect("#songlist-content")
-                .build();
-    }
-
-    @ExceptionHandler(Exception.class)
-    public HtmxResponse handleError(Exception ex) {
-        return HtmxResponse.builder()
-                .retarget("#toast-container")
-                .reswap(HtmxReswap.innerHtml())
-                .view(new ModelAndView("htmx-responses/error-toast.html", Map.of("message", ex.getMessage())))
                 .build();
     }
 }

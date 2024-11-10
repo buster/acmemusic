@@ -47,4 +47,5 @@ public class UserController {
         return "htmx-responses/user-registration-successfull-toast.html";
     }
 
+
 }
