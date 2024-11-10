@@ -22,9 +22,9 @@ public class NeuesLiedWurdeAngelegtService implements NeuesLiedWurdeAngelegtUsec
     @Override
     public void neuesLiedWurdeAngelegt(NeuesLiedWurdeAngelegt event) {
         log.info("Received event: {}", event);
-        Benutzer.Id aktuellerTopScorer = userScoreBoardRepository.höchstePunktZahl();
+        Benutzer.Id aktuellerTopScorer = userScoreBoardRepository.höchstePunktZahl(event.getTenant());
         userScoreBoardRepository.zähleNeuesLied(event.besitzerId(), event.getTenant());
-        Benutzer.Id neuerTopScorer = userScoreBoardRepository.höchstePunktZahl();
+        Benutzer.Id neuerTopScorer = userScoreBoardRepository.höchstePunktZahl(event.getTenant());
 
         if (!neuerTopScorer.equals(aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
