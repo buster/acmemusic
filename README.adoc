@@ -9,12 +9,32 @@ Spielwiese für Architektur-Experimente.
 
 === aktueller Stand
 
+Techstack::
+
+* Java 21
+* JOOQ
+* Cucumber
+* Spring Boot
+* Postgres
+* Docker
+* Playwright
+* HTMX
+* Halfmoon CSS
+
+Features::
+
 * 3 Module/Komponenten
 ** Users
+*** Registrierung und Fake-Login (durch Registrierung implizit)
 ** Musicplayer
+*** MP3 hochladen
+*** Lieder auflisten
+*** MP3 abspielen
 ** Scoreboard
-* Cucumber basierte Komponententests
-* Datenbankmigration mit Liquibase, Java Modell Generierung mittels JOOQ
+*** Benutzer mit den meisten hochgeladenen Liedern bekommt eine "Auszeichnung"
+* Cucumber basierte xref:documentation/componenttesting.adoc[Komponententests]
+* Datenbankmigration mit Liquibase
+* Java Modell Generierung mittels JOOQ
 ** kein JPA: JOOQ-basierte Datenbankzugriffe mittels JDBC
 * maximal parallele, unabhängige Tests
 * Event Driven
@@ -65,9 +85,16 @@ Features:
 
 == Erkenntnisse/ADRs
 
-- xref:documentation/01-spring-native.adoc[Spring Native]
-- xref:documentation/02-testing-framework.adoc[Testing Framework]
-- xref:documentation/03-persistenzframework.adoc[Persistenz Framework]
+Spring Native::
+getestet und verworfen, siehe xref:documentation/ADRs/01-spring-native.adoc[Spring Native].
+
+Paralleles Testen mittels "Tenant"::
+In großen Projekten wird das Testen typischerweise immer langsamer und stört die Entwickler.
+Oftmals sind die sequentiell ablaufenden Integrationtests das Problem, da vor jedem Integrationstest die komplette Datenbank geleert wird.
+Durch die konsequente Nutzung eines "Tenant" Parameters in allen Usecases und Repositories kann die Datenbank nach jedem Test parallel geleert werden und alle Tests können in ihrem eigenen "Tenant" arbeiten.
+
+- xref:documentation/ADRs/02-testing-framework.adoc[Testing Framework]
+- xref:documentation/ADRs/03-persistenzframework.adoc[Persistenz Framework]
 
 == Ideen
 
