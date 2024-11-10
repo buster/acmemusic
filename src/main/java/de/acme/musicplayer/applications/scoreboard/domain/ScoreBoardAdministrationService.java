@@ -1,19 +1,19 @@
 package de.acme.musicplayer.applications.scoreboard.domain;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.TenantId;
-import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardRepository;
+import de.acme.musicplayer.applications.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 
 public class ScoreBoardAdministrationService implements ScoreBoardAdministrationUsecase {
 
-    private final UserScoreBoardRepository userScoreBoardRepository;
+    private final UserScoreBoardPort userScoreBoardPort;
 
-    public ScoreBoardAdministrationService(UserScoreBoardRepository userScoreBoardRepository) {
-        this.userScoreBoardRepository = userScoreBoardRepository;
+    public ScoreBoardAdministrationService(UserScoreBoardPort userScoreBoardPort) {
+        this.userScoreBoardPort = userScoreBoardPort;
     }
 
     @Override
     public void löscheDatenbank(TenantId tenantId) {
-        userScoreBoardRepository.löscheDatenbank(tenantId);
+        userScoreBoardPort.löscheDatenbank(tenantId);
     }
 }

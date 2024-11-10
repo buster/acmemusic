@@ -1,6 +1,7 @@
 package de.acme.musicplayer.cucumber.real2real;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
+import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
@@ -36,12 +37,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class SongSteps {
 
+    private final PlaywrightUsecases playwriteUsecases;
+    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final Map<String, Lied.Id> titelToIdMap = new HashMap<>();
     private final Map<String, Benutzer.Id> benutzerToIdMap = new HashMap<>();
     private final Map<String, Playlist.Id> playlistToIdMap = new HashMap<>();
-    private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
-    private final PlaywrightUsecases playwriteUsecases;
-
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
@@ -58,6 +58,8 @@ public class SongSteps {
     private PlaylistAdministrationUsecase playlistAdministrationUsecase;
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
+    @Autowired
+    private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
 
     @LocalServerPort
     private int port;
@@ -85,9 +87,11 @@ public class SongSteps {
 
     @After
     public void cleanDatabaseAfterScenario() {
+        log.info("Clean database after scenario  {}", tenantId);
         playlistAdministrationUsecase.löscheDatenbank(tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
     }
 
@@ -114,7 +118,10 @@ public class SongSteps {
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            benutzerRegistriertSich(benutzer.get("Name"), benutzer.get("Passwort"), benutzer.get("Email"));
+            Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
+            log.info("Benutzer {} registriert, ID: {}", benutzer.get("Name"), id);
+            assertThat(id).isNotNull();
+            benutzerToIdMap.put(benutzer.get("Name"), id);
         });
     }
 
@@ -127,13 +134,8 @@ public class SongSteps {
     }
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
-    public void benutzerRegistriertSich(String username, String password, String email) {
-        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
-                new Benutzer.Name(username),
-                new Benutzer.Passwort(password),
-                new Benutzer.Email(email),
-                tenantId
-        ));
+    public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
+        Benutzer.Id id = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
         benutzerToIdMap.put(username, id);
     }
 
@@ -160,6 +162,7 @@ public class SongSteps {
     @Wenn("der Benutzer {string} die Playlist {string} erstellt")
     public void derBenutzerAliceDiePlaylistFavoritenErstellt(String benutzer, String playlistName) {
         Playlist.Id id = playlistAnlegenUsecase.playlistAnlegen(benutzerToIdMap.get(benutzer), new Playlist.Name(playlistName), tenantId);
+        log.info("Playlist {} erstellt, ID: {}", playlistName, id);
         playlistToIdMap.put(playlistName, id);
     }
 

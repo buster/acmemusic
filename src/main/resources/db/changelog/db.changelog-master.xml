@@ -126,5 +126,19 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="4" author="Sebastian May">
+        <createTable tableName="benutzer_score_board">
+            <column name="benutzerId" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lieder" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="benutzer_score_board" columnNames="tenant, benutzerId" constraintName="pk_tenant_benutzer_score_board"/>
+    </changeSet>
 
 </databaseChangeLog>
