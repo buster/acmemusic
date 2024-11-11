@@ -15,10 +15,6 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model, @RequestParam(required = false, defaultValue = "WEB") String tenantId, HttpServletResponse response) {
-        model.addAttribute("greeting", "Hello World!");
-        if (isNotBlank(tenantId)) {
-            model.addAttribute("tenantId", tenantId);
-        }
         response.addCookie(new Cookie("tenantId", tenantId));
         return "index.html";
     }

@@ -14,7 +14,6 @@ public class PlaylistAdministrationService implements PlaylistAdministrationUsec
     }
 
     @Override
-    @Transactional
     public void löscheDatenbank(TenantId tenantId) {
         playlistPort.löscheDatenbank(tenantId);
     }

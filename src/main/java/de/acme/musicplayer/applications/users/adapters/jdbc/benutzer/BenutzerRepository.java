@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkState;
 import static de.acme.jooq.Tables.*;
 
 @Component
@@ -34,13 +35,12 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public long zaehleBenutzer(TenantId tenantId) {
-        return
-
-                dslContext.fetchCount(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value())));
+        return  dslContext.fetchCount(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value())));
     }
 
     @Override
     public void loescheDatenbank(TenantId tenantId) {
+        dslContext.deleteFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenantId.value()))).execute();
         dslContext.deleteFrom(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value()))).execute();
     }
 
@@ -50,7 +50,12 @@ public class BenutzerRepository implements BenutzerPort {
                         .on(BENUTZER.ID.eq(BENUTZER_AUSZEICHNUNGEN.BENUTZER).and(BENUTZER.TENANT.eq(BENUTZER_AUSZEICHNUNGEN.TENANT))))
                 .fetch();
 
-        Benutzer benutzer = new Benutzer(new Benutzer.Name(records.getFirst().get(BENUTZER.NAME)), new Benutzer.Passwort(records.getFirst().get(BENUTZER.PASSWORT)), new Benutzer.Email(records.getFirst().get(BENUTZER.EMAIL)));
+        Benutzer benutzer = new Benutzer(
+                new Benutzer.Name(records.getFirst().get(BENUTZER.NAME)),
+                new Benutzer.Passwort(records.getFirst().get(BENUTZER.PASSWORT)),
+                new Benutzer.Email(records.getFirst().get(BENUTZER.EMAIL)));
+        benutzer.setId(new Benutzer.Id(records.getFirst().get(BENUTZER.ID)));
+
         benutzer.setAuszeichnungen(
                 records.stream()
                         .filter(r -> r.get(LIED_AUSZEICHNUNGEN.AUSZEICHNUNG) != null)
@@ -59,5 +64,30 @@ public class BenutzerRepository implements BenutzerPort {
 
                         ).collect(Collectors.toSet()));
         return benutzer;
+    }
+
+    @Override
+    public void speichereBenutzer(Benutzer benutzer, TenantId tenant) {
+        dslContext.deleteFrom(BENUTZER_AUSZEICHNUNGEN)
+                .where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzer.getId().Id()))
+                .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenant.value()))
+                .execute();
+
+        int updatedRecords = dslContext.update(BENUTZER
+                        .where(BENUTZER.ID.eq(benutzer.getId().Id())
+                                .and(BENUTZER.TENANT.eq(tenant.value()))))
+                .set(BENUTZER.NAME, benutzer.getName().benutzername)
+                .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort)
+                .set(BENUTZER.EMAIL, benutzer.getEmail().email)
+                .execute();
+        checkState(updatedRecords == 1, "Benutzer nicht gefunden");
+
+        for (Auszeichnung auszeichnung : benutzer.getAuszeichnungen()) {
+            dslContext.insertInto(BENUTZER_AUSZEICHNUNGEN)
+                    .set(BENUTZER_AUSZEICHNUNGEN.BENUTZER, benutzer.getId().Id())
+                    .set(BENUTZER_AUSZEICHNUNGEN.TENANT, tenant.value())
+                    .set(BENUTZER_AUSZEICHNUNGEN.AUSZEICHNUNG, auszeichnung.name())
+                    .execute();
+        }
     }
 }
