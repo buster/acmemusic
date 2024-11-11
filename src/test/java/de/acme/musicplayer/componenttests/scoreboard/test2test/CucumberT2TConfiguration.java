@@ -1,10 +1,10 @@
 package de.acme.musicplayer.componenttests.scoreboard.test2test;
 
+import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherFake;
 import de.acme.musicplayer.components.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardPortFake;
 import de.acme.musicplayer.components.scoreboard.domain.ScoreBoardAdministrationService;
 import de.acme.musicplayer.components.scoreboard.domain.ZähleNeueLieder;
-import de.acme.musicplayer.components.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
@@ -25,17 +25,17 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort, EventPublisher scoreboardEventPublisher) {
             return new ScoreBoardAdministrationService(userScoreBoardPort, scoreboardEventPublisher);
         }
 
         @Bean
-        public ZähleNeueLiederUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+        public ZähleNeueLiederUsecase neuesLiedWurdeAngelegtUsecase(UserScoreBoardPort userScoreBoardPort, EventPublisher scoreboardEventPublisher) {
             return new ZähleNeueLieder(userScoreBoardPort, scoreboardEventPublisher);
         }
 
         @Bean
-        public ScoreboardEventPublisher scoreboardEventPublisher() {
+        public EventPublisher scoreboardEventPublisher() {
             return new ScoreboardMusicplayerEventPublisherFake();
         }
     }
