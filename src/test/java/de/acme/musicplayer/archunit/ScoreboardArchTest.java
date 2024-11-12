@@ -5,7 +5,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
-import de.acme.musicplayer.components.users.usecases.AuszeichnungFürNeueTopScorer;
+import de.acme.musicplayer.components.users.usecases.BenutzerWurdeNeuerTopScorer;
 
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
@@ -22,5 +22,5 @@ public class ScoreboardArchTest {
                     "de.acme.musicplayer.components.scoreboard.usecases..",
                     "de.acme.musicplayer.components.scoreboard.ports..")
             .withOptionalLayers(true)
-            .ignoreDependency(AuszeichnungFürNeueTopScorer.class, BenutzerIstNeuerTopScorer.class);
+            .ignoreDependency(BenutzerWurdeNeuerTopScorer.class, BenutzerIstNeuerTopScorer.class);
 }

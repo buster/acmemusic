@@ -4,12 +4,12 @@ import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import de.acme.musicplayer.common.events.Event;
+import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
-import de.acme.musicplayer.components.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
@@ -26,6 +26,7 @@ import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.io.File;
@@ -48,10 +49,12 @@ public class SongSteps {
     private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
     // SPECIAL Casing for Real 2 Real Test
+    // Playsright based End To End Usecases
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final PlaywrightUsecases playwriteUsecases;
     private final LiedAbspielenUsecase liedAbspielenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
+    //
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
@@ -59,7 +62,8 @@ public class SongSteps {
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @Autowired
-    private ScoreboardEventPublisher scoreboardEventPublisher;
+    @Qualifier("scoreboardEventPublisher")
+    private EventPublisher scoreboardEventPublisher;
     @Autowired
     private UserEventDispatcher userEventDispatcher;
 
@@ -173,22 +177,24 @@ public class SongSteps {
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden")
     public void istDerBenutzerBobNeuerTopScorerGeworden(String benutzerName) {
-        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
                 .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
                 .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(benutzerName)))
                 .toList();
-        scoreboardEventPublisher.removeEvents(events);
+        assertThat(events).isNotEmpty();
+        scoreboardEventPublisher.removeEventsFromOutbox(events);
     }
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
     public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
-        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
                 .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
                 .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
                         ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
                 )
                 .toList();
-        scoreboardEventPublisher.removeEvents(events);
+        assertThat(events).isNotEmpty();
+        scoreboardEventPublisher.removeEventsFromOutbox(events);
     }
 
     @Und("der Benutzer {string} erhält nicht die Auszeichnung {string}")

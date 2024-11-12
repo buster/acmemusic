@@ -7,11 +7,11 @@ import java.util.List;
 
 @ModuleApi
 public interface EventPublisher {
-    void publishEvent(Event event);
+    void publishEvent(Event event, TenantId tenantId);
 
-    List<Event> readEvents(int maxEvents);
+    List<Event> readEventsFromOutbox(int maxEvents, TenantId tenantId);
 
-    void removeEvents(List<Event> events);
+    void removeEventsFromOutbox(List<Event> events);
 
-    void removeEventsByTenantId(TenantId tenantId);
+    void removeAllEventsFromOutboxByTenantId(TenantId tenantId);
 }
