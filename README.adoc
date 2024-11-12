@@ -7,7 +7,7 @@ image::.github/badges/branches.svg[Branch Coverage]
 
 * minimal lauffähiger Prototyp mit etwas Funktionalität
 * 3 Module
-** ein Microservice
+** ein Microservice (TODO) 
 ** ein Modulith mit 2 Komponenten
 
 
