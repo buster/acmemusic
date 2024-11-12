@@ -7,7 +7,7 @@ import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.components.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.components.users.usecases.UserEventDispatcher;
+import de.acme.musicplayer.components.users.usecases.BenutzerWurdeNeuerTopScorer;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -34,7 +34,7 @@ public class UserSteps {
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
-    private UserEventDispatcher userEventDispatcher;
+    private BenutzerWurdeNeuerTopScorer benutzerWurdeNeuerTopScorer;
 
     private TenantId tenantId;
 
@@ -96,6 +96,6 @@ public class UserSteps {
     @Wenn("der Benutzer {string} den Benutzer {string} als TopScorer abgelöst hat")
     public void derBenutzerJohnDenBenutzerBobAlsTopScorerAbgelöstHat(String neuerTopscorer, String alterTopScorer) {
         BenutzerIstNeuerTopScorer neuerTopScorer = new BenutzerIstNeuerTopScorer(benutzerToIdMap.get(neuerTopscorer), benutzerToIdMap.get(alterTopScorer), tenantId);
-        userEventDispatcher.handleEvent(neuerTopScorer);
+        benutzerWurdeNeuerTopScorer.vergebeAuszeichnungFürNeuenTopScorer(neuerTopScorer);
     }
 }
