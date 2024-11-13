@@ -7,14 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="common-api" />
+        <module name="acme (1) (de.acme)" />
+        <module name="archunit-support" />
+        <module name="events" />
         <module name="acme" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="21">
+      <module name="acme (1) (de.acme)" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="acme" options="-parameters" />
+      <module name="acme (1) (de.acme)" options="-parameters" />
     </option>
   </component>
 </project>
