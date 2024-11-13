@@ -1,37 +1,42 @@
 package de.acme.musicplayer.components.users.adapters.events;
 
 import de.acme.musicplayer.common.events.Event;
+import de.acme.musicplayer.common.events.EventDispatcher;
+import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.components.users.domain.events.BenutzerHatAuszeichnungAnAnderenNutzerVerloren;
 import de.acme.musicplayer.components.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
-import de.acme.musicplayer.components.users.usecases.UserEventDispatcher;
+import de.acme.musicplayer.components.users.usecases.BenutzerWurdeNeuerTopScorer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("userEventDispatcher")
 @Slf4j
-public class SpringUserEventListener {
+public class UserEventListeners implements EventDispatcher {
 
-    private final UserEventDispatcher userEventDispatcher;
-
+    private final BenutzerWurdeNeuerTopScorer benutzerWurdeNeuerTopScorer;
     private final SseEmitterService sseEmitterService;
 
-    public SpringUserEventListener(UserEventDispatcher userEventDispatcher, SseEmitterService sseEmitterService) {
-        this.userEventDispatcher = userEventDispatcher;
+    public UserEventListeners(BenutzerWurdeNeuerTopScorer benutzerWurdeNeuerTopScorer, SseEmitterService sseEmitterService) {
+        this.benutzerWurdeNeuerTopScorer = benutzerWurdeNeuerTopScorer;
         this.sseEmitterService = sseEmitterService;
     }
 
+    @Override
     @EventListener
-    @Async
-    public void neuerTopScorer(Event event) {
+//    @Async
+    public void handleEvent(Event event) {
         log.info("Listener: {}", event.getClass().getSimpleName());
-        userEventDispatcher.handleEvent(event);
+        if (event instanceof BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer) {
+            benutzerWurdeNeuerTopScorer.vergebeAuszeichnungFürNeuenTopScorer(benutzerIstNeuerTopScorer);
+        } else if (event instanceof BenutzerHatNeueAuszeichnungErhalten benutzerHatNeueAuszeichnungErhalten) {
+            BenutzerHatNeueAuszeichnungEvent(benutzerHatNeueAuszeichnungErhalten);
+        } else if (event instanceof BenutzerHatAuszeichnungAnAnderenNutzerVerloren benutzerHatAuszeichnungAnAnderenNutzerVerloren) {
+            BenutzerHatAuszeichnungAnAnderenNutzerVerloren(benutzerHatAuszeichnungAnAnderenNutzerVerloren);
+        }
     }
 
-    @EventListener
-    @Async
-    public void BenutzerHatNeueAuszeichnungEvent(BenutzerHatNeueAuszeichnungErhalten event) {
+    private void BenutzerHatNeueAuszeichnungEvent(BenutzerHatNeueAuszeichnungErhalten event) {
         log.info("Listener: BenutzerHatNeueAuszeichnungEvent");
         log.info("Sende SSE Event für BenutzerHatNeueAuszeichnungEvent");
         String eventData = "<div>Benutzer " +
@@ -54,9 +59,7 @@ public class SpringUserEventListener {
         sseEmitterService.sendEvent(event.getTenant(), eventDiv);
     }
 
-    @EventListener
-    @Async
-    public void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
+    private void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
         log.info("Listener: BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         log.info("Sende SSE Event für BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         String eventData = "<div>Du hast die Auszeichnung " +

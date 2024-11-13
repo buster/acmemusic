@@ -1,9 +1,9 @@
 spring:
   application:
     name: acme
-#  liquibase:
-#    change-log: classpath:db/changelog/db.changelog-master.xml
-#    enabled: true
+  #  liquibase:
+  #    change-log: classpath:db/changelog/db.changelog-master.xml
+  #    enabled: true
   datasource:
     hikari:
       maximum-pool-size: 80
@@ -18,15 +18,7 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
----
-spring:
-  config:
-    activate:
-      on-profile: h2
-  datasource:
-    url: jdbc:h2:file:./acme.db;SCHEMA=public
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+events:
+  publisher:
+    publish-events-to-application: true
+    save-to-outbox: true

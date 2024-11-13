@@ -18,7 +18,6 @@ import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +36,6 @@ public class ScoreboardSteps {
     @Autowired
     private ZähleNeueLiederUsecase zähleNeueLiederUsecase;
     @Autowired
-    @Qualifier("scoreboardEventPublisher")
     private EventPublisher scoreboardEventPublisher;
 
     private TenantId tenantId;
