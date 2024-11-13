@@ -9,8 +9,6 @@ import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +29,6 @@ import java.util.Map;
 public class MusicPlayerController {
 
     private final LiedAbspielenUsecase liedAbspielenUseCase;
-
     private final LiedHochladenUsecase liedHochladenUseCase;
     private final LiederAuflistenUsecase liederAuflistenUseCase;
 
@@ -43,7 +40,7 @@ public class MusicPlayerController {
 
     @GetMapping(value = "/streamSong", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE, consumes = MediaType.ALL_VALUE)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @RequestParam(required = false)String tenantId) throws IOException {
+    public ResponseEntity<InputStreamResource> liedAbspielen(@CookieValue(value = "userId") String userId, @RequestParam(required = false) String liedId, @RequestParam(required = false) String tenantId) throws IOException {
         InputStream inputStream = liedAbspielenUseCase.liedStreamen(new Lied.Id(liedId), new TenantId(tenantId));
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -69,7 +66,7 @@ public class MusicPlayerController {
 
     @HxRequest
     @GetMapping("/songlist")
-    public String songList(Model model, @CookieValue(value = "tenantId") String tenantId,  @CookieValue(value = "userId") String benutzerId) {
+    public String songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
         Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new Benutzer.Id(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
