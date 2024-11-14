@@ -36,7 +36,7 @@ public class UserEventListeners {
                 "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
                 "    </div>\n" +
                 "    <div class=\"toast-body\">\n" +
-                        eventData +
+                "<span>" + eventData + "</span>" +
                 "        <input type=\"hidden\" id=\"userId\" name=\"userId\" th:value=\"${userId}\">\n" +
                 "    </div>\n" +
                 "</div>");
