@@ -1,6 +1,8 @@
 package de.acme.musicplayer.applications.musicplayer.domain.model;
 
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
+import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.LiedId;
+import de.acme.musicplayer.common.PlaylistId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,33 +12,33 @@ import java.util.Objects;
 public class Playlist {
 
     private final Name name;
-    private final Benutzer.Id besitzer;
-    private final List<Lied.Id> lieder = new ArrayList<>();
-    private Id id;
+    private final BenutzerId besitzer;
+    private final List<LiedId> lieder = new ArrayList<>();
+    private PlaylistId playlistId;
 
-    public Playlist(Benutzer.Id besitzerId, Name name) {
+    public Playlist(BenutzerId besitzerId, Name name) {
         this.name = name;
         this.besitzer = besitzerId;
-        this.id = new Id(besitzerId.Id(), name.name);
+        this.playlistId = new PlaylistId(besitzerId.Id(), name.name);
     }
 
-    public List<Lied.Id> getLieder() {
+    public List<LiedId> getLieder() {
         return lieder;
     }
 
-    public Id getId() {
-        return id;
+    public PlaylistId getId() {
+        return playlistId;
     }
 
-    public void setId(Id id) {
-        this.id = id;
+    public void setId(PlaylistId playlistId) {
+        this.playlistId = playlistId;
     }
 
     public String getName() {
         return name.name;
     }
 
-    public void liedHinzufügen(Lied.Id liedId, Benutzer.Id benutzerId) {
+    public void liedHinzufügen(LiedId liedId, BenutzerId benutzerId) {
         if (lieder.stream().anyMatch(liedId::equals)) return;
         if (besitzer.equals(benutzerId)) {
             lieder.add(liedId);
@@ -48,38 +50,18 @@ public class Playlist {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        if (this.id == null) return false;
+        if (this.playlistId == null) return false;
         if (this == o) return true;
-        if (this.id.equals(((Playlist) o).id)) return true;
-        return false;
+        return this.playlistId.equals(((Playlist) o).playlistId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(playlistId);
     }
 
-    public Benutzer.Id getBesitzer() {
+    public BenutzerId getBesitzer() {
         return besitzer;
-    }
-
-    public record Id(String id) {
-        public Id(String benutzername, String playlistName) {
-            this(String.format("%s-%s", benutzername, playlistName));
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Id that = (Id) o;
-            return Objects.equals(id, that.id);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(id);
-        }
     }
 
     public record Name(String name) {

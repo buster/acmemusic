@@ -1,22 +1,22 @@
 package de.acme.musicplayer.applications.scoreboard.adapters.events;
 
-import de.acme.musicplayer.applications.scoreboard.usecases.NeuesLiedWurdeAngelegtUsecase;
-import de.acme.musicplayer.events.NeuesLiedWurdeAngelegt;
+import de.acme.musicplayer.applications.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
+import de.acme.musicplayer.applications.scoreboard.usecases.ZähleNeueLiederUsecase;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScoreBoardEventListeners {
 
-    private final NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase;
+    private final ZähleNeueLiederUsecase zähleNeueLiederUsecase;
 
-    public ScoreBoardEventListeners(NeuesLiedWurdeAngelegtUsecase neuesLiedWurdeAngelegtUsecase) {
-        this.neuesLiedWurdeAngelegtUsecase = neuesLiedWurdeAngelegtUsecase;
+    public ScoreBoardEventListeners(ZähleNeueLiederUsecase zähleNeueLiederUsecase) {
+        this.zähleNeueLiederUsecase = zähleNeueLiederUsecase;
     }
 
     @EventListener
     public void handleLiedAngelegt(NeuesLiedWurdeAngelegt event) {
-        neuesLiedWurdeAngelegtUsecase.neuesLiedWurdeAngelegt(event);
+        zähleNeueLiederUsecase.zähleNeueAngelegteLieder(event);
 
     }
 
