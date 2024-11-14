@@ -13,5 +13,30 @@
         <module>libs/events</module>
         <module>libs/archunit-support</module>
         <module>libs/common-api</module>
+        <module>jacocoreport</module>
     </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/jooq/**/*.class</exclude>
+                        <exclude>**/generated/**</exclude>
+                    </excludes>
+                    <formats>HTML,XML,CSV</formats>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
