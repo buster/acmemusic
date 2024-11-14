@@ -1,7 +1,7 @@
 package de.acme.musicplayer.components.musicplayer.adapters.events;
 
 import com.google.common.collect.EvictingQueue;
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventPublisher;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package de.acme.musicplayer.common;
+package de.acme.musicplayer.common.api;
 
 import de.acme.support.ModuleApi;
 

@@ -1,7 +1,7 @@
 package de.acme.musicplayer.components.users.domain.model;
 
 
-import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.api.BenutzerId;
 
 import java.util.HashSet;
 import java.util.Set;

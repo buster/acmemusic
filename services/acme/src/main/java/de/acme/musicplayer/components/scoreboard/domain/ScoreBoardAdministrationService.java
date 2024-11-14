@@ -1,6 +1,6 @@
 package de.acme.musicplayer.components.scoreboard.domain;
 
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;

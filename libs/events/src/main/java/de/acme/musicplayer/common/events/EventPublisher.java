@@ -1,6 +1,6 @@
 package de.acme.musicplayer.common.events;
 
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.support.ModuleApi;
 
 import java.util.List;

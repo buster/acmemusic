@@ -1,7 +1,7 @@
 package de.acme.musicplayer.componenttests.users.test2test;
 
-import de.acme.musicplayer.common.BenutzerId;
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.BenutzerId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
