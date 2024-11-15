@@ -1,5 +1,6 @@
 package de.acme.musicplayer.web;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -15,4 +16,9 @@ public class IndexController {
         return "index.html";
     }
 
+    @HxRequest
+    @GetMapping("/adminpage")
+    public String adminpage() {
+        return "htmx-responses/adminpage.html";
+    }
 }
