@@ -6,8 +6,8 @@ import de.acme.support.ModuleApi;
 @ModuleApi
 public interface LiedAdministrationUsecase {
 
-    void löscheDatenbank(TenantId tenantId);
+    void löscheLiedDatenbank(TenantId tenantId);
 
-    void löscheEvents(TenantId tenantId);
+    void löscheLiedEvents(TenantId tenantId);
 
 }

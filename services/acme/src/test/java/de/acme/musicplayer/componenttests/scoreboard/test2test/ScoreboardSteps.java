@@ -50,8 +50,8 @@ public class ScoreboardSteps {
     @After
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
-        scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
-        scoreboardAdministrationUsecase.löscheEvents(tenantId);
+        scoreboardAdministrationUsecase.löscheScoreboardDatenbank(tenantId);
+        scoreboardAdministrationUsecase.löscheScoreboardEvents(tenantId);
         MDC.remove("tenantId");
     }
 

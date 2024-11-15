@@ -25,7 +25,7 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
 
     @Override
     @Transactional
-    public void löscheDatenbank(TenantId tenantId) {
+    public void löscheBenutzerDatenbank(TenantId tenantId) {
         benutzerPort.loescheDatenbank(tenantId);
     }
 
@@ -35,7 +35,7 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
     }
 
     @Override
-    public void löscheEvents(TenantId tenantId) {
+    public void löscheBenutzerEvents(TenantId tenantId) {
         userEventPublisher.removeAllEventsFromOutboxByTenantId(tenantId);
     }
 }

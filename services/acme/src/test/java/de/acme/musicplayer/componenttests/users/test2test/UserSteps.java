@@ -48,7 +48,7 @@ public class UserSteps {
     @After
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheBenutzerDatenbank(tenantId);
         MDC.remove("tenantId");
     }
 

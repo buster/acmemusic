@@ -14,7 +14,9 @@ import de.acme.musicplayer.common.api.LiedId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
+import de.acme.musicplayer.components.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedHochladenUsecase;
+import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
@@ -40,7 +42,9 @@ import static org.awaitility.Awaitility.await;
 public class PlaywrightUsecases implements BenutzerRegistrierenUsecase,
         LiedAbspielenUsecase,
         LiedHochladenUsecase,
-        BenutzerAdministrationUsecase {
+        BenutzerAdministrationUsecase,
+        LiedAdministrationUsecase,
+        ScoreBoardAdministrationUsecase {
 
     private final BrowserContextComponent browserContextComponent;
     @Setter
@@ -115,14 +119,6 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase,
         return Long.parseLong(userCount);
     }
 
-    @Override
-    public void löscheDatenbank(TenantId tenantId) {
-        Page page = browserContextComponent.getCurrentPage();
-        page.click("#nav-link-adminpage");
-        page.click("#delete-user-database");
-        assertThat(page.getByTestId("adminpage-return")).containsText("Benutzerdatenbank gelöscht");
-    }
-
     @SneakyThrows
     @Override
     public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
@@ -143,10 +139,51 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase,
     }
 
     @Override
-    public void löscheEvents(TenantId tenantId) {
+    public void löscheBenutzerDatenbank(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-user-database");
+        assertThat(page.getByTestId("adminpage-return")).containsText("Benutzerdatenbank gelöscht");
+    }
+
+    @Override
+    public void löscheBenutzerEvents(TenantId tenantId) {
         Page page = browserContextComponent.getCurrentPage();
         page.click("#nav-link-adminpage");
         page.click("#delete-user-events");
         assertThat(page.getByTestId("adminpage-return")).containsText("BenutzerEvents gelöscht");
+    }
+
+    @Override
+    public void löscheLiedDatenbank(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-song-database");
+        assertThat(page.getByTestId("adminpage-return")).containsText("Liederdatenbank gelöscht");
+    }
+
+    @Override
+    public void löscheLiedEvents(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-song-events");
+        assertThat(page.getByTestId("adminpage-return")).containsText("LiederEvents gelöscht");
+    }
+
+
+    @Override
+    public void löscheScoreboardDatenbank(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-scoreboard-database");
+        assertThat(page.getByTestId("adminpage-return")).containsText("Scoreboarddatenbank gelöscht");
+    }
+
+    @Override
+    public void löscheScoreboardEvents(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-scoreboard-events");
+        assertThat(page.getByTestId("adminpage-return")).containsText("ScoreboardEvents gelöscht");
     }
 }

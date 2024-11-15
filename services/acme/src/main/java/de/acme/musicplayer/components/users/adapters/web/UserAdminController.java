@@ -31,14 +31,14 @@ public class UserAdminController {
     @HxRequest
     @PostMapping("/delete-user-database")
     public ResponseEntity<String> deleteUserDatabase(@CookieValue(value = "tenantId") String tenantId) {
-        benutzerAdministrationUsecase.löscheDatenbank(new TenantId(tenantId));
+        benutzerAdministrationUsecase.löscheBenutzerDatenbank(new TenantId(tenantId));
         return ResponseEntity.ok("Benutzerdatenbank gelöscht");
     }
 
     @HxRequest
     @PostMapping("/delete-user-events")
     public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId") String tenantId) {
-        benutzerAdministrationUsecase.löscheEvents(new TenantId(tenantId));
+        benutzerAdministrationUsecase.löscheBenutzerEvents(new TenantId(tenantId));
         return ResponseEntity.ok("BenutzerEvents gelöscht");
     }
 

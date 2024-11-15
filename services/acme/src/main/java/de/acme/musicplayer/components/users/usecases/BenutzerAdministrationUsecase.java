@@ -10,10 +10,10 @@ public interface BenutzerAdministrationUsecase {
 
     long zähleBenutzer(TenantId tenantId);
 
-    void löscheDatenbank(TenantId tenantId);
+    void löscheBenutzerDatenbank(TenantId tenantId);
 
     Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId);
 
-    void löscheEvents(TenantId tenantId);
+    void löscheBenutzerEvents(TenantId tenantId);
 
 }

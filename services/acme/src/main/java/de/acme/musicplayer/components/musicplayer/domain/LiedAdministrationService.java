@@ -16,12 +16,12 @@ public class LiedAdministrationService implements LiedAdministrationUsecase {
     }
 
     @Override
-    public void löscheDatenbank(TenantId tenantId) {
+    public void löscheLiedDatenbank(TenantId tenantId) {
         liedPort.löscheDatenbank(tenantId);
     }
 
     @Override
-    public void löscheEvents(TenantId tenantId) {
+    public void löscheLiedEvents(TenantId tenantId) {
         musicPlayerEventPublisher.removeAllEventsFromOutboxByTenantId(tenantId);
     }
 }

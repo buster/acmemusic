@@ -3,9 +3,7 @@ package de.acme.musicplayer.componenttests.real2real;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.LiedId;
 import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventDispatcher;
-import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAdministrationUsecase;
@@ -35,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -55,14 +52,10 @@ public class SongSteps {
     private final LiedAbspielenUsecase liedAbspielenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
     private final BenutzerAdministrationUsecase benutzerAdministrationUsecase;
+    private final LiedAdministrationUsecase liedAdministrationUsecase;
+    private final ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
+
     //
-//    @Autowired
-    @Autowired
-    private LiedAdministrationUsecase liedAdministrationUsecase;
-    @Autowired
-    private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
-    @Autowired
-    private EventPublisher scoreboardEventPublisher;
     @Autowired
     @Qualifier("userEventDispatcher")
     private EventDispatcher userEventDispatcher;
@@ -78,6 +71,8 @@ public class SongSteps {
         this.liedAbspielenUsecase = playwrightUsecases;
         this.liedHochladenUseCase = playwrightUsecases;
         this.benutzerAdministrationUsecase = playwrightUsecases;
+        this.liedAdministrationUsecase = playwrightUsecases;
+        this.scoreboardAdministrationUsecase = playwrightUsecases;
     }
 
     @Before
@@ -98,12 +93,12 @@ public class SongSteps {
     @After
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
-        liedAdministrationUsecase.löscheDatenbank(tenantId);
-        liedAdministrationUsecase.löscheEvents(tenantId);
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
-        benutzerAdministrationUsecase.löscheEvents(tenantId);
-        scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
-        scoreboardAdministrationUsecase.löscheEvents(tenantId);
+        liedAdministrationUsecase.löscheLiedDatenbank(tenantId);
+        liedAdministrationUsecase.löscheLiedEvents(tenantId);
+        benutzerAdministrationUsecase.löscheBenutzerDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheBenutzerEvents(tenantId);
+        scoreboardAdministrationUsecase.löscheScoreboardDatenbank(tenantId);
+        scoreboardAdministrationUsecase.löscheScoreboardEvents(tenantId);
         MDC.remove("tenantId");
     }
 
@@ -178,24 +173,17 @@ public class SongSteps {
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden")
     public void istDerBenutzerBobNeuerTopScorerGeworden(String benutzerName) {
-        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
-                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
-                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(benutzerName)))
-                .toList();
-        assertThat(events).isNotEmpty();
-        scoreboardEventPublisher.removeEventsFromOutbox(events);
+        Benutzer benutzer = benutzerAdministrationUsecase.leseBenutzer(benutzerToIdMap.get(benutzerName), tenantId);
+        assertThat(benutzer.getAuszeichnungen()).contains(Auszeichnung.MUSIC_LOVER_LOVER);
     }
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
     public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
-        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
-                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
-                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
-                        ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
-                )
-                .toList();
-        assertThat(events).isNotEmpty();
-        scoreboardEventPublisher.removeEventsFromOutbox(events);
+        // TODO: Über Browser Pop nach von / nach gucken?
+        Benutzer benutzer = benutzerAdministrationUsecase.leseBenutzer(benutzerToIdMap.get(neuerTopScorer), tenantId);
+        assertThat(benutzer.getAuszeichnungen()).contains(Auszeichnung.MUSIC_LOVER_LOVER);
+        Benutzer benutzer2 = benutzerAdministrationUsecase.leseBenutzer(benutzerToIdMap.get(abgelösterTopScorer), tenantId);
+        assertThat(benutzer2.getAuszeichnungen()).doesNotContain(Auszeichnung.MUSIC_LOVER_LOVER);
     }
 
     @Und("der Benutzer {string} erhält nicht die Auszeichnung {string}")
@@ -206,6 +194,7 @@ public class SongSteps {
 
     @Wenn("der Benutzer {string} den Benutzer {string} als TopScorer abgelöst hat")
     public void derBenutzerJohnDenBenutzerBobAlsTopScorerAbgelöstHat(String neuerTopscorer, String alterTopScorer) {
+        // TODO: Wie kann das in R2R gelöst werden? Geht das dann als Event über Pub Sub? Geht das ganz anders?
         BenutzerIstNeuerTopScorer neuerTopScorer = new BenutzerIstNeuerTopScorer(benutzerToIdMap.get(neuerTopscorer), benutzerToIdMap.get(alterTopScorer), tenantId);
         userEventDispatcher.handleEvent(neuerTopScorer);
     }

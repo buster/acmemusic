@@ -16,12 +16,12 @@ public class ScoreBoardAdministrationService implements ScoreBoardAdministration
     }
 
     @Override
-    public void löscheDatenbank(TenantId tenantId) {
+    public void löscheScoreboardDatenbank(TenantId tenantId) {
         userScoreBoardPort.löscheDatenbank(tenantId);
     }
 
     @Override
-    public void löscheEvents(TenantId tenantId) {
+    public void löscheScoreboardEvents(TenantId tenantId) {
         eventPublisher.removeAllEventsFromOutboxByTenantId(tenantId);
     }
 }

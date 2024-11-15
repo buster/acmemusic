@@ -55,7 +55,7 @@ public class SongSteps {
     @After
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
-        liedAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheLiedDatenbank(tenantId);
         MDC.remove("tenantId");
     }
 
