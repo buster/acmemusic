@@ -1,6 +1,7 @@
 package de.acme.musicplayer.applications.users.adapters.events;
 
 import de.acme.musicplayer.applications.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
+import de.acme.musicplayer.applications.users.domain.events.BenutzerHatAuszeichnungAnAnderenNutzerVerloren;
 import de.acme.musicplayer.applications.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,28 @@ public class UserEventListeners {
                 "    </div>\n" +
                 "</div>");
         sseEmitterService.sendEvent(event.getTenant(),
+                eventDiv);
+    }
+
+    @EventListener
+    public void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
+        log.info("Listener: BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
+        log.info("Sende SSE Event für BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
+        String eventData = "<div>Du hast die Auszeichnung " +
+                event.auszeichnung() +
+                " an " +
+                event.neuerBesitzerName() +
+                " verloren!</div>";
+        String eventDiv = String.format("<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
+                "    <div class=\"toast-header\">\n" +
+                "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
+                "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n" +
+                "    </div>\n" +
+                "    <div class=\"toast-body\">\n" +
+                "<span>" + eventData + "</span>" +
+                "    </div>\n" +
+                "</div>");
+        sseEmitterService.sendEventToUser(event.benutzerId().Id(), event.getTenant(),
                 eventDiv);
     }
 
