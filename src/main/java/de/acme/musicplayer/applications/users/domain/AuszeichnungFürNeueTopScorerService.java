@@ -6,8 +6,8 @@ import de.acme.musicplayer.applications.users.domain.events.BenutzerHatNeueAusze
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.users.ports.UserEventPublisher;
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
-import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 

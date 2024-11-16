@@ -2,12 +2,14 @@ package de.acme.musicplayer.cucumber.test2test;
 
 import de.acme.musicplayer.applications.musicplayer.adapters.events.MusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.lied.LiedPortStub;
-import de.acme.musicplayer.applications.musicplayer.adapters.jdbc.playlist.PlaylistPortStub;
-import de.acme.musicplayer.applications.musicplayer.domain.*;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedAbspielenService;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedAdministrationService;
+import de.acme.musicplayer.applications.musicplayer.domain.LiedHochladenService;
 import de.acme.musicplayer.applications.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.applications.musicplayer.ports.MusicplayerEventPublisher;
-import de.acme.musicplayer.applications.musicplayer.ports.PlaylistPort;
-import de.acme.musicplayer.applications.musicplayer.usecases.*;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
+import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.applications.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherStub;
 import de.acme.musicplayer.applications.scoreboard.adapters.jdbc.userscoreboard.UserScoreBoardPortStub;
 import de.acme.musicplayer.applications.scoreboard.domain.ScoreBoardAdministrationService;
@@ -22,10 +24,10 @@ import de.acme.musicplayer.applications.users.domain.AuszeichnungFürNeueTopScor
 import de.acme.musicplayer.applications.users.domain.BenutzerAdministrationService;
 import de.acme.musicplayer.applications.users.domain.BenutzerRegistrierenService;
 import de.acme.musicplayer.applications.users.ports.BenutzerPort;
+import de.acme.musicplayer.applications.users.ports.UserEventPublisher;
 import de.acme.musicplayer.applications.users.usecases.AuszeichnungFürNeueTopScorer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.applications.users.usecases.UserEventPublisher;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -39,11 +41,6 @@ public class CucumberT2TConfiguration {
 
         // Adapter
         @Bean
-        public PlaylistPort playlistPort() {
-            return new PlaylistPortStub();
-        }
-
-        @Bean
         public BenutzerPort benutzerPort() {
             return new BenutzerPortStub();
         }
@@ -56,16 +53,6 @@ public class CucumberT2TConfiguration {
         @Bean
         public UserScoreBoardPort userScoreBoardRepository() {
             return new UserScoreBoardPortStub();
-        }
-
-        @Bean
-        public PlaylistAnlegenUsecase playlistAnlegenUsecase(PlaylistPort playlistPort) {
-            return new PlaylistAnlegenService(playlistPort);
-        }
-
-        @Bean
-        public PlaylistAdministrationUsecase playlistAdministrationUsecase(PlaylistPort playlistPort) {
-            return new PlaylistAdministrationService(playlistPort);
         }
 
         @Bean
@@ -94,18 +81,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedZuPlaylistHinzufügenUsecase liedZuPlaylistHinzufügenUseCase(PlaylistPort playlistPort) {
-            return new LiedZuPlaylistHinzufügenService(playlistPort);
-        }
-
-        @Bean
         public LiedHochladenUsecase liedHochladenUseCase(LiedPort liedPort, @Qualifier("MusicplayereventPublisher") MusicplayerEventPublisher musicplayerEventPublisher) {
             return new LiedHochladenService(liedPort, musicplayerEventPublisher);
-        }
-
-        @Bean
-        public LiederInPlaylistAuflistenUsecase liederInPlaylistAuflistenUseCase(PlaylistPort playlistPort) {
-            return new LiederInPlaylistAuflistenService(playlistPort);
         }
 
         @Bean
@@ -124,7 +101,7 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public ScoreboardEventPublisher ScoreboardeventPublisher(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer) {
+        public ScoreboardEventPublisher scoreboardEventPublisher(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer) {
             return new ScoreboardMusicplayerEventPublisherStub(auszeichnungFürNeueTopScorer);
         }
 
