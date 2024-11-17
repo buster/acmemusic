@@ -4,6 +4,7 @@ Funktionalität:
 
   @T2T
   @T2R
+  @R2R
   Szenario: Auszeichnungen
 #    Gegeben sei eine leere Datenbank
     Gegeben seien folgende Benutzer:

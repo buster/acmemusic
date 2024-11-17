@@ -15,6 +15,7 @@ Funktionalität:
 
   @T2T
   @T2R
+  @R2R
   Szenario: Song hinzufügen, Playlist erstellen, Song hinzufügen und Playlist abspielen
 #    Gegeben sei eine leere Datenbank
     Gegeben seien folgende Benutzer:
@@ -40,6 +41,7 @@ Funktionalität:
     Dann erhält der Benutzer den Song 'Epic Song' mit mehr als 10 Sekunden Länge
 
   @T2R
+  @R2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
 #    Gegeben sei eine leere Datenbank
     Gegeben seien folgende Benutzer:
