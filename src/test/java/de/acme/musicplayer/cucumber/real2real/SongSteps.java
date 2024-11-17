@@ -45,14 +45,13 @@ public class SongSteps {
     // SPECIAL Casing for Real 2 Real Test
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final PlaywrightUsecases playwriteUsecases;
+    private final LiedAbspielenUsecase liedAbspielenUsecase;
     @Autowired
     private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
     @Autowired
     private LiedHochladenUsecase liedHochladenUseCase;
-    @Autowired
-    private LiedAbspielenUsecase liedAbspielenUsecase;
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @LocalServerPort
@@ -63,6 +62,7 @@ public class SongSteps {
     public SongSteps(PlaywrightUsecases playwrightUsecases) {
         this.benutzerRegistrierenUsecase = playwrightUsecases;
         this.playwriteUsecases = playwrightUsecases;
+        this.liedAbspielenUsecase = playwrightUsecases;
     }
 
     @Before
@@ -136,7 +136,7 @@ public class SongSteps {
         }
     }
 
-    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Byte Größe")
+    @Dann("erhält der Benutzer den Song {string} mit mehr als {long} Sekunden Länge")
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
     }

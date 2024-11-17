@@ -27,6 +27,7 @@ Funktionalität:
 
   @T2T
   @T2R
+  @R2R
   Szenario: Song abspielen
 #    Gegeben sei eine leere Datenbank
     Gegeben seien folgende Benutzer:
@@ -36,7 +37,7 @@ Funktionalität:
       | Titel     | Dateiname                    | Benutzer |
       | Epic Song | BoxCat Games - Epic Song.mp3 | Alice    |
     Wenn der Benutzer 'Alice' das Lied 'Epic Song' abspielt
-    Dann erhält der Benutzer den Song 'Epic Song' mit mehr als 1000000 Byte Größe
+    Dann erhält der Benutzer den Song 'Epic Song' mit mehr als 10 Sekunden Länge
 
   @T2R
   Szenario: Wahnsinnig Datenbankintensives Song hinzufügen
