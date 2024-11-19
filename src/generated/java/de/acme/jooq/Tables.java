@@ -4,7 +4,11 @@
 package de.acme.jooq;
 
 
-import de.acme.jooq.tables.*;
+import de.acme.jooq.tables.Benutzer;
+import de.acme.jooq.tables.BenutzerAuszeichnungen;
+import de.acme.jooq.tables.BenutzerScoreBoard;
+import de.acme.jooq.tables.Lied;
+import de.acme.jooq.tables.LiedAuszeichnungen;
 
 
 /**
