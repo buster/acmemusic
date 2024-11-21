@@ -48,7 +48,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn -B package -DskipDocker
+        run: mvn -B verify -DskipDocker
 
       - uses: gaelgirodon/ci-badges-action@v1
         with:
