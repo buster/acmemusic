@@ -22,14 +22,8 @@ Funktionalität:
       | Name | Passwort | Email          |
       | John | abc      | john@localhost |
       | Bob  | abc      | bob@localhost  |
-    Wenn das Ereignis 'BenutzerIstNeuerTopScorer' mit den folgenden Werten empfangen wird:
-      | "neuerTopScorer" | {"Id": "<BenutzerId: John>"} |
-      | "alterTopScorer" | {"Id": "<BenutzerId: Bob>"}  |
-      | "tenantId"       | {"value": "<tenantId>"}      |
+    Wenn der Benutzer 'John' den Benutzer 'Bob' als TopScorer abgelöst hat
     Dann erhält der Benutzer 'John' die Auszeichnung 'MUSIC_LOVER_LOVER'
     Und der Benutzer 'Bob' erhält nicht die Auszeichnung 'MUSIC_LOVER_LOVER'
-    Wenn das Ereignis 'BenutzerIstNeuerTopScorer' mit den folgenden Werten empfangen wird:
-      | "neuerTopScorer" | {"Id": "<BenutzerId: Bob>"}  |
-      | "alterTopScorer" | {"Id": "<BenutzerId: John>"} |
-      | "tenantId"       | {"value": "<tenantId>"}      |
+    Wenn der Benutzer 'Bob' den Benutzer 'John' als TopScorer abgelöst hat
     Dann erhält der Benutzer 'Bob' die Auszeichnung 'MUSIC_LOVER_LOVER'
