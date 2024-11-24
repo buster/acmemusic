@@ -15,19 +15,13 @@ public class Lied {
     private final Titel titel;
     private final BenutzerId besitzer;
     private final TenantId tenantId;
-    private LiedId liedId;
+    private final LiedId liedId;
     private Collection<LiedAuszeichnung> auszeichnungen;
 
     public Lied(LiedId liedId, Titel titel, BenutzerId besitzerId, TenantId tenantId) {
         this.liedId = liedId;
         this.titel = titel;
         this.besitzer = besitzerId;
-        this.tenantId = tenantId;
-    }
-
-    public Lied(Titel titel, BenutzerId besitzer, TenantId tenantId) {
-        this.titel = titel;
-        this.besitzer = besitzer;
         this.tenantId = tenantId;
     }
 
@@ -38,10 +32,6 @@ public class Lied {
 
     public LiedId getId() {
         return liedId;
-    }
-
-    public void setId(LiedId liedId) {
-        this.liedId = liedId;
     }
 
     public String getTitel() {
