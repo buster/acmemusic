@@ -92,7 +92,7 @@ jobs:
           fi
 
       - name: Upload JaCoCo coverage report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact
         with:
           name: jacoco-report
           path: target/site/jacoco/
