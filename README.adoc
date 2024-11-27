@@ -1,9 +1,9 @@
-image::https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fbuster%2Fe9c1695395e516101b48bb852a31602c%2Fraw%2Facmemusic-junit-tests.json[tests]
-image::https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fgist.githubusercontent.com%2Fbuster%2Fe9c1695395e516101b48bb852a31602c%2Fraw%2Facmemusic-lcov-coverage.json[coverage]
+image::.github/badges/jacoco.svg[Line Coverage]
+image::.github/badges/branches.svg[Branch Coverage]
 
 = Getting Started
 
-PoC für component testing  (https://www.thoughtworks.com/radar/techniques/summary/component-testing) in hexagonaler Architektur mit Cucumber. 
+PoC für component testing (https://www.thoughtworks.com/radar/techniques/summary/component-testing) in hexagonaler Architektur mit Cucumber.
 Stubs im Test, Prod DB in Prod.
 
 Marks: ❓ ❌ ✅
