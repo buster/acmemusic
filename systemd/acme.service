@@ -4,11 +4,9 @@ After=network.target
 StopWhenUnneeded=true
 
 [Service]
-ExecStart=/home/buster/projects/acme/target/acme
+ExecStart=/usr/local/bin/acme
 Environment="SERVER_PORT=8081"
 Type=simple
-#Restart=always
-
 
 [Install]
 WantedBy=default.target
