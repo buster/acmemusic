@@ -76,8 +76,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort) {
-            return new ScoreBoardAdministrationService(userScoreBoardPort);
+        public ScoreBoardAdministrationUsecase scoreBoardAdministrationUsecase(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+            return new ScoreBoardAdministrationService(userScoreBoardPort, scoreboardEventPublisher);
         }
 
         @Bean
@@ -101,8 +101,8 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public ScoreboardEventPublisher scoreboardEventPublisher(AuszeichnungFürNeueTopScorer auszeichnungFürNeueTopScorer) {
-            return new ScoreboardMusicplayerEventPublisherStub(auszeichnungFürNeueTopScorer);
+        public ScoreboardEventPublisher scoreboardEventPublisher() {
+            return new ScoreboardMusicplayerEventPublisherStub();
         }
 
         @Bean
