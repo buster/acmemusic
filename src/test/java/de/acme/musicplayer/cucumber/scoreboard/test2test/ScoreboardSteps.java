@@ -86,4 +86,15 @@ public class ScoreboardSteps {
                 .toList();
         scoreboardEventPublisher.removeEvents(events);
     }
+
+    @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
+    public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
+        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
+                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
+                        ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
+                )
+                .toList();
+        scoreboardEventPublisher.removeEvents(events);
+    }
 }
