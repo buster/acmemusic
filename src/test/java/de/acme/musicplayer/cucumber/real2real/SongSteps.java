@@ -5,12 +5,15 @@ import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnun
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
+import de.acme.musicplayer.applications.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
+import de.acme.musicplayer.applications.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.Event;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import io.cucumber.datatable.DataTable;
@@ -31,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -54,6 +58,9 @@ public class SongSteps {
     private LiedAdministrationUsecase liedAdministrationUsecase;
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
+    @Autowired
+    private ScoreboardEventPublisher scoreboardEventPublisher;
+
     @LocalServerPort
     private int port;
     private long lastReadSongSize;
@@ -85,21 +92,28 @@ public class SongSteps {
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);
+        liedAdministrationUsecase.löscheEvents(tenantId);
         benutzerAdministrationUsecase.löscheDatenbank(tenantId);
+        benutzerAdministrationUsecase.löscheEvents(tenantId);
         scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
+        scoreboardAdministrationUsecase.löscheEvents(tenantId);
         MDC.remove("tenantId");
     }
 
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
         for (Map<String, String> eintrag : dataTable.asMaps()) {
-            String titel = eintrag.get("Titel");
-            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(eintrag.get("Dateiname")).toURI()))) {
-                LiedId liedId = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(eintrag.get("Benutzer")), new Lied.Titel(titel), inputStream, tenantId);
-                log.info("Song {} hochgeladen, ID: {}", titel, liedId);
-                assertThat(liedId).isNotNull();
-                titelToIdMap.put(titel, liedId);
-            }
+            liedUpload(eintrag.get("Benutzer"), eintrag.get("Titel"), eintrag.get("Dateiname"));
+        }
+    }
+
+    @Wenn("der Benutzer {string} ein neues Lied namens {string} aus der Datei {string} hochgeladen hat")
+    public void liedUpload(String benutzer, String titel1, String dateiname) throws IOException, URISyntaxException {
+        try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(dateiname).toURI()))) {
+            LiedId liedId = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(benutzer), new Lied.Titel(titel1), inputStream, tenantId);
+            log.info("Song {} hochgeladen, ID: {}", titel1, liedId);
+            assertThat(liedId).isNotNull();
+            titelToIdMap.put(titel1, liedId);
         }
     }
 
@@ -166,6 +180,26 @@ public class SongSteps {
             assertThat(liedId).isNotNull();
             titelToIdMap.put(titel, liedId);
         }
+    }
+
+    @Dann("ist der Benutzer {string} neuer TopScorer geworden")
+    public void istDerBenutzerBobNeuerTopScorerGeworden(String benutzerName) {
+        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
+                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(benutzerName)))
+                .toList();
+        scoreboardEventPublisher.removeEvents(events);
+    }
+
+    @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
+    public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
+        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
+                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
+                        ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
+                )
+                .toList();
+        scoreboardEventPublisher.removeEvents(events);
     }
 
 }

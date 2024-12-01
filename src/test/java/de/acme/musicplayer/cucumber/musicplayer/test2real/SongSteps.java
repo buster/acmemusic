@@ -1,15 +1,9 @@
-package de.acme.musicplayer.cucumber.test2real;
+package de.acme.musicplayer.cucumber.musicplayer.test2real;
 
 import de.acme.musicplayer.applications.musicplayer.domain.model.Lied;
-import de.acme.musicplayer.applications.musicplayer.domain.model.LiedAuszeichnung;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.applications.musicplayer.usecases.LiedHochladenUsecase;
-import de.acme.musicplayer.applications.scoreboard.usecases.ScoreBoardAdministrationUsecase;
-import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
-import de.acme.musicplayer.applications.users.domain.model.Benutzer;
-import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
-import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
 import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
@@ -42,17 +36,11 @@ public class SongSteps {
     private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
     @Autowired
-    private BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
-    @Autowired
-    private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
-    @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
     @Autowired
     private LiedHochladenUsecase liedHochladenUseCase;
     @Autowired
     private LiedAbspielenUsecase liedAbspielenUsecase;
-    @Autowired
-    private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
 
     private long lastReadSongSize;
     private TenantId tenantId;
@@ -68,8 +56,6 @@ public class SongSteps {
     public void cleanDatabaseAfterScenario() {
         log.info("Clean database after scenario  {}", tenantId);
         liedAdministrationUsecase.löscheDatenbank(tenantId);
-        benutzerAdministrationUsecase.löscheDatenbank(tenantId);
-        scoreboardAdministrationUsecase.löscheDatenbank(tenantId);
         MDC.remove("tenantId");
     }
 
@@ -89,18 +75,14 @@ public class SongSteps {
     @Und("folgende Benutzer:")
     public void folgendeBenutzer(DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(benutzer.get("Name")), new Benutzer.Passwort(benutzer.get("Passwort")), new Benutzer.Email(benutzer.get("Email")), tenantId));
-            log.info("Benutzer {} registriert, ID: {}", benutzer.get("Name"), benutzerId);
-            assertThat(benutzerId).isNotNull();
-            benutzerToIdMap.put(benutzer.get("Name"), benutzerId);
+            benutzerToIdMap.put(benutzer.get("Name"), new BenutzerId(UUID.randomUUID().toString()));
         });
     }
 
 
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
-        benutzerToIdMap.put(username, benutzerId);
+        benutzerToIdMap.put(username, new BenutzerId(UUID.randomUUID().toString()));
     }
 
     @Dann("kennt der Service {int} Lied(er)")
@@ -108,10 +90,6 @@ public class SongSteps {
         assertThat(liedAdministrationUsecase.zähleLieder(tenantId)).isEqualTo(c);
     }
 
-    @Dann("kennt der Service {int} Benutzer")
-    public void kenntDerServiceBenutzer(int anzahl) {
-        assertThat(benutzerAdministrationUsecase.zähleBenutzer(tenantId)).isEqualTo(anzahl);
-    }
 
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
@@ -124,22 +102,6 @@ public class SongSteps {
     public void erhältDerBenutzerDenSongEpicSongMitMehrAlsMegabyteGröße(String titel, long size) {
         assertThat(lastReadSongSize).isGreaterThan(size);
     }
-
-    @Dann("erhält der Benutzer {string} die Auszeichnung {string}")
-    @Und("der Benutzer {string} erhält die Auszeichnung {string}")
-    public void erhältDerBenutzerAliceDieAuszeichnungTopUploader(String benutzer, String auszeichnung) {
-        BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
-        Benutzer benutzerEntity = benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
-        assertThat(benutzerEntity.getAuszeichnungen()).contains(Auszeichnung.valueOf(auszeichnung));
-    }
-
-    @Dann("erhält das Lied {string} die Auszeichnung {string}")
-    public void erhältDasLiedEpicSongDieAuszeichnungTopSong(String titel, String auszeichnung) {
-        LiedId liedId = titelToIdMap.get(titel);
-        Lied lied = liedAdministrationUsecase.leseLied(liedId, tenantId);
-        assertThat(lied.getAuszeichnungen()).contains(LiedAuszeichnung.valueOf(auszeichnung));
-    }
-
 
     @Und("der Benutzer {string} lädt das Lied mit dem Titel {string} aus der Datei {string} hoch")
     public void derBenutzerLädtDasLiedHoch(String benutzer, String titel, String datei) throws IOException, URISyntaxException {
