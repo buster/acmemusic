@@ -10,7 +10,6 @@ import de.acme.musicplayer.common.TenantId;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -69,7 +68,6 @@ public class MusicPlayerController {
     // HxRequest nicht, damit das Fragment auch im Browser sichtbar wird
     // @HxRequest
     @GetMapping("/songlist")
-    @RegisterReflectionForBinding(Lied.class)
     public HtmxResponse songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
         Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new BenutzerId(benutzerId));
         model.addAttribute("lieder", lieder);

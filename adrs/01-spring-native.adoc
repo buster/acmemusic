@@ -6,7 +6,7 @@ Startzeiten:
 Native: ~200ms JVM: ~2,6s
 
 Memory:
-Native: ~200MB JVM: ~280MB
+Native: ~200MB JVM: ~265MB
 
 == Optionen
 
@@ -14,15 +14,40 @@ Native: ~200MB JVM: ~280MB
 
 ==== Pros
 
+- funktioniert out of the box
+- keine runtime hints notwendig
+- keine speziellen Tests notwendig
+- keine "Überraschungen" zur Laufzeit
+- keine Probleme mit Dependencies
+
 ==== Cons
+
+- erhöhte Startzeit
 
 === Spring Native
 
 ==== Pros
 
+- wahnsinnig schneller Start
+
 ==== Cons
 
-- runtime hints
+- Proleme mit einigen Dependencies (z.B. Liquibase, wenn es denn im Artefakt benötigt wird)
+- sehr lange Buildzeiten
+- kaum Speicherersparnis nach dem Start (Laufzeit nicht ermittelt)
+- runtime hints notwendig, schon bei einer kleinen Applikation
 - Vor allem: Laufzeitfehler die weder beim Kompilieren noch beim Starten auftreten und bei denen die Tests (nicht native) durchliefen: siehe Lied.java/Controller in Commit d947acd84f811fa15ee8d6777807f617cb68b7c8
+- Lombok generation muss auch mit relativ neuem Java funktionieren
+- Tests müssen auch nativ ausgeführt werden, was wiederum noch mehr Dependencies in den nativen Pfad zieht und damit zu noch mehr Problemen:
+- `./mvnw -Pnative native:compile`
+- `./mvnw -PnativeTest test`
+- nativer Test führt ersteinmal nicht-nativen Test aus, bevor er den nativen Test ausführt?!
+- Tests liefen am Ende gar nicht erst (Junit discovery error…)
 
 == Entscheidung
+
+Spring Native ist nicht reif genug für den produktiven Einsatz.
+Es ist zu aufwändig, die Probleme zu lösen, die es mit sich bringt.
+Spring Native ist aktuell keine Option.
+
+Git Commit: "138 - document and remove Spring Native"
