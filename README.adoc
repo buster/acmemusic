@@ -41,8 +41,8 @@ Features:
 
 == Erkenntnisse/ADRs
 
-- xref:adrs/01-spring-native.adoc[Spring Native]
-- xref:adrs/02-testing-framework.adoc[Testing Framework]
+- xref:documentation/01-spring-native.adoc[Spring Native]
+- xref:documentation/02-testing-framework.adoc[Testing Framework]
 
 == Ideen
 
