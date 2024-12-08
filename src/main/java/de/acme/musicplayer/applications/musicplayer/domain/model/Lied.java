@@ -5,7 +5,6 @@ import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -16,7 +15,6 @@ public class Lied {
     private final BenutzerId besitzer;
     private final TenantId tenantId;
     private final LiedId liedId;
-    private Collection<LiedAuszeichnung> auszeichnungen;
 
     public Lied(LiedId liedId, Titel titel, BenutzerId besitzerId, TenantId tenantId) {
         this.liedId = liedId;
@@ -26,8 +24,7 @@ public class Lied {
     }
 
     public static Lied neuesLied(Titel titel, BenutzerId besitzer, TenantId tenantId) {
-        Lied lied = new Lied(new LiedId(UUID.randomUUID().toString()), titel, besitzer, tenantId);
-        return lied;
+        return new Lied(new LiedId(UUID.randomUUID().toString()), titel, besitzer, tenantId);
     }
 
     public LiedId getId() {
@@ -40,14 +37,6 @@ public class Lied {
 
     public BenutzerId getBesitzer() {
         return besitzer;
-    }
-
-    public Collection<LiedAuszeichnung> getAuszeichnungen() {
-        return auszeichnungen;
-    }
-
-    public void setAuszeichnungen(Collection<LiedAuszeichnung> auszeichnungen) {
-        this.auszeichnungen = auszeichnungen;
     }
 
     public TenantId getTenantId() {

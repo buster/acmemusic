@@ -79,12 +79,6 @@ public class SongSteps {
         });
     }
 
-
-    @Dann("kennt der Service {int} Lied(er)")
-    public void enthältDieDatenbankLied(int c) {
-        assertThat(liedAdministrationUsecase.zähleLieder(tenantId)).isEqualTo(c);
-    }
-
     @Wenn("der Benutzer {string} das Lied {string} abspielt")
     public void derBenutzerAliceDasLiedEpicSongAbspielt(String benutzer, String lied) throws IOException {
         try (InputStream inputStream = liedAbspielenUsecase.liedStreamen(titelToIdMap.get(lied), tenantId)) {

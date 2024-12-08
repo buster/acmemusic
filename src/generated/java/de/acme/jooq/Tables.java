@@ -8,7 +8,6 @@ import de.acme.jooq.tables.Benutzer;
 import de.acme.jooq.tables.BenutzerAuszeichnungen;
 import de.acme.jooq.tables.BenutzerScoreBoard;
 import de.acme.jooq.tables.Lied;
-import de.acme.jooq.tables.LiedAuszeichnungen;
 
 
 /**
@@ -36,9 +35,4 @@ public class Tables {
      * The table <code>public.lied</code>.
      */
     public static final Lied LIED = Lied.LIED;
-
-    /**
-     * The table <code>public.lied_auszeichnungen</code>.
-     */
-    public static final LiedAuszeichnungen LIED_AUSZEICHNUNGEN = LiedAuszeichnungen.LIED_AUSZEICHNUNGEN;
 }
