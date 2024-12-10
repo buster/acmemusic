@@ -11,6 +11,7 @@ import de.acme.musicplayer.applications.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.applications.users.domain.model.Benutzer;
 import de.acme.musicplayer.applications.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.applications.users.usecases.BenutzerRegistrierenUsecase;
+import de.acme.musicplayer.applications.users.usecases.UserEventDispatcher;
 import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.Event;
 import de.acme.musicplayer.common.LiedId;
@@ -59,6 +60,8 @@ public class SongSteps {
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @Autowired
     private ScoreboardEventPublisher scoreboardEventPublisher;
+    @Autowired
+    private UserEventDispatcher userEventDispatcher;
 
     @LocalServerPort
     private int port;
@@ -188,4 +191,20 @@ public class SongSteps {
         scoreboardEventPublisher.removeEvents(events);
     }
 
+    @Und("der Benutzer {string} erhält nicht die Auszeichnung {string}")
+    public void derBenutzerBobErhältNichtDieAuszeichnungMUSIC_LOVER_LOVER(String benutzer, String auszeichnung) {
+        Benutzer benutzerEntity = fetchBenutzer(benutzer);
+        assertThat(benutzerEntity.getAuszeichnungen()).doesNotContain(Auszeichnung.valueOf(auszeichnung));
+    }
+
+    @Wenn("der Benutzer {string} den Benutzer {string} als TopScorer abgelöst hat")
+    public void derBenutzerJohnDenBenutzerBobAlsTopScorerAbgelöstHat(String neuerTopscorer, String alterTopScorer) {
+        BenutzerIstNeuerTopScorer neuerTopScorer = new BenutzerIstNeuerTopScorer(benutzerToIdMap.get(neuerTopscorer), benutzerToIdMap.get(alterTopScorer), tenantId);
+        userEventDispatcher.handleEvent(neuerTopScorer);
+    }
+
+    private Benutzer fetchBenutzer(String benutzer) {
+        BenutzerId benutzerId = benutzerToIdMap.get(benutzer);
+        return benutzerAdministrationUsecase.leseBenutzer(benutzerId, tenantId);
+    }
 }
