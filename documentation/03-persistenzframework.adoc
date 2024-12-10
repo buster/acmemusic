@@ -1,0 +1,41 @@
+== Was soll entschieden werden?
+
+JPA/Hibernate, Spring Data JDBC oder JOOQ?
+
+=== Optionen
+
+==== JPA (Spring Data)
+
+===== Pros
+
+-
+
+===== Cons
+
+-
+
+==== Spring Data JDBC
+
+===== Pros
+
+-
+
+===== Cons
+
+-
+
+==== JOOQ
+
+===== Pros
+
+- kommerzieller Support
+- Generierung von Klassen aus der Datenbank oder Liquibase Schema statt manuellem Schreiben
+
+===== Cons
+
+- nur ein Entwickler?
+Aktiv, aber viele Projekte gleichzeitig?
+- relativ junges Projekt
+
+=== Entscheidung
+
