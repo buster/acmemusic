@@ -1,3 +1,5 @@
+NOTE: Abgeschlossen
+
 == Was soll entschieden werden?
 
 Spring Native oder JVM?
