@@ -15,3 +15,16 @@ Richtiger wäre es nur den (fachlich relevanten) Eingang und Ausgang des Systems
 image::componenttests.drawio.png[Komponententests,100%]
 
 INFO: ACME hat keinerlei typische Unittests, sondern Komponententests und eine sehr hohe Testabdeckung!
+
+=== Ports und Adapter Testing Entwicklungsablauf aus dem Buch
+
+image::testing-ports-and-adapters.png[Testing Ports and Adapters]
+
+=== Testing bei ACME
+
+Claims:
+
+- Real-to-Test hat geringen Mehrwert
+- Real-to-Real entspricht eher einem End-To-End Test, in einer event driven Architektur (da messbare Änderungen durch Eventverarbeitung in anderen Komponenten stattfinden)
+
+image::cucumber-component-test.drawio.png[Testing Ports and Adapters bei ACME]
