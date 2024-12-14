@@ -2,18 +2,18 @@ package de.acme.musicplayer.components.users.domain;
 
 import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.ports.BenutzerPort;
-import de.acme.musicplayer.components.users.ports.UserEventPublisher;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BenutzerAdministrationService implements BenutzerAdministrationUsecase {
 
     private final BenutzerPort benutzerPort;
-    private final UserEventPublisher userEventPublisher;
+    private final EventPublisher userEventPublisher;
 
-    public BenutzerAdministrationService(BenutzerPort benutzerPort, UserEventPublisher userEventPublisher) {
+    public BenutzerAdministrationService(BenutzerPort benutzerPort, EventPublisher userEventPublisher) {
         this.benutzerPort = benutzerPort;
         this.userEventPublisher = userEventPublisher;
     }
@@ -36,6 +36,6 @@ public class BenutzerAdministrationService implements BenutzerAdministrationUsec
 
     @Override
     public void löscheEvents(TenantId tenantId) {
-        userEventPublisher.removeEventsByTenantId(tenantId);
+        userEventPublisher.removeAllEventsFromOutboxByTenantId(tenantId);
     }
 }

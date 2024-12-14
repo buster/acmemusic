@@ -22,6 +22,6 @@ public class ScoreBoardAdministrationService implements ScoreBoardAdministration
 
     @Override
     public void löscheEvents(TenantId tenantId) {
-        eventPublisher.removeEventsByTenantId(tenantId);
+        eventPublisher.removeAllEventsFromOutboxByTenantId(tenantId);
     }
 }

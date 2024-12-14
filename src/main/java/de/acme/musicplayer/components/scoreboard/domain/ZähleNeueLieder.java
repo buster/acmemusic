@@ -1,9 +1,9 @@
 package de.acme.musicplayer.components.scoreboard.domain;
 
 import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
-import de.acme.musicplayer.components.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
 
     private final UserScoreBoardPort userScoreBoardPort;
-    private final ScoreboardEventPublisher scoreboardEventPublisher;
+    private final EventPublisher scoreboardEventPublisher;
 
-    public ZähleNeueLieder(UserScoreBoardPort userScoreBoardPort, ScoreboardEventPublisher scoreboardEventPublisher) {
+    public ZähleNeueLieder(UserScoreBoardPort userScoreBoardPort, EventPublisher scoreboardEventPublisher) {
         this.userScoreBoardPort = userScoreBoardPort;
         this.scoreboardEventPublisher = scoreboardEventPublisher;
     }
@@ -30,7 +30,8 @@ public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
 
         if (!neuerTopScorer.equals(aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
-            scoreboardEventPublisher.publishEvent(new BenutzerIstNeuerTopScorer(neuerTopScorer, aktuellerTopScorer, event.getTenant()));
+            BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer = new BenutzerIstNeuerTopScorer(neuerTopScorer, aktuellerTopScorer, event.getTenant());
+            scoreboardEventPublisher.publishEvent(benutzerIstNeuerTopScorer, event.getTenant());
         }
     }
 }

@@ -4,9 +4,9 @@ import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import de.acme.musicplayer.common.events.Event;
+import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
-import de.acme.musicplayer.components.scoreboard.ports.ScoreboardEventPublisher;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
 import io.cucumber.datatable.DataTable;
@@ -18,6 +18,7 @@ import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,8 @@ public class ScoreboardSteps {
     @Autowired
     private ZähleNeueLiederUsecase zähleNeueLiederUsecase;
     @Autowired
-    private ScoreboardEventPublisher scoreboardEventPublisher;
+    @Qualifier("scoreboardEventPublisher")
+    private EventPublisher scoreboardEventPublisher;
 
     private TenantId tenantId;
 
@@ -65,6 +67,7 @@ public class ScoreboardSteps {
             benutzerToIdMap.put(benutzer.get("Name"), benutzerId);
         });
     }
+
     @Wenn("der Benutzer {string} ein neues Lied namens {string} aus der Datei {string} hochgeladen hat")
     public void liedUploadMitTitelUndDatei(String benutzer, String titel, String datei) {
         liedUploadMitBenutzer(benutzer);
@@ -84,22 +87,22 @@ public class ScoreboardSteps {
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden")
     public void istDerBenutzerBobNeuerTopScorerGeworden(String benutzerName) {
-        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
                 .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
                 .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(benutzerName)))
                 .toList();
-        scoreboardEventPublisher.removeEvents(events);
+        scoreboardEventPublisher.removeEventsFromOutbox(events);
     }
 
     @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
     public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
-        List<Event> events = scoreboardEventPublisher.readEvents(Integer.MAX_VALUE).stream()
+        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
                 .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
                 .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
                         ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
                 )
                 .toList();
-        scoreboardEventPublisher.removeEvents(events);
+        scoreboardEventPublisher.removeEventsFromOutbox(events);
     }
 
 }
