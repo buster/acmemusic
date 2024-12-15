@@ -11,7 +11,6 @@ import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAdministrationUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedHochladenUsecase;
 import io.cucumber.spring.CucumberContextConfiguration;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -33,7 +32,7 @@ public class CucumberT2TConfiguration {
         }
 
         @Bean
-        public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort, @Qualifier("musicplayerEventPublisher") EventPublisher musicplayerEventPublisher) {
+        public LiedAdministrationUsecase liedAdministrationUsecase(LiedPort liedPort, EventPublisher musicplayerEventPublisher) {
             return new LiedAdministrationService(liedPort, musicplayerEventPublisher);
         }
 
@@ -42,7 +41,7 @@ public class CucumberT2TConfiguration {
             return new LiedHochladenService(liedPort, musicplayerEventPublisher);
         }
 
-        @Bean("musicplayerEventPublisher")
+        @Bean
         public EventPublisher musicplayereventPublisher() {
             return new MusicplayerEventPublisherFake();
         }

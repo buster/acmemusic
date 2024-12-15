@@ -4,6 +4,7 @@ import de.acme.musicplayer.common.BenutzerId;
 import de.acme.musicplayer.common.LiedId;
 import de.acme.musicplayer.common.TenantId;
 import de.acme.musicplayer.common.events.Event;
+import de.acme.musicplayer.common.events.EventDispatcher;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
@@ -15,7 +16,6 @@ import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.components.users.usecases.BenutzerRegistrierenUsecase;
-import de.acme.musicplayer.components.users.usecases.UserEventDispatcher;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -62,10 +62,10 @@ public class SongSteps {
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @Autowired
-    @Qualifier("scoreboardEventPublisher")
     private EventPublisher scoreboardEventPublisher;
     @Autowired
-    private UserEventDispatcher userEventDispatcher;
+    @Qualifier("userEventDispatcher")
+    private EventDispatcher userEventDispatcher;
 
     @LocalServerPort
     private int port;
