@@ -6,7 +6,7 @@ spring:
   #    enabled: true
   datasource:
     hikari:
-      maximum-pool-size: 80
+      maximum-pool-size: 5
     url: jdbc:postgresql://localhost:5432/acmedb
     username: acme
     password: acme
