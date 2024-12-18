@@ -7,8 +7,8 @@ import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedHochladenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiederAuflistenUsecase;
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxReselect;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -48,12 +48,12 @@ public class MusicPlayerController {
 
     @HxRequest
     @PostMapping("/uploadSong")
-    public HtmxResponse uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, @CookieValue(value = "tenantId") String tenantId) throws IOException {
+    public String uploadSong(Model model, @CookieValue(name = "userId") String userId, String titel, @RequestParam("file") MultipartFile file, @CookieValue(value = "tenantId") String tenantId) throws IOException {
         LiedId liedId = liedHochladenUseCase.liedHochladen(new BenutzerId(userId), new Lied.Titel(titel), file.getInputStream(), new TenantId(tenantId));
         model.addAttribute("titel", titel);
         model.addAttribute("file", file.getOriginalFilename());
         model.addAttribute("songId", liedId.id());
-        return HtmxResponse.builder().view("htmx-responses/song-upload-successfull-toast.html").build();
+        return "htmx-responses/song-upload-successfull-toast.html";
     }
 
     @HxRequest
@@ -63,16 +63,13 @@ public class MusicPlayerController {
     }
 
     // HxRequest nicht, damit das Fragment auch im Browser sichtbar wird
-    // @HxRequest
+    @HxReselect("#songlist-content")
     @GetMapping("/songlist")
-    public HtmxResponse songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
+    public String songList(Model model, @CookieValue(value = "tenantId") String tenantId, @CookieValue(value = "userId") String benutzerId) {
         Collection<Lied> lieder = liederAuflistenUseCase.liederAuflisten(new TenantId(tenantId), new BenutzerId(benutzerId));
         model.addAttribute("lieder", lieder);
         model.addAttribute("userId", benutzerId);
         model.addAttribute("tenantId", tenantId);
-        return HtmxResponse.builder()
-                .view("htmx-responses/songlist.html")
-                .reselect("#songlist-content")
-                .build();
+        return "htmx-responses/songlist.html";
     }
 }
