@@ -1,7 +1,7 @@
 package de.acme.musicplayer.components.scoreboard.adapters.jdbc.userscoreboard;
 
-import de.acme.musicplayer.common.BenutzerId;
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.BenutzerId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import org.apache.commons.lang3.tuple.MutablePair;
 

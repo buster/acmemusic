@@ -1,6 +1,6 @@
 package de.acme.musicplayer.components.users.domain;
 
-import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.ports.BenutzerPort;
 import de.acme.musicplayer.components.users.usecases.BenutzerRegistrierenUsecase;

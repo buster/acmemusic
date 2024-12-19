@@ -1,6 +1,6 @@
 package de.acme.musicplayer.components.scoreboard.adapters.events;
 
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventPublisher;
 

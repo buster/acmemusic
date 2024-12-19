@@ -1,6 +1,6 @@
 package de.acme.musicplayer.components.musicplayer.domain;
 
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.ports.LiedPort;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAdministrationUsecase;

@@ -2,8 +2,8 @@ package de.acme.musicplayer.components.users.adapters.jdbc.benutzer;
 
 import de.acme.jooq.tables.records.BenutzerAuszeichnungenRecord;
 import de.acme.jooq.tables.records.BenutzerRecord;
-import de.acme.musicplayer.common.BenutzerId;
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.BenutzerId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.ports.BenutzerPort;
@@ -39,7 +39,7 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public long zaehleBenutzer(TenantId tenantId) {
-        return  dslContext.fetchCount(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value())));
+        return dslContext.fetchCount(BENUTZER.where(BENUTZER.TENANT.eq(tenantId.value())));
     }
 
     @Override

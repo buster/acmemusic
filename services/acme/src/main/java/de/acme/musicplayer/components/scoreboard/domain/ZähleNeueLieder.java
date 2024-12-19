@@ -1,6 +1,6 @@
 package de.acme.musicplayer.components.scoreboard.domain;
 
-import de.acme.musicplayer.common.BenutzerId;
+import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;

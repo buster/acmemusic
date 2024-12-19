@@ -1,6 +1,6 @@
 @AppModule(
         name = "Scoreboard",
-        allowedDependencies = {"Musicplayer", "Events", "Users"},
+        allowedDependencies = {"Musicplayer", "Events", "Users", "CommonAPI"},
         exposedPackages = {"de.acme.musicplayer.components.scoreboard.usecases",
                 "de.acme.musicplayer.components.scoreboard.domain.events",
         }

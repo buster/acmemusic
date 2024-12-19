@@ -1,8 +1,8 @@
 package de.acme.musicplayer.componenttests.real2real;
 
-import de.acme.musicplayer.common.BenutzerId;
-import de.acme.musicplayer.common.LiedId;
-import de.acme.musicplayer.common.TenantId;
+import de.acme.musicplayer.common.api.BenutzerId;
+import de.acme.musicplayer.common.api.LiedId;
+import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventDispatcher;
 import de.acme.musicplayer.common.events.EventPublisher;
