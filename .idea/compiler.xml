@@ -11,6 +11,7 @@
         <module name="acme (1) (de.acme)" />
         <module name="archunit-support" />
         <module name="events" />
+        <module name="jacocoreport" />
         <module name="acme" />
       </profile>
     </annotationProcessing>
