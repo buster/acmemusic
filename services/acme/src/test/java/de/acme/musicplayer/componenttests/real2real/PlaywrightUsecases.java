@@ -1,5 +1,7 @@
 package de.acme.musicplayer.componenttests.real2real;
 
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.FileChooser;
 import com.microsoft.playwright.JSHandle;
@@ -13,9 +15,13 @@ import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.musicplayer.domain.model.Lied;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedAbspielenUsecase;
 import de.acme.musicplayer.components.musicplayer.usecases.LiedHochladenUsecase;
+import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
+import de.acme.musicplayer.components.users.domain.model.Benutzer;
+import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
 import de.acme.musicplayer.components.users.usecases.BenutzerRegistrierenUsecase;
 import io.cucumber.spring.ScenarioScope;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +29,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.awaitility.Awaitility.await;
@@ -30,7 +37,10 @@ import static org.awaitility.Awaitility.await;
 @Component
 @ScenarioScope
 @Slf4j
-public class PlaywrightUsecases implements BenutzerRegistrierenUsecase, LiedAbspielenUsecase, LiedHochladenUsecase {
+public class PlaywrightUsecases implements BenutzerRegistrierenUsecase,
+        LiedAbspielenUsecase,
+        LiedHochladenUsecase,
+        BenutzerAdministrationUsecase {
 
     private final BrowserContextComponent browserContextComponent;
     @Setter
@@ -95,5 +105,48 @@ public class PlaywrightUsecases implements BenutzerRegistrierenUsecase, LiedAbsp
         userId.setDomain("localhost");
         userId.setPath("/");
         browserContextComponent.getBrowserContext().addCookies(List.of(userId));
+    }
+
+    @Override
+    public long zähleBenutzer(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        String userCount = page.getByTestId("userCount").textContent();
+        return Long.parseLong(userCount);
+    }
+
+    @Override
+    public void löscheDatenbank(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-user-database");
+        assertThat(page.getByTestId("adminpage-return")).containsText("Benutzerdatenbank gelöscht");
+    }
+
+    @SneakyThrows
+    @Override
+    public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.getByTestId("benutzerId").fill(benutzerId.Id());
+        page.click("#read-user");
+        assertThat(page.getByTestId("adminpage-return")).containsText("{");
+        String userStringAsJson = page.getByTestId("adminpage-return").textContent();
+        Object document = Configuration.defaultConfiguration().jsonProvider().parse(userStringAsJson);
+        Benutzer benutzer = new Benutzer(new Benutzer.Name(JsonPath.read(document, "$.name.benutzername")),
+                new Benutzer.Passwort(JsonPath.read(document, "$.passwort.passwort")),
+                new Benutzer.Email(JsonPath.read(document, "$.email.email")));
+        List<String> auszeichnungenAsString = JsonPath.read(document, "$.auszeichnungen");
+        benutzer.setAuszeichnungen(auszeichnungenAsString.stream().map(Auszeichnung::valueOf).collect(Collectors.toSet()));
+        benutzer.setId(new BenutzerId(JsonPath.read(document, "$.id.Id")));
+        return benutzer;
+    }
+
+    @Override
+    public void löscheEvents(TenantId tenantId) {
+        Page page = browserContextComponent.getCurrentPage();
+        page.click("#nav-link-adminpage");
+        page.click("#delete-user-events");
+        assertThat(page.getByTestId("adminpage-return")).containsText("BenutzerEvents gelöscht");
     }
 }

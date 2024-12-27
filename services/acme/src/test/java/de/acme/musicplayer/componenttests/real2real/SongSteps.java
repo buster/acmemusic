@@ -49,14 +49,14 @@ public class SongSteps {
     private final Map<String, LiedId> titelToIdMap = new HashMap<>();
     private final Map<String, BenutzerId> benutzerToIdMap = new HashMap<>();
     // SPECIAL Casing for Real 2 Real Test
-    // Playsright based End To End Usecases
+    // Playright based End To End Usecases
     private final BenutzerRegistrierenUsecase benutzerRegistrierenUsecase;
     private final PlaywrightUsecases playwriteUsecases;
     private final LiedAbspielenUsecase liedAbspielenUsecase;
     private final LiedHochladenUsecase liedHochladenUseCase;
+    private final BenutzerAdministrationUsecase benutzerAdministrationUsecase;
     //
-    @Autowired
-    private BenutzerAdministrationUsecase benutzerAdministrationUsecase;
+//    @Autowired
     @Autowired
     private LiedAdministrationUsecase liedAdministrationUsecase;
     @Autowired
@@ -77,6 +77,7 @@ public class SongSteps {
         this.playwriteUsecases = playwrightUsecases;
         this.liedAbspielenUsecase = playwrightUsecases;
         this.liedHochladenUseCase = playwrightUsecases;
+        this.benutzerAdministrationUsecase = playwrightUsecases;
     }
 
     @Before

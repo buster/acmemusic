@@ -9,10 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="common-api" />
         <module name="acme (1) (de.acme)" />
+        <module name="acme (1)" />
         <module name="archunit-support" />
-        <module name="events" />
         <module name="jacocoreport" />
-        <module name="acme" />
+        <module name="events" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21">
@@ -21,7 +21,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="acme" options="-parameters" />
+      <module name="acme" options="" />
+      <module name="acme (1)" options="-parameters" />
       <module name="acme (1) (de.acme)" options="-parameters" />
     </option>
   </component>
