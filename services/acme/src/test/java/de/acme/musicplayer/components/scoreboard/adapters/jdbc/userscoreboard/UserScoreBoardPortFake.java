@@ -3,6 +3,7 @@ package de.acme.musicplayer.components.scoreboard.adapters.jdbc.userscoreboard;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
+import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.Map;
@@ -27,7 +28,8 @@ public class UserScoreBoardPortFake implements UserScoreBoardPort {
     }
 
     @Override
-    public BenutzerId höchstePunktZahl(TenantId tenantId) {
+    @Nullable
+    public BenutzerId findeBenutzerMitHöchsterPunktZahl(TenantId tenantId) {
         return scoreBoard.entrySet().stream()
                 .filter(entry -> entry.getKey().getRight().equals(tenantId))
                 .max(comparingInt(Map.Entry::getValue))

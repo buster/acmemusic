@@ -5,6 +5,7 @@ import de.acme.musicplayer.common.api.BenutzerId;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -17,10 +18,17 @@ public class Benutzer {
     private Set<Auszeichnung> auszeichnungen = new HashSet<>();
 
     public Benutzer(Name name, Passwort passwort, Email email) {
+        this.benutzerId = new BenutzerId(UUID.randomUUID().toString());
         this.name = name;
         this.passwort = passwort;
         this.email = email;
-//        this.id = new Id(email.email);
+    }
+
+    public Benutzer(BenutzerId id, Name name, Passwort passwort, Email email) {
+        this.benutzerId = id;
+        this.name = name;
+        this.passwort = passwort;
+        this.email = email;
     }
 
     public Name getName() {

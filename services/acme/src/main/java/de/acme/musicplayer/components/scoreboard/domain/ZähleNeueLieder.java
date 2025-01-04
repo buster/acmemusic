@@ -24,11 +24,11 @@ public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
     @Transactional
     public void zähleNeueAngelegteLieder(NeuesLiedWurdeAngelegt event) {
         log.info("Received event: {}", event);
-        BenutzerId aktuellerTopScorer = userScoreBoardPort.höchstePunktZahl(event.getTenant());
+        BenutzerId aktuellerTopScorer = userScoreBoardPort.findeBenutzerMitHöchsterPunktZahl(event.getTenant());
         userScoreBoardPort.zähleNeuesLied(event.besitzerId(), event.getTenant());
-        BenutzerId neuerTopScorer = userScoreBoardPort.höchstePunktZahl(event.getTenant());
+        BenutzerId neuerTopScorer = userScoreBoardPort.findeBenutzerMitHöchsterPunktZahl(event.getTenant());
 
-        if (!neuerTopScorer.equals(aktuellerTopScorer)) {
+        if (neuerTopScorer != null && !neuerTopScorer.equals(aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
             BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer = new BenutzerIstNeuerTopScorer(neuerTopScorer, aktuellerTopScorer, event.getTenant());
             scoreboardEventPublisher.publishEvent(benutzerIstNeuerTopScorer, event.getTenant());

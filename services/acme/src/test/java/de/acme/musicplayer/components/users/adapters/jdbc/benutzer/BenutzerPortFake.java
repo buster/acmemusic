@@ -4,11 +4,11 @@ import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.ports.BenutzerPort;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BenutzerPortFake implements BenutzerPort {
@@ -17,9 +17,7 @@ public class BenutzerPortFake implements BenutzerPort {
 
     @Override
     public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
-        BenutzerId benutzerId = new BenutzerId(UUID.randomUUID().toString());
-        benutzer.setId(benutzerId);
-        benutzerList.put(new ImmutablePair<>(benutzerId, tenantId), benutzer);
+        benutzerList.put(new ImmutablePair<>(benutzer.getId(), tenantId), benutzer);
         return benutzer.getId();
     }
 
@@ -39,6 +37,7 @@ public class BenutzerPortFake implements BenutzerPort {
         }
     }
 
+    @SneakyThrows
     @Override
     public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
         for (Pair<BenutzerId, TenantId> stringTenantIdPair : benutzerList.keySet()) {
@@ -46,7 +45,7 @@ public class BenutzerPortFake implements BenutzerPort {
                 return benutzerList.get(stringTenantIdPair);
             }
         }
-        return null;
+        throw new IllegalAccessException("Benutzer nicht vorhanden");
     }
 
     @Override

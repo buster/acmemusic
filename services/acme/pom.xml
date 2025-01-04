@@ -29,6 +29,7 @@
     <properties>
         <java.version>21</java.version>
         <maven.compiler.proc>full</maven.compiler.proc>
+        <error-prone.version>2.36.0</error-prone.version>
     </properties>
     <dependencies>
         <dependency>
@@ -231,8 +232,42 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.13.0</version>
                     <configuration>
+                        <!--                        <fork>true</fork>-->
                         <source>21</source>
                         <target>21</target>
+                        <encoding>UTF-8</encoding>
+                        <compilerArgs>
+                            <arg>-XDcompilePolicy=simple</arg>
+                            <arg>--should-stop=ifError=FLOW</arg>
+                            <arg>-Xplugin:ErrorProne \
+                                -XepOpt:NullAway:AnnotatedPackages=de.acme \
+                                -XepOpt:NullAway:UnannotatedSubPackages=de.acme.jooq \
+                                <!--                                -Xep:NullAway:ERROR \-->
+                                -Xep:UnicodeInCode:OFF
+                            </arg>
+                        </compilerArgs>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>com.google.errorprone</groupId>
+                                <artifactId>error_prone_core</artifactId>
+                                <version>${error-prone.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>1.18.36</version>
+                            </path>
+                            <path>
+                                <groupId>com.uber.nullaway</groupId>
+                                <artifactId>nullaway</artifactId>
+                                <version>0.12.2</version>
+                            </path>
+                            <!-- Other annotation processors go here.
+
+                            If 'annotationProcessorPaths' is set, processors will no longer be
+                            discovered on the regular -classpath; see also 'Using Error Prone
+                            together with other annotation processors' below. -->
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 <plugin>

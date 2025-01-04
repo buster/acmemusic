@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -43,7 +44,7 @@ public class SongSteps {
     private LiedAbspielenUsecase liedAbspielenUsecase;
 
     private long lastReadSongSize;
-    private TenantId tenantId;
+    private TenantId tenantId = new TenantId(UUID.randomUUID().toString());
 
     @Before
     public void generateTenantId() {
@@ -62,9 +63,12 @@ public class SongSteps {
     @Gegebenseien("folgende Songs:")
     public void folgendeSongs(DataTable dataTable) throws URISyntaxException, IOException {
         for (Map<String, String> eintrag : dataTable.asMaps()) {
-            String titel = eintrag.get("Titel");
-            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(eintrag.get("Dateiname")).toURI()))) {
-                LiedId liedId = liedHochladenUseCase.liedHochladen(benutzerToIdMap.get(eintrag.get("Benutzer")), new Lied.Titel(titel), inputStream, tenantId);
+            String titel = checkNotNull(eintrag.get("Titel"));
+            String benutzer = checkNotNull(eintrag.get("Benutzer"));
+            String dateiname = checkNotNull(eintrag.get("Dateiname"));
+            try (InputStream inputStream = new FileInputStream(new File(ClassLoader.getSystemResource(dateiname).toURI()))) {
+                BenutzerId benutzerId = checkNotNull(benutzerToIdMap.get(benutzer));
+                LiedId liedId = liedHochladenUseCase.liedHochladen(benutzerId, new Lied.Titel(titel), inputStream, tenantId);
                 log.info("Song {} hochgeladen, ID: {}", titel, liedId);
                 assertThat(liedId).isNotNull();
                 titelToIdMap.put(titel, liedId);

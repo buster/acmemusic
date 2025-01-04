@@ -11,7 +11,6 @@ import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -30,11 +29,10 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
-        BenutzerId benutzerId = new BenutzerId(UUID.randomUUID().toString());
         dslContext.insertInto(BENUTZER, BENUTZER.ID, BENUTZER.NAME, BENUTZER.PASSWORT, BENUTZER.EMAIL, BENUTZER.TENANT)
-                .values(benutzerId.Id(), benutzer.getName().benutzername, benutzer.getPasswort().passwort, benutzer.getEmail().email, tenantId.value())
+                .values(benutzer.getId().Id(), benutzer.getName().benutzername, benutzer.getPasswort().passwort, benutzer.getEmail().email, tenantId.value())
                 .execute();
-        return benutzerId;
+        return benutzer.getId();
     }
 
     @Override
@@ -53,13 +51,13 @@ public class BenutzerRepository implements BenutzerPort {
         BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.Id())
                         .and(BENUTZER.TENANT.eq(tenantId.value()))))
                 .fetchOne();
-        checkState(benutzerRecord != null, "Benutzer {} in tenant {} nicht gefunden", benutzerId, tenantId);
+        checkState(benutzerRecord != null, "Benutzer %s in tenant %s nicht gefunden", benutzerId, tenantId);
 
         Benutzer benutzer = new Benutzer(
+                new BenutzerId(benutzerRecord.getId()),
                 new Benutzer.Name(benutzerRecord.getName()),
                 new Benutzer.Passwort(benutzerRecord.getPasswort()),
                 new Benutzer.Email(benutzerRecord.getEmail()));
-        benutzer.setId(new BenutzerId(benutzerRecord.getId()));
 
         Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzerId.Id())
                 .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenantId.value())))).fetch();
@@ -87,7 +85,7 @@ public class BenutzerRepository implements BenutzerPort {
                 .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort)
                 .set(BENUTZER.EMAIL, benutzer.getEmail().email)
                 .execute();
-        checkState(updatedRecords == 1, "Benutzer {} in tenant {}  nicht gefunden", benutzer.getId(), tenant);
+        checkState(updatedRecords == 1, "Benutzer %s in tenant %s  nicht gefunden", benutzer.getId(), tenant);
 
         for (Auszeichnung auszeichnung : benutzer.getAuszeichnungen()) {
             dslContext.insertInto(BENUTZER_AUSZEICHNUNGEN)

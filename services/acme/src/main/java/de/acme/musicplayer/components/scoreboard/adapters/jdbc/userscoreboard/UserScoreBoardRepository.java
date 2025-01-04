@@ -3,6 +3,7 @@ package de.acme.musicplayer.components.scoreboard.adapters.jdbc.userscoreboard;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
+import jakarta.annotation.Nullable;
 import org.jooq.Record1;
 import org.jooq.impl.DefaultDSLContext;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     }
 
     @Override
-    public BenutzerId höchstePunktZahl(TenantId tenantId) {
+    public @Nullable BenutzerId findeBenutzerMitHöchsterPunktZahl(TenantId tenantId) {
         Record1<String> one = dslContext.select(BENUTZER_SCORE_BOARD.BENUTZERID)
                 .from(BENUTZER_SCORE_BOARD)
                 .where(BENUTZER_SCORE_BOARD.TENANT.eq(tenantId.value()))
