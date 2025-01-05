@@ -9,7 +9,7 @@ import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecas
 
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
-@AnalyzeClasses(packages = "de.acme.musicplayer.components.musicplayer", importOptions = ImportOption.DoNotIncludePackageInfos.class)
+@AnalyzeClasses(packages = "de.acme.musicplayer.components.musicplayer", importOptions = {ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludePackageInfos.class})
 public class MusicplayerArchTest {
 
     @ArchTest

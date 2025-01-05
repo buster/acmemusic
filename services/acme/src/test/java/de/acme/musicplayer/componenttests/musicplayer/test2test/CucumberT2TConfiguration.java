@@ -45,6 +45,5 @@ public class CucumberT2TConfiguration {
         public EventPublisher musicplayereventPublisher() {
             return new MusicplayerEventPublisherFake();
         }
-
     }
 }
