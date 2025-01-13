@@ -364,7 +364,7 @@
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
-                <version>3.19.16</version>
+                <version>3.19.17</version>
 
                 <executions>
                     <execution>
