@@ -273,7 +273,7 @@
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <version>4.30.0</version>
+                    <version>4.31.0</version>
                     <executions>
                         <execution>
                             <id>h2-liquibase</id>
@@ -351,7 +351,7 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>4.30.0</version>
+                <version>4.31.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
