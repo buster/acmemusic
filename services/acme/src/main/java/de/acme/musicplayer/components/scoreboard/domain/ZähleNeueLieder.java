@@ -9,6 +9,8 @@ import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecas
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Slf4j
 public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
 
@@ -24,14 +26,22 @@ public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
     @Transactional
     public void zähleNeueAngelegteLieder(NeuesLiedWurdeAngelegt event) {
         log.info("Received event: {}", event);
+        
         BenutzerId aktuellerTopScorer = userScoreBoardPort.findeBenutzerMitHöchsterPunktZahl(event.getTenant());
         userScoreBoardPort.zähleNeuesLied(event.besitzerId(), event.getTenant());
         BenutzerId neuerTopScorer = userScoreBoardPort.findeBenutzerMitHöchsterPunktZahl(event.getTenant());
-
-        if (neuerTopScorer != null && !neuerTopScorer.equals(aktuellerTopScorer)) {
+        
+        prüfeUndVeröffentlicheTopScorerÄnderung(aktuellerTopScorer, neuerTopScorer, event.getTenant());
+    }
+    
+    private void prüfeUndVeröffentlicheTopScorerÄnderung(BenutzerId aktuellerTopScorer, BenutzerId neuerTopScorer, 
+                                                        de.acme.musicplayer.common.api.TenantId tenant) {
+        if (neuerTopScorer != null && !Objects.equals(neuerTopScorer, aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
-            BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer = new BenutzerIstNeuerTopScorer(neuerTopScorer, aktuellerTopScorer, event.getTenant());
-            scoreboardEventPublisher.publishEvent(benutzerIstNeuerTopScorer, event.getTenant());
+            
+            BenutzerIstNeuerTopScorer event = new BenutzerIstNeuerTopScorer(
+                    neuerTopScorer, aktuellerTopScorer, tenant);
+            scoreboardEventPublisher.publishEvent(event, tenant);
         }
     }
 }
