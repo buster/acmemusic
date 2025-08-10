@@ -4,8 +4,8 @@ import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import jakarta.annotation.Nullable;
+import org.jooq.DSLContext;
 import org.jooq.Record1;
-import org.jooq.impl.DefaultDSLContext;
 import org.springframework.stereotype.Component;
 
 import static de.acme.jooq.tables.BenutzerScoreBoard.BENUTZER_SCORE_BOARD;
@@ -13,9 +13,9 @@ import static de.acme.jooq.tables.BenutzerScoreBoard.BENUTZER_SCORE_BOARD;
 @Component
 public class UserScoreBoardRepository implements UserScoreBoardPort {
 
-    private final DefaultDSLContext dslContext;
+    private final DSLContext dslContext;
 
-    public UserScoreBoardRepository(DefaultDSLContext dslContext) {
+    public UserScoreBoardRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
 
