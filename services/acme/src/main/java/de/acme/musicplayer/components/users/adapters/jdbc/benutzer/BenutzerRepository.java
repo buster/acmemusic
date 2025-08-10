@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkState;
+import java.util.Objects;
+
 import static de.acme.jooq.Tables.BENUTZER;
 import static de.acme.jooq.Tables.BENUTZER_AUSZEICHNUNGEN;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
@@ -51,7 +52,7 @@ public class BenutzerRepository implements BenutzerPort {
         BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.Id())
                         .and(BENUTZER.TENANT.eq(tenantId.value()))))
                 .fetchOne();
-        checkState(benutzerRecord != null, "Benutzer %s in tenant %s nicht gefunden", benutzerId, tenantId);
+        Objects.requireNonNull(benutzerRecord, "Benutzer " + benutzerId + " in tenant " + tenantId + " nicht gefunden");
 
         Benutzer benutzer = new Benutzer(
                 new BenutzerId(benutzerRecord.getId()),
@@ -78,14 +79,16 @@ public class BenutzerRepository implements BenutzerPort {
                 .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenant.value()))
                 .execute();
 
-        int updatedRecords = dslContext.update(BENUTZER
-                        .where(BENUTZER.ID.eq(benutzer.getId().Id())
-                                .and(BENUTZER.TENANT.eq(tenant.value()))))
+        int updatedRecords = dslContext.update(BENUTZER)
                 .set(BENUTZER.NAME, benutzer.getName().benutzername)
                 .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort)
                 .set(BENUTZER.EMAIL, benutzer.getEmail().email)
+                .where(BENUTZER.ID.eq(benutzer.getId().Id())
+                        .and(BENUTZER.TENANT.eq(tenant.value())))
                 .execute();
-        checkState(updatedRecords == 1, "Benutzer %s in tenant %s  nicht gefunden", benutzer.getId(), tenant);
+        if (updatedRecords != 1) {
+            throw new IllegalStateException("Benutzer " + benutzer.getId() + " in tenant " + tenant + " nicht gefunden");
+        }
 
         for (Auszeichnung auszeichnung : benutzer.getAuszeichnungen()) {
             dslContext.insertInto(BENUTZER_AUSZEICHNUNGEN)

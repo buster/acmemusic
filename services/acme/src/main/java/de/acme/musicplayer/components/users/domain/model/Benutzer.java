@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import java.util.Objects;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Benutzer {
@@ -63,7 +64,10 @@ public class Benutzer {
         public final String benutzername;
 
         public Name(String benutzername) {
-            checkArgument(isNotBlank(benutzername), "Benutzername darf nicht leer sein");
+            Objects.requireNonNull(benutzername, "Benutzername darf nicht null sein");
+            if (benutzername.isBlank()) {
+                throw new IllegalArgumentException("Benutzername darf nicht leer sein");
+            }
             this.benutzername = benutzername;
         }
     }
@@ -72,7 +76,10 @@ public class Benutzer {
         public final String passwort;
 
         public Passwort(String passwort) {
-            checkArgument(isNotBlank(passwort), "Passwort darf nicht leer sein");
+            Objects.requireNonNull(passwort, "Passwort darf nicht null sein");
+            if (passwort.isBlank()) {
+                throw new IllegalArgumentException("Passwort darf nicht leer sein");
+            }
             this.passwort = passwort;
         }
     }
