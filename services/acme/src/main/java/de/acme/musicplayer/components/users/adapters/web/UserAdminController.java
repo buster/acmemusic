@@ -23,28 +23,28 @@ public class UserAdminController {
 
     @HxRequest
     @GetMapping("/user-admin")
-    public String userAdmin(Model model, @CookieValue(value = "tenantId") String tenantId) {
+    public String userAdmin(Model model, @CookieValue(value = "tenantId", required = true) String tenantId) {
         model.addAttribute("userCount", benutzerAdministrationUsecase.zähleBenutzer(new TenantId(tenantId)));
         return "htmx-responses/user-admin.html";
     }
 
     @HxRequest
     @PostMapping("/delete-user-database")
-    public ResponseEntity<String> deleteUserDatabase(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteUserDatabase(@CookieValue(value = "tenantId", required = true) String tenantId) {
         benutzerAdministrationUsecase.löscheBenutzerDatenbank(new TenantId(tenantId));
         return ResponseEntity.ok("Benutzerdatenbank gelöscht");
     }
 
     @HxRequest
     @PostMapping("/delete-user-events")
-    public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId", required = true) String tenantId) {
         benutzerAdministrationUsecase.löscheBenutzerEvents(new TenantId(tenantId));
         return ResponseEntity.ok("BenutzerEvents gelöscht");
     }
 
     @HxRequest
     @PostMapping("/read-user")
-    public ResponseEntity<Benutzer> readUser(@CookieValue(value = "tenantId") String tenantId, @RequestParam("benutzerId") String benutzerId) {
+    public ResponseEntity<Benutzer> readUser(@CookieValue(value = "tenantId", required = true) String tenantId, @RequestParam("benutzerId") String benutzerId) {
         Benutzer benutzer = benutzerAdministrationUsecase.leseBenutzer(new BenutzerId(benutzerId), new TenantId(tenantId));
         return ResponseEntity.ok(benutzer);
     }

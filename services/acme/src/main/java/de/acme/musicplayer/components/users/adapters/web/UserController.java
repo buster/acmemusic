@@ -31,7 +31,7 @@ public class UserController {
 
     @HxRequest
     @PostMapping("/register-user")
-    public String registerUser(Model model, HttpServletResponse response, String username, String email, String password, @CookieValue(value = "tenantId") String tenantId) {
+    public String registerUser(Model model, HttpServletResponse response, String username, String email, String password, @CookieValue(value = "tenantId", required = true) String tenantId) {
         BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
                 new Benutzer.Name(username),
                 new Benutzer.Passwort(password),
