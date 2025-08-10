@@ -83,12 +83,12 @@ INSTRUCTION: Wiederhole den Prozess für die users Komponente.
 INSTRUCTION: Schließe die T2R-Migration mit der scoreboard Komponente ab.
 ```
 
-- [ ] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
-- [ ] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
-    - [ ] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
-- [ ] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
+- [x] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
+- [x] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
+    - [x] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
+- [x] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
 
-### Phase 5: E2E-Test-Implementierung
+### Phase 5: R2R-Test-Infrastruktur reparieren
 
 ```
 INSTRUCTION: Ersetze die R2R-Tests, nachdem alle T2R-Tests migriert sind.
