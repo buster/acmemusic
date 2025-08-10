@@ -1,5 +1,7 @@
 package de.acme.musicplayer.components.users.adapters.jdbc.benutzer;
 
+import de.acme.musicplayer.AbstractIntegrationTest;
+import de.acme.musicplayer.TestJooqConfiguration;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
@@ -8,15 +10,9 @@ import de.acme.musicplayer.components.users.ports.BenutzerPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Set;
 import java.util.UUID;
@@ -24,29 +20,12 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DataJpaTest
-@Import({BenutzerRepository.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(classes = {BenutzerRepository.class, TestJooqConfiguration.class})
 @TestPropertySource(properties = {
     "spring.liquibase.enabled=false",
-    "spring.jpa.hibernate.ddl-auto=create-drop",
-    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration"
+    "spring.jpa.hibernate.ddl-auto=create-drop"
 })
-@Testcontainers
-class BenutzerRepositoryIntegrationTest {
-
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
-            .withDatabaseName("testdb")
-            .withUsername("testuser")
-            .withPassword("testpass");
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
+class BenutzerRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private BenutzerPort benutzerPort;
