@@ -20,8 +20,8 @@ Die bestehende Teststrategie wird in drei klare Säulen gegliedert. Dieses Dokum
 
 ### Acceptance Criteria
 
-- [ ] AC1: Alle T2R-Tests der Komponenten `musicplayer`, `users`, und `scoreboard` sind durch fokussierte, wartungsarme Adapter-Integrationstests ersetzt.
-- [ ] AC2: Die zugehörigen `CucumberT2RConfiguration`-Klassen sind nach erfolgreicher Migration aus den Komponenten entfernt.
+- [x] AC1: Alle T2R-Tests der Komponenten `musicplayer`, `users`, und `scoreboard` sind durch fokussierte, wartungsarme Adapter-Integrationstests ersetzt.
+- [x] AC2: Die zugehörigen `CucumberT2RConfiguration`-Klassen sind nach erfolgreicher Migration aus den Komponenten entfernt.
 - [ ] AC3: Alle R2R-Tests sind durch stabile E2E-Tests ersetzt, die in einem neuen, dedizierten `e2e`-Maven-Modul leben.
 - [ ] AC4: Die neuen Tests laufen erfolgreich als Teil der CI/CD-Pipeline.
 - [ ] AC5: Die Code Coverage DARF NICHT geringer werden (Instruction-, Line- und Branch-Coverage jeweils ≥ Baseline; Baseline siehe Abschnitt "Test Coverage Baseline").
@@ -74,8 +74,8 @@ INSTRUCTION: Wiederhole den Prozess für die users Komponente.
 ```
 
 - [x] **Step 3.1**: Alle T2R-Tests der `users`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `BenutzerRepository`).
-- [ ] **Step 3.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
-    - [ ] `services/acme/src/test/java/de/acme/musicplayer/componenttests/users/test2real/`
+- [x] **Step 3.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
+    - [x] `services/acme/src/test/java/de/acme/musicplayer/componenttests/users/test2real/`
 - [x] **Step 3.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
 
 ### Phase 4: Umstellung der Komponente 'scoreboard'
@@ -84,10 +84,10 @@ INSTRUCTION: Wiederhole den Prozess für die users Komponente.
 INSTRUCTION: Schließe die T2R-Migration mit der scoreboard Komponente ab.
 ```
 
-- [ ] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
-- [ ] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
-    - [ ] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
-- [ ] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
+- [x] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
+- [x] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
+    - [x] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
+- [x] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
 
 ### Phase 5: R2R-Test-Infrastruktur reparieren
 
@@ -95,7 +95,7 @@ INSTRUCTION: Schließe die T2R-Migration mit der scoreboard Komponente ab.
 INSTRUCTION: Ersetze die R2R-Tests, nachdem alle T2R-Tests migriert sind.
 ```
 
-- [ ] **Step 5.1**: Ein dediziertes, separates Maven-Modul `e2e` erstellen.
+- [x] **Step 5.1**: Ein dediziertes, separates Maven-Modul `e2e` erstellen.
 - [ ] **Step 5.2**: Playwright-Abhängigkeiten und eine grundlegende Konfiguration in das neue `e2e`-Modul hinzufügen.
 - [ ] **Step 5.3**: Die alten R2R-Tests (`real2real`) analysieren und die abgedeckten Workflows identifizieren.
 - [ ] **Step 5.4**: Die identifizierten Workflows als neue E2E-Tests mit Playwright im `e2e`-Modul implementieren.
@@ -134,8 +134,8 @@ INSTRUCTION: Schließe das Refactoring ab.
 
 ### Current Status
 
-- **Current Phase**: Phase 3 - Users Component Migration
-- **Current Step**: Step 3.2
+- **Current Phase**: Phase 5 - R2R → E2E Migration
+- **Current Step**: Step 5.2
 - **Blockers**: None
 - **Questions**: None
 
@@ -160,9 +160,9 @@ INSTRUCTION: Schließe das Refactoring ab.
 |---------|-----------|----------|-------|
 | Phase 1 | ✅         | 45min    | Gemeinsame Test-Infrastruktur erfolgreich etabliert |
 | Phase 2 | ✅         | 1h 30min | Musicplayer-Komponente erfolgreich migriert |
-| Phase 3 | ⬜         | 1h 15min | Migration weitgehend abgeschlossen; Step 3.2 (Löschen test2real) steht noch aus |
-| Phase 4 | ⬜         | -        | -     |
-| Phase 5 | ⬜         | -        | -     |
+| Phase 3 | ✅         | 1h 25min | Users: test2real entfernt; mvn verify grün; Coverage-Baseline gehalten |
+| Phase 4 | ✅         | 20min    | Scoreboard: Adapter-IT vorhanden ([UserScoreBoardRepositoryIntegrationTest.java](services/acme/src/test/java/de/acme/musicplayer/components/scoreboard/adapters/jdbc/userscoreboard/UserScoreBoardRepositoryIntegrationTest.java)); keine test2real-Altlasten; Build grün |
+| Phase 5 | ⬜         | -        | Start mit neuem e2e-Modul (Playwright) |
 | Phase 6 | ⬜         | -        | -     |
 | Phase 7 | ⬜         | -        | (N/A) |
 
