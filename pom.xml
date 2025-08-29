@@ -14,6 +14,7 @@
         <module>libs/archunit-support</module>
         <module>libs/common-api</module>
         <module>jacocoreport</module>
+        <module>e2e</module>
     </modules>
     <properties>
     </properties>
