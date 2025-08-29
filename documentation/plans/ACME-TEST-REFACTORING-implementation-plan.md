@@ -24,6 +24,7 @@ Die bestehende Teststrategie wird in drei klare Säulen gegliedert. Dieses Dokum
 - [ ] AC2: Die zugehörigen `CucumberT2RConfiguration`-Klassen sind nach erfolgreicher Migration aus den Komponenten entfernt.
 - [ ] AC3: Alle R2R-Tests sind durch stabile E2E-Tests ersetzt, die in einem neuen, dedizierten `e2e`-Maven-Modul leben.
 - [ ] AC4: Die neuen Tests laufen erfolgreich als Teil der CI/CD-Pipeline.
+- [ ] AC5: Die Code Coverage DARF NICHT geringer werden (Instruction-, Line- und Branch-Coverage jeweils ≥ Baseline; Baseline siehe Abschnitt "Test Coverage Baseline").
 
 ## Technical Analysis
 
@@ -73,8 +74,8 @@ INSTRUCTION: Wiederhole den Prozess für die users Komponente.
 ```
 
 - [x] **Step 3.1**: Alle T2R-Tests der `users`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `BenutzerRepository`).
-- [x] **Step 3.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
-    - [x] `services/acme/src/test/java/de/acme/musicplayer/componenttests/users/test2real/`
+- [ ] **Step 3.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
+    - [ ] `services/acme/src/test/java/de/acme/musicplayer/componenttests/users/test2real/`
 - [x] **Step 3.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
 
 ### Phase 4: Umstellung der Komponente 'scoreboard'
@@ -83,10 +84,10 @@ INSTRUCTION: Wiederhole den Prozess für die users Komponente.
 INSTRUCTION: Schließe die T2R-Migration mit der scoreboard Komponente ab.
 ```
 
-- [x] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
-- [x] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
-    - [x] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
-- [x] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
+- [ ] **Step 4.1**: Alle T2R-Tests der `scoreboard`-Komponente schrittweise durch fokussierte Adapter-Integrationstests ersetzen (z.B. für `UserScoreBoardRepository`).
+- [ ] **Step 4.2**: Nachdem alle T2R-Tests der Komponente ersetzt wurden, die alte Test-Infrastruktur löschen:
+    - [ ] `services/acme/src/test/java/de/acme/musicplayer/componenttests/scoreboard/test2real/`
+- [ ] **Step 4.3**: Überprüfen, dass `mvn clean verify` für das Modul weiterhin erfolgreich ist.
 
 ### Phase 5: R2R-Test-Infrastruktur reparieren
 
@@ -114,12 +115,27 @@ INSTRUCTION: Schließe das Refactoring ab.
 
 *Bleiben unverändert zum vorherigen Plan.*
 
+### Test Coverage Baseline (Stand: 2025-08-29)
+
+- Quelle: JaCoCo Report unter [jacoco.csv](services/acme/target/site/jacoco/jacoco.csv)
+- Gesamtabdeckung (services/acme):
+  - Instruction: 83.37% (1512/1814)
+  - Branch: 73.33% (22/30)
+  - Line: 83.55% (345/413)
+- Testlauf: 65 Tests (0F/0E/0S), BUILD SUCCESS, Report: [index.html](services/acme/target/site/jacoco/index.html)
+
+### Coverage Policy (verbindlich)
+
+- Die Code Coverage DARF NICHT geringer werden während des Refactorings.
+- Gilt für Instruction-, Line- und Branch-Coverage (mindestens gleichbleibend, idealerweise steigend).
+- Quality Gate: Ein Schritt gilt erst als erledigt, wenn die Coverage mindestens dem obigen Baseline-Stand entspricht.
+
 ## Progress Tracking
 
 ### Current Status
 
-- **Current Phase**: Phase 4 - Scoreboard Component Migration
-- **Current Step**: Ready to start Step 4.1
+- **Current Phase**: Phase 3 - Users Component Migration
+- **Current Step**: Step 3.2
 - **Blockers**: None
 - **Questions**: None
 
@@ -128,7 +144,15 @@ INSTRUCTION: Schließe das Refactoring ab.
 - **Step**: 3.3
 - **Reason**: TenantId-Cookie-Validierungstests erwarten 4xx-Fehler, aber Controller implementieren diese Validierung nicht
 - **Proposed Change**: Tests wurden teilweise korrigiert (HTMX-Header-Tests, JSON-Serialisierung, Mockito-Argument-Matching), aber 3 TenantId-Cookie-Tests benötigen weitere Anpassung
-- **Impact**: Phase 3 ist funktional abgeschlossen, aber nicht alle Tests sind grün
+- **Impact**: GELÖST am 2025-08-29 – alle Tests grün; kein Folge-Impact
+- **Resolution**: Anpassungen umgesetzt; Verifikation via ./mvnw -pl services/acme -am clean verify (BUILD SUCCESS)
+
+### Coverage Status (aktuell)
+
+- Instruction: 83.37% (1512/1814)
+- Branch: 73.33% (22/30)
+- Line: 83.55% (345/413)
+- Report: [index.html](services/acme/target/site/jacoco/index.html)
 
 ### Completion Log
 
@@ -136,7 +160,7 @@ INSTRUCTION: Schließe das Refactoring ab.
 |---------|-----------|----------|-------|
 | Phase 1 | ✅         | 45min    | Gemeinsame Test-Infrastruktur erfolgreich etabliert |
 | Phase 2 | ✅         | 1h 30min | Musicplayer-Komponente erfolgreich migriert |
-| Phase 3 | ✅         | 1h 15min | Users-Komponente erfolgreich migriert - alle 45 Tests grün, BUILD SUCCESS |
+| Phase 3 | ⬜         | 1h 15min | Migration weitgehend abgeschlossen; Step 3.2 (Löschen test2real) steht noch aus |
 | Phase 4 | ⬜         | -        | -     |
 | Phase 5 | ⬜         | -        | -     |
 | Phase 6 | ⬜         | -        | -     |
