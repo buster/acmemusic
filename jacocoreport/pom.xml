@@ -38,6 +38,11 @@
             <artifactId>acme</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.acme</groupId>
+            <artifactId>e2e</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,7 +60,7 @@
                         </goals>
                         <configuration>
                             <dataFileIncludes>
-                                <dataFileInclude>**/jacoco.exec</dataFileInclude>
+                                <dataFileInclude>**/jacoco*.exec</dataFileInclude>
                             </dataFileIncludes>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
                         </configuration>
@@ -71,7 +76,7 @@
                                 <fileSet>
                                     <directory>${project.basedir}/../</directory>
                                     <includes>
-                                        <include>**/**/jacoco.exec</include>
+                                        <include>**/**/jacoco*.exec</include>
                                     </includes>
                                 </fileSet>
                             </fileSets>

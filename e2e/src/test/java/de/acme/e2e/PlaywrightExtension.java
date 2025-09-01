@@ -26,7 +26,7 @@ public final class PlaywrightExtension implements BeforeAllCallback, AfterAllCal
 
     private static void loadConfig() {
         baseUrl = System.getProperty("e2e.baseUrl",
-                System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8080"));
+                System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8081"));
         browserName = System.getProperty("e2e.browser",
                 System.getenv().getOrDefault("E2E_BROWSER", "firefox"));
         headless = Boolean.parseBoolean(System.getProperty("e2e.headless",
