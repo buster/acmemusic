@@ -1,18 +1,7 @@
 package de.acme.e2e;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
+import com.microsoft.playwright.*;
+import org.junit.jupiter.api.extension.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -84,18 +73,17 @@ public final class PlaywrightExtension implements BeforeAllCallback, AfterAllCal
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-        Class&#60;?&#62; type = parameterContext.getParameter().getType();
+        Class<?> type = parameterContext.getParameter().getType();
         if (type.equals(Page.class)) return true;
         if (type.equals(BrowserContext.class)) return true;
         if (type.equals(Browser.class)) return true;
         if (type.equals(Playwright.class)) return true;
-        if (type.equals(String.class) && parameterContext.isAnnotated(BaseUrl.class)) return true;
-        return false;
+        return type.equals(String.class) && parameterContext.isAnnotated(BaseUrl.class);
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        Class&#60;?&#62; type = parameterContext.getParameter().getType();
+        Class<?> type = parameterContext.getParameter().getType();
         if (type.equals(Page.class)) return page;
         if (type.equals(BrowserContext.class)) return context;
         if (type.equals(Browser.class)) return browser;
