@@ -101,6 +101,7 @@ Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide
 **Problem:** Wie können Tests am Ende komplexer fachlicher Prozesse geschrieben werden?
 
 **Ansätze in Evaluation:**
+
 . **Fachlich korrekte Testdatenbuilder**
    * ⚠️ Gefahr der Re-Implementierung der Businesslogik im Testcode
    * ✅ Wiederverwendung von Businesslogik möglich
@@ -128,30 +129,32 @@ image::acme-aufbau.drawio.png[ACME Systemaufbau,100%]
 === Test-Strategie Innovation
 **Besonderheit:** ACME hat keine klassischen Unit-Tests, sondern ausschließlich **Komponententests** mit sehr hoher Testabdeckung!
 
-image::documentation/cucumber-component-test.drawio.png[Component Testing Ansatz]
-
 Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
 
 === Technologie-Stack
 
 **Backend:**
-* Java 21
+
+* Java 21  
 * Spring Boot 3.x
 * JOOQ (statt JPA/Hibernate)
 * PostgreSQL
 * Liquibase
 
 **Testing:**
+
 * Cucumber (Component Tests)
 * JUnit 5 (Integration Tests)
 * Playwright (E2E Tests)
 
 **Frontend:**
+
 * HTMX
 * Halfmoon CSS
 * Server Sent Events (SSE)
 
 **Infrastructure:**
+
 * Docker & Docker Compose
 * Maven Multi-Module
 

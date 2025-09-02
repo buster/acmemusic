@@ -5,12 +5,14 @@ ACME implementiert eine experimentelle **Test-to-Test (T2T)** Strategie, die kla
 == T2T-Strategie Überblick
 
 **Traditionell vs. ACME:**
+
 * **Keine** klassischen Unit-Tests
 * **Cucumber Component-Tests** als Hauptstrategie  
 * **Fake Adapters** statt Mocking für Business Logic Isolation
 * **Tenant-Isolation** für parallele Tests
 
 **Erreichte Metriken:**
+
 * **>90% Code Coverage** ohne Unit-Tests
 * **Vollständige Cucumber Component-Tests** für alle Use Cases
 
@@ -91,8 +93,6 @@ public class FakeBenutzerRepository implements BenutzerRepository {
     }
 }
 ----
-
-image::cucumber-component-test.drawio.png[Testing Ports and Adapters bei ACME]
 
 == Integration Tests
 
