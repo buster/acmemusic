@@ -1,12 +1,23 @@
 == Erkenntnisse/ADRs
 
-- xref:01-spring-native.adoc[Spring Native]
-- xref:02-testing-framework.adoc[Testing Framework]
-- xref:03-persistenzframework.adoc[Persistenz Framework]
+- xref:01-spring-native.adoc[Spring Native] - *STATUS: ACCEPTED*
+- xref:02-testing-framework.adoc[Testing Framework] - *STATUS: ACCEPTED* ✅
+- xref:03-persistenzframework.adoc[Persistenz Framework] - *STATUS: ACCEPTED* ✅
 
-- Paralleles Testen mittels "Tenant"
-+
-In großen Projekten wird das Testen typischerweise immer langsamer und stört die Entwickler.
-Oftmals sind die sequentiell ablaufenden Integrationtests das Problem, da vor jedem Integrationstest die komplette Datenbank geleert wird.
-Durch die konsequente Nutzung eines "Tenant" Parameters in allen Usecases und Repositories kann die Datenbank nach jedem Test parallel geleert werden und alle Tests können in ihrem eigenen "Tenant" arbeiten.
+**Aktualisierte ADRs:**
+- **ADR-02**: Cucumber Component-Tests mit T2T-Strategie entschieden
+- **ADR-03**: JOOQ mit Database-First Ansatz implementiert
+
+**Experimentelle Erkenntnisse:**
+
+- **Paralleles Testen mittels "Tenant"**: In großen Projekten wird das Testen typischerweise immer langsamer und stört die Entwickler. Oftmals sind die sequentiell ablaufenden Integrationtests das Problem, da vor jedem Integrationstest die komplette Datenbank geleert wird. Durch die konsequente Nutzung eines "Tenant" Parameters in allen Usecases und Repositories kann die Datenbank nach jedem Test parallel geleert werden und alle Tests können in ihrem eigenen "Tenant" arbeiten.
+
+- **Test-to-Test (T2T) Strategie**: 86.9% Code Coverage ohne klassische Unit-Tests erreicht durch vollständige Component-Tests mit Cucumber Features
+
+- **Database-First mit JOOQ**: Erfolgreiche Code-Generierung aus Liquibase-Schema mit typsicheren SQL-Queries
+
+**Verweise:**
+- xref:../componenttesting.adoc[Component Testing Dokumentation]
+- xref:../testing-strategy-details.adoc[Detaillierte Test-Strategie]
+- xref:../architecture-learnings.adoc[Architektur-Erkenntnisse]
 

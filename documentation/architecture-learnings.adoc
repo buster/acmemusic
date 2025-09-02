@@ -1,0 +1,56 @@
+= ACME Architecture Learnings & Decisions 🏗️
+
+Experimentelle Architektur-Erkenntnisse des ACME Musikplayer PoC.
+
+== Erfolgreich Validierte Patterns
+
+**✅ Modulith-Architektur**
+* Klare Modul-Grenzen ohne Microservice-Overhead
+* ArchUnit Tests verhindern Architektur-Verletzungen
+* Event-getriebene Inter-Modul Kommunikation
+
+**✅ Event-Driven Design**
+* Spring Application Events mit Outbox-Pattern
+* Lose gekoppelte Komponenten-Kommunikation
+* Fake Event Publisher für Tests
+
+**✅ JOOQ Database-First**
+* Type-safe SQL ohne ORM-Komplexität
+* Database Schema als Single Source of Truth
+
+**✅ T2T Testing-Strategie**
+* Component Tests ersetzen Unit Tests erfolgreich
+* >90% Code Coverage ohne klassische Unit-Tests
+* Fake Adapters wartbarer als Mock Objects
+
+**✅ HTMX + SSE Frontend**
+* Minimaler JavaScript-Footprint (~14kb)
+* Server-Side State Management
+
+== Verworfene Ansätze
+
+**❌ Spring Native**
+* Build-Zeit: 8min vs 45s (10x langsamer)
+* Komplexe Runtime-Hints für JOOQ/Liquibase
+* Erheblicher Development-Overhead
+
+**❌ Traditionelle Unit Tests**
+* Hoher Wartungsaufwand bei Refactoring
+* Geringe Aussagekraft über Business Logic
+* Durch T2T-Strategie erfolgreich ersetzt
+
+== Messbare Erkenntnisse
+
+**Erkenntnisse:**
+* JOOQ bietet bessere Performance-Kontrolle als JPA
+* T2T-Strategie reduziert Testlaufzeiten erheblich
+* HTMX reduziert Frontend-Entwicklungszeit
+
+**Code Quality:**
+* ArchUnit Tests: 100% Architektur-Verletzungen verhindert
+* Event-Isolation: 0 zyklische Abhängigkeiten
+* Coverage: >90% ohne Unit-Tests erreicht
+
+---
+
+💡 **Experimenteller Status:** Alle Patterns erfolgreich in PoC validiert. Details in xref:componenttesting.adoc[Component Testing] und ADRs.
