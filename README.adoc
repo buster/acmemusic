@@ -10,10 +10,7 @@ Eine **Spielwiese für Architektur-Experimente** - ein minimal lauffähiger Prot
 *Warum ein Musikplayer?* Weil er genug fachliche Komplexität bietet, um realistische Architektur-Entscheidungen zu treffen, aber einfach genug bleibt, um sich auf die technischen Aspekte zu konzentrieren.
 
 **Experimenteller Rahmen:**
-* Minimal lauffähiger Prototyp mit etwas Funktionalität
-* Modulith mit 3 Komponenten (Users, Musicplayer, Scoreboard)
-* Labor für Architektur-Patterns und Testing-Strategien
-* Dokumentation von Erkenntnissen und gescheiterten Ansätzen
+* Minimal lauffähiger Prototyp mit etwas Funktionalität * Modulith mit 3 Komponenten (Users, Musicplayer, Scoreboard) * Labor für Architektur-Patterns und Testing-Strategien * Dokumentation von Erkenntnissen und gescheiterten Ansätzen
 
 == Evaluierte Architektur-Patterns ✅
 
@@ -30,8 +27,6 @@ Eine **Spielwiese für Architektur-Experimente** - ein minimal lauffähiger Prot
 === Verworfene Ansätze (mit Learnings):
 
 * **❌ Spring Native** - Zu unreif, siehe xref:documentation/ADRs/01-spring-native.adoc[ADR Spring Native]
-
-
 
 === Features
 
@@ -59,8 +54,8 @@ sdk install java 21.0.2-tem && sdk use java 21.0.2-tem
 ./mvnw clean test
 
 # Anwendung starten
-./mvnw docker-compose:up@run-docker
-./mvnw spring-boot:run
+./mvnw docker-compose:up@run-docker -pl services/acme
+./mvnw spring-boot:run -pl services/acme
 --
 
 Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide]
@@ -70,6 +65,7 @@ Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide
 === ✅ Abgeschlossene Experimente
 
 ==== Paralleles Testing durch Tenant-Isolation
+
 **Status:** Erfolgreich implementiert
 
 **Problem:** Langsame, sequentielle Integrationstests durch Datenbankreinigung
@@ -83,12 +79,11 @@ Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide
 . AfterAll: Löschen aller Testdaten anhand des Tenants
 
 ==== Modulith-Architektur
+
 **Status:** Erfolgreich validiert
 
 **Erkenntnisse:**
-* Test-zu-Test Kommunikation via Fake Events funktioniert ausgezeichnet
-* Klare Modul-Grenzen ohne Microservice-Overhead
-* ArchUnit verhindert unerlaubte Abhängigkeiten zwischen Modulen
+* Test-zu-Test Kommunikation via Fake Events funktioniert ausgezeichnet * Klare Modul-Grenzen ohne Microservice-Overhead * ArchUnit verhindert unerlaubte Abhängigkeiten zwischen Modulen
 
 .Überlegungen für Microservice-Migration:
 * Use Case-Rückgaben werden zu DTOs
@@ -98,24 +93,26 @@ Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide
 === ❓ Laufende Experimente
 
 ==== Testdaten in komplexen Fachprozessen
+
 **Problem:** Wie können Tests am Ende komplexer fachlicher Prozesse geschrieben werden?
 
 **Ansätze in Evaluation:**
 
 . **Fachlich korrekte Testdatenbuilder**
-   * ⚠️ Gefahr der Re-Implementierung der Businesslogik im Testcode
-   * ✅ Wiederverwendung von Businesslogik möglich
-   * ❌ Erzwingt Datenbankzugriff an Use Cases vorbei
+* ⚠️ Gefahr der Re-Implementierung der Businesslogik im Testcode
+* ✅ Wiederverwendung von Businesslogik möglich
+* ❌ Erzwingt Datenbankzugriff an Use Cases vorbei
 
 . **Snapshot/Backup-Restore für Szenarien**
-   * ✅ Szenario 1 laufen lassen → snapshotted → in Szenario 2 wiederverwenden
-   * ❌ Abhängigkeiten zwischen Szenarien entstehen
+* ✅ Szenario 1 laufen lassen → snapshotted → in Szenario 2 wiederverwenden
+* ❌ Abhängigkeiten zwischen Szenarien entstehen
 
 . **Prozessorientierte Testszenarien**
-   * Statt einzelner Features: komplette User-Journeys testen
-   * Beispiel: "User registriert sich → lädt MP3 hoch → spielt ab" in einem Szenario
+* Statt einzelner Features: komplette User-Journeys testen
+* Beispiel: "User registriert sich → lädt MP3 hoch → spielt ab" in einem Szenario
 
 ==== Ideen für zukünftige Experimente
+
 * **Commands Pattern** ❓
 * **Event-Bibliothek mit Inbox/Outbox Pattern** ❓
 * **Automatische Event-Dokumentation** ❓
@@ -124,9 +121,11 @@ Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide
 == Architektur & Design
 
 === System-Überblick
+
 image::acme-aufbau.drawio.png[ACME Systemaufbau,100%]
 
 === Test-Strategie Innovation
+
 **Besonderheit:** ACME hat keine klassischen Unit-Tests, sondern ausschließlich **Komponententests** mit sehr hoher Testabdeckung!
 
 Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
@@ -135,7 +134,7 @@ Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component 
 
 **Backend:**
 
-* Java 21  
+* Java 21
 * Spring Boot 3.x
 * JOOQ (statt JPA/Hibernate)
 * PostgreSQL
@@ -161,15 +160,21 @@ Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component 
 == Weitere Dokumentation
 
 === Architektur & Entscheidungen
+
 * xref:documentation/ADRs/adrs.adoc[📋 Architecture Decision Records (ADRs)]
 * xref:documentation/componenttesting.adoc[🧪 Component Testing Strategie]
 * xref:documentation/quickstart.adoc[🚀 Quickstart & Setup Guide]
 
 === Erkenntnisse aus Experimenten
+
 * xref:documentation/ADRs/01-spring-native.adoc[Spring Native Evaluation] - Warum wir es verworfen haben
-* xref:documentation/ADRs/02-testing-framework.adoc[Testing Framework Vergleich] - Cucumber vs. JUnit vs. Spock
-* xref:documentation/ADRs/03-persistenzframework.adoc[Persistenz-Framework Entscheidung] - JOOQ vs. JPA
+* xref:documentation/ADRs/02-testing-framework.adoc[Testing Framework Vergleich] - Cucumber vs.
+JUnit vs.
+Spock
+* xref:documentation/ADRs/03-persistenzframework.adoc[Persistenz-Framework Entscheidung] - JOOQ vs.
+JPA
 
 ---
 
-💡 **Für Entwickler:** Dieses Projekt ist bewusst als Experimentierfeld konzipiert. Erkenntnisse, gescheiterte Ansätze und Learnings sind genauso wertvoll wie funktionierende Lösungen!
+💡 **Für Entwickler:** Dieses Projekt ist bewusst als Experimentierfeld konzipiert.
+Erkenntnisse, gescheiterte Ansätze und Learnings sind genauso wertvoll wie funktionierende Lösungen!
