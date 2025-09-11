@@ -62,6 +62,8 @@ public final class PlaywrightExtension implements BeforeAllCallback, AfterAllCal
     public void beforeEach(ExtensionContext context) {
         this.context = browser.newContext(new Browser.NewContextOptions());
         this.page = this.context.newPage();
+        this.context.setDefaultTimeout(1000);
+        this.page.setDefaultTimeout(1000);
     }
 
     @Override
