@@ -20,10 +20,6 @@ public final class PlaywrightExtension implements BeforeAllCallback, AfterAllCal
     private BrowserContext context;
     private Page page;
 
-    public static String baseUrl() {
-        return baseUrl;
-    }
-
     private static void loadConfig() {
         baseUrl = System.getProperty("e2e.baseUrl",
                 System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8081"));

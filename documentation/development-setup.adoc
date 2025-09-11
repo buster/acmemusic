@@ -5,7 +5,7 @@ Experimentelles Architektur-Labor für erfahrene Entwickler.
 == Voraussetzungen
 
 * **Java 21** - JDK installiert und verfügbar
-* **Docker & Docker Compose** - für PostgreSQL Container  
+* **Docker & Docker Compose** - für PostgreSQL Container
 * **Maven** - über Wrapper `./mvnw` verfügbar
 
 == Quick Start
@@ -13,7 +13,7 @@ Experimentelles Architektur-Labor für erfahrene Entwickler.
 [source,bash]
 ----
 # Alles in einem: DB starten + Migration + Code Generation + Tests + App starten
-./mvnw clean test spring-boot:run
+./mvnw clean verify spring-boot:run
 ----
 
 **Anwendung läuft auf:** http://localhost:8080
@@ -31,7 +31,7 @@ Experimentelles Architektur-Labor für erfahrene Entwickler.
 ./mvnw test -Dtest="**/*ComponentTest"
 
 # 3. Coverage Report generieren
-./mvnw clean test jacoco:report
+./mvnw clean verify jacoco:report
 open jacocoreport/target/site/jacoco-aggregate/index.html
 ----
 
@@ -54,13 +54,13 @@ open jacocoreport/target/site/jacoco-aggregate/index.html
 [source,bash]
 ----
 # Gesamtes Projekt entwickeln
-./mvnw clean test
+./mvnw clean verify
 
 # Nur Hauptanwendung
-./mvnw -pl services/acme clean test
+./mvnw -pl services/acme clean verify
 
 # Mit Dependencies
-./mvnw -pl services/acme -am clean test
+./mvnw -pl services/acme -am clean verify
 
 # Kontinuierliche Tests
 ./mvnw -pl services/acme test -Dtest.continuous=true
@@ -69,11 +69,7 @@ open jacocoreport/target/site/jacoco-aggregate/index.html
 == Architektur-Details
 
 **Module-Struktur:**
-* `services/acme/` - Hauptanwendung (Modulith)
-* `libs/events/` - Event-System
-* `libs/common-api/` - Shared DTOs  
-* `jacocoreport/` - Aggregierte Coverage
-* `e2e/` - End-to-End Tests
+* `services/acme/` - Hauptanwendung (Modulith) * `libs/events/` - Event-System * `libs/common-api/` - Shared DTOs * `jacocoreport/` - Aggregierte Coverage * `e2e/` - End-to-End Tests
 
 **Database-First Workflow:**
 1. Liquibase Migration in `services/acme/src/main/resources/db/changelog/`
@@ -83,12 +79,10 @@ open jacocoreport/target/site/jacoco-aggregate/index.html
 == Testing-Strategie
 
 **T2T (Test-to-Test) Approach:**
-* Keine klassischen Unit-Tests
-* Component Tests mit Cucumber Features
-* Fake Adapters für Business Logic Isolation
-* >90% Code Coverage erreicht
+* Keine klassischen Unit-Tests * Component Tests mit Cucumber Features * Fake Adapters für Business Logic Isolation * >90% Code Coverage erreicht
 
 **Development Test-Befehle:**
+
 [source,bash]
 ----
 # Cucumber Features

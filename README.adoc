@@ -51,14 +51,14 @@ Eine **Spielwiese für Architektur-Experimente** - ein minimal lauffähiger Prot
 sdk install java 21.0.2-tem && sdk use java 21.0.2-tem
 
 # Datenbank aufsetzen und Tests laufen lassen
-./mvnw clean test
+./mvnw clean verify
 
 # Anwendung starten
 ./mvnw docker-compose:up@run-docker -pl services/acme
 ./mvnw spring-boot:run -pl services/acme
 --
 
-Ausführliche Anleitung: xref:documentation/quickstart.adoc[→ Quickstart Guide]
+Ausführliche Anleitung: xref:documentation/development-setup.adoc[→ Development Setup Guide]
 
 == Laufende Experimente & Erkenntnisse
 
@@ -163,7 +163,7 @@ Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component 
 
 * xref:documentation/ADRs/adrs.adoc[📋 Architecture Decision Records (ADRs)]
 * xref:documentation/componenttesting.adoc[🧪 Component Testing Strategie]
-* xref:documentation/quickstart.adoc[🚀 Quickstart & Setup Guide]
+* xref:documentation/development-setup.adoc[🚀 Quickstart & Setup Guide]
 
 === Erkenntnisse aus Experimenten
 
@@ -174,7 +174,7 @@ Spock
 * xref:documentation/ADRs/03-persistenzframework.adoc[Persistenz-Framework Entscheidung] - JOOQ vs.
 JPA
 
----
+'''
 
 💡 **Für Entwickler:** Dieses Projekt ist bewusst als Experimentierfeld konzipiert.
 Erkenntnisse, gescheiterte Ansätze und Learnings sind genauso wertvoll wie funktionierende Lösungen!
