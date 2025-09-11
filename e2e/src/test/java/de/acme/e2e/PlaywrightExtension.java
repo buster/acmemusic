@@ -50,12 +50,12 @@ public final class PlaywrightExtension implements BeforeAllCallback, AfterAllCal
 
     @Override
     public void afterAll(ExtensionContext context) {
-       if (browser != null) {
-           browser.close();
-       }
-       if (playwright != null) {
-           playwright.close();
-       }
+        if (browser != null) {
+            browser.close();
+        }
+        if (playwright != null) {
+            playwright.close();
+        }
     }
 
     @Override
