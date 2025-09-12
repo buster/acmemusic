@@ -48,10 +48,15 @@
         <!--            <groupId>org.springframework.boot</groupId>-->
         <!--            <artifactId>spring-boot-starter-security</artifactId>-->
         <!--        </dependency>-->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-data-jpa</artifactId>
-       </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -146,7 +151,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>7.27.2</version>
+            <version>7.28.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -241,7 +246,7 @@
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
-                <!-- Liquibase für Tests -->
+        <!-- Liquibase für Tests -->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>

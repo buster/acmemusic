@@ -4,10 +4,11 @@ ACME implementiert eine experimentelle **Test-to-Test (T2T)** Strategie, die kla
 
 == T2T-Strategie Überblick
 
-**Traditionell vs. ACME:**
+**Traditionell vs.
+ACME:**
 
 * **Keine** klassischen Unit-Tests
-* **Cucumber Component-Tests** als Hauptstrategie  
+* **Cucumber Component-Tests** als Hauptstrategie
 * **Fake Adapters** statt Mocking für Business Logic Isolation
 * **Tenant-Isolation** für parallele Tests
 
@@ -33,6 +34,7 @@ image::testing-ports-and-adapters.png[Testing Ports and Adapters]
 == Component Test Setup
 
 **Feature File Beispiel:**
+
 [source,gherkin]
 ----
 # users/users.feature
@@ -46,6 +48,7 @@ Feature: Benutzer-Registrierung
 ----
 
 **Step Definitions:**
+
 [source,java]
 ----
 @SpringBootTest
@@ -77,6 +80,7 @@ public class UserSteps {
 ----
 
 **Fake Adapter Implementation:**
+
 [source,java]
 ----
 @Component
@@ -97,6 +101,7 @@ public class FakeBenutzerRepository implements BenutzerRepository {
 == Integration Tests
 
 **Adapter Testing gegen echte Infrastruktur:**
+
 [source,java]
 ----
 @SpringBootTest
@@ -128,6 +133,7 @@ class BenutzerRepositoryIntegrationTest {
 == End-to-End Tests
 
 **Playwright Browser-Automation:**
+
 [source,java]
 ----
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -152,6 +158,7 @@ class MusikspielerE2ETest extends BaseE2ETest {
 == Test-Befehle
 
 **Component Tests:**
+
 [source,bash]
 ----
 # Alle Component Tests
@@ -162,6 +169,7 @@ class MusikspielerE2ETest extends BaseE2ETest {
 ----
 
 **Integration Tests:**
+
 [source,bash]
 ----
 # Adapter Integration Tests  
@@ -172,10 +180,11 @@ class MusikspielerE2ETest extends BaseE2ETest {
 ----
 
 **Coverage & Reporting:**
+
 [source,bash]
 ----
 # Coverage Report generieren
-./mvnw clean test jacoco:report
+./mvnw clean verify jacoco:report
 
 # Aggregierte Coverage öffnen
 open jacocoreport/target/site/jacoco-aggregate/index.html
@@ -184,16 +193,12 @@ open jacocoreport/target/site/jacoco-aggregate/index.html
 == Experimentelle Erkenntnisse
 
 **✅ Erfolgreich validiert:**
-* Real-to-Test hat geringen Mehrwert gegenüber Test-to-Test  
-* Real-to-Real entspricht eher End-To-End Tests in event-driven Architektur
-* **Höhere Maintainability** durch fachlich orientierte Tests
-* Component Tests überleben Refactoring besser als Unit Tests
+* Real-to-Test hat geringen Mehrwert gegenüber Test-to-Test * Real-to-Real entspricht eher End-To-End Tests in event-driven Architektur * **Höhere Maintainability** durch fachlich orientierte Tests * Component Tests überleben Refactoring besser als Unit Tests
 
 **Test-Struktur:**
-* `componenttests/users/test2test/` - Fake-Adapter Implementierungen
-* `resources/features/users/` - Cucumber Features
-* Gemeinsame Step-Definitions für wiederkehrende Testschritte
+* `componenttests/users/test2test/` - Fake-Adapter Implementierungen * `resources/features/users/` - Cucumber Features * Gemeinsame Step-Definitions für wiederkehrende Testschritte
 
 ---
 
-💡 **Experimenteller Status:** T2T-Strategie erfolgreich validiert. Details in xref:architecture-learnings.adoc[Architecture Learnings].
+💡 **Experimenteller Status:** T2T-Strategie erfolgreich validiert.
+Details in xref:architecture-learnings.adoc[Architecture Learnings].
