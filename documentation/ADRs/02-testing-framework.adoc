@@ -1,4 +1,8 @@
-NOTE: TODO
+= ADR-02: Testing Framework
+
+*Status*: ACCEPTED +
+*Datum*: 2024-11-15 +
+*Entscheider*: Entwicklungsteam
 
 == Was soll entschieden werden?
 
@@ -39,4 +43,33 @@ Cucumber, (plain) JUnit oder Spock?
 -
 
 === Entscheidung
+
+**ENTSCHIEDEN FÜR: Cucumber für Component Tests mit Test-to-Test (T2T) Strategie**
+
+==== Begründung
+
+**Cucumber Component-Tests statt klassische Unit-Tests:**
+
+* **Verhaltensorientierte Tests**: Cucumber Features beschreiben das fachliche Verhalten von Use Cases
+* **Hohe Testabdeckung ohne Unit-Test-Overhead**: 86.9% Code Coverage durch reine Component-Tests erreicht
+* **Fake Adapters**: Use Cases werden mit Fake-Implementierungen getestet, echte Adapters separat via Integration Tests
+* **Tenant-basierte Parallelisierung**: Parallele Testausführung mit Tenant-Isolation
+
+**Test-to-Test (T2T) Architektur:**
+
+* Component Tests verwenden Fake Adapters und testen nur Use Case Logik
+* Integration Tests verwenden echte Adapters (Datenbank, externe Services)
+* End-to-End Tests via Browser-Automation über öffentliche Schnittstellen
+* Klare Trennung zwischen Unit-of-Work (Use Case) und Infrastructure (Adapters)
+
+**Experimentelle Erkenntnisse:**
+
+* Klassische Unit-Tests haben sich als überflüssig erwiesen
+* Component-Tests decken fachliche Anforderungen vollständig ab
+* Performance-Gewinn durch Tenant-Parallelisierung signifikant
+
+==== Verweise
+
+* xref:../testing-strategy-details.adoc[Detaillierte Testing-Strategie]
+* xref:../architecture-learnings.adoc[Architektur-Erkenntnisse]
 

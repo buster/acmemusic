@@ -1,0 +1,108 @@
+= ACME Deployment & Operations 🚀
+
+Einfache, reproduzierbare Deployment-Strategien für experimentelle Projekte.
+
+== Deployment-Optionen
+
+**Docker Compose (Empfohlen):**
+[source,bash]
+----
+# Demo-Setup starten
+cd scripts/docker
+docker-compose up -d
+
+# Logs verfolgen
+docker-compose logs -f acme
+----
+
+**Standalone JAR Deployment:**
+[source,bash]
+----
+# Production JAR erstellen
+./mvnw clean package -Pproduction
+
+# JAR direkt ausführen
+java -jar services/acme/target/acme-*.jar
+----
+
+== Production Build & Release
+
+**Production Build (vollständig):**
+[source,bash]
+----
+# Mit Tests und Validierung
+./mvnw clean package -Pproduction
+
+# Ohne Tests (CI/CD Pipeline)
+./mvnw clean package -DskipTests -Pproduction
+
+# Multi-Module Production Build
+./mvnw clean package -Pproduction -pl services/acme -am
+----
+
+**Docker Production Build:**
+[source,bash]
+----
+# Docker Image erstellen
+docker build -t acme-musikplayer:latest .
+
+# Mit Version Tag
+docker build -t acme-musikplayer:1.0.0 .
+
+# Multi-Platform Build
+docker buildx build --platform linux/amd64,linux/arm64 -t acme-musikplayer:latest .
+----
+
+== Database Management (Production)
+
+**Schema Migration:**
+[source,bash]
+----
+# Production Migration
+./mvnw liquibase:update -Pproduction
+
+# Code Generation für Production Schema
+./mvnw jooq-codegen:generate -Pproduction
+
+# Migration Rollback (Notfall)
+./mvnw liquibase:rollback -Dliquibase.rollbackCount=1 -Pproduction
+----
+
+**Backup & Restore:**
+[source,bash]
+----
+# Database Backup
+docker exec postgres-container pg_dump -U acme acme > backup-$(date +%Y%m%d).sql
+
+# Restore from Backup
+docker exec -i postgres-container psql -U acme acme < backup-20240101.sql
+----
+
+== Monitoring & Maintenance
+
+**Health Checks:**
+[source,bash]
+----
+# Application Health
+curl http://localhost:8080/actuator/health
+
+# Detailed Metrics
+curl http://localhost:8080/actuator/metrics
+
+# Database Connection
+curl http://localhost:8080/actuator/health/db
+----
+
+**Log Management:**
+[source,bash]
+----
+# Container Logs
+docker logs acme-app --tail=100 -f
+
+# Application Logs (wenn lokal deployed)
+tail -f services/acme/logs/application.log
+----
+
+---
+
+💡 **Experimenteller Kontext:** Für Production-Umgebungen zusätzliche Security- und Monitoring-Aspekte berücksichtigen. Details in xref:development-setup.adoc[Development Setup].

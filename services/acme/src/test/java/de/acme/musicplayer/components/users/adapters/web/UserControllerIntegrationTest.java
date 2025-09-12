@@ -116,6 +116,6 @@ class UserControllerIntegrationTest {
                         .header("HX-Request", "true"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("htmx-responses/error-toast.html"))
-                .andExpect(model().attribute("message", "Benutzername darf nicht null sein"));
+                .andExpect(model().attribute("message", "Benutzername darf nicht leer sein"));
     }
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Benutzer {
@@ -64,8 +65,7 @@ public class Benutzer {
         public final String benutzername;
 
         public Name(String benutzername) {
-            Objects.requireNonNull(benutzername, "Benutzername darf nicht null sein");
-            if (benutzername.isBlank()) {
+            if (isBlank(benutzername)) {
                 throw new IllegalArgumentException("Benutzername darf nicht leer sein");
             }
             this.benutzername = benutzername;
@@ -76,8 +76,7 @@ public class Benutzer {
         public final String passwort;
 
         public Passwort(String passwort) {
-            Objects.requireNonNull(passwort, "Passwort darf nicht null sein");
-            if (passwort.isBlank()) {
+            if (isBlank(passwort)) {
                 throw new IllegalArgumentException("Passwort darf nicht leer sein");
             }
             this.passwort = passwort;

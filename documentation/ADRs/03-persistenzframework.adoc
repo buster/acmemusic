@@ -1,4 +1,8 @@
-NOTE: TODO
+= ADR-03: Persistenzframework
+
+*Status*: ACCEPTED +
+*Datum*: 2024-11-15 +
+*Entscheider*: Entwicklungsteam
 
 == Was soll entschieden werden?
 
@@ -40,4 +44,51 @@ Aktiv, aber viele Projekte gleichzeitig?
 - relativ junges Projekt
 
 === Entscheidung
+
+**ENTSCHIEDEN FÜR: JOOQ mit Database-First Ansatz**
+
+==== Begründung
+
+**Database-First Approach:**
+
+* **Schema-driven Development**: Liquibase definiert das Datenbankschema, JOOQ generiert daraus typisierte Java-Klassen
+* **Compile-time Safety**: Alle SQL-Queries werden zur Compile-Zeit validiert
+* **Type-safe DSL**: JOOQ bietet eine typisierte Domain-Specific Language für SQL
+* **Performance**: Direkte SQL-Kontrolle ohne ORM-Overhead
+
+**Code-Generation Benefits:**
+
+* **Automatische Tabellengenerierung**: JOOQ generiert aus Liquibase-Schema typisierte Tabellen-Klassen
+* **Refactoring-Safe**: Schema-Änderungen führen zu Compile-Fehlern bei veralteten Queries
+* **IDE-Support**: Vollständige Auto-Completion für Tabellen, Spalten und Joins
+* **Wartbarkeit**: Weniger manueller Code durch Generierung
+
+**Performance-Überlegungen:**
+
+* **SQL-Transparenz**: Vollständige Kontrolle über generierte SQL-Statements
+* **Optimierungsmöglichkeiten**: Möglichkeit für handoptimierte Queries bei Bedarf
+* **Lazy Loading Control**: Explizite Kontrolle über Datenladung ohne versteckte N+1 Probleme
+
+**Experimentelle Erkenntnisse:**
+
+* Erfolgreiche Code-Generierung aus Liquibase-Schema implementiert
+* Integration in Maven-Build-Pipeline funktioniert zuverlässig
+* Gute Lesbarkeit der generierten SQL-Queries
+* Effiziente Entwicklungsgeschwindigkeit durch Typsicherheit
+
+==== Trade-offs
+
+**Vorteile gegenüber JPA/Hibernate:**
+* Keine versteckten SQL-Queries oder Lazy-Loading-Probleme
+* Bessere Performance-Kontrolle
+* Direkter Zugriff auf native Datenbankfeatures
+
+**Nachteile:**
+* Steile Lernkurve für Entwickler ohne SQL-Erfahrung
+* Weniger abstrakt als JPA - näher zur Datenbank
+
+==== Verweise
+
+* xref:../architecture-learnings.adoc[Architektur-Erkenntnisse zu JOOQ]
+* xref:../development-setup.adoc[JOOQ Code-Generation Setup]
 

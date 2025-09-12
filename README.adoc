@@ -3,121 +3,178 @@
 image::.github/badges/jacoco.svg[Line Coverage]
 image::.github/badges/branches.svg[Branch Coverage]
 
-=== Spielwiese für Architektur-Experimente
+== Was ist das hier? 🧪
 
-* minimal lauffähiger Prototyp mit etwas Funktionalität
-* 3 Module
-** ein Microservice (TODO) 
-** ein Modulith mit 2 Komponenten
+Eine **Spielwiese für Architektur-Experimente** - ein minimal lauffähiger Prototyp eines Musikplayers, der als Testbed für moderne Software-Architektur-Patterns dient.
 
+*Warum ein Musikplayer?* Weil er genug fachliche Komplexität bietet, um realistische Architektur-Entscheidungen zu treffen, aber einfach genug bleibt, um sich auf die technischen Aspekte zu konzentrieren.
 
-xref:documentation/quickstart.adoc[Quickstart Checkout + Test + Run]
+**Experimenteller Rahmen:**
+* Minimal lauffähiger Prototyp mit etwas Funktionalität * Modulith mit 3 Komponenten (Users, Musicplayer, Scoreboard) * Labor für Architektur-Patterns und Testing-Strategien * Dokumentation von Erkenntnissen und gescheiterten Ansätzen
 
-xref:documentation/ADRs/adrs.adoc[Erkenntnisse/ADRs]
+== Evaluierte Architektur-Patterns ✅
 
-== Features
+=== Erfolgreich implementiert & validiert:
 
-❓ ❌ ✅
+* **🏗️ Modulith-Architektur** - Monolithische Anwendung mit klaren Modul-Grenzen
+* **🔄 Event-Driven Design** - Lose gekoppelte Kommunikation zwischen Komponenten
+* **🧪 Clean Architecture** - Klare Trennung von Domain, Use Cases und Adaptern
+* **⚡ Paralleles Testing** - Tenant-basierte Isolation für schnelle, unabhängige Tests
+* **🥒 Cucumber Component-Tests** - BDD-Tests mit Fake Adapters statt klassischer Unit-Tests
+* **📊 JOOQ-basierte Persistierung** - Type-safe SQL ohne JPA/Hibernate
+* **🌐 HTMX + SSE Frontend** - Moderne Web-UI ohne JavaScript-Framework
 
-* 3 Module/Komponenten in einem Modulithen ✅
-** Users
-*** Registrierung und Fake-Login (durch Registrierung implizit)
-** Musicplayer
-*** MP3 hochladen
-*** Lieder auflisten
-*** MP3 abspielen
-** Scoreboard
-*** Benutzer mit den meisten hochgeladenen Liedern bekommt eine "Auszeichnung"
-* Cucumber basierte xref:documentation/componenttesting.adoc[Komponententests] ✅
-* Datenbankmigration mit Liquibase ✅
-* Java Modell Generierung mittels JOOQ ✅
-** kein JPA: JOOQ-basierte Datenbankzugriffe mittels JDBC ✅
-* maximal parallele, unabhängige Tests ✅
-* Event Driven ✅
-* Frontend mittels HTMX, Halfmoon CSS und Server Sent Events (SSE) ✅
+=== Verworfene Ansätze (mit Learnings):
 
-=== Ideen
+* **❌ Spring Native** - Zu unreif, siehe xref:documentation/ADRs/01-spring-native.adoc[ADR Spring Native]
 
-* Spring Native getestet und verworfen (siehe <<Erkenntnisse/ADRs>> ) ✅
-* Modulith ✅
-* paralleles Testen ✅
-* Testdaten in größeren Prozessen ❓
-* Events ✅
-* Commands ❓
-* Dokumentation ❓
-* möglichst schnelles Onboarding ermöglichen ❓
-* Event und Prozessdokumentation ❓
-** In event Bibliothek test ob events alle in der Readme auftauchen
-** In der Readme draw io Bild mit event und Prozess?
-* Event Bibliothek ❓
-** Inbox und outbox pattern
-** Dokumentation von Event zu Service Zugehörigkeit?
+=== Features
 
-=== Techstack
+❓ = Geplant | ❌ = Verworfen | ✅ = Implementiert
+
+* **3 Module/Komponenten in einem Modulithen** ✅
+** **Users:** Registrierung und Fake-Login
+** **Musicplayer:** MP3 hochladen, auflisten, abspielen
+** **Scoreboard:** Auszeichnung für aktivste Nutzer
+* **Cucumber-basierte** xref:documentation/componenttesting.adoc[Komponententests] ✅
+* **Datenbankmigration mit Liquibase** ✅
+* **Java Modell-Generierung mittels JOOQ** ✅
+* **Maximal parallele, unabhängige Tests** ✅
+* **Event Driven Architecture** ✅
+* **HTMX Frontend mit SSE** ✅
+
+== Schnellstart
+
+[source,bash]
+--
+# Voraussetzungen: Java 21, Docker
+sdk install java 21.0.2-tem && sdk use java 21.0.2-tem
+
+# Datenbank aufsetzen und Tests laufen lassen
+./mvnw clean verify
+
+# Anwendung starten
+./mvnw docker-compose:up@run-docker -pl services/acme
+./mvnw spring-boot:run -pl services/acme
+--
+
+Ausführliche Anleitung: xref:documentation/development-setup.adoc[→ Development Setup Guide]
+
+== Laufende Experimente & Erkenntnisse
+
+=== ✅ Abgeschlossene Experimente
+
+==== Paralleles Testing durch Tenant-Isolation
+
+**Status:** Erfolgreich implementiert
+
+**Problem:** Langsame, sequentielle Integrationstests durch Datenbankreinigung
+**Lösung:** Tenant-Parameter in allen Use Cases und Repositories
+**Ergebnis:** Alle Tests können parallel in eigenen "Tenants" arbeiten
+
+.Implementierung:
+. UUID am Szenarioanfang im Test
+. Alle Use Case Commands um "Tenant" Parameter erweitern (Default "1" oder "GLOBAL")
+. Repos/Indizes nach Tenant-Id umbauen
+. AfterAll: Löschen aller Testdaten anhand des Tenants
+
+==== Modulith-Architektur
+
+**Status:** Erfolgreich validiert
+
+**Erkenntnisse:**
+* Test-zu-Test Kommunikation via Fake Events funktioniert ausgezeichnet * Klare Modul-Grenzen ohne Microservice-Overhead * ArchUnit verhindert unerlaubte Abhängigkeiten zwischen Modulen
+
+.Überlegungen für Microservice-Migration:
+* Use Case-Rückgaben werden zu DTOs
+* "Extra-Logik" findet automatisch bei DTO-Umwandlung statt
+* Event-getriebene Kommunikation bleibt unverändert
+
+=== ❓ Laufende Experimente
+
+==== Testdaten in komplexen Fachprozessen
+
+**Problem:** Wie können Tests am Ende komplexer fachlicher Prozesse geschrieben werden?
+
+**Ansätze in Evaluation:**
+
+. **Fachlich korrekte Testdatenbuilder**
+* ⚠️ Gefahr der Re-Implementierung der Businesslogik im Testcode
+* ✅ Wiederverwendung von Businesslogik möglich
+* ❌ Erzwingt Datenbankzugriff an Use Cases vorbei
+
+. **Snapshot/Backup-Restore für Szenarien**
+* ✅ Szenario 1 laufen lassen → snapshotted → in Szenario 2 wiederverwenden
+* ❌ Abhängigkeiten zwischen Szenarien entstehen
+
+. **Prozessorientierte Testszenarien**
+* Statt einzelner Features: komplette User-Journeys testen
+* Beispiel: "User registriert sich → lädt MP3 hoch → spielt ab" in einem Szenario
+
+==== Ideen für zukünftige Experimente
+
+* **Commands Pattern** ❓
+* **Event-Bibliothek mit Inbox/Outbox Pattern** ❓
+* **Automatische Event-Dokumentation** ❓
+* **Prozess-Visualisierung** ❓
+
+== Architektur & Design
+
+=== System-Überblick
+
+image::acme-aufbau.drawio.png[ACME Systemaufbau,100%]
+
+=== Test-Strategie Innovation
+
+**Besonderheit:** ACME hat keine klassischen Unit-Tests, sondern ausschließlich **Komponententests** mit sehr hoher Testabdeckung!
+
+Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
+
+=== Technologie-Stack
+
+**Backend:**
 
 * Java 21
-* JOOQ
-* Cucumber
-* Spring Boot
-* Postgres
-* Docker
-* Playwright
+* Spring Boot 3.x
+* JOOQ (statt JPA/Hibernate)
+* PostgreSQL
+* Liquibase
+
+**Testing:**
+
+* Cucumber (Component Tests)
+* JUnit 5 (Integration Tests)
+* Playwright (E2E Tests)
+
+**Frontend:**
+
 * HTMX
 * Halfmoon CSS
+* Server Sent Events (SSE)
 
+**Infrastructure:**
 
-== Aufbau
+* Docker & Docker Compose
+* Maven Multi-Module
 
-image::acme-aufbau.drawio.png[Acme Aufbau,100%]
+== Weitere Dokumentation
 
-== Ideen Scratchpad
+=== Architektur & Entscheidungen
 
-=== Paralleles Testing ermöglichen ✅
+* xref:documentation/ADRs/adrs.adoc[📋 Architecture Decision Records (ADRs)]
+* xref:documentation/componenttesting.adoc[🧪 Component Testing Strategie]
+* xref:documentation/development-setup.adoc[🚀 Quickstart & Setup Guide]
 
-. Daten nur explizit anlegen
-.. UUID am Szenarioanfang im Test
-... A) spezifische Testdaten: ❌
-.... testdata-UUID()@testdata.local
-.... testdata-UUID().mp3
-... B) "Tenant" ✅
-.... alle Usecase Commands um "Tenant" Parameter erweitern
-..... Default "1" oder "GLOBAL"
-.... Repos/Indizes nach Tenant-Id umbauen
-.. in AfterAll löschen aller Testdaten anhand des Tenants ✅
-... Admin-Usecase zum Löschen?
+=== Erkenntnisse aus Experimenten
 
-=== Modulith  ✅
+* xref:documentation/ADRs/01-spring-native.adoc[Spring Native Evaluation] - Warum wir es verworfen haben
+* xref:documentation/ADRs/02-testing-framework.adoc[Testing Framework Vergleich] - Cucumber vs.
+JUnit vs.
+Spock
+* xref:documentation/ADRs/03-persistenzframework.adoc[Persistenz-Framework Entscheidung] - JOOQ vs.
+JPA
 
-. zweites Modul erstellen
-. test2test kommunikation wie?
-Async App Listener?
-Fake Antworten/Events
-. test2real == end to end test mit MessageBroker?
-. Feature Test kann ja bestehen bleiben, je nach Modul andere Steps, aber Steps die für das Modul irrelevant sind -> NOOP.
-Geht das?
-. ArchUnit?
-. Zugriff von einem Modul auf Model anderes Moduls verbieten?
-. Usecase darf anderen Usecase in anderem Modul aufrufen, aber der Usecase gibt ein internes Domainobjekt zurück, ist das problematisch?
-In zwei Microservices gesplittet, wäre das Objekt ein DTO und hätte keine "Extra-Logik".
-Annahme: wenn aus dem Modulithen zwei Microservices werden, muss das beachtet werden.
-Vermutlich werden dann die Getter einfach im Controller aufgerufen und die "Extra-Logik" findet bei der Umwandlung zum DTO für die API automatisch statt.
+'''
 
-=== Testdaten in komplexen Fachprozessen  ❓
-
-Wie können Tests geschrieben werden, welche sich am Ende eines komplexen fachlichen Prozesses befinden?
-
-. Fachlich korrekte Testdatenbuilder schreiben
-.. Gefahr der Re-Implementierung der Businesslogik im Testcode -> schlecht
-.. Wiederverwendung von Businesslogik möglich?
-.. Erzwingt Datenbankzugriff an Usecases vorbei im Testcode
-... zwingende Wiederverwendung der Domain-Objekte
-. Snapshot bzw.
-Backup/Restore Funktionalität für ein Szenario
-.. Szenario 1 laufen lassen
-.. Ergebnis von Szenario 1 snappshotten
-.. in Szenario 2 Snapshot wiederverwenden
-.. es entstehen Abhängigkeiten zwischen den Szenarien
-. Testszenarien entlang der Prozesse schneiden und nicht einzelner Features
-.. Statt "MP3 abspielen", "User Einloggen" als einzelne Szenarien, ein Szenario für den Prozess des Musikabspielens "User registriert sich, user loggt sich ein, user lädt MP3 hoch, user spielt MP3 ab" in einem Szenario
-.. Gegebenenfalls natürlich in sinnvoll Szenarien schneiden, wenn es zu komplex wird
-... "User spielt Lied direkt ab", "User spielt Lied in Playlist ab", "User teilt Playlist mit Freunden"
+💡 **Für Entwickler:** Dieses Projekt ist bewusst als Experimentierfeld konzipiert.
+Erkenntnisse, gescheiterte Ansätze und Learnings sind genauso wertvoll wie funktionierende Lösungen!

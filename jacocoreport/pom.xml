@@ -38,6 +38,11 @@
             <artifactId>acme</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.acme</groupId>
+            <artifactId>e2e</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,7 +50,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
+                <version>0.8.13</version>
                 <executions>
                     <execution>
                         <id>report-aggregate</id>
@@ -55,9 +60,27 @@
                         </goals>
                         <configuration>
                             <dataFileIncludes>
-                                <dataFileInclude>**/jacoco.exec</dataFileInclude>
+                                <dataFileInclude>**/jacoco*.exec</dataFileInclude>
                             </dataFileIncludes>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-jacoco</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.basedir}/../</directory>
+                                    <includes>
+                                        <include>**/**/jacoco*.exec</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                            <destFile>${project.reporting.outputDirectory}/jacoco.exec</destFile>
                         </configuration>
                     </execution>
                 </executions>
