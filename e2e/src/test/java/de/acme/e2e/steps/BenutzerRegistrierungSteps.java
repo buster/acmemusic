@@ -2,9 +2,11 @@ package de.acme.e2e.steps;
 
 import de.acme.e2e.E2ESongSupport;
 import io.cucumber.java.de.Gegebenseien;
+import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import org.junit.jupiter.api.Assertions;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,13 +22,7 @@ public class BenutzerRegistrierungSteps {
     @Gegebenseien("folgende Benutzer:")
     public void folgendeBenutzer(io.cucumber.datatable.DataTable dataTable) {
         dataTable.asMaps().forEach(benutzer -> {
-            String userId = support.registriereBenutzer(
-                    benutzer.get("Name"),
-                    benutzer.get("Passwort"),
-                    benutzer.get("Email")
-            );
-            Assertions.assertNotNull(userId);
-            benutzerToIdMap.put(benutzer.get("Name"), userId);
+            derBenutzerRegistriertSich(benutzer.get("Name"), benutzer.get("Password"), benutzer.get("Email"));
         });
     }
 
@@ -35,5 +31,10 @@ public class BenutzerRegistrierungSteps {
         String userId = support.registriereBenutzer(username, password, email);
         Assertions.assertNotNull(userId);
         benutzerToIdMap.put(username, userId);
+    }
+
+    @Und("der Benutzer die MP3-Datei {string} hochlädt")
+    public void derBenutzerDieMPHochladt(String filename) throws IOException {
+        support.liedHochladen(filename);
     }
 }
