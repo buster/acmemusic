@@ -1,41 +1,81 @@
 package de.acme.e2e;
 
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.ElementHandle;
-import com.microsoft.playwright.FileChooser;
-import com.microsoft.playwright.Page;
+import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.Cookie;
 import com.microsoft.playwright.options.FilePayload;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
+@Component
 public class E2ESongSupport {
 
     private final Page page;
     private final BrowserContext context;
-    private final String baseUrl;
+    private static Playwright playwright;
+    private static Browser browser;
 
-    public E2ESongSupport(Page page, BrowserContext context, String baseUrl) {
-        this.page = page;
-        this.context = context;
-        this.baseUrl = baseUrl;
+    private static String baseUrl;
+
+    private static String browserName;
+    private static boolean headless;
+
+    public E2ESongSupport() {
+        loadConfig();
+        playwright = Playwright.create();
+        BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(headless);
+        browser = switch (browserName.toLowerCase()) {
+            case "chromium", "chrome" -> playwright.chromium().launch(options);
+            case "webkit" -> playwright.webkit().launch(options);
+            default -> playwright.firefox().launch(options);
+        };
+        this.context = browser.newContext(new Browser.NewContextOptions());
+        this.page = this.context.newPage();
+        this.context.setDefaultTimeout(1000);
+        this.page.setDefaultTimeout(1000);
+    }
+
+    private static void loadConfig() {
+        baseUrl = System.getProperty("e2e.baseUrl",
+                System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8081"));
+        browserName = System.getProperty("e2e.browser",
+                System.getenv().getOrDefault("E2E_BROWSER", "firefox"));
+        headless = Boolean.parseBoolean(System.getProperty("e2e.headless",
+                System.getenv().getOrDefault("E2E_HEADLESS", "true")));
+        // Allow CI to pre-install browsers if desired
+        System.setProperty("playwright.cli.install",
+                System.getProperty("playwright.cli.install", "false"));
     }
 
     public String registriereBenutzer(String username, String password, String email) {
         page.navigate(baseUrl);
-        assertThat(page).hasTitle("ACME Music Player");
-        page.click("#open-register-modal-button");
-        page.getByLabel("Username").fill(username);
-        page.getByLabel("Email address").fill(email);
-        page.getByLabel("Password").fill(password);
-        page.click("#registration-form-submit");
-        page.waitForSelector("[data-testid=\"registration-successful-toast\"]");
+
+        // Warten, bis die Seite geladen ist
+        assertThat(page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("ACME Music Player"))).isVisible();
+
+        // Registrierung
+        var registrierungLink = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Register"));
+        registrierungLink.waitFor();
+        registrierungLink.click();
+
+        Locator registerDialog = page.getByRole(AriaRole.DIALOG, new Page.GetByRoleOptions().setName("Benutzerregistrierung"));
+        registerDialog.waitFor();
+
+        registerDialog.getByRole(AriaRole.TEXTBOX, new Locator.GetByRoleOptions().setName("Username")).fill(username);
+        registerDialog.getByRole(AriaRole.TEXTBOX, new Locator.GetByRoleOptions().setName("Email address")).fill(email);
+        registerDialog.getByRole(AriaRole.TEXTBOX, new Locator.GetByRoleOptions().setName("Password")).fill(password);
+        registerDialog.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Register")).click();
+
+        assertThat(page.getByTestId("registration-successful-toast")).isVisible();
         return context.cookies().stream()
                 .filter(cookie -> cookie.name.equals("userId"))
                 .findFirst()
@@ -43,13 +83,14 @@ public class E2ESongSupport {
                 .value;
     }
 
-    public String liedHochladen(String userId, String titel, byte[] mp3Bytes) throws IOException {
+    public String liedHochladen(String filename) throws IOException {
         page.navigate(baseUrl);
-        setUserIdCookie(userId);
         page.click("#nav-link-upload");
-        page.getByLabel("Titel").fill(titel);
+        page.getByLabel("Titel").fill(filename);
+        Path path = Paths.get("../services/acme/src/test/resources/files/" + filename);
+        byte[] mp3Bytes = java.nio.file.Files.readAllBytes(path);
         FileChooser fileChooser = page.waitForFileChooser(() -> page.click("#mp3upload"));
-        fileChooser.setFiles(new FilePayload(titel, "audio/mpeg", mp3Bytes));
+        fileChooser.setFiles(new FilePayload(filename, "audio/mpeg", mp3Bytes));
         page.click("#song-upload-button");
         page.waitForSelector("#song-upload-successfull-toast");
         Page.WaitForSelectorOptions waitForSelectorOptions = new Page.WaitForSelectorOptions();
