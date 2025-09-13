@@ -19,15 +19,13 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 @Component
 public class E2ESongSupport {
 
-    private final Page page;
-    private final BrowserContext context;
     private static Playwright playwright;
     private static Browser browser;
-
     private static String baseUrl;
-
     private static String browserName;
     private static boolean headless;
+    private final Page page;
+    private final BrowserContext context;
 
     public E2ESongSupport() {
         loadConfig();
@@ -163,4 +161,5 @@ public class E2ESongSupport {
         cookie.path = "/";
         context.addCookies(List.of(cookie));
     }
+
 }

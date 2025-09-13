@@ -3,8 +3,6 @@
 Funktionalität:
 
   @T2T
-  @T2R
-  @R2R
   Szenario: Auszeichnungen
     Gegeben seien folgende Benutzer:
       | Name  | Passwort | Email         |

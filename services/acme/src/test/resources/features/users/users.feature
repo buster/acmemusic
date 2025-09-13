@@ -3,8 +3,6 @@
 Funktionalität:
 
   @T2T
-  @T2R
-  @R2R
   Szenario: Registrierung
     Gegeben seien  folgende Benutzer:
       | Name | Passwort | Email          |
@@ -13,8 +11,6 @@ Funktionalität:
     Dann kennt der Service 2 Benutzer
 
   @T2T
-  @T2R
-  @R2R
   Szenario: Registrierung
     Gegeben seien  folgende Benutzer:
       | Name | Passwort | Email          |

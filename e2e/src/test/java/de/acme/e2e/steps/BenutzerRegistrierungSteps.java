@@ -1,6 +1,7 @@
 package de.acme.e2e.steps;
 
 import de.acme.e2e.E2ESongSupport;
+import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Gegebenseien;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BenutzerRegistrierungSteps {
 
@@ -36,5 +39,11 @@ public class BenutzerRegistrierungSteps {
     @Und("der Benutzer die MP3-Datei {string} hochlädt")
     public void derBenutzerDieMPHochladt(String filename) throws IOException {
         support.liedHochladen(filename);
+    }
+
+
+    @Dann("kennt der Service {int} Benutzer")
+    public void kenntDerServiceBenutzer(int count) {
+        assertThat(support.zähleBenutzer()).isEqualTo(count);
     }
 }
