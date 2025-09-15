@@ -68,10 +68,29 @@ public class UserSteps {
     }
 
 
+    private String letzteFehlermeldung;
+
     @Wenn("der Benutzer {string} (der )sich mit dem Passwort {string} und der Email {string} registriert und angemeldet hat")
     public void derBenutzerAliceSichMitDemPasswortAbcUndDerEmailBlaLocalhostComRegistriertHat(String username, String password, String email) {
-        BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(new Benutzer.Name(username), new Benutzer.Passwort(password), new Benutzer.Email(email), tenantId));
-        benutzerToIdMap.put(username, benutzerId);
+        try {
+            BenutzerId benutzerId = benutzerRegistrierenUsecase.registriereBenutzer(
+                    new BenutzerRegistrierenUsecase.BenutzerRegistrierenCommand(
+                            new Benutzer.Name(username),
+                            new Benutzer.Passwort(password),
+                            new Benutzer.Email(email),
+                            tenantId
+                    )
+            );
+            benutzerToIdMap.put(username, benutzerId);
+            letzteFehlermeldung = null;
+        } catch (IllegalArgumentException ex) {
+            letzteFehlermeldung = ex.getMessage();
+        }
+    }
+
+    @Dann("schlägt die Registrierung fehl mit der Fehlermeldung {string}")
+    public void schlaegtDieRegistrierungFehlMitDerFehlermeldung(String erwarteteFehlermeldung) {
+        assertThat(letzteFehlermeldung).isEqualTo(erwarteteFehlermeldung);
     }
 
     @Dann("kennt der Service {int} Benutzer")

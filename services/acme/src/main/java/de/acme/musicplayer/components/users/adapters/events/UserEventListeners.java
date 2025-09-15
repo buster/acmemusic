@@ -56,7 +56,7 @@ public class UserEventListeners implements EventDispatcher {
                 "    </div>\n" +
                 "</div>";
 
-        sseEmitterService.sendEvent(event.getTenant(), eventDiv);
+        sseEmitterService.sendEventToUser(event.benutzerId().Id(), event.getTenant(), eventDiv);
     }
 
     private void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {

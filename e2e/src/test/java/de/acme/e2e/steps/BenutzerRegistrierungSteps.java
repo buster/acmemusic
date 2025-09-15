@@ -14,6 +14,7 @@ public class BenutzerRegistrierungSteps {
 
     private final Map<String, String> benutzerToIdMap = new HashMap<>();
     private final E2ESongSupport support;
+    private String lastSongId;
 
     public BenutzerRegistrierungSteps(E2ESongSupport support) {
         this.support = support;
@@ -35,7 +36,7 @@ public class BenutzerRegistrierungSteps {
 
     @Und("der Benutzer die MP3-Datei {string} hochlädt")
     public void derBenutzerDieMPHochladt(String filename) throws IOException {
-        support.liedHochladen(filename);
+        lastSongId = support.liedHochladen(filename);
     }
 
     @Wenn("der Benutzer {string} die MP3-Datei {string} hochlädt")
@@ -66,5 +67,10 @@ public class BenutzerRegistrierungSteps {
         support.löscheLiedDatenbank();
         support.löscheScoreboardDatenbank();
         support.löscheBenutzerDatenbank();
+    }
+
+    @Und("der Benutzer das letzte hochgeladene Lied erfolgreich abspielt")
+    public void derBenutzerDasLetzteHochgeladeneLiedAbspielt() {
+        support.liedStreamen(lastSongId);
     }
 }

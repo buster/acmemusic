@@ -29,27 +29,6 @@ public class SseEmitterService {
         emitters.values().forEach(emitterSet -> emitterSet.remove(emitter));
     }
 
-    public void sendEvent(TenantId tenant, String eventData) {
-        emitterStreamOfTenant(tenant.value())
-                .forEach(entry -> {
-                    List<SseEmitter> errorEmitters = new ArrayList<>();
-                    for (SseEmitter emitter : entry.getValue()) {
-                        try {
-                            log.info("Sending event to tenant: " + tenant.value());
-                            log.info("event data: " + eventData);
-                            emitter.send(SseEmitter.event()
-                                    .name("message")
-                                    .data(eventData));
-                        } catch (Exception e) {
-                            log.info("Error sending event to tenant: {}", tenant.value(), e);
-                            errorEmitters.add(emitter);
-                            emitter.completeWithError(e);
-                        }
-                    }
-                    errorEmitters.forEach(emitter -> entry.getValue().remove(emitter));
-                });
-    }
-
     private Stream<Map.Entry<Pair<String, String>, Set<SseEmitter>>> emitterStreamOfTenant(String tenant) {
         return emitters.entrySet().stream()
                 .filter(pairSetEntry -> pairSetEntry.getKey().getLeft().equals(tenant));

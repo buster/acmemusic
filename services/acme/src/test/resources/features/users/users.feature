@@ -21,3 +21,8 @@ Funktionalität:
     Und der Benutzer 'Bob' erhält nicht die Auszeichnung 'MUSIC_LOVER_LOVER'
     Wenn der Benutzer 'Bob' den Benutzer 'John' als TopScorer abgelöst hat
     Dann erhält der Benutzer 'Bob' die Auszeichnung 'MUSIC_LOVER_LOVER'
+
+  @T2T
+  Szenario: Registrierung mit leerem Passwort
+    Wenn der Benutzer 'Alice' sich mit dem Passwort '' und der Email 'alice@localhost' registriert und angemeldet hat
+    Dann schlägt die Registrierung fehl mit der Fehlermeldung 'Passwort darf nicht leer sein'

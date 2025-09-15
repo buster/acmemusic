@@ -9,7 +9,6 @@ import de.acme.musicplayer.components.users.domain.events.BenutzerHatAuszeichnun
 import de.acme.musicplayer.components.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
 import de.acme.musicplayer.components.users.domain.model.Auszeichnung;
 import de.acme.musicplayer.components.users.usecases.BenutzerWurdeNeuerTopScorer;
-import de.acme.musicplayer.components.users.adapters.events.SseEmitterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -63,7 +63,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.handleEvent(event);
 
-        verify(sseEmitterService).sendEvent(any(TenantId.class), any(String.class));
+        verify(sseEmitterService).sendEventToUser(eq(event.benutzerId().Id()), eq(tenantId), any(String.class));
     }
 
     @Test
@@ -83,7 +83,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.handleEvent(event);
 
-        verify(sseEmitterService).sendEvent(tenantId, 
+        verify(sseEmitterService).sendEventToUser(eq(benutzerId.Id()), eq(tenantId), eq(
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
@@ -92,7 +92,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
                 "    <div class=\"toast-body\">\n" +
                 "<span><div>Benutzer alice hat die Auszeichnung MUSIC_LOVER_LOVER erhalten</div></span>" +
                 "    </div>\n" +
-                "</div>");
+                        "</div>"));
     }
 
     @Test
@@ -128,7 +128,6 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
         }).doesNotThrowAnyException();
 
         verify(benutzerWurdeNeuerTopScorer, org.mockito.Mockito.never()).vergebeAuszeichnungFürNeuenTopScorer(any());
-        verify(sseEmitterService, org.mockito.Mockito.never()).sendEvent(any(), any());
         verify(sseEmitterService, org.mockito.Mockito.never()).sendEventToUser(any(), any(), any());
     }
 }
