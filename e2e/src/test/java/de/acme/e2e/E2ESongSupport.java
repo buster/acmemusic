@@ -24,13 +24,14 @@ public class E2ESongSupport {
     private static String baseUrl;
     private static String browserName;
     private static boolean headless;
+    private static double slomoMillis = 0.0;
     private final Page page;
     private final BrowserContext context;
 
     public E2ESongSupport() {
         loadConfig();
         playwright = Playwright.create();
-        BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(headless);
+        BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setSlowMo(slomoMillis).setHeadless(headless);
         browser = switch (browserName.toLowerCase()) {
             case "chromium", "chrome" -> playwright.chromium().launch(options);
             case "webkit" -> playwright.webkit().launch(options);
@@ -38,20 +39,17 @@ public class E2ESongSupport {
         };
         this.context = browser.newContext(new Browser.NewContextOptions());
         this.page = this.context.newPage();
-        this.context.setDefaultTimeout(1000);
-        this.page.setDefaultTimeout(1000);
+        this.context.setDefaultTimeout(10000);
+        this.page.setDefaultTimeout(10000);
     }
 
     private static void loadConfig() {
-        baseUrl = System.getProperty("e2e.baseUrl",
-                System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8081"));
-        browserName = System.getProperty("e2e.browser",
-                System.getenv().getOrDefault("E2E_BROWSER", "firefox"));
-        headless = Boolean.parseBoolean(System.getProperty("e2e.headless",
-                System.getenv().getOrDefault("E2E_HEADLESS", "true")));
+        baseUrl = System.getProperty("e2e.baseUrl", System.getenv().getOrDefault("E2E_BASE_URL", "http://localhost:8081"));
+        browserName = System.getProperty("e2e.browser", System.getenv().getOrDefault("E2E_BROWSER", "firefox"));
+        headless = Boolean.parseBoolean(System.getProperty("e2e.headless", System.getenv().getOrDefault("E2E_HEADLESS", "true")));
+        slomoMillis = Double.parseDouble(System.getProperty("e2e.slomoMillis", System.getenv().getOrDefault("E2E_SLOMO_MILLIS", "0")));
         // Allow CI to pre-install browsers if desired
-        System.setProperty("playwright.cli.install",
-                System.getProperty("playwright.cli.install", "false"));
+        System.setProperty("playwright.cli.install", System.getProperty("playwright.cli.install", "false"));
     }
 
     public String registriereBenutzer(String username, String password, String email) {
@@ -74,11 +72,7 @@ public class E2ESongSupport {
         registerDialog.getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Register")).click();
 
         assertThat(page.getByTestId("registration-successful-toast")).isVisible();
-        return context.cookies().stream()
-                .filter(cookie -> cookie.name.equals("userId"))
-                .findFirst()
-                .orElseThrow()
-                .value;
+        return context.cookies().stream().filter(cookie -> cookie.name.equals("userId")).findFirst().orElseThrow().value;
     }
 
     public String liedHochladen(String filename) throws IOException {
@@ -106,12 +100,16 @@ public class E2ESongSupport {
     }
 
     public long zähleBenutzer() {
+        page.navigate(baseUrl);
+
         page.click("#nav-link-adminpage");
         String userCount = page.getByTestId("userCount").textContent();
         return Long.parseLong(userCount);
     }
 
     public String leseBenutzer(String userId) {
+        page.navigate(baseUrl);
+
         page.click("#nav-link-adminpage");
         page.getByTestId("benutzerId").fill(userId);
         page.click("#read-user");
@@ -120,39 +118,59 @@ public class E2ESongSupport {
     }
 
     public void löscheBenutzerDatenbank() {
+        page.navigate(baseUrl);
+
         page.click("#nav-link-adminpage");
         page.click("#delete-user-database");
         assertThat(page.getByTestId("adminpage-return")).containsText("Benutzerdatenbank gelöscht");
     }
 
     public void löscheBenutzerEvents() {
+        page.navigate(baseUrl);
         page.click("#nav-link-adminpage");
         page.click("#delete-user-events");
         assertThat(page.getByTestId("adminpage-return")).containsText("BenutzerEvents gelöscht");
     }
 
     public void löscheLiedDatenbank() {
+        page.navigate(baseUrl);
         page.click("#nav-link-adminpage");
         page.click("#delete-song-database");
         assertThat(page.getByTestId("adminpage-return")).containsText("Liederdatenbank gelöscht");
     }
 
     public void löscheLiedEvents() {
+        page.navigate(baseUrl);
         page.click("#nav-link-adminpage");
         page.click("#delete-song-events");
         assertThat(page.getByTestId("adminpage-return")).containsText("LiederEvents gelöscht");
     }
 
     public void löscheScoreboardDatenbank() {
+        page.navigate(baseUrl);
         page.click("#nav-link-adminpage");
         page.click("#delete-scoreboard-database");
         assertThat(page.getByTestId("adminpage-return")).containsText("Scoreboarddatenbank gelöscht");
     }
 
     public void löscheScoreboardEvents() {
+        page.navigate(baseUrl);
         page.click("#nav-link-adminpage");
         page.click("#delete-scoreboard-events");
         assertThat(page.getByTestId("adminpage-return")).containsText("ScoreboardEvents gelöscht");
+    }
+
+    public String dialogPopupWirdAngezeigtUndGeschlossen() {
+        ElementHandle dialogHandle = page.waitForSelector("#user-sse-container", new Page.WaitForSelectorOptions().setTimeout(10000));
+        dialogHandle.isVisible();
+        ElementHandle dialogBody = dialogHandle.waitForSelector(".toast-body span div", new ElementHandle.WaitForSelectorOptions().setTimeout(10000));
+        String dialogText = dialogBody.textContent();
+        dialogHandle.waitForSelector("button.btn-close").click();
+        return dialogText;
+    }
+
+    public void setzeBenutzerKontext(String userId) {
+        setUserIdCookie(userId);
     }
 
     private void setUserIdCookie(String userId) {
