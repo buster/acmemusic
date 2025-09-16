@@ -26,6 +26,7 @@ Der Prototyp zeigt das **Zusammenspiel von 3 Komponenten** über Events in einem
 *Warum ein Musikplayer?* Genug fachliche Komplexität für realistische Architektur-Entscheidungen, aber einfach genug, um sich auf die technischen Aspekte zu konzentrieren.
 
 **Experimenteller Rahmen:**
+
 * Minimal lauffähiger Prototyp mit ausreichend Logik für Experimente
 * Labor für Architektur-Patterns und Testing-Strategien
 * Dokumentation von Erkenntnissen und gescheiterten Ansätzen
@@ -39,10 +40,30 @@ Der Prototyp zeigt das **Zusammenspiel von 3 Komponenten** über Events in einem
 
 === Technologie-Stack
 
-**Backend:** Java 21, Spring Boot 3.x, JOOQ, PostgreSQL, Liquibase
-**Testing:** Cucumber (Component Tests), JUnit 5 (Integration Tests), Playwright (E2E Tests)
-**Frontend:** HTMX, Halfmoon CSS, Server-Sent Events (SSE)
-**Build:** Maven Multi-Module, Docker & Docker Compose
+**Backend:** 
+
+* Java 21
+* Spring Boot 3.x
+* JOOQ
+* PostgreSQL
+* Liquibase
+
+**Testing:** 
+
+* Cucumber (Component Tests)
+* JUnit 5 (Integration Tests)
+* Playwright (E2E Tests)
+
+**Frontend:** 
+
+* HTMX
+* Halfmoon CSS
+* Server-Sent Events (SSE)
+
+**Build:** 
+
+* Maven Multi-Module
+* Docker & Docker Compose
 
 == Schnellstart
 
@@ -121,6 +142,7 @@ Details: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
 === Evaluierte Technologien
 
 **✅ Erfolgreich implementiert:**
+
 * **JOOQ** statt JPA/Hibernate - Type-safe SQL ohne ORM-Overhead
 * **Cucumber Component-Tests** statt klassischer Unit-Tests - BDD-Tests mit Fake Adapters
 * **Tenant-basierte Test-Isolation** - Parallele, unabhängige Tests ohne Datenbankreinigung
