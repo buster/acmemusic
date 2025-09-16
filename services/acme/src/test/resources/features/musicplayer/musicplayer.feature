@@ -3,8 +3,6 @@
 Funktionalität:
 
   @T2T
-  @T2R
-  @R2R
   Szenario: Song abspielen
     Gegeben seien folgende Benutzer:
       | Name  | Passwort | Email             |

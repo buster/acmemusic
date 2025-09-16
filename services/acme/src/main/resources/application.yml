@@ -22,3 +22,5 @@ events:
   publisher:
     publish-events-to-application: true
     save-to-outbox: true
+server:
+  shutdown: immediate
