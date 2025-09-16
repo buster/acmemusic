@@ -7,41 +7,42 @@ image::.github/badges/branches.svg[Branch Coverage]
 
 Eine **Spielwiese für Architektur-Experimente** - ein minimal lauffähiger Prototyp eines Musikplayers, der als Testbed für moderne Software-Architektur-Patterns dient.
 
-*Warum ein Musikplayer?* Weil er genug fachliche Komplexität bietet, um realistische Architektur-Entscheidungen zu treffen, aber einfach genug bleibt, um sich auf die technischen Aspekte zu konzentrieren.
+=== Der Prototyp
+
+**Was der Musikplayer macht:**
+
+* **Benutzerregistrierung**: Neue Benutzer können sich registrieren und werden automatisch eingeloggt (kein expliziter Login/Logout-Prozess)
+* **MP3-Upload & Wiedergabe**: Benutzer können MP3-Dateien hochladen und abspielen
+* **Live-Scoreboard**: Benutzer erhalten Echtzeit-Benachrichtigungen (via Server-Sent Events), wenn jemand zum Top-Scorer wird
+
+**Architektur-Demonstration:**
+
+Der Prototyp zeigt das **Zusammenspiel von 3 Komponenten** über Events in einem **Modulithen**:
+
+* **👤 User-Komponente**: Registrierung, automatischer Login, Event-Empfang via SSE
+* **🎵 Musicplayer-Komponente**: MP3-Upload, Wiedergabe, sendet "NeuesLiedWurdeAngelegt" Events
+* **🏆 Scoreboard-Komponente**: Zählt Lieder pro User, ermittelt Top-Scorer, sendet "BenutzerIstNeuerTopScorer" Events
+
+*Warum ein Musikplayer?* Genug fachliche Komplexität für realistische Architektur-Entscheidungen, aber einfach genug, um sich auf die technischen Aspekte zu konzentrieren.
 
 **Experimenteller Rahmen:**
-* Minimal lauffähiger Prototyp mit etwas Funktionalität * Modulith mit 3 Komponenten (Users, Musicplayer, Scoreboard) * Labor für Architektur-Patterns und Testing-Strategien * Dokumentation von Erkenntnissen und gescheiterten Ansätzen
+* Minimal lauffähiger Prototyp mit ausreichend Logik für Experimente
+* Labor für Architektur-Patterns und Testing-Strategien
+* Dokumentation von Erkenntnissen und gescheiterten Ansätzen
 
-== Evaluierte Architektur-Patterns ✅
+== Architektur-Highlights ✅
 
-=== Erfolgreich implementiert & validiert:
+* **🏗️ Modulith mit Event-Driven Design** - 3 lose gekoppelte Komponenten über Events
+* **🧪 Clean Architecture** - Domain, Use Cases, Adapters klar getrennt
+* **🥒 Component-Testing statt Unit-Tests** - Cucumber BDD-Tests mit Fake Adapters
+* **⚡ Parallele Tests** - Tenant-basierte Isolation ohne Datenbankreinigung
 
-* **🏗️ Modulith-Architektur** - Monolithische Anwendung mit klaren Modul-Grenzen
-* **🔄 Event-Driven Design** - Lose gekoppelte Kommunikation zwischen Komponenten
-* **🧪 Clean Architecture** - Klare Trennung von Domain, Use Cases und Adaptern
-* **⚡ Paralleles Testing** - Tenant-basierte Isolation für schnelle, unabhängige Tests
-* **🥒 Cucumber Component-Tests** - BDD-Tests mit Fake Adapters statt klassischer Unit-Tests
-* **📊 JOOQ-basierte Persistierung** - Type-safe SQL ohne JPA/Hibernate
-* **🌐 HTMX + SSE Frontend** - Moderne Web-UI ohne JavaScript-Framework
+=== Technologie-Stack
 
-=== Verworfene Ansätze (mit Learnings):
-
-* **❌ Spring Native** - Zu unreif, siehe xref:documentation/ADRs/01-spring-native.adoc[ADR Spring Native]
-
-=== Features
-
-❓ = Geplant | ❌ = Verworfen | ✅ = Implementiert
-
-* **3 Module/Komponenten in einem Modulithen** ✅
-** **Users:** Registrierung und Fake-Login
-** **Musicplayer:** MP3 hochladen, auflisten, abspielen
-** **Scoreboard:** Auszeichnung für aktivste Nutzer
-* **Cucumber-basierte** xref:documentation/componenttesting.adoc[Komponententests] ✅
-* **Datenbankmigration mit Liquibase** ✅
-* **Java Modell-Generierung mittels JOOQ** ✅
-* **Maximal parallele, unabhängige Tests** ✅
-* **Event Driven Architecture** ✅
-* **HTMX Frontend mit SSE** ✅
+**Backend:** Java 21, Spring Boot 3.x, JOOQ, PostgreSQL, Liquibase
+**Testing:** Cucumber (Component Tests), JUnit 5 (Integration Tests), Playwright (E2E Tests)
+**Frontend:** HTMX, Halfmoon CSS, Server-Sent Events (SSE)
+**Build:** Maven Multi-Module, Docker & Docker Compose
 
 == Schnellstart
 
@@ -78,17 +79,11 @@ Ausführliche Anleitung: xref:documentation/development-setup.adoc[→ Developme
 . Repos/Indizes nach Tenant-Id umbauen
 . AfterAll: Löschen aller Testdaten anhand des Tenants
 
-==== Modulith-Architektur
+==== Event-Driven Modulith
 
-**Status:** Erfolgreich validiert
+**✅ Validiert:** Fake Events für Test-zu-Test Kommunikation, klare Modul-Grenzen ohne Microservice-Overhead, ArchUnit verhindert unerlaubte Abhängigkeiten.
 
-**Erkenntnisse:**
-* Test-zu-Test Kommunikation via Fake Events funktioniert ausgezeichnet * Klare Modul-Grenzen ohne Microservice-Overhead * ArchUnit verhindert unerlaubte Abhängigkeiten zwischen Modulen
-
-.Überlegungen für Microservice-Migration:
-* Use Case-Rückgaben werden zu DTOs
-* "Extra-Logik" findet automatisch bei DTO-Umwandlung statt
-* Event-getriebene Kommunikation bleibt unverändert
+**Migration zu Microservices:** Use Cases → DTOs, Event-Kommunikation bleibt unverändert.
 
 === ❓ Laufende Experimente
 
@@ -111,59 +106,33 @@ Ausführliche Anleitung: xref:documentation/development-setup.adoc[→ Developme
 * Statt einzelner Features: komplette User-Journeys testen
 * Beispiel: "User registriert sich → lädt MP3 hoch → spielt ab" in einem Szenario
 
-==== Ideen für zukünftige Experimente
-
-* **Commands Pattern** ❓
-* **Event-Bibliothek mit Inbox/Outbox Pattern** ❓
-* **Automatische Event-Dokumentation** ❓
-* **Prozess-Visualisierung** ❓
+==== Weitere Experiment-Ideen
+* Command Pattern, automatische Event-Dokumentation, Prozess-Visualisierung
 
 == Architektur & Design
 
-=== System-Überblick
+=== System-Überblick & Test-Strategie
 
 image::acme-aufbau.drawio.png[ACME Systemaufbau,100%]
 
-=== Test-Strategie Innovation
+**Test-Innovation:** Keine klassischen Unit-Tests, sondern **Komponententests** mit hoher Abdeckung!
+Details: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
 
-**Besonderheit:** ACME hat keine klassischen Unit-Tests, sondern ausschließlich **Komponententests** mit sehr hoher Testabdeckung!
+=== Evaluierte Technologien
 
-Detaillierte Erklärung: xref:documentation/componenttesting.adoc[→ Component Testing Konzept]
+**✅ Erfolgreich implementiert:**
+* **JOOQ** statt JPA/Hibernate - Type-safe SQL ohne ORM-Overhead
+* **Cucumber Component-Tests** statt klassischer Unit-Tests - BDD-Tests mit Fake Adapters
+* **Tenant-basierte Test-Isolation** - Parallele, unabhängige Tests ohne Datenbankreinigung
+* **HTMX + SSE** - Moderne Web-UI ohne JavaScript-Framework
 
-=== Technologie-Stack
-
-**Backend:**
-
-* Java 21
-* Spring Boot 3.x
-* JOOQ (statt JPA/Hibernate)
-* PostgreSQL
-* Liquibase
-
-**Testing:**
-
-* Cucumber (Component Tests)
-* JUnit 5 (Integration Tests)
-* Playwright (E2E Tests)
-
-**Frontend:**
-
-* HTMX
-* Halfmoon CSS
-* Server Sent Events (SSE)
-
-**Infrastructure:**
-
-* Docker & Docker Compose
-* Maven Multi-Module
+**❌ Verworfene Ansätze:** Spring Native (zu unreif, siehe xref:documentation/ADRs/01-spring-native.adoc[ADR])
 
 == Weitere Dokumentation
 
-=== Architektur & Entscheidungen
-
-* xref:documentation/ADRs/adrs.adoc[📋 Architecture Decision Records (ADRs)]
-* xref:documentation/componenttesting.adoc[🧪 Component Testing Strategie]
-* xref:documentation/development-setup.adoc[🚀 Quickstart & Setup Guide]
+* xref:documentation/development-setup.adoc[🚀 Setup Guide] - Ausführliche Entwicklungsumgebung
+* xref:documentation/componenttesting.adoc[🧪 Component Testing] - Testing-Strategie im Detail
+* xref:documentation/ADRs/adrs.adoc[📋 Architecture Decision Records] - Alle Architektur-Entscheidungen
 
 === Erkenntnisse aus Experimenten
 
