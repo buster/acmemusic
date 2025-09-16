@@ -2,7 +2,6 @@
 
 Funktionalität:
 
-  @T2T
   Szenario: Song abspielen
     Gegeben seien folgende Benutzer:
       | Name  | Passwort | Email             |

@@ -1,4 +1,4 @@
-package de.acme.musicplayer.componenttests.users.test2test;
+package de.acme.musicplayer.componenttests.users;
 
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;

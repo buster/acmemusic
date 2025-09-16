@@ -1,4 +1,4 @@
-package de.acme.musicplayer.componenttests.scoreboard.test2test;
+package de.acme.musicplayer.componenttests.scoreboard;
 
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.scoreboard.adapters.events.ScoreboardMusicplayerEventPublisherFake;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @CucumberContextConfiguration
-public class CucumberT2TConfiguration {
+public class ScoreboardCucumberConfiguration {
 
     @TestConfiguration
     static class T2TConfiguration {

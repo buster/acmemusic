@@ -2,7 +2,6 @@
 
 Funktionalität:
 
-  @T2T
   Szenario: Auszeichnungen
     Gegeben seien folgende Benutzer:
       | Name  | Passwort | Email         |

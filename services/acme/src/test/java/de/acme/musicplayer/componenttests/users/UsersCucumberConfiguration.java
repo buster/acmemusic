@@ -1,4 +1,4 @@
-package de.acme.musicplayer.componenttests.users.test2test;
+package de.acme.musicplayer.componenttests.users;
 
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.users.adapters.events.UserEventPublisherFake;
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @CucumberContextConfiguration
-public class CucumberT2TConfiguration {
+public class UsersCucumberConfiguration {
 
     @TestConfiguration
     static class T2TConfiguration {

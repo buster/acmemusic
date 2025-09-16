@@ -1,4 +1,4 @@
-package de.acme.musicplayer.componenttests.scoreboard.test2test;
+package de.acme.musicplayer.componenttests.scoreboard;
 
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.LiedId;
