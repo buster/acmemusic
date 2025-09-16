@@ -31,12 +31,12 @@ public class BenutzerWurdeNeuerTopScorerService implements BenutzerWurdeNeuerTop
         neuerTopScorer.getAuszeichnungen().add(Auszeichnung.MUSIC_LOVER_LOVER);
         benutzerPort.speichereBenutzer(neuerTopScorer, event.getTenant());
         TenantId tenantId = event.getTenant();
-        userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungErhalten(neuerTopScorer.getId(), neuerTopScorer.getName().benutzername, Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()), tenantId);
+        userEventPublisher.publishEvent(new BenutzerHatNeueAuszeichnungErhalten(neuerTopScorer.getId(), neuerTopScorer.getName().benutzername(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()), tenantId);
         if (event.alterTopScorer() != null) {
             Benutzer alterTopScorer = benutzerPort.leseBenutzer(event.alterTopScorer(), event.tenantId());
             alterTopScorer.getAuszeichnungen().remove(Auszeichnung.MUSIC_LOVER_LOVER);
             benutzerPort.speichereBenutzer(alterTopScorer, event.tenantId());
-            userEventPublisher.publishEvent(new BenutzerHatAuszeichnungAnAnderenNutzerVerloren(alterTopScorer.getId(), alterTopScorer.getName().benutzername, neuerTopScorer.getId(), neuerTopScorer.getName().benutzername, Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()), tenantId);
+            userEventPublisher.publishEvent(new BenutzerHatAuszeichnungAnAnderenNutzerVerloren(alterTopScorer.getId(), alterTopScorer.getName().benutzername(), neuerTopScorer.getId(), neuerTopScorer.getName().benutzername(), Auszeichnung.MUSIC_LOVER_LOVER, event.tenantId()), tenantId);
 
         }
     }

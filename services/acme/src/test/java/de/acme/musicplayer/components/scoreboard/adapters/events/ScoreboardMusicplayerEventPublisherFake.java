@@ -17,20 +17,6 @@ public class ScoreboardMusicplayerEventPublisherFake implements EventPublisher {
     }
 
     @Override
-    public List<Event> readEventsFromOutbox(int maxEvents, TenantId tenantId) {
-        return events
-                .stream()
-                .filter(event -> event.getTenant().equals(tenantId))
-                .toList()
-                .subList(0, Math.min(events.size(), maxEvents));
-    }
-
-    @Override
-    public void removeEventsFromOutbox(List<Event> events) {
-        this.events.removeAll(events);
-    }
-
-    @Override
     public void removeAllEventsFromOutboxByTenantId(TenantId tenantId) {
         events.removeIf(event -> event.getTenant().equals(tenantId));
     }

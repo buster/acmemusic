@@ -7,16 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import java.util.Objects;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class Benutzer {
     private final Name name;
     private final Email email;
     private final Passwort passwort;
-    private BenutzerId benutzerId;
+    private final BenutzerId benutzerId;
     private Set<Auszeichnung> auszeichnungen = new HashSet<>();
 
     public Benutzer(Name name, Passwort passwort, Email email) {
@@ -49,10 +46,6 @@ public class Benutzer {
         return benutzerId;
     }
 
-    public void setId(BenutzerId benutzerId) {
-        this.benutzerId = benutzerId;
-    }
-
     public Set<Auszeichnung> getAuszeichnungen() {
         return auszeichnungen;
     }
@@ -61,34 +54,23 @@ public class Benutzer {
         this.auszeichnungen = auszeichnungen;
     }
 
-    public static class Name {
-        public final String benutzername;
-
-        public Name(String benutzername) {
+    public record Name(String benutzername) {
+        public Name {
             if (isBlank(benutzername)) {
                 throw new IllegalArgumentException("Benutzername darf nicht leer sein");
             }
-            this.benutzername = benutzername;
         }
-    }
+        }
 
-    public static class Passwort {
-        public final String passwort;
-
-        public Passwort(String passwort) {
+    public record Passwort(String passwort) {
+        public Passwort {
             if (isBlank(passwort)) {
                 throw new IllegalArgumentException("Passwort darf nicht leer sein");
             }
-            this.passwort = passwort;
         }
-    }
-
-    public static class Email {
-        public final String email;
-
-        public Email(String email) {
-            this.email = email;
         }
+
+    public record Email(String email) {
     }
 
 }

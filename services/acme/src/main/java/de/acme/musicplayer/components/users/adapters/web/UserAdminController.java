@@ -1,8 +1,6 @@
 package de.acme.musicplayer.components.users.adapters.web;
 
-import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserAdminController {
@@ -40,12 +37,5 @@ public class UserAdminController {
     public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId", required = true) String tenantId) {
         benutzerAdministrationUsecase.löscheBenutzerEvents(new TenantId(tenantId));
         return ResponseEntity.ok("BenutzerEvents gelöscht");
-    }
-
-    @HxRequest
-    @PostMapping("/read-user")
-    public ResponseEntity<Benutzer> readUser(@CookieValue(value = "tenantId", required = true) String tenantId, @RequestParam("benutzerId") String benutzerId) {
-        Benutzer benutzer = benutzerAdministrationUsecase.leseBenutzer(new BenutzerId(benutzerId), new TenantId(tenantId));
-        return ResponseEntity.ok(benutzer);
     }
 }

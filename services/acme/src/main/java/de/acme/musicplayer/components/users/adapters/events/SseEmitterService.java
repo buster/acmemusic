@@ -22,7 +22,6 @@ public class SseEmitterService {
         tenantEmitters.add(emitter);
         emitters.put(Pair.of(tenantId, userId), tenantEmitters);
         emitter.onCompletion(() -> removeEmitter(emitter));
-        emitter.onTimeout(() -> removeEmitter(emitter));
     }
 
     private void removeEmitter(SseEmitter emitter) {

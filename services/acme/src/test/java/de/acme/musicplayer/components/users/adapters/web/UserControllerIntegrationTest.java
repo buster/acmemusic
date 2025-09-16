@@ -1,8 +1,6 @@
 package de.acme.musicplayer.components.users.adapters.web;
 
 import de.acme.musicplayer.common.api.BenutzerId;
-import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerRegistrierenUsecase;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
@@ -81,9 +79,9 @@ class UserControllerIntegrationTest {
 
         verify(benutzerRegistrierenUsecase).registriereBenutzer(
                 argThat(command ->
-                        "alice".equals(command.name().benutzername) &&
-                        "secret123".equals(command.passwort().passwort) &&
-                        "alice@example.com".equals(command.email().email) &&
+                        "alice".equals(command.name().benutzername()) &&
+                        "secret123".equals(command.passwort().passwort()) &&
+                        "alice@example.com".equals(command.email().email()) &&
                         tenantId.equals(command.tenant().value())
                 )
         );

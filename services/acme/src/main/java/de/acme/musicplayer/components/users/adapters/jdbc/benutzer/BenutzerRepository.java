@@ -31,7 +31,7 @@ public class BenutzerRepository implements BenutzerPort {
     @Override
     public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
         dslContext.insertInto(BENUTZER, BENUTZER.ID, BENUTZER.NAME, BENUTZER.PASSWORT, BENUTZER.EMAIL, BENUTZER.TENANT)
-                .values(benutzer.getId().Id(), benutzer.getName().benutzername, benutzer.getPasswort().passwort, benutzer.getEmail().email, tenantId.value())
+                .values(benutzer.getId().Id(), benutzer.getName().benutzername(), benutzer.getPasswort().passwort(), benutzer.getEmail().email(), tenantId.value())
                 .execute();
         return benutzer.getId();
     }
@@ -80,9 +80,9 @@ public class BenutzerRepository implements BenutzerPort {
                 .execute();
 
         int updatedRecords = dslContext.update(BENUTZER)
-                .set(BENUTZER.NAME, benutzer.getName().benutzername)
-                .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort)
-                .set(BENUTZER.EMAIL, benutzer.getEmail().email)
+                .set(BENUTZER.NAME, benutzer.getName().benutzername())
+                .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort())
+                .set(BENUTZER.EMAIL, benutzer.getEmail().email())
                 .where(BENUTZER.ID.eq(benutzer.getId().Id())
                         .and(BENUTZER.TENANT.eq(tenant.value())))
                 .execute();

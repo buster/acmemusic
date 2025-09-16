@@ -36,7 +36,7 @@ public class ZähleNeueLieder implements ZähleNeueLiederUsecase {
     
     private void prüfeUndVeröffentlicheTopScorerÄnderung(BenutzerId aktuellerTopScorer, BenutzerId neuerTopScorer, 
                                                         de.acme.musicplayer.common.api.TenantId tenant) {
-        if (neuerTopScorer != null && !Objects.equals(neuerTopScorer, aktuellerTopScorer)) {
+        if (!Objects.equals(neuerTopScorer, aktuellerTopScorer)) {
             log.info("New top scorer: {}", neuerTopScorer);
             
             BenutzerIstNeuerTopScorer event = new BenutzerIstNeuerTopScorer(

@@ -3,16 +3,13 @@ package de.acme.musicplayer.componenttests.scoreboard.test2test;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.LiedId;
 import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
-import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +17,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -82,25 +78,4 @@ public class ScoreboardSteps {
 
         zähleNeueLiederUsecase.zähleNeueAngelegteLieder(neuesLiedWurdeAngelegt);
     }
-
-    @Dann("ist der Benutzer {string} neuer TopScorer geworden")
-    public void istDerBenutzerBobNeuerTopScorerGeworden(String benutzerName) {
-        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
-                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
-                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(benutzerName)))
-                .toList();
-        scoreboardEventPublisher.removeEventsFromOutbox(events);
-    }
-
-    @Dann("ist der Benutzer {string} neuer TopScorer geworden und hat {string} abgelöst")
-    public void istDerBenutzerAliceNeuerTopScorerGewordenUndHatBobAbgelöst(String neuerTopScorer, String abgelösterTopScorer) {
-        List<Event> events = scoreboardEventPublisher.readEventsFromOutbox(Integer.MAX_VALUE, tenantId).stream()
-                .filter(event -> event instanceof BenutzerIstNeuerTopScorer)
-                .filter(event -> ((BenutzerIstNeuerTopScorer) event).neuerTopScorer().equals(benutzerToIdMap.get(neuerTopScorer)) &&
-                        ((BenutzerIstNeuerTopScorer) event).alterTopScorer().equals(benutzerToIdMap.get(abgelösterTopScorer))
-                )
-                .toList();
-        scoreboardEventPublisher.removeEventsFromOutbox(events);
-    }
-
 }

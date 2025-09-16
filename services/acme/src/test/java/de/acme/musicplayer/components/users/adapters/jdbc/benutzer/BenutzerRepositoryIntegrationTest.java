@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.Set;
@@ -59,9 +58,9 @@ class BenutzerRepositoryIntegrationTest extends AbstractIntegrationTest {
         Benutzer gelesenerBenutzer = benutzerPort.leseBenutzer(testBenutzer.getId(), tenantId);
 
         assertThat(gelesenerBenutzer.getId()).isEqualTo(testBenutzer.getId());
-        assertThat(gelesenerBenutzer.getName().benutzername).isEqualTo("testuser");
-        assertThat(gelesenerBenutzer.getPasswort().passwort).isEqualTo("testpass");
-        assertThat(gelesenerBenutzer.getEmail().email).isEqualTo("test@example.com");
+        assertThat(gelesenerBenutzer.getName().benutzername()).isEqualTo("testuser");
+        assertThat(gelesenerBenutzer.getPasswort().passwort()).isEqualTo("testpass");
+        assertThat(gelesenerBenutzer.getEmail().email()).isEqualTo("test@example.com");
         assertThat(gelesenerBenutzer.getAuszeichnungen()).isEmpty();
     }
 

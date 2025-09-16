@@ -21,7 +21,7 @@ public class BenutzerRegistrierenService implements BenutzerRegistrierenUsecase 
     public BenutzerId registriereBenutzer(BenutzerRegistrierenCommand benutzerRegistrierenCommand) {
         Benutzer benutzer = new Benutzer(benutzerRegistrierenCommand.name(), benutzerRegistrierenCommand.passwort(), benutzerRegistrierenCommand.email());
         BenutzerId benutzerId = benutzerPort.benutzerHinzufügen(benutzer, benutzerRegistrierenCommand.tenant());
-        log.info("Benutzer {} registriert, ID: {}", benutzer.getName().benutzername, benutzerId.Id());
+        log.info("Benutzer {} registriert, ID: {}", benutzer.getName().benutzername(), benutzerId.Id());
         //TODO: Benutzer wurde registriert Event auslösen
         return benutzerId;
     }

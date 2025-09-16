@@ -107,16 +107,6 @@ public class E2ESongSupport {
         return Long.parseLong(userCount);
     }
 
-    public String leseBenutzer(String userId) {
-        page.navigate(baseUrl);
-
-        page.click("#nav-link-adminpage");
-        page.getByTestId("benutzerId").fill(userId);
-        page.click("#read-user");
-        assertThat(page.getByTestId("adminpage-return")).containsText("{");
-        return page.getByTestId("adminpage-return").textContent();
-    }
-
     public void löscheBenutzerDatenbank() {
         page.navigate(baseUrl);
 

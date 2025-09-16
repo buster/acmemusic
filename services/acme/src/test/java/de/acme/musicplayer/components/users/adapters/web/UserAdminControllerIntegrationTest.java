@@ -1,16 +1,14 @@
 package de.acme.musicplayer.components.users.adapters.web;
 
-import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.components.users.domain.model.Benutzer;
 import de.acme.musicplayer.components.users.usecases.BenutzerAdministrationUsecase;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import jakarta.servlet.http.Cookie;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -68,33 +66,6 @@ class UserAdminControllerIntegrationTest {
                 .andExpect(content().string("BenutzerEvents gelöscht"));
 
         verify(benutzerAdministrationUsecase).löscheBenutzerEvents(new TenantId(tenantId));
-    }
-
-    @Test
-    void sollteBenutzerLesen() throws Exception {
-        String tenantId = UUID.randomUUID().toString();
-        String benutzerId = UUID.randomUUID().toString();
-        
-        Benutzer testBenutzer = new Benutzer(
-                new BenutzerId(benutzerId),
-                new Benutzer.Name("testuser"),
-                new Benutzer.Passwort("testpass"),
-                new Benutzer.Email("test@example.com")
-        );
-
-        when(benutzerAdministrationUsecase.leseBenutzer(any(BenutzerId.class), any(TenantId.class)))
-                .thenReturn(testBenutzer);
-
-        mockMvc.perform(post("/read-user")
-                        .param("benutzerId", benutzerId)
-                        .cookie(new Cookie("tenantId", tenantId))
-                        .header("HX-Request", "true"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id.Id").value(benutzerId))
-                .andExpect(jsonPath("$.name.benutzername").value("testuser"))
-                .andExpect(jsonPath("$.email.email").value("test@example.com"));
-
-        verify(benutzerAdministrationUsecase).leseBenutzer(new BenutzerId(benutzerId), new TenantId(tenantId));
     }
 
     @Test
