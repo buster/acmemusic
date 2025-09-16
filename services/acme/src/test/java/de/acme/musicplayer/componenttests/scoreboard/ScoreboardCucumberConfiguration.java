@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 public class ScoreboardCucumberConfiguration {
 
     @TestConfiguration
-    static class T2TConfiguration {
+    static class ScoreboardTestConfiguration {
 
         // Adapter
         @Bean

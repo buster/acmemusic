@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 public class MusicplayerCucumberConfiguration {
 
     @TestConfiguration
-    static class T2TConfiguration {
+    static class MusicplayerTestConfiguration {
 
         // Adapter
         @Bean
