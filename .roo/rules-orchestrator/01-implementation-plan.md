@@ -1,13 +1,13 @@
-# RULE: Implementation Plan Management for Features
+# RULE: Implementation Plan Management for JIRA Stories
 
 ## Rule ID: IMPL-PLAN-001
 
 **Priority**: MANDATORY
-**Applies to**: All new feature implementations
+**Applies to**: All new feature implementations from JIRA stories
 
 ## Rule Statement
 
-For EVERY new feature implementation the AI agent MUST:
+For EVERY new feature implementation based on a JIRA story (MPRJ-nnn), the AI agent MUST:
 
 ### 1. Plan Creation Phase (BEFORE ANY CODE)
 
@@ -15,18 +15,17 @@ For EVERY new feature implementation the AI agent MUST:
 MANDATORY ACTION: Create Implementation Plan BEFORE writing any code
 ```
 
-- [ ] Retrieve story details by asking one question after another and incorporate results in your thinking process
-- [ ] Search for relevant details in the current documentation in `@documentation/` in Project Research Mode
+- [ ] Retrieve JIRA story details using Atlassian MCP tool in Architect Mode
+- [ ] Search for relevant details in the current documentation in `@docs/` in Project Research Mode
 - [ ] Search for relevant code sections in the source and search for similar business logic in Project Research Mode
-- [ ] Research further details from the Wiki using Github MCP tool in Project Research Mode
-- [ ] Research further details from the Internet using Kagi MCP tool in Project Research Mode
-- [ ] Create new implementation plan using the template from `@/documentation/templates/implementation-plan-template.md`
+- [ ] Research further details from the Confluence using Atlassian MCP tool in Project Research Mode
+- [ ] Create new implementation plan in Architect Mode
 - [ ] Fill ALL sections of the template completely:
-    - Business Context
-    - Acceptance Criteria
+    - Business Context (from JIRA story)
+    - Acceptance Criteria (from JIRA story)
     - Technical Analysis (based on architecture review)
-    - All 7 implementation phases with specific steps
-- [ ] Save plan as: `@/docs/plans/ACME-XXX-implementation-plan.md`
+    - Implementation phases with specific steps
+- [ ] Save plan as: `@/docs/plans/MPRJ-nnn-implementation-plan.md`
 - [ ] Get human approval on plan BEFORE proceeding
 
 ### 2. Plan Execution Phase (DURING IMPLEMENTATION)
@@ -52,13 +51,13 @@ After completing EACH step:
    ```markdown
    | Phase X | ✅ | 2h 15min | [Any relevant notes] |
    ```
-4. **Commit the updated plan** with message: `#ACME-XXX chore: update plan - completed Step X.Y`
+4. **Commit the updated plan** with message: `#MPRJ-nnn chore: update plan - completed Step X.Y`
 
 #### Progress Reporting
 
 After EACH phase completion:
 
-- Report: "Completed Phase X of ACME-XXX. Moving to Phase Y."
+- Report: "Completed Phase X of MPRJ-nnn. Moving to Phase Y."
 - Summarize any deviations from plan
 - List any new risks or considerations discovered
 
@@ -116,7 +115,7 @@ When all phases are complete:
   - **Deviations**: [List any deviations from original plan]
   - **Lessons Learned**: [Key insights for future implementations]
   ```
-- [ ] Link completed plan in Github Issue
+- [ ] Link completed plan in JIRA story
 - [ ] Archive plan to `@/docs/plans/completed/`
 
 ## Enforcement
@@ -135,12 +134,6 @@ The AI agent must self-monitor compliance by:
 - Verifying plan currency before each work session
 - Refusing to proceed if plan is not up-to-date
 
-## Template Reference
-
-**Official Template Location**: `@/docs/templates/implementation-plan-template.md`
-
-The template MUST be used exactly as specified. No sections may be omitted or modified without explicit approval.
-
 ## Example Compliance Check
 
 ```
@@ -151,8 +144,3 @@ Before writing code, ask yourself:
 
 If ANY answer is NO → STOP and fix the issue first.
 ```
-
----
-*This rule ensures systematic, traceable, and high-quality feature implementation aligned with TDD and Clean
-Architecture principles.*
-
