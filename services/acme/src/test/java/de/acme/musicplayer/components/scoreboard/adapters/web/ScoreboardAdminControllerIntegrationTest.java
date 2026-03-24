@@ -92,7 +92,7 @@ class ScoreboardAdminControllerIntegrationTest {
                         .cookie(new Cookie("tenantId", tenantId)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("htmx-responses/error-toast.html"))
-                .andExpect(model().attribute("message", "No static resource delete-scoreboard-database."));
+                .andExpect(model().attribute("message", "No static resource delete-scoreboard-database for request '/delete-scoreboard-database'."));
     }
 
     @Test
@@ -103,6 +103,6 @@ class ScoreboardAdminControllerIntegrationTest {
                         .cookie(new Cookie("tenantId", tenantId)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("htmx-responses/error-toast.html"))
-                .andExpect(model().attribute("message", "No static resource delete-scoreboard-events."));
+                .andExpect(model().attribute("message", "No static resource delete-scoreboard-events for request '/delete-scoreboard-events'."));
     }
 }

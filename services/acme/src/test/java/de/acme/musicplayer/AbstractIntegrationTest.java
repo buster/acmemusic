@@ -23,13 +23,17 @@ public abstract class AbstractIntegrationTest {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
             .withDatabaseName("testdb")
             .withUsername("testuser")
-            .withPassword("testpass");
+            .withPassword("testpass")
+            .withReuse(true);
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.hikari.maximum-pool-size", () -> 10);
+        registry.add("spring.datasource.hikari.minimum-idle", () -> 2);
+        registry.add("spring.datasource.hikari.connection-timeout", () -> 60000);
     }
 
     @BeforeAll
