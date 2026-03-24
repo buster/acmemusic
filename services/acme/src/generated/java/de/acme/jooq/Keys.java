@@ -18,6 +18,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
+import org.jooq.impl.QOM.ForeignKeyRule;
 
 
 /**
@@ -39,5 +40,5 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<BenutzerAuszeichnungenRecord, BenutzerRecord> BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK = Internal.createForeignKey(BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN, DSL.name("benutzer_auszeichnungen_fk"), new TableField[] { BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.TENANT, BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.BENUTZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true);
+    public static final ForeignKey<BenutzerAuszeichnungenRecord, BenutzerRecord> BENUTZER_AUSZEICHNUNGEN__BENUTZER_AUSZEICHNUNGEN_FK = Internal.createForeignKey(BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN, DSL.name("benutzer_auszeichnungen_fk"), new TableField[] { BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.TENANT, BenutzerAuszeichnungen.BENUTZER_AUSZEICHNUNGEN.BENUTZER }, Keys.PK_TENANT_BENUTZER, new TableField[] { Benutzer.BENUTZER.TENANT, Benutzer.BENUTZER.ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }

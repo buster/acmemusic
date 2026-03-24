@@ -6,7 +6,7 @@ import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
-import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
+import de.acme.musicplayer.components.scoreboard.usecases.ZaehleNeueLiederUsecase;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -30,7 +30,7 @@ public class ScoreboardSteps {
     @Autowired
     private ScoreBoardAdministrationUsecase scoreboardAdministrationUsecase;
     @Autowired
-    private ZähleNeueLiederUsecase zähleNeueLiederUsecase;
+    private ZaehleNeueLiederUsecase zähleNeueLiederUsecase;
     @Autowired
     private EventPublisher scoreboardEventPublisher;
 

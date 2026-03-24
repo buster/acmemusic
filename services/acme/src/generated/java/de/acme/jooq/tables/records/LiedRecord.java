@@ -119,6 +119,6 @@ public class LiedRecord extends UpdatableRecordImpl<LiedRecord> {
         setTitel(titel);
         setBesitzerId(besitzerId);
         setBytes(bytes);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

@@ -5,7 +5,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
-import de.acme.musicplayer.components.scoreboard.usecases.ZähleNeueLiederUsecase;
+import de.acme.musicplayer.components.scoreboard.usecases.ZaehleNeueLiederUsecase;
 
 import static com.tngtech.archunit.library.Architectures.onionArchitecture;
 
@@ -24,7 +24,7 @@ public class MusicplayerArchTest {
                     "de.acme.musicplayer.components.musicplayer.usecases..",
                     "de.acme.musicplayer.components.musicplayer.ports..")
             .withOptionalLayers(true)
-            .ignoreDependency(ZähleNeueLiederUsecase.class, NeuesLiedWurdeAngelegt.class);
+            .ignoreDependency(ZaehleNeueLiederUsecase.class, NeuesLiedWurdeAngelegt.class);
 
 
 }

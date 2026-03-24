@@ -79,6 +79,6 @@ public class BenutzerAuszeichnungenRecord extends TableRecordImpl<BenutzerAuszei
         setBenutzer(benutzer);
         setAuszeichnung(auszeichnung);
         setTenant(tenant);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

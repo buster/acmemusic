@@ -89,6 +89,6 @@ public class BenutzerScoreBoardRecord extends UpdatableRecordImpl<BenutzerScoreB
         setBenutzerid(benutzerid);
         setLieder(lieder);
         setTenant(tenant);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }

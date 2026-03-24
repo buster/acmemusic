@@ -119,6 +119,6 @@ public class BenutzerRecord extends UpdatableRecordImpl<BenutzerRecord> {
         setName(name);
         setEmail(email);
         setPasswort(passwort);
-        resetChangedOnNotNull();
+        resetTouchedOnNotNull();
     }
 }
