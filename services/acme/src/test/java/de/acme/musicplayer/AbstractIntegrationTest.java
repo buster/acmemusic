@@ -31,9 +31,11 @@ public abstract class AbstractIntegrationTest {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
-        registry.add("spring.datasource.hikari.maximum-pool-size", () -> 10);
-        registry.add("spring.datasource.hikari.minimum-idle", () -> 2);
-        registry.add("spring.datasource.hikari.connection-timeout", () -> 60000);
+        registry.add("spring.datasource.hikari.maximum-pool-size", () -> 30);
+        registry.add("spring.datasource.hikari.minimum-idle", () -> 3);
+        registry.add("spring.datasource.hikari.connection-timeout", () -> 90000);
+        registry.add("spring.datasource.hikari.idle-timeout", () -> 10000);
+        registry.add("spring.datasource.hikari.max-lifetime", () -> 300000);
     }
 
     @BeforeAll

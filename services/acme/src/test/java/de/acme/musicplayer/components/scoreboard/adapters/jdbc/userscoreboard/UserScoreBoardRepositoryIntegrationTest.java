@@ -17,10 +17,11 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Import(TestJooqConfiguration.class)
 @TestPropertySource(properties = {
     "spring.liquibase.enabled=false",
-    "spring.jpa.hibernate.ddl-auto=create-drop"
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.datasource.hikari.maximum-pool-size=5",
+    "spring.datasource.hikari.minimum-idle=2"
 })
 class UserScoreBoardRepositoryIntegrationTest extends AbstractIntegrationTest {
 

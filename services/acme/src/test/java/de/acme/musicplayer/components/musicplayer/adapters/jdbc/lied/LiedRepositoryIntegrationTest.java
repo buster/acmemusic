@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,6 +27,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+    "spring.datasource.hikari.maximum-pool-size=5",
+    "spring.datasource.hikari.minimum-idle=2"
+})
 class LiedRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

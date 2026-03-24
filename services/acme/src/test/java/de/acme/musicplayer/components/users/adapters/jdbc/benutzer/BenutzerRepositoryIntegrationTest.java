@@ -21,10 +21,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@Import(TestJooqConfiguration.class)
 @TestPropertySource(properties = {
     "spring.liquibase.enabled=false",
-    "spring.jpa.hibernate.ddl-auto=create-drop"
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.datasource.hikari.maximum-pool-size=10",
+    "spring.datasource.hikari.minimum-idle=3"
 })
 class BenutzerRepositoryIntegrationTest extends AbstractIntegrationTest {
 
