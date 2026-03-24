@@ -35,18 +35,54 @@
 
 ## 5. Code Coverage and Quality Checks
 
-- [ ] 5.1 Run code coverage: cd backend && ./mvnw jacoco:report -pl services/acme
-- [ ] 5.2 Verify JaCoCo configuration still excludes jOOQ generated classes
-- [ ] 5.3 Run linting: mvn clean verify with all quality checks enabled
-- [ ] 5.4 Address any new linting violations introduced by upgrade
+- [x] 5.1 Run code coverage: cd backend && ./mvnw jacoco:report -pl services/acme
+- [x] 5.2 Verify JaCoCo configuration still excludes jOOQ generated classes
+- [x] 5.3 Run linting: mvn clean verify with all quality checks enabled
+- [x] 5.4 Address any new linting violations introduced by upgrade
 
 ## 6. Documentation and Sign-off
 
 - [x] 6.1 Document any Spring Boot 3.x deprecated APIs removed (if found) — No deprecated API removals identified; Unicode class rename applied (ZähleNeueLieder → ZaehleNeueLieder for compiler compatibility)
-- [ ] 6.2 Update project documentation if needed (e.g., development-setup.adoc with Java 21 requirement)
+- [x] 6.2 Update project documentation if needed (e.g., development-setup.adoc with Java 21 requirement)
 - [x] 6.3 Create git commits for each major phase (dependency updates, Jackson migration, jOOQ regeneration)
 - [x] 6.4 Verify all changes are committed and no untracked files remain — Duplicate dependency cleanup completed in pom.xml
-- [ ] 6.5 Create summary of changes made and any open items for future work
+- [x] 6.5 Create summary of changes made and any open items for future work
+
+## Completion Summary
+
+- **Completed Date**: 2026-03-24
+- **Status**: ✅ COMPLETED
+- **Test Results**: 74/74 tests pass, 0 failures, 0 errors, BUILD SUCCESS
+
+### Changes Made
+1. **Dependency Updates** (`services/acme/pom.xml`, `libs/events/pom.xml`, `e2e/pom.xml`)
+   - Spring Boot 3.5.5 → 4.0.4
+   - jOOQ codegen 3.19.18 → 3.20.11 (+ explicit runtime dependency)
+   - PostgreSQL JDBC 42.7.8 → 42.7.10
+   - Spring Framework 6.2.x → 7.0.4
+   - htmx-spring-boot-thymeleaf 4.0.1 → 5.0.0
+   - Added spring-boot-starter-webmvc-test + spring-boot-starter-jdbc-test
+
+2. **Unicode Class Rename** (Maven Compiler 3.14.1 incompatibility)
+   - ZähleNeueLieder → ZaehleNeueLieder
+   - ZähleNeueLiederUsecase → ZaehleNeueLiederUsecase
+   - Updated 7 referencing files
+
+3. **Test Annotation Migration** (8 test files)
+   - @MockBean → @MockitoBean
+   - @WebMvcTest import path updated
+   - @DataJpaTest → @SpringBootTest + @Import
+
+4. **HikariCP Pool Tuning** (4 files)
+   - AbstractIntegrationTest: increased pool limits
+   - Repository tests: per-test @TestPropertySource pool configuration
+
+### Commits
+- `feat: update Spring Boot 3.5.5 to 4.0.4 with dependency alignment`
+- `fix: rename Unicode class names for Maven Compiler 3.14.1 compatibility`
+- `fix: align jOOQ runtime version with codegen plugin`
+- `fix: update test annotations for Spring Boot 4.0.4 compatibility`
+- `fix: resolve HikariCP connection pool exhaustion in repository tests`
 
 ## Notes
 
