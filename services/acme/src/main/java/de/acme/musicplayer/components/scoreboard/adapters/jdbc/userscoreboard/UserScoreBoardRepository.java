@@ -46,6 +46,19 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     }
 
     @Override
+    public int lesePunktzahl(BenutzerId benutzerId, TenantId tenantId) {
+        Record1<Integer> one = dslContext.select(BENUTZER_SCORE_BOARD.LIEDER)
+                .from(BENUTZER_SCORE_BOARD)
+                .where(BENUTZER_SCORE_BOARD.BENUTZERID.eq(benutzerId.Id()))
+                .and(BENUTZER_SCORE_BOARD.TENANT.eq(tenantId.value()))
+                .fetchOne();
+        if (one == null) {
+            return 0;
+        }
+        return one.value1();
+    }
+
+    @Override
     public void löscheDatenbank(TenantId tenantId) {
         dslContext.deleteFrom(BENUTZER_SCORE_BOARD)
                 .where(BENUTZER_SCORE_BOARD.TENANT.eq(tenantId.value()))

@@ -10,4 +10,7 @@ Funktionalität:
     Wenn der Benutzer 'Bob' ein neues Lied namens 'Epic Song 1' aus der Datei 'files/BoxCat Games - Epic Song.mp3' hochgeladen hat
     Wenn der Benutzer 'Alice' ein neues Lied namens 'Epic Song 1' aus der Datei 'files/BoxCat Games - Epic Song.mp3' hochgeladen hat
     Und der Benutzer 'Alice' ein neues Lied namens 'Epic Song 1' aus der Datei 'files/BoxCat Games - Epic Song.mp3' hochgeladen hat
+    Dann ist 'Alice' der TopScorer
+    Und 'Alice' hat 2 Lieder hochgeladen
+    Und 'Bob' hat 1 Lied hochgeladen
 

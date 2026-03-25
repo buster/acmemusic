@@ -5,11 +5,13 @@ import de.acme.musicplayer.common.api.LiedId;
 import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.EventPublisher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
+import de.acme.musicplayer.components.scoreboard.ports.UserScoreBoardPort;
 import de.acme.musicplayer.components.scoreboard.usecases.ScoreBoardAdministrationUsecase;
 import de.acme.musicplayer.components.scoreboard.usecases.ZaehleNeueLiederUsecase;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.de.Dann;
 import io.cucumber.java.de.Und;
 import io.cucumber.java.de.Wenn;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class ScoreboardSteps {
     private ZaehleNeueLiederUsecase zähleNeueLiederUsecase;
     @Autowired
     private EventPublisher scoreboardEventPublisher;
+    @Autowired
+    private UserScoreBoardPort userScoreBoardPort;
 
     private TenantId tenantId;
 
@@ -77,5 +81,22 @@ public class ScoreboardSteps {
         NeuesLiedWurdeAngelegt neuesLiedWurdeAngelegt = new NeuesLiedWurdeAngelegt(liedId, benutzerId, tenantId);
 
         zähleNeueLiederUsecase.zähleNeueAngelegteLieder(neuesLiedWurdeAngelegt);
+    }
+
+    @Dann("ist {string} der TopScorer")
+    public void istDerTopScorer(String benutzerName) {
+        BenutzerId topScorer = userScoreBoardPort.findeBenutzerMitHöchsterPunktZahl(tenantId);
+        BenutzerId expectedUserId = benutzerToIdMap.get(benutzerName);
+        log.info("TopScorer: {}, Erwartet: {}", topScorer, expectedUserId);
+        assertThat(topScorer).isEqualTo(expectedUserId);
+    }
+
+    @Dann("{string} hat {int} Lied(er) hochgeladen")
+    public void hatLiederHochgeladen(String benutzerName, int anzahl) {
+        BenutzerId benutzerId = benutzerToIdMap.get(benutzerName);
+        assertThat(benutzerId).isNotNull();
+        int punktzahl = userScoreBoardPort.lesePunktzahl(benutzerId, tenantId);
+        log.info("Benutzer {} hat {} Lieder hochgeladen", benutzerName, punktzahl);
+        assertThat(punktzahl).isEqualTo(anzahl);
     }
 }

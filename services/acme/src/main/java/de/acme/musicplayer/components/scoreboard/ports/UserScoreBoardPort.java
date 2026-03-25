@@ -10,5 +10,7 @@ public interface UserScoreBoardPort {
     @Nullable
     BenutzerId findeBenutzerMitHöchsterPunktZahl(TenantId tenantId);
 
+    int lesePunktzahl(BenutzerId benutzerId, TenantId tenantId);
+
     void löscheDatenbank(TenantId tenantId);
 }
