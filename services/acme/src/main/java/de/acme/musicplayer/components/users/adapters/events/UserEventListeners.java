@@ -25,7 +25,10 @@ public class UserEventListeners implements EventDispatcher {
 
     @Override
     @EventListener
-//    @Async
+    // Synchrone Verarbeitung erforderlich: Dieser Listener verarbeitet Events aus der Kette
+    // (BenutzerIstNeuerTopScorer → Auszeichnung-Update → SSE-Benachrichtigung).
+    // @Async ist hier bewusst deaktiviert, da die Datenbankänderungen abgeschlossen sein müssen
+    // bevor die SSE-Benachrichtigung an den Client gesendet wird.
     public void handleEvent(Event event) {
         log.info("Listener: {}", event.getClass().getSimpleName());
         if (event instanceof BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer) {
