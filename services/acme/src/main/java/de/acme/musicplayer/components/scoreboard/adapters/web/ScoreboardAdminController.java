@@ -25,14 +25,14 @@ public class ScoreboardAdminController {
 
     @HxRequest
     @PostMapping("/delete-scoreboard-database")
-    public ResponseEntity<String> deleteUserDatabase(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteScoreboardDatabase(@CookieValue(value = "tenantId") String tenantId) {
         scoreBoardAdministrationUsecase.löscheScoreboardDatenbank(new TenantId(tenantId));
         return ResponseEntity.ok("Scoreboarddatenbank gelöscht");
     }
 
     @HxRequest
     @PostMapping("/delete-scoreboard-events")
-    public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteScoreboardEvents(@CookieValue(value = "tenantId") String tenantId) {
         scoreBoardAdministrationUsecase.löscheScoreboardEvents(new TenantId(tenantId));
         return ResponseEntity.ok("ScoreboardEvents gelöscht");
     }

@@ -25,14 +25,14 @@ public class SongAdminController {
 
     @HxRequest
     @PostMapping("/delete-song-database")
-    public ResponseEntity<String> deleteUserDatabase(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteSongDatabase(@CookieValue(value = "tenantId") String tenantId) {
         liedAdministrationUsecase.löscheLiedDatenbank(new TenantId(tenantId));
         return ResponseEntity.ok("Liederdatenbank gelöscht");
     }
 
     @HxRequest
     @PostMapping("/delete-song-events")
-    public ResponseEntity<String> deleteUserEvents(@CookieValue(value = "tenantId") String tenantId) {
+    public ResponseEntity<String> deleteSongEvents(@CookieValue(value = "tenantId") String tenantId) {
         liedAdministrationUsecase.löscheLiedEvents(new TenantId(tenantId));
         return ResponseEntity.ok("LiederEvents gelöscht");
     }

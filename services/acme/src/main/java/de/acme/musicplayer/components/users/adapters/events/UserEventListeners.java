@@ -34,13 +34,13 @@ public class UserEventListeners implements EventDispatcher {
         if (event instanceof BenutzerIstNeuerTopScorer benutzerIstNeuerTopScorer) {
             benutzerWurdeNeuerTopScorer.vergebeAuszeichnungFürNeuenTopScorer(benutzerIstNeuerTopScorer);
         } else if (event instanceof BenutzerHatNeueAuszeichnungErhalten benutzerHatNeueAuszeichnungErhalten) {
-            BenutzerHatNeueAuszeichnungEvent(benutzerHatNeueAuszeichnungErhalten);
+            handleBenutzerHatNeueAuszeichnung(benutzerHatNeueAuszeichnungErhalten);
         } else if (event instanceof BenutzerHatAuszeichnungAnAnderenNutzerVerloren benutzerHatAuszeichnungAnAnderenNutzerVerloren) {
-            BenutzerHatAuszeichnungAnAnderenNutzerVerloren(benutzerHatAuszeichnungAnAnderenNutzerVerloren);
+            handleBenutzerHatAuszeichnungVerloren(benutzerHatAuszeichnungAnAnderenNutzerVerloren);
         }
     }
 
-    private void BenutzerHatNeueAuszeichnungEvent(BenutzerHatNeueAuszeichnungErhalten event) {
+    private void handleBenutzerHatNeueAuszeichnung(BenutzerHatNeueAuszeichnungErhalten event) {
         log.info("Listener: BenutzerHatNeueAuszeichnungEvent");
         log.info("Sende SSE Event für BenutzerHatNeueAuszeichnungEvent");
         String eventData = "<div>Benutzer " +
@@ -63,7 +63,7 @@ public class UserEventListeners implements EventDispatcher {
         sseEmitterService.sendEventToUser(event.benutzerId().Id(), event.getTenant(), eventDiv);
     }
 
-    private void BenutzerHatAuszeichnungAnAnderenNutzerVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
+    private void handleBenutzerHatAuszeichnungVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
         log.info("Listener: BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         log.info("Sende SSE Event für BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         String eventData = "<div>Du hast die Auszeichnung " +
