@@ -7,6 +7,8 @@ import de.acme.musicplayer.common.api.TenantId;
 import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.common.events.EventDispatcher;
 import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
+import de.acme.musicplayer.components.users.domain.model.Benutzer;
+import de.acme.musicplayer.components.users.ports.BenutzerPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ class ScoreBoardEventListenersIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private BenutzerPort benutzerPort;
+
     private TenantId tenantId;
     private BenutzerId benutzerId;
     private LiedId liedId;
@@ -40,6 +45,14 @@ class ScoreBoardEventListenersIntegrationTest extends AbstractIntegrationTest {
         tenantId = new TenantId(UUID.randomUUID().toString());
         benutzerId = new BenutzerId(UUID.randomUUID().toString());
         liedId = new LiedId(UUID.randomUUID().toString());
+        
+        // Benutzer muss in der DB existieren, da die synchrone Event-Chain
+        // (NeuesLiedWurdeAngelegt → ZaehleNeueLieder → BenutzerIstNeuerTopScorer → BenutzerWurdeNeuerTopScorerService)
+        // den Benutzer aus der DB liest
+        benutzerPort.benutzerHinzufügen(
+            new Benutzer(benutzerId, new Benutzer.Name("testuser"), new Benutzer.Passwort("testpass"), new Benutzer.Email("test@test.de")),
+            tenantId
+        );
     }
 
     @Test
