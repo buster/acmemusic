@@ -38,16 +38,6 @@ public class UserScoreBoardPortFake implements UserScoreBoardPort {
     }
 
     @Override
-    public int lesePunktzahl(BenutzerId benutzerId, TenantId tenantId) {
-        return scoreBoard.entrySet().stream()
-                .filter(entry -> entry.getKey().getLeft().equals(benutzerId))
-                .filter(entry -> entry.getKey().getRight().equals(tenantId))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .orElse(0);
-    }
-
-    @Override
     public void löscheDatenbank(TenantId tenantId) {
         for (Map.Entry<MutablePair<BenutzerId, TenantId>, Integer> mutablePairIntegerEntry : scoreBoard.entrySet()) {
             if (mutablePairIntegerEntry.getKey().getRight().equals(tenantId)) {

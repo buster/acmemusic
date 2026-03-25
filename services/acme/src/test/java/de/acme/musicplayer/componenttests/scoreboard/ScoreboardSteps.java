@@ -91,12 +91,4 @@ public class ScoreboardSteps {
         assertThat(topScorer).isEqualTo(expectedUserId);
     }
 
-    @Dann("{string} hat {int} Lied(er) hochgeladen")
-    public void hatLiederHochgeladen(String benutzerName, int anzahl) {
-        BenutzerId benutzerId = benutzerToIdMap.get(benutzerName);
-        assertThat(benutzerId).isNotNull();
-        int punktzahl = userScoreBoardPort.lesePunktzahl(benutzerId, tenantId);
-        log.info("Benutzer {} hat {} Lieder hochgeladen", benutzerName, punktzahl);
-        assertThat(punktzahl).isEqualTo(anzahl);
-    }
 }
