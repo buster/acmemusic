@@ -9,6 +9,7 @@ import de.acme.musicplayer.components.users.usecases.BenutzerWurdeNeuerTopScorer
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 
 @Component("userEventDispatcher")
 @Slf4j
@@ -40,9 +41,9 @@ public class UserEventListeners implements EventDispatcher {
         log.info("Listener: BenutzerHatNeueAuszeichnungEvent");
         log.info("Sende SSE Event für BenutzerHatNeueAuszeichnungEvent");
         String eventData = "<div>Benutzer " +
-                event.benutzername() +
+                HtmlUtils.htmlEscape(event.benutzername()) +
                 " hat die Auszeichnung " +
-                event.auszeichnung() +
+                HtmlUtils.htmlEscape(event.auszeichnung().toString()) +
                 " erhalten</div>";
         String eventDiv = "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
@@ -63,9 +64,9 @@ public class UserEventListeners implements EventDispatcher {
         log.info("Listener: BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         log.info("Sende SSE Event für BenutzerHatAuszeichnungAnAnderenNutzerVerloren");
         String eventData = "<div>Du hast die Auszeichnung " +
-                event.auszeichnung() +
+                HtmlUtils.htmlEscape(event.auszeichnung().toString()) +
                 " an " +
-                event.neuerBesitzerName() +
+                HtmlUtils.htmlEscape(event.neuerBesitzerName()) +
                 " verloren!</div>";
         String eventDiv = String.format("<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
