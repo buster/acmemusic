@@ -22,7 +22,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     @Override
     public void zähleNeuesLied(BenutzerId benutzerId, TenantId tenant) {
         dslContext.insertInto(BENUTZER_SCORE_BOARD)
-                .set(BENUTZER_SCORE_BOARD.BENUTZERID, benutzerId.Id())
+                .set(BENUTZER_SCORE_BOARD.BENUTZERID, benutzerId.id())
                 .set(BENUTZER_SCORE_BOARD.TENANT, tenant.value())
                 .set(BENUTZER_SCORE_BOARD.LIEDER, 1)
                 .onDuplicateKeyUpdate()
@@ -49,7 +49,7 @@ public class UserScoreBoardRepository implements UserScoreBoardPort {
     public int lesePunktzahl(BenutzerId benutzerId, TenantId tenantId) {
         Record1<Integer> one = dslContext.select(BENUTZER_SCORE_BOARD.LIEDER)
                 .from(BENUTZER_SCORE_BOARD)
-                .where(BENUTZER_SCORE_BOARD.BENUTZERID.eq(benutzerId.Id()))
+                .where(BENUTZER_SCORE_BOARD.BENUTZERID.eq(benutzerId.id()))
                 .and(BENUTZER_SCORE_BOARD.TENANT.eq(tenantId.value()))
                 .fetchOne();
         if (one == null) {

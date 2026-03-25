@@ -27,7 +27,7 @@ public class LiedRepository implements LiedPort {
     @Override
     public LiedId fügeLiedHinzu(Lied lied, InputStream inputStream) throws IOException {
         dslContext.insertInto(LIED, LIED.ID, LIED.TITEL, LIED.BYTES, LIED.TENANT, LIED.BESITZER_ID)
-                .values(lied.getId().id(), lied.getTitel(), inputStream.readAllBytes(), lied.getTenantId().value(), lied.getBesitzer().Id()).execute();
+                .values(lied.getId().id(), lied.getTitel(), inputStream.readAllBytes(), lied.getTenantId().value(), lied.getBesitzer().id()).execute();
         return lied.getId();
 
     }
@@ -50,7 +50,7 @@ public class LiedRepository implements LiedPort {
     @Override
     public Collection<Lied> listeLiederAuf(BenutzerId benutzerId, TenantId tenantId) {
         return dslContext.selectFrom(LIED)
-                .where(LIED.TENANT.eq(tenantId.value()).and(LIED.BESITZER_ID.eq(benutzerId.Id())))
+                .where(LIED.TENANT.eq(tenantId.value()).and(LIED.BESITZER_ID.eq(benutzerId.id())))
                 .stream()
                 .map(s -> new Lied(new LiedId(s.getId()), new Lied.Titel(s.getTitel()), new BenutzerId(s.getBesitzerId()), new TenantId(s.getTenant())))
                 .toList();

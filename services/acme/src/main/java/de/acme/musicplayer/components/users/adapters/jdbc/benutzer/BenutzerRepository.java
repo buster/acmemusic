@@ -31,7 +31,7 @@ public class BenutzerRepository implements BenutzerPort {
     @Override
     public BenutzerId benutzerHinzufügen(Benutzer benutzer, TenantId tenantId) {
         dslContext.insertInto(BENUTZER, BENUTZER.ID, BENUTZER.NAME, BENUTZER.PASSWORT, BENUTZER.EMAIL, BENUTZER.TENANT)
-                .values(benutzer.getId().Id(), benutzer.getName().benutzername(), benutzer.getPasswort().passwort(), benutzer.getEmail().email(), tenantId.value())
+                .values(benutzer.getId().id(), benutzer.getName().benutzername(), benutzer.getPasswort().passwort(), benutzer.getEmail().email(), tenantId.value())
                 .execute();
         return benutzer.getId();
     }
@@ -49,7 +49,7 @@ public class BenutzerRepository implements BenutzerPort {
 
     @Override
     public Benutzer leseBenutzer(BenutzerId benutzerId, TenantId tenantId) {
-        BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.Id())
+        BenutzerRecord benutzerRecord = dslContext.selectFrom(BENUTZER.where(BENUTZER.ID.eq(benutzerId.id())
                         .and(BENUTZER.TENANT.eq(tenantId.value()))))
                 .fetchOne();
         Objects.requireNonNull(benutzerRecord, "Benutzer " + benutzerId + " in tenant " + tenantId + " nicht gefunden");
@@ -60,7 +60,7 @@ public class BenutzerRepository implements BenutzerPort {
                 new Benutzer.Passwort(benutzerRecord.getPasswort()),
                 new Benutzer.Email(benutzerRecord.getEmail()));
 
-        Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzerId.Id())
+        Result<BenutzerAuszeichnungenRecord> auszeichnungen = dslContext.selectFrom(BENUTZER_AUSZEICHNUNGEN.where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzerId.id())
                 .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenantId.value())))).fetch();
 
         if (isNotEmpty(auszeichnungen)) {
@@ -75,7 +75,7 @@ public class BenutzerRepository implements BenutzerPort {
     @Override
     public void speichereBenutzer(Benutzer benutzer, TenantId tenant) {
         dslContext.deleteFrom(BENUTZER_AUSZEICHNUNGEN)
-                .where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzer.getId().Id()))
+                .where(BENUTZER_AUSZEICHNUNGEN.BENUTZER.eq(benutzer.getId().id()))
                 .and(BENUTZER_AUSZEICHNUNGEN.TENANT.eq(tenant.value()))
                 .execute();
 
@@ -83,7 +83,7 @@ public class BenutzerRepository implements BenutzerPort {
                 .set(BENUTZER.NAME, benutzer.getName().benutzername())
                 .set(BENUTZER.PASSWORT, benutzer.getPasswort().passwort())
                 .set(BENUTZER.EMAIL, benutzer.getEmail().email())
-                .where(BENUTZER.ID.eq(benutzer.getId().Id())
+                .where(BENUTZER.ID.eq(benutzer.getId().id())
                         .and(BENUTZER.TENANT.eq(tenant.value())))
                 .execute();
         if (updatedRecords != 1) {
@@ -92,7 +92,7 @@ public class BenutzerRepository implements BenutzerPort {
 
         for (Auszeichnung auszeichnung : benutzer.getAuszeichnungen()) {
             dslContext.insertInto(BENUTZER_AUSZEICHNUNGEN)
-                    .set(BENUTZER_AUSZEICHNUNGEN.BENUTZER, benutzer.getId().Id())
+                    .set(BENUTZER_AUSZEICHNUNGEN.BENUTZER, benutzer.getId().id())
                     .set(BENUTZER_AUSZEICHNUNGEN.TENANT, tenant.value())
                     .set(BENUTZER_AUSZEICHNUNGEN.AUSZEICHNUNG, auszeichnung.name())
                     .execute();

@@ -60,7 +60,7 @@ public class UserEventListeners implements EventDispatcher {
                 "    </div>\n" +
                 "</div>";
 
-        sseEmitterService.sendEventToUser(event.benutzerId().Id(), event.getTenant(), eventDiv);
+        sseEmitterService.sendEventToUser(event.benutzerId().id(), event.getTenant(), eventDiv);
     }
 
     private void handleBenutzerHatAuszeichnungVerloren(BenutzerHatAuszeichnungAnAnderenNutzerVerloren event) {
@@ -80,7 +80,7 @@ public class UserEventListeners implements EventDispatcher {
                 "<span>" + eventData + "</span>" +
                 "    </div>\n" +
                 "</div>");
-        sseEmitterService.sendEventToUser(event.benutzerId().Id(), event.getTenant(),
+        sseEmitterService.sendEventToUser(event.benutzerId().id(), event.getTenant(),
                 eventDiv);
     }
 

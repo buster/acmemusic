@@ -63,7 +63,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.handleEvent(event);
 
-        verify(sseEmitterService).sendEventToUser(eq(event.benutzerId().Id()), eq(tenantId), any(String.class));
+        verify(sseEmitterService).sendEventToUser(eq(event.benutzerId().id()), eq(tenantId), any(String.class));
     }
 
     @Test
@@ -83,7 +83,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.handleEvent(event);
 
-        verify(sseEmitterService).sendEventToUser(eq(benutzerId.Id()), eq(tenantId), eq(
+        verify(sseEmitterService).sendEventToUser(eq(benutzerId.id()), eq(tenantId), eq(
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
@@ -102,7 +102,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.handleEvent(event);
 
-        verify(sseEmitterService).sendEventToUser(benutzerId.Id(), tenantId,
+        verify(sseEmitterService).sendEventToUser(benutzerId.id(), tenantId,
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +

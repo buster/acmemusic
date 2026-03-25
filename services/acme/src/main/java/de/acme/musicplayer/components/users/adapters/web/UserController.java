@@ -38,11 +38,11 @@ public class UserController {
                 new Benutzer.Email(email),
                 new TenantId(tenantId)));
 
-        Cookie userId = new Cookie("userId", benutzerId.Id());
+        Cookie userId = new Cookie("userId", benutzerId.id());
         userId.setHttpOnly(true);
         response.addCookie(userId);
 
-        model.addAttribute("userId", benutzerId.Id());
+        model.addAttribute("userId", benutzerId.id());
         model.addAttribute("userName", username);
         return "htmx-responses/user-registration-successfull-toast.html";
     }
