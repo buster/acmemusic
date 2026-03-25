@@ -17,13 +17,14 @@ import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
 import org.jooq.SQL;
 import org.jooq.Schema;
-import org.jooq.Select;
 import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
+import org.jooq.TableLike;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -157,7 +158,7 @@ public class Lied extends TableImpl<LiedRecord> {
      */
     @Override
     public Lied where(Condition condition) {
-        return new Lied(getQualifiedName(), aliased() ? this : null, null, condition);
+        return new Lied(getQualifiedName(), aliased() ? this : null, null, Internal.condition(this, condition));
     }
 
     /**
@@ -224,7 +225,7 @@ public class Lied extends TableImpl<LiedRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    public Lied whereExists(Select<?> select) {
+    public Lied whereExists(TableLike<?> select) {
         return where(DSL.exists(select));
     }
 
@@ -232,7 +233,7 @@ public class Lied extends TableImpl<LiedRecord> {
      * Create an inline derived table from this table
      */
     @Override
-    public Lied whereNotExists(Select<?> select) {
+    public Lied whereNotExists(TableLike<?> select) {
         return where(DSL.notExists(select));
     }
 }
