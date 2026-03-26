@@ -19,6 +19,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -51,7 +52,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.onBenutzerIstNeuerTopScorer(event);
 
-        verify(benutzerWurdeNeuerTopScorer).vergebeAuszeichnungFürNeuenTopScorer(event);
+        verify(benutzerWurdeNeuerTopScorer, timeout(2000)).vergebeAuszeichnungFürNeuenTopScorer(event);
     }
 
     @Test
@@ -61,7 +62,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.onBenutzerHatNeueAuszeichnung(event);
 
-        verify(sseEmitterService).sendEventToUser(eq(event.benutzerId().id()), eq(tenantId), any(String.class));
+        verify(sseEmitterService, timeout(2000)).sendEventToUser(eq(event.benutzerId().id()), eq(tenantId), any(String.class));
     }
 
     @Test
@@ -71,7 +72,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.onBenutzerHatAuszeichnungVerloren(event);
 
-        verify(sseEmitterService).sendEventToUser(any(String.class), any(TenantId.class), any(String.class));
+        verify(sseEmitterService, timeout(2000)).sendEventToUser(any(String.class), any(TenantId.class), any(String.class));
     }
 
     @Test
@@ -81,7 +82,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.onBenutzerHatNeueAuszeichnung(event);
 
-        verify(sseEmitterService).sendEventToUser(eq(benutzerId.id()), eq(tenantId), eq(
+        verify(sseEmitterService, timeout(2000)).sendEventToUser(eq(benutzerId.id()), eq(tenantId), eq(
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
@@ -100,7 +101,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
 
         userEventListeners.onBenutzerHatAuszeichnungVerloren(event);
 
-        verify(sseEmitterService).sendEventToUser(benutzerId.id(), tenantId,
+        verify(sseEmitterService, timeout(2000)).sendEventToUser(benutzerId.id(), tenantId,
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
                 "    <div class=\"toast-header\">\n" +
                 "        <strong class=\"me-auto\">Event erhalten</strong>\n" +
