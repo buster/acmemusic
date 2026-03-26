@@ -1,5 +1,7 @@
 # Architektur-Diskussion: Microservices vs. Modulith für ACME
 
+> **Status**: Die in Abschnitt 4 empfohlene Migration zu `@TransactionalEventListener + @Async` wurde am 2026-03-26 umgesetzt. Siehe [ADR-04](../ADRs/04-modulith-architektur.adoc) für die formale Entscheidungsdokumentation.
+
 ## Zusammenfassung
 
 Dieses Dokument analysiert die aktuelle ACME-Architektur hinsichtlich Modul-Unabhängigkeit, Event-Verarbeitung und Transaktionsgrenzen. Es bewertet drei Optionen: den aktuellen synchronen Modulith, einen Modulith mit asynchronen Events und eine Microservice-Aufteilung.
@@ -7,6 +9,8 @@ Dieses Dokument analysiert die aktuelle ACME-Architektur hinsichtlich Modul-Unab
 ---
 
 ## 1. Ist-Analyse: Wie unabhängig sind die Module wirklich?
+
+> **Hinweis**: Diese Ist-Analyse beschreibt den Zustand **vor** der Migration zu asynchronen Events (März 2026). Der aktuelle Zustand verwendet `@TransactionalEventListener + @Async`. Siehe Abschnitt 4 und [ADR-04](../ADRs/04-modulith-architektur.adoc).
 
 ### 1.1 Modulstruktur
 
@@ -266,6 +270,8 @@ Microservices lösen **organisatorische**, nicht primär **technische** Probleme
 
 ### 4.2 Konkrete Schritte
 
+> **✅ Alle Schritte umgesetzt (2026-03-26)**: Die nachfolgend beschriebenen Änderungen wurden vollständig implementiert. Das `EventDispatcher`-Interface wurde entfernt (Option B), alle Event-Listener verwenden `@TransactionalEventListener(phase = AFTER_COMMIT)` + `@Async`.
+
 #### Schritt 1: Transaktionsgrenzen pro Modul durchsetzen
 
 Aktuell partizipieren `ZaehleNeueLieder` und `BenutzerWurdeNeuerTopScorerService` an der äußeren Transaktion wegen `@Transactional(propagation = REQUIRED)` (Default).
@@ -434,6 +440,8 @@ sequenceDiagram
 ---
 
 ## 6. Fazit und Empfehlung
+
+> **Hinweis**: Die hier formulierte Empfehlung (Schritt 1) wurde am 2026-03-26 umgesetzt. Siehe [ADR-04](../ADRs/04-modulith-architektur.adoc) für die formale Entscheidungsdokumentation.
 
 ### Kernargumente
 

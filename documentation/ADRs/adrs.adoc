@@ -3,6 +3,7 @@
 - xref:01-spring-native.adoc[Spring Native] - *STATUS: ACCEPTED*
 - xref:02-testing-framework.adoc[Testing Framework] - *STATUS: ACCEPTED* ✅
 - xref:03-persistenzframework.adoc[Persistenz Framework] - *STATUS: ACCEPTED* ✅
+- xref:04-modulith-architektur.adoc[Modulith-Architektur mit asynchronen Events] - *STATUS: ACCEPTED* ✅
 
 **Aktualisierte ADRs:**
 - **ADR-02**: Cucumber Component-Tests mit T2T-Strategie entschieden

@@ -1,0 +1,117 @@
+= ADR-04: Modulith-Architektur mit asynchronen Events
+
+*Status*: ACCEPTED +
+*Datum*: 2026-03-26 +
+*Entscheider*: Entwicklungsteam
+
+== Was soll entschieden werden?
+
+Soll ACME als synchroner Modulith, als Modulith mit asynchronen Events oder als Microservice-Architektur betrieben werden?
+
+=== Kontext
+
+ACME besteht aus drei fachlichen Modulen (Musicplayer, Scoreboard, Users), die über Domain-Events kommunizieren. Im ursprünglichen Zustand liefen alle Event-Listener synchron in einer gemeinsamen DB-Transaktion. Das führte zu:
+
+* **Modul-übergreifende Transaktionskopplung**: Ein Fehler im Scoreboard verhinderte den Lied-Upload
+* **SSE-vor-Commit-Bug**: Clients erhielten SSE-Benachrichtigungen bevor die Transaktion committed war
+* **Hohe Latenz**: HTTP-Response erst nach Durchlauf der gesamten Event-Kette
+
+Eine vollständige Analyse mit Bewertungsmatrix findet sich in link:../drafts/microservices-vs-modulith-discussion.md[Microservices vs. Modulith Diskussion].
+
+=== Optionen
+
+==== Option 1: Modulith mit synchronen Events (Ist-Zustand vor Migration)
+
+===== Pros
+
+- Strong Consistency durch gemeinsame Transaktion
+- Einfache Fehlerbehandlung (Alles-oder-nichts)
+- Deterministische Event-Reihenfolge in Tests
+
+===== Cons
+
+- Modul-übergreifende Transaktionskopplung
+- SSE-Benachrichtigung vor Commit (konkreter Bug)
+- Hohe Latenz beim Lied-Upload
+- Ein Modul-Fehler stoppt die gesamte Kette
+
+==== Option 2: Modulith mit @TransactionalEventListener + @Async
+
+===== Pros
+
+- Reine Spring-Boot-Bordmittel, keine neue Dependency
+- `@EnableAsync` bereits in allen ModuleConfiguration-Klassen vorhanden
+- Minimal-invasive Änderung (Annotation-Austausch)
+- Reversibel bei Problemen
+- Fehler-Isolation pro Modul
+- Sofortige HTTP-Response nach Lied-Persistierung
+- SSE-Problem automatisch gelöst (Dispatch erst nach Commit)
+
+===== Cons
+
+- Eventual Consistency statt Strong Consistency
+- Events gehen bei Applikations-Crash verloren (in-memory)
+- Keine automatische Retry-Logik
+- Async-Tests sind komplexer (Polling/Awaiting nötig)
+
+==== Option 3: Microservice-Aufteilung (3 Services)
+
+===== Pros
+
+- Vollständige Laufzeit-Entkopplung
+- Unabhängige Skalierung pro Service
+- Unabhängige Deployments und Release-Zyklen
+
+===== Cons
+
+- Erheblicher Infrastruktur-Overhead (3 Prozesse, Message Broker, Distributed Tracing)
+- Organisatorische Voraussetzungen fehlen (1 Team, gleiche Technologie, moderate Last)
+- Hohe Komplexität (Saga-Pattern, Circuit Breaker, Contract Tests)
+- Schwer reversibel
+
+=== Entscheidung
+
+**ENTSCHIEDEN FÜR: Option 2 — Modulith mit `@TransactionalEventListener(phase = AFTER_COMMIT)` + `@Async`**
+
+==== Begründung
+
+**Microservices sind für ACME Overkill**: Mit 3 fachlich eng verwandten Modulen in einem Team, gleicher Technologie und moderatem Traffic überwiegen die Infrastruktur-Kosten den Nutzen deutlich.
+
+**Asynchrone Events lösen die konkreten Probleme:**
+
+* Jedes Modul bekommt eigene Transaktionsgrenzen
+* SSE-Benachrichtigungen erfolgen erst nach Commit
+* HTTP-Response ist sofort nach Lied-Persistierung verfügbar
+* Fehler in einem Modul beeinflussen andere Module nicht
+
+**Umsetzung:**
+
+* Event-Listener verwenden `@TransactionalEventListener(phase = AFTER_COMMIT)` statt `@EventListener`
+* Event-Listener verwenden `@Async` für asynchrone Ausführung in neuem Thread
+* Generisches `EventDispatcher`-Interface mit `instanceof`-Dispatching entfernt — Spring dispatcht anhand des Parameter-Typs
+* Typsichere Event-Handler-Methoden pro Event-Typ
+
+==== Konsequenzen
+
+**Positive Konsequenzen:**
+
+* Modul-Unabhängigkeit bei Event-Verarbeitung hergestellt
+* SSE-vor-Commit-Bug behoben
+* Upload-Latenz reduziert
+* Grundlage für spätere Erweiterungen geschaffen (Outbox, Spring Modulith)
+
+**Negative Konsequenzen / Akzeptierte Risiken:**
+
+* Eventual Consistency — Score-Update und Auszeichnung erscheinen verzögert (für User nicht wahrnehmbar)
+* Events gehen bei Crash verloren — Risiko tolerierbar, da nächster Upload den Top-Scorer korrigiert
+* Keine automatische Retry-Logik — bei Bedarf nachrüsten (Spring Retry, eigener Mechanismus)
+
+==== Offene Punkte für spätere Experimente
+
+* **Outbox-Pattern**: Eigene Outbox-Tabelle oder Spring Modulith's Event Publication Log, falls Crash-Szenarien relevant werden
+* **Spring Modulith**: Framework-Upgrade mit `@ApplicationModuleListener`, Persistent Event Log, Event Externalization
+* **ArchUnit allowedDependencies**: Zirkuläre Abhängigkeiten auf die tatsächlich genutzte lineare Kette beschränken
+
+==== Verweise
+
+* link:../drafts/microservices-vs-modulith-discussion.md[Vollständige Analyse: Microservices vs. Modulith]
