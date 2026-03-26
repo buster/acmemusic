@@ -3,7 +3,6 @@ package de.acme.musicplayer.components.users.adapters.events;
 import de.acme.musicplayer.AbstractIntegrationTest;
 import de.acme.musicplayer.common.api.BenutzerId;
 import de.acme.musicplayer.common.api.TenantId;
-import de.acme.musicplayer.common.events.Event;
 import de.acme.musicplayer.components.scoreboard.domain.events.BenutzerIstNeuerTopScorer;
 import de.acme.musicplayer.components.users.domain.events.BenutzerHatAuszeichnungAnAnderenNutzerVerloren;
 import de.acme.musicplayer.components.users.domain.events.BenutzerHatNeueAuszeichnungErhalten;
@@ -18,7 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -51,7 +49,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
     void sollteBenutzerIstNeuerTopScorerEventBehandeln() {
         BenutzerIstNeuerTopScorer event = new BenutzerIstNeuerTopScorer(benutzerId, andereBenutzerId, tenantId);
 
-        userEventListeners.handleEvent(event);
+        userEventListeners.onBenutzerIstNeuerTopScorer(event);
 
         verify(benutzerWurdeNeuerTopScorer).vergebeAuszeichnungFürNeuenTopScorer(event);
     }
@@ -61,7 +59,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
         BenutzerHatNeueAuszeichnungErhalten event = new BenutzerHatNeueAuszeichnungErhalten(
                 benutzerId, "testuser", Auszeichnung.MUSIC_LOVER_LOVER, tenantId);
 
-        userEventListeners.handleEvent(event);
+        userEventListeners.onBenutzerHatNeueAuszeichnung(event);
 
         verify(sseEmitterService).sendEventToUser(eq(event.benutzerId().id()), eq(tenantId), any(String.class));
     }
@@ -71,7 +69,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
         BenutzerHatAuszeichnungAnAnderenNutzerVerloren event = new BenutzerHatAuszeichnungAnAnderenNutzerVerloren(
                 benutzerId, "testuser", andereBenutzerId, "neuerBesitzer", Auszeichnung.MUSIC_LOVER_LOVER, tenantId);
 
-        userEventListeners.handleEvent(event);
+        userEventListeners.onBenutzerHatAuszeichnungVerloren(event);
 
         verify(sseEmitterService).sendEventToUser(any(String.class), any(TenantId.class), any(String.class));
     }
@@ -81,7 +79,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
         BenutzerHatNeueAuszeichnungErhalten event = new BenutzerHatNeueAuszeichnungErhalten(
                 benutzerId, "alice", Auszeichnung.MUSIC_LOVER_LOVER, tenantId);
 
-        userEventListeners.handleEvent(event);
+        userEventListeners.onBenutzerHatNeueAuszeichnung(event);
 
         verify(sseEmitterService).sendEventToUser(eq(benutzerId.id()), eq(tenantId), eq(
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
@@ -100,7 +98,7 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
         BenutzerHatAuszeichnungAnAnderenNutzerVerloren event = new BenutzerHatAuszeichnungAnAnderenNutzerVerloren(
                 benutzerId, "alice", andereBenutzerId, "bob", Auszeichnung.MUSIC_LOVER_LOVER, tenantId);
 
-        userEventListeners.handleEvent(event);
+        userEventListeners.onBenutzerHatAuszeichnungVerloren(event);
 
         verify(sseEmitterService).sendEventToUser(benutzerId.id(), tenantId,
                 "<div class=\"toast fade show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n" +
@@ -112,22 +110,5 @@ class UserEventListenersIntegrationTest extends AbstractIntegrationTest {
                 "<span><div>Du hast die Auszeichnung MUSIC_LOVER_LOVER an bob verloren!</div></span>" +
                 "    </div>\n" +
                 "</div>");
-    }
-
-    @Test
-    void sollteUnbekannteEventsIgnorieren() {
-        Event unbekannterEvent = new Event() {
-            @Override
-            public TenantId getTenant() {
-                return tenantId;
-            }
-        };
-
-        assertThatCode(() -> {
-            userEventListeners.handleEvent(unbekannterEvent);
-        }).doesNotThrowAnyException();
-
-        verify(benutzerWurdeNeuerTopScorer, org.mockito.Mockito.never()).vergebeAuszeichnungFürNeuenTopScorer(any());
-        verify(sseEmitterService, org.mockito.Mockito.never()).sendEventToUser(any(), any(), any());
     }
 }
