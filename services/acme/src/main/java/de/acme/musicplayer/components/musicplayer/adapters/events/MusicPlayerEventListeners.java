@@ -1,21 +1,19 @@
 package de.acme.musicplayer.components.musicplayer.adapters.events;
 
-import de.acme.musicplayer.common.events.Event;
-import de.acme.musicplayer.common.events.EventDispatcher;
+import de.acme.musicplayer.components.musicplayer.domain.events.NeuesLiedWurdeAngelegt;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.transaction.event.TransactionPhase;
 
 @Component
 @Slf4j
-public class MusicPlayerEventListeners implements EventDispatcher {
+public class MusicPlayerEventListeners {
 
-
-    @Override
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
-    public void handleEvent(Event event) {
+    public void handleNeuesLiedWurdeAngelegt(NeuesLiedWurdeAngelegt event) {
         log.info("Received event: " + event);
     }
 
