@@ -391,13 +391,13 @@
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
-                <version>3.21.0</version>
+                <version>3.21.1</version>
 
                 <dependencies>
                     <dependency>
                         <groupId>org.jooq</groupId>
                         <artifactId>jooq-meta</artifactId>
-                        <version>3.21.0</version>
+                        <version>3.21.1</version>
                     </dependency>
                 </dependencies>
 
